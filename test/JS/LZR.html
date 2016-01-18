@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<title>LZR</title>
+		<meta charset="utf-8" />
+		<script src="../../src/JS/LZR.js"></script>
+
+		<style type="text/css">
+			.body {
+				padding: 0;
+				margin: 0;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "../../src/JS";
+
+				// 加载测试
+				LZR.load([
+					"/Lib/Util/JSON.js",
+					"/Lib/ol3/ol.js",
+					"LZR.Base.Json",
+					"LZR.Base.ValCtrl"
+				]);
+
+				// 克隆测试
+				var a = {
+					a1: 8,
+					a2: [6],
+					a3: {
+						b: [8],
+						b1: {
+							c: "hd",
+							c1: function() {},
+							c2: true
+						},
+						b2: [1,2,3]
+					},
+					a4: [
+						{d1: 1, d2: 2, d3: 3},
+						{d1: 11, d2: 12, d3: 13},
+						{d1: 21, d2: 22, d3: 23}
+					]
+				}
+				// var b = LZR.clone(a, null);
+				var b = LZR.clone(a, null, true, false);
+				// var b = LZR.clone(a, null, false, true);
+				// var b = LZR.clone(a, null, true, true);
+				b.a3.b2[1] = 20;
+				b.a3.b1.c1 = 99;
+				b.a4[1].d1 = 101;
+				console.log (a);
+				console.log (b);
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+	</body>
+</html>

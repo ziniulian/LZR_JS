@@ -1,0 +1,62 @@
+<html>
+	<head>
+		<title>Ajax</title>
+		<meta charset="utf-8" />
+		<script src="../../../../../src/LZR/JS/LZR.js"></script>
+
+		<style type="text/css">
+			.body {
+				padding: 0;
+				margin: 0;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "../../../../../src/LZR/JS";
+				LZR.load([
+					"LZR.HTML5.Base.Ajax"
+				]);
+				var aj;
+
+				// 同步GET
+				aj = new LZR.HTML5.Base.Ajax ();
+				LZR.HTML5.alog ( "\nStart ---------- 同步GET：" );
+				LZR.HTML5.alog ( aj.get ( "../../../../../UML/template/JS/JS_LZR/BUG.txt" ) );
+				LZR.HTML5.alog ( "end ---------- 同步GET" );
+
+				// 同步POST
+				aj = new LZR.HTML5.Base.Ajax ();
+				LZR.HTML5.alog ( "\nStart ---------- 同步POST：" );
+				LZR.HTML5.alog ( aj.post ( "../../../../../UML/template/JS/JS_LZR/BUG.txt", {a:1, b:2, c:[ "fe", "th", "fr" ]} ) );
+				LZR.HTML5.alog ( "end ---------- 同步POST" );
+
+				// 异步GET
+				aj = new LZR.HTML5.Base.Ajax ();
+				LZR.HTML5.alog ( "\nStart ---------- 异步GET：" );
+				aj.get ( "../../../../../UML/template/JS/JS_LZR/BUG.txt", function (text, status) {
+					LZR.HTML5.alog ( "------------Start ---------- 异步GET：" );
+					LZR.HTML5.alog ( "---------- status："  + status );
+					LZR.HTML5.alog ( text );
+					LZR.HTML5.alog ( "-----------end ---------- 异步GET" );
+				} );
+				LZR.HTML5.alog ( "end ---------- 异步GET" );
+
+				// 异步POST
+				aj = new LZR.HTML5.Base.Ajax ();
+				LZR.HTML5.alog ( "\nStart ---------- 异步POST：" );
+				aj.post ( "../../../../../UML/template/JS/JS_LZR/BUG.txt", {a:1, b:2, c:[ "fe", "th", "fr" ]}, function (text, status) {
+					LZR.HTML5.alog ( "---------Start ---------- 异步POST：" );
+					LZR.HTML5.alog ( "---------- status："  + status );
+					LZR.HTML5.alog ( text );
+					LZR.HTML5.alog ( "--------------end ---------- 异步POST" );
+				} );
+				LZR.HTML5.alog ( "end ---------- 异步POST" );
+
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+	</body>
+</html>
