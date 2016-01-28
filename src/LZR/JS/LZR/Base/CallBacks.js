@@ -2,12 +2,13 @@
 作者：子牛连
 类名：CallBacks
 说明：回调函数集合
-创建日期：14-一月-2016 11:02:49
+创建日期：28-一月-2016 17:59:25
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.Base",
+	"LZR.Base.String",
 	"LZR.Base.CallBacks.CallBack"
 ], "LZR.Base.CallBacks");
 LZR.Base.CallBacks = function (obj) {
@@ -23,11 +24,11 @@ LZR.Base.CallBacks = function (obj) {
 	// 回调函数个数
 	this.count = 0;	/*as:int*/
 
-	// 回调函数集合
-	this.m_CallBack = {};	/*as:LZR.Base.CallBacks.CallBack*/
+	// 函数集合
+	this.funs/*m*/ = new LZR.Base.CallBacks.CallBack();	/*as:LZR.Base.CallBacks.CallBack*/
 
 	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+		this.init_();
 	} else {
 		this.init_(obj);
 	}
@@ -42,16 +43,16 @@ LZR.Base.CallBacks.prototype.append = function (fun/*as:fun*/, name/*as:string*/
 	if (name === undefined || name === null) {
 		name = this.count;
 	}
-	if (this.m_CallBack[name] === undefined) {
+	if (this.funs[name] === undefined) {
 		this.count ++;
 	}
-	this.m_CallBack[name] = new LZR.Base.CallBacks.CallBack ({name: name, fun: fun});
+	this.funs[name] = new LZR.Base.CallBacks.CallBack ({name: name, fun: fun});
 };
 
 // 删除回调函数
 LZR.Base.CallBacks.prototype.del = function (name/*as:string*/) {
-	if (this.m_CallBack[name] !== undefined) {
-		this.m_CallBack[name] = undefined;
+	if (this.funs[name] !== undefined) {
+		this.funs[name] = undefined;
 		this.count --;
 	}
 };
@@ -59,18 +60,18 @@ LZR.Base.CallBacks.prototype.del = function (name/*as:string*/) {
 // 执行回调函数
 LZR.Base.CallBacks.prototype.execute = function ()/*as:boolean*/ {
 	if (this.enableEvent) {
-		var b = true;	// 回调函数正常执行则返回 true，否则返回 false
-		for (var s in this.m_CallBack) {
+		var b = true;	// 闁搞儳鍋犻惃鐔煎礄閼恒儲娈舵慨婵撶到閻栧爼骞嶈椤㈡垿宕氬▎鎺旂闁?true闁挎稑鑻幆渚€宕氬▎鎺旂闁?false
+		for (var s in this.funs) {
 			switch (s) {
 				case "length":
 					break;
 				default:
-					if (this.m_CallBack[s].enableEvent) {
-						if ( (this.m_CallBack[s].fun.apply ( this.obj, arguments )) === false ) {
+					if (this.funs[s].enableEvent) {
+						if ( (this.funs[s].fun.apply ( this.obj, arguments )) === false ) {
 							b = false;
 						}
 					} else {
-						this.m_CallBack[s].enableEvent = this.m_CallBack[s].autoEvent;
+						this.funs[s].enableEvent = this.funs[s].autoEvent;
 					}
 					break;
 			}

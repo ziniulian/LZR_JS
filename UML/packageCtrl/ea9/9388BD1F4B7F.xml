@@ -190,7 +190,7 @@
 								</UML:Operation>
 							</UML:Classifier.feature>
 						</UML:Class>
-						<UML:Association xmi.id="EAID_6B7B5D58_08DF_403f_BFC9_C88ED540AE78" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+						<UML:Association xmi.id="EAID_0F0C655C_A3A5_43d2_913E_F51B2AFD51F4" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
 								<UML:TaggedValue tag="style" value="3"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
@@ -201,7 +201,7 @@
 								<UML:TaggedValue tag="seqno" value="0"/>
 								<UML:TaggedValue tag="headStyle" value="0"/>
 								<UML:TaggedValue tag="lineStyle" value="0"/>
-								<UML:TaggedValue tag="ea_localid" value="38"/>
+								<UML:TaggedValue tag="ea_localid" value="51"/>
 								<UML:TaggedValue tag="ea_sourceName" value="Event"/>
 								<UML:TaggedValue tag="ea_targetName" value="CallBacks"/>
 								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
@@ -209,7 +209,7 @@
 								<UML:TaggedValue tag="ea_sourceID" value="24"/>
 								<UML:TaggedValue tag="ea_targetID" value="13"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
-								<UML:TaggedValue tag="rt" value="-before"/>
+								<UML:TaggedValue tag="rt" value="+change"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Association.connection>
 								<UML:AssociationEnd visibility="public" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_F03BCB92_BBFC_4111_A982_87F1C69F2A6E">
@@ -219,17 +219,16 @@
 										<UML:TaggedValue tag="ea_end" value="source"/>
 									</UML:ModelElement.taggedValue>
 								</UML:AssociationEnd>
-								<UML:AssociationEnd visibility="private" name="before" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_3A94C7CC_AD39_41fd_A07F_C50D8969A361">
+								<UML:AssociationEnd visibility="public" name="change" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_3A94C7CC_AD39_41fd_A07F_C50D8969A361">
 									<UML:ModelElement.taggedValue>
 										<UML:TaggedValue tag="containment" value="Unspecified"/>
-										<UML:TaggedValue tag="type" value="Private"/>
 										<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
 										<UML:TaggedValue tag="ea_end" value="target"/>
 									</UML:ModelElement.taggedValue>
 								</UML:AssociationEnd>
 							</UML:Association.connection>
 						</UML:Association>
-						<UML:Association xmi.id="EAID_74351B15_82DD_4043_9FD6_4B34948B218B" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+						<UML:Association xmi.id="EAID_62BE355D_9D17_41c9_8BC9_754A9CB718AE" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
 							<UML:ModelElement.taggedValue>
 								<UML:TaggedValue tag="style" value="3"/>
 								<UML:TaggedValue tag="ea_type" value="Association"/>
@@ -240,7 +239,7 @@
 								<UML:TaggedValue tag="seqno" value="0"/>
 								<UML:TaggedValue tag="headStyle" value="0"/>
 								<UML:TaggedValue tag="lineStyle" value="0"/>
-								<UML:TaggedValue tag="ea_localid" value="37"/>
+								<UML:TaggedValue tag="ea_localid" value="52"/>
 								<UML:TaggedValue tag="ea_sourceName" value="Event"/>
 								<UML:TaggedValue tag="ea_targetName" value="CallBacks"/>
 								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
@@ -248,7 +247,7 @@
 								<UML:TaggedValue tag="ea_sourceID" value="24"/>
 								<UML:TaggedValue tag="ea_targetID" value="13"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
-								<UML:TaggedValue tag="rt" value="-change"/>
+								<UML:TaggedValue tag="rt" value="+before"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Association.connection>
 								<UML:AssociationEnd visibility="public" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_F03BCB92_BBFC_4111_A982_87F1C69F2A6E">
@@ -258,49 +257,9 @@
 										<UML:TaggedValue tag="ea_end" value="source"/>
 									</UML:ModelElement.taggedValue>
 								</UML:AssociationEnd>
-								<UML:AssociationEnd visibility="private" name="change" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_3A94C7CC_AD39_41fd_A07F_C50D8969A361">
+								<UML:AssociationEnd visibility="public" name="before" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_3A94C7CC_AD39_41fd_A07F_C50D8969A361">
 									<UML:ModelElement.taggedValue>
 										<UML:TaggedValue tag="containment" value="Unspecified"/>
-										<UML:TaggedValue tag="type" value="Private"/>
-										<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
-										<UML:TaggedValue tag="ea_end" value="target"/>
-									</UML:ModelElement.taggedValue>
-								</UML:AssociationEnd>
-							</UML:Association.connection>
-						</UML:Association>
-						<UML:Association xmi.id="EAID_B66718D1_098A_4f98_933D_F9F700D8508D" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
-							<UML:ModelElement.taggedValue>
-								<UML:TaggedValue tag="style" value="3"/>
-								<UML:TaggedValue tag="ea_type" value="Association"/>
-								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
-								<UML:TaggedValue tag="linemode" value="3"/>
-								<UML:TaggedValue tag="linecolor" value="-1"/>
-								<UML:TaggedValue tag="linewidth" value="0"/>
-								<UML:TaggedValue tag="seqno" value="0"/>
-								<UML:TaggedValue tag="headStyle" value="0"/>
-								<UML:TaggedValue tag="lineStyle" value="0"/>
-								<UML:TaggedValue tag="ea_localid" value="36"/>
-								<UML:TaggedValue tag="ea_sourceName" value="Event"/>
-								<UML:TaggedValue tag="ea_targetName" value="CallBacks"/>
-								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
-								<UML:TaggedValue tag="ea_targetType" value="Class"/>
-								<UML:TaggedValue tag="ea_sourceID" value="24"/>
-								<UML:TaggedValue tag="ea_targetID" value="13"/>
-								<UML:TaggedValue tag="virtualInheritance" value="0"/>
-								<UML:TaggedValue tag="rt" value="-set"/>
-							</UML:ModelElement.taggedValue>
-							<UML:Association.connection>
-								<UML:AssociationEnd visibility="public" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_F03BCB92_BBFC_4111_A982_87F1C69F2A6E">
-									<UML:ModelElement.taggedValue>
-										<UML:TaggedValue tag="containment" value="Unspecified"/>
-										<UML:TaggedValue tag="sourcestyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Non-Navigable;"/>
-										<UML:TaggedValue tag="ea_end" value="source"/>
-									</UML:ModelElement.taggedValue>
-								</UML:AssociationEnd>
-								<UML:AssociationEnd visibility="private" name="set" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_3A94C7CC_AD39_41fd_A07F_C50D8969A361">
-									<UML:ModelElement.taggedValue>
-										<UML:TaggedValue tag="containment" value="Unspecified"/>
-										<UML:TaggedValue tag="type" value="Private"/>
 										<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
 										<UML:TaggedValue tag="ea_end" value="target"/>
 									</UML:ModelElement.taggedValue>
@@ -325,6 +284,7 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="19"/>
 								<UML:TaggedValue tag="ea_targetID" value="24"/>
+								<UML:TaggedValue tag="privatedata5" value="EDGE=2;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="rt" value="-event"/>
 							</UML:ModelElement.taggedValue>
@@ -340,6 +300,44 @@
 									<UML:ModelElement.taggedValue>
 										<UML:TaggedValue tag="containment" value="Unspecified"/>
 										<UML:TaggedValue tag="type" value="Private"/>
+										<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+										<UML:TaggedValue tag="ea_end" value="target"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+							</UML:Association.connection>
+						</UML:Association>
+						<UML:Association xmi.id="EAID_EBBF82BE_3803_4e89_A5A3_2C2A77AC2A52" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="ea_type" value="Association"/>
+								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="50"/>
+								<UML:TaggedValue tag="ea_sourceName" value="Event"/>
+								<UML:TaggedValue tag="ea_targetName" value="CallBacks"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+								<UML:TaggedValue tag="ea_targetType" value="Class"/>
+								<UML:TaggedValue tag="ea_sourceID" value="24"/>
+								<UML:TaggedValue tag="ea_targetID" value="13"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+								<UML:TaggedValue tag="rt" value="+set"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Association.connection>
+								<UML:AssociationEnd visibility="public" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_F03BCB92_BBFC_4111_A982_87F1C69F2A6E">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="sourcestyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Non-Navigable;"/>
+										<UML:TaggedValue tag="ea_end" value="source"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+								<UML:AssociationEnd visibility="public" name="set" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_3A94C7CC_AD39_41fd_A07F_C50D8969A361">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
 										<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
 										<UML:TaggedValue tag="ea_end" value="target"/>
 									</UML:ModelElement.taggedValue>
