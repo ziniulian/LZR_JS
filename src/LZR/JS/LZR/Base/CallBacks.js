@@ -60,7 +60,7 @@ LZR.Base.CallBacks.prototype.del = function (name/*as:string*/) {
 // 执行回调函数
 LZR.Base.CallBacks.prototype.execute = function ()/*as:boolean*/ {
 	if (this.enableEvent) {
-		var b = true;	// 闁搞儳鍋犻惃鐔煎礄閼恒儲娈舵慨婵撶到閻栧爼骞嶈椤㈡垿宕氬▎鎺旂闁?true闁挎稑鑻幆渚€宕氬▎鎺旂闁?false
+		var b = true;	// 回调函数正常执行则返回 true，否则返回 false
 		for (var s in this.funs) {
 			switch (s) {
 				case "length":

@@ -2,13 +2,13 @@
 作者：子牛连
 类名：LZR
 说明：
-创建日期：14-一月-2016 11:02:49
+创建日期：15-二月-2016 17:09:26
 版本号：1.0
 *************************************************/
 
 LZR = function (obj) {
 	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+		this.init_();
 	} else {
 		this.init_(obj);
 	}
@@ -23,7 +23,10 @@ LZR.curPath = "";	/*as:string*/
 LZR.existedClasses = {};	/*as:Object*/
 
 // 加载方式
-LZR.laodTyp = 0;	/*as:int*/
+LZR.loadTyp = 0;	/*as:int*/
+
+// 分隔符
+LZR.separator = "/";	/*as:string*/
 
 // 用于同步加载其它类的简易 Ajax 对象
 LZR.spAjax = null;	/*as:Object*/
@@ -72,8 +75,19 @@ LZR.loadByAjax = function (path/*as:string*/) {
 };
 
 // Node.js 形式加载文本
-LZR.loadByNode = function (path/*as:string*/) {
-	
+LZR.loadByNode = function (uri/*as:string*/) {
+	if (uri) {
+		var filePath = uri.replace(/\//g, this.separator);
+// console.log (filePath);
+		try {
+			return fs.readFileSync(filePath, "utf8");
+		} catch (e) {
+// console.log (e.code + " <Error>: " + filePath);
+			return null;
+		}
+	} else {
+		return null;
+	}
 };
 
 // 构造器
@@ -86,7 +100,7 @@ LZR.prototype.init_ = function (obj/*as:Object*/) {
 // 加载文本
 LZR.loadTxt = function (path/*as:string*/) {
 	var txt;
-	switch (this.laodTyp) {
+	switch (this.loadTyp) {
 		case 0:	// Ajax
 			txt = this.loadByAjax (path);
 			break;
@@ -99,11 +113,12 @@ LZR.loadTxt = function (path/*as:string*/) {
 
 // 加载js
 LZR.loadToJs = function (txt/*as:string*/) {
-	switch (this.laodTyp) {
+	switch (this.loadTyp) {
 		case 0:	// Ajax
 			window.eval(txt);
 			break;
 		case 1:	// Node.js
+			eval(txt);
 			break;
 	}
 };
@@ -139,6 +154,7 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 		} else {
 			this.load(this.afterLoad[self]);
 			this.afterLoad[self] = undefined;
+			delete this.afterLoad[self];
 			return;
 		}
 	} else {
@@ -195,7 +211,7 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 						case "css":
 							this.loadToCss(txt);
 							break;
-						case "js":
+						default:
 							this.loadToJs(txt);
 							break;
 					}
@@ -210,20 +226,11 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 						cn += "." + cns[i];
 					}
 					if (this.existedClasses[path + ".js"] === undefined) {
-						if ( cn == "LZR") {
-							txt = this.loadTxt (this.curPath + "/LZR_" + ".js");
-						} else {
-							txt = this.loadTxt (this.curPath + path + ".js");
-						}
+						txt = this.loadTxt (this.curPath + path + ".js");
 						if (txt) {
 							this.existedClasses[path + ".js"] = true;
 							if (cn != "LZR") {
-// console.log ("laod start : " + cn);
-								// this.afterLoad[cn] = [];
 								this.loadToJs(txt);
-								// this.load(this.afterLoad[cn]);
-								// this.afterLoad[cn] = undefined;
-// console.log ("laod end : " + cn);
 							}
 							this.existedClasses[cn] = txt;
 						}
