@@ -20,7 +20,7 @@ LZR.NodeJs.BaseMainSrv = function (obj) /*interfaces:LZR.NodeJs.InfHttpSrv*/ {
 	this.port = 80;	/*as:int*/
 
 	// IP号
-	this.ip = "";	/*as:string*/
+	this.ip = "localhost";	/*as:string*/
 
 	// nodejs的HTTP模块
 	this.http = require("http");	/*as:Object*/
@@ -83,8 +83,8 @@ LZR.NodeJs.BaseMainSrv.prototype.matchSubs = function (uri/*as:string*/)/*as:Obj
 // 启动服务
 LZR.NodeJs.BaseMainSrv.prototype.start = function (config/*as:Object*/) {
 	this.initSubs(config);
-	this.http.createServer( LZR.bind(this, this.execute) ).listen(this.port);
-	console.log ("服务已运行：http://localhost:" + this.port);
+	this.http.createServer( LZR.bind(this, this.execute) ).listen(this.port, this.ip);
+	console.log ("服务已运行：http://" + this.ip + ":" + this.port);
 };
 
 // ---------- 接口实现 --------------
