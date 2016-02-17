@@ -2,13 +2,13 @@
 作者：子牛连
 类名：CallBacks
 说明：回调函数集合
-创建日期：28-一月-2016 17:59:25
+创建日期：16-二月-2016 15:58:59
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.Base",
-	"LZR.Base.String",
+	"LZR.Base.Str",
 	"LZR.Base.CallBacks.CallBack"
 ], "LZR.Base.CallBacks");
 LZR.Base.CallBacks = function (obj) {
@@ -24,8 +24,8 @@ LZR.Base.CallBacks = function (obj) {
 	// 回调函数个数
 	this.count = 0;	/*as:int*/
 
-	// 函数集合
-	this.funs/*m*/ = new LZR.Base.CallBacks.CallBack();	/*as:LZR.Base.CallBacks.CallBack*/
+	// 回调函数集合
+	this.funs/*m*/ = {};	/*as:LZR.Base.CallBacks.CallBack*/
 
 	if (obj && obj.super_) {
 		this.init_();
@@ -39,7 +39,7 @@ LZR.Base.CallBacks.prototype.version_ = "1.0";
 LZR.load(null, "LZR.Base.CallBacks");
 
 // 添加回调函数
-LZR.Base.CallBacks.prototype.append = function (fun/*as:fun*/, name/*as:string*/) {
+LZR.Base.CallBacks.prototype.append = function (fun/*as:fun*/, name/*as:LZR.Base.Str*/) {
 	if (name === undefined || name === null) {
 		name = this.count;
 	}
@@ -50,7 +50,7 @@ LZR.Base.CallBacks.prototype.append = function (fun/*as:fun*/, name/*as:string*/
 };
 
 // 删除回调函数
-LZR.Base.CallBacks.prototype.del = function (name/*as:string*/) {
+LZR.Base.CallBacks.prototype.del = function (name/*as:LZR.Base.Str*/) {
 	if (this.funs[name] !== undefined) {
 		this.funs[name] = undefined;
 		this.count --;

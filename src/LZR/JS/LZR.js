@@ -17,16 +17,13 @@ LZR.prototype.className_ = "LZR";
 LZR.prototype.version_ = "1.0";
 
 // 库所在的当前路径
-LZR.curPath = "";	/*as:string*/
+LZR.curPath = "/myLib";	/*as:string*/
 
 // 已存在的类集合
 LZR.existedClasses = {};	/*as:Object*/
 
 // 加载方式
 LZR.loadTyp = 0;	/*as:int*/
-
-// 分隔符
-LZR.separator = "/";	/*as:string*/
 
 // 用于同步加载其它类的简易 Ajax 对象
 LZR.spAjax = null;	/*as:Object*/
@@ -36,6 +33,8 @@ LZR.afterLoad = {};	/*as:Object*/
 
 // Ajax 形式加载文本
 LZR.loadByAjax = function (path/*as:string*/) {
+	path = this.curPath + path;
+
 	if (this.spAjax === null) {
 		try{
 			this.spAjax = new XMLHttpRequest();
@@ -77,12 +76,19 @@ LZR.loadByAjax = function (path/*as:string*/) {
 // Node.js 形式加载文本
 LZR.loadByNode = function (uri/*as:string*/) {
 	if (uri) {
-		var filePath = uri.replace(/\//g, this.separator);
+		if (!LZR.nodejsTools) {
+			LZR.nodejsTools = {
+				fs: require("fs"),
+				path: require("path")
+			};
+		}
+// console.log (uri);
+		var filePath = LZR.nodejsTools.path.join(this.curPath, uri);
 // console.log (filePath);
 		try {
-			return fs.readFileSync(filePath, "utf8");
+			return LZR.nodejsTools.fs.readFileSync(filePath, "utf8");
 		} catch (e) {
-// console.log (e.code + " <Error>: " + filePath);
+// console.log (e);
 			return null;
 		}
 	} else {
@@ -204,7 +210,7 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 					continue;
 				}
 
-				txt = this.loadTxt (this.curPath + name);
+				txt = this.loadTxt (name);
 				if (txt) {
 					this.existedClasses[name] = true;
 					switch (suffix) {
@@ -226,7 +232,7 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 						cn += "." + cns[i];
 					}
 					if (this.existedClasses[path + ".js"] === undefined) {
-						txt = this.loadTxt (this.curPath + path + ".js");
+						txt = this.loadTxt (path + ".js");
 						if (txt) {
 							this.existedClasses[path + ".js"] = true;
 							if (cn != "LZR") {

@@ -1,40 +1,40 @@
 /*************************************************
 作者：子牛连
-类名：Date
+类名：Time
 说明：时间
-创建日期：14-一月-2016 11:02:49
+创建日期：16-二月-2016 15:42:31
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.Base"
-], "LZR.Base.Date");
-LZR.Base.Date = function (obj) {
+], "LZR.Base.Time");
+LZR.Base.Time = function (obj) {
 	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+		this.init_();
 	} else {
 		this.init_(obj);
 	}
 };
-LZR.Base.Date.prototype.className_ = "LZR.Base.Date";
-LZR.Base.Date.prototype.version_ = "1.0";
+LZR.Base.Time.prototype.className_ = "LZR.Base.Time";
+LZR.Base.Time.prototype.version_ = "1.0";
 
-LZR.load(null, "LZR.Base.Date");
+LZR.load(null, "LZR.Base.Time");
 
 // 构造器
-LZR.Base.Date.prototype.init_ = function (obj/*as:Object*/) {
+LZR.Base.Time.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
 	}
 };
 
 // 字符串转时间
-LZR.Base.Date.stringToDate = function (date/*as:string*/)/*as:Date*/ {
+LZR.Base.Time.prototype.stringToDate = function (date/*as:string*/)/*as:Date*/ {
 	return eval( 'new Date(' + strDate.replace( /\d+(?=-[^-]+$)/, function (a) { return parseInt(a, 10) - 1; } ).match(/\d+/g) + ')' );
 };
 
 // 时间转换为字符串
-LZR.Base.Date.format = function (date/*as:Date*/, format/*as:string*/)/*as:string*/ {
+LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)/*as:string*/ {
 	var s = date.getFullYear();
 	s += "-";
 	s += date.getMonth() + 1;
@@ -50,7 +50,7 @@ LZR.Base.Date.format = function (date/*as:Date*/, format/*as:string*/)/*as:strin
 };
 
 // 时间圆整
-LZR.Base.Date.normalize = function (date/*as:Date*/, hour/*as:int*/, clone/*as:boolean*/)/*as:Date*/ {
+LZR.Base.Time.prototype.normalize = function (date/*as:Date*/, hour/*as:int*/, clone/*as:boolean*/)/*as:Date*/ {
 	if (!date) {
 		date = new Date();
 	} else if (clone) {
@@ -67,7 +67,7 @@ LZR.Base.Date.normalize = function (date/*as:Date*/, hour/*as:int*/, clone/*as:b
 };
 
 // 时间加N个小时的时间
-LZR.Base.Date.addHour = function (n/*as:int*/, date/*as:Date*/, clone/*as:boolean*/)/*as:Date*/ {
+LZR.Base.Time.prototype.addHour = function (n/*as:int*/, date/*as:Date*/, clone/*as:boolean*/)/*as:Date*/ {
 	if (!date) {
 		date = new Date();
 	} else if (clone) {
@@ -78,7 +78,7 @@ LZR.Base.Date.addHour = function (n/*as:int*/, date/*as:Date*/, clone/*as:boolea
 };
 
 // 复制一个时间
-LZR.Base.Date.clone = function (date/*as:Date*/)/*as:Date*/ {
+LZR.Base.Time.prototype.clone = function (date/*as:Date*/)/*as:Date*/ {
 	if (!date) {
 		date = new Date();
 	}

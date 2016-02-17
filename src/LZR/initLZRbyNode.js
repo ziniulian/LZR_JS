@@ -11,5 +11,4 @@ var getCurPath = function () {
 
 require("./JS/LZR.js");
 LZR.loadTyp = 1;
-LZR.separator = "\\";	// Windows系统
 LZR.curPath = getCurPath ();
