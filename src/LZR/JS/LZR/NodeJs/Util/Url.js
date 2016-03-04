@@ -11,13 +11,13 @@ LZR.load([
 ], "LZR.NodeJs.Util.Url");
 LZR.NodeJs.Util.Url = function (obj) {
 	// Nodejs的 URL 模块
-	this.url = require("url");	/*as:Object*/
+	this.url = LZR.getSingleton (null, null, "url");	/*as:Object*/
 
 	// Nodejs的参数解析模块
-	this.qry = require("querystring");	/*as:Object*/
+	this.qry = LZR.getSingleton (null, null, "querystring");	/*as:Object*/
 
 	// Nodejs的路径工具模块
-	this.path = LZR.nodejsTools ? LZR.nodejsTools.path : require("path");	/*as:Object*/
+	this.path = LZR.getSingleton (null, null, "path");	/*as:Object*/
 
 	if (obj && obj.super_) {
 		this.init_();

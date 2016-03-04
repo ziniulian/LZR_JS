@@ -23,16 +23,16 @@ LZR.NodeJs.BaseMainSrv = function (obj) /*interfaces:LZR.NodeJs.InfHttpSrv*/ {
 	this.ip = "localhost";	/*as:string*/
 
 	// nodejs的HTTP模块
-	this.http = require("http");	/*as:Object*/
+	this.http = LZR.getSingleton(null, null, "http");	/*as:Object*/
 
 	// 子服务集合
 	this.subs/*m*/ = {};	/*as:LZR.NodeJs.InfHttpSrv*/
 
 	// 字符串工具
-	this.utStr/*m*/ = new LZR.Base.Str();	/*as:LZR.Base.Str*/
+	this.utStr/*m*/ = LZR.getSingleton(LZR.Base.Str);	/*as:LZR.Base.Str*/
 
 	// URL工具
-	this.utUrl/*m*/ = new LZR.NodeJs.Util.Url();	/*as:LZR.NodeJs.Util.Url*/
+	this.utUrl/*m*/ = LZR.getSingleton(LZR.NodeJs.Util.Url);	/*as:LZR.NodeJs.Util.Url*/
 
 	if (obj && obj.super_) {
 		this.init_();
@@ -61,7 +61,6 @@ LZR.NodeJs.BaseMainSrv.prototype.initSubs = function (config/*as:Object*/) {
 		var o = config[s];
 		switch (o.srv) {
 			case "wfs":
-				o.obj.utUrl = this.utUrl;
 				this.subs[s] = new wfs(o.obj);
 				break;
 		}

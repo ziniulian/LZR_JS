@@ -11,7 +11,7 @@ LZR.load([
 ], "LZR.NodeJs.Util.File");
 LZR.NodeJs.Util.File = function (obj) {
 	// Nodejs的文件模块
-	this.fs = LZR.nodejsTools ? LZR.nodejsTools.fs : require("fs");	/*as:Object*/
+	this.fs = LZR.getSingleton (null, null, "fs");	/*as:Object*/
 
 	if (obj && obj.super_) {
 		this.init_();

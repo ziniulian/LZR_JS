@@ -15,7 +15,7 @@ LZR.HTML5.Base.Ajax = function (obj) {
 	this.ajax = this.getAjax();	/*as:Object*/
 
 	// Json转换工具
-	this.utJson/*m*/ = new LZR.Base.Json();	/*as:LZR.Base.Json*/
+	this.utJson/*m*/ = LZR.getSingleton(LZR.Base.Json);	/*as:LZR.Base.Json*/
 
 	if (obj && obj.super_) {
 		this.init_();

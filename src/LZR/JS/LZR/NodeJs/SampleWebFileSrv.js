@@ -25,10 +25,10 @@ LZR.NodeJs.SampleWebFileSrv = function (obj) /*interfaces:LZR.NodeJs.InfHttpSrv*
 	this.ajaxAllow = null;	/*as:string*/
 
 	// URL工具
-	this.utUrl/*m*/ = null;	/*as:LZR.NodeJs.Util.Url*/
+	this.utUrl/*m*/ = LZR.getSingleton(LZR.NodeJs.Util.Url);	/*as:LZR.NodeJs.Util.Url*/
 
 	// 文件处理工具
-	this.utFile/*m*/ = new LZR.NodeJs.Util.File();	/*as:LZR.NodeJs.Util.File*/
+	this.utFile/*m*/ = LZR.getSingleton(LZR.NodeJs.Util.File);	/*as:LZR.NodeJs.Util.File*/
 
 	if (obj && obj.super_) {
 		this.init_();

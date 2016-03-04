@@ -14,6 +14,7 @@ LZR.load([
 
 // 测试服务的实例化
 var srv = new LZR.NodeJs.BaseMainSrv ({
+	ip: "192.168.1.236",
 	port: 8080
 });
 // console.log ("\n======= 测试服务的实例化 =======");

@@ -31,6 +31,11 @@ LZR.spAjax = null;	/*as:Object*/
 // 延后加载内容
 LZR.afterLoad = {};	/*as:Object*/
 
+// 单件对象集合
+LZR.singletons = {
+	nodejsTools:{}
+};	/*as:Object*/
+
 // Ajax 形式加载文本
 LZR.loadByAjax = function (path/*as:string*/) {
 	path = this.curPath + path;
@@ -76,17 +81,13 @@ LZR.loadByAjax = function (path/*as:string*/) {
 // Node.js 形式加载文本
 LZR.loadByNode = function (uri/*as:string*/) {
 	if (uri) {
-		if (!LZR.nodejsTools) {
-			LZR.nodejsTools = {
-				fs: require("fs"),
-				path: require("path")
-			};
-		}
+		var nfs = this.getSingleton (null, null, "fs");
+		var npt = this.getSingleton (null, null, "path");
 // console.log (uri);
-		var filePath = LZR.nodejsTools.path.join(this.curPath, uri);
+		var filePath = npt.join(this.curPath, uri);
 // console.log (filePath);
 		try {
-			return LZR.nodejsTools.fs.readFileSync(filePath, "utf8");
+			return nfs.readFileSync(filePath, "utf8");
 		} catch (e) {
 // console.log (e);
 			return null;
@@ -369,4 +370,23 @@ LZR.exist = function (obj/*as:Object*/, pro/*as:string*/)/*as:Object*/ {
 		}
 	}
 	return obj;
+};
+
+// 获取一个单件对象
+LZR.getSingleton = function (cls/*as:fun*/, obj/*as:Object*/, nodejsClassName/*as:string*/)/*as:Object*/ {
+	var o;
+	if (nodejsClassName) {
+		o = LZR.singletons.nodejsTools[nodejsClassName];
+		if (!o) {
+			o = require(nodejsClassName);
+			LZR.singletons.nodejsTools[nodejsClassName] = o;
+		}
+	} else {
+		o = LZR.singletons[cls.prototype.className_];
+		if (!o) {
+			o = new cls(obj);
+			LZR.singletons[o.className_] = o;
+		}
+	}
+	return o;
 };

@@ -45,7 +45,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_8C97A0B8_E39A_45ba_B092_75E0E1A9083A"/>
 								<UML:TaggedValue tag="date_created" value="2016-02-17 10:15:47"/>
-								<UML:TaggedValue tag="date_modified" value="2016-02-17 15:36:37"/>
+								<UML:TaggedValue tag="date_modified" value="2016-03-04 11:30:43"/>
 								<UML:TaggedValue tag="genfile" value="F:\GitLib\LZR_JS\src\LZR\JS\LZR\NodeJs\Util\File.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -58,13 +58,13 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="120"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=16b9;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=a33a;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
 								<UML:Attribute name="fs" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
 									<UML:Attribute.initialValue>
-										<UML:Expression body="LZR.nodejsTools ? LZR.nodejsTools.fs : require(&quot;fs&quot;)"/>
+										<UML:Expression body="LZR.getSingleton (null, null, &quot;fs&quot;)"/>
 									</UML:Attribute.initialValue>
 									<UML:StructuralFeature.type>
 										<UML:Classifier xmi.idref="eaxmiid0"/>
@@ -299,10 +299,11 @@
 								<UML:TaggedValue tag="ea_sourceID" value="120"/>
 								<UML:TaggedValue tag="ea_targetID" value="64"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+utFile"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Association.connection>
-								<UML:AssociationEnd visibility="public" name="utFile" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_117785BE_E330_46ed_87E6_9C9324AFD0D5">
+								<UML:AssociationEnd visibility="public" multiplicity="1" name="utFile" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_117785BE_E330_46ed_87E6_9C9324AFD0D5">
 									<UML:ModelElement.taggedValue>
 										<UML:TaggedValue tag="description" value="&#25991;&#20214;&#22788;&#29702;&#24037;&#20855;"/>
 										<UML:TaggedValue tag="containment" value="Unspecified"/>
@@ -327,7 +328,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_8C97A0B8_E39A_45ba_B092_75E0E1A9083A"/>
 								<UML:TaggedValue tag="date_created" value="2016-02-17 10:14:24"/>
-								<UML:TaggedValue tag="date_modified" value="2016-02-17 14:10:57"/>
+								<UML:TaggedValue tag="date_modified" value="2016-03-04 11:30:41"/>
 								<UML:TaggedValue tag="genfile" value="F:\GitLib\LZR_JS\src\LZR\JS\LZR\NodeJs\Util\Url.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -340,13 +341,13 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="118"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=11d2;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=a332;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
 								<UML:Attribute name="url" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
 									<UML:Attribute.initialValue>
-										<UML:Expression body="require(&quot;url&quot;)"/>
+										<UML:Expression body="LZR.getSingleton (null, null, &quot;url&quot;)"/>
 									</UML:Attribute.initialValue>
 									<UML:StructuralFeature.type>
 										<UML:Classifier xmi.idref="eaxmiid0"/>
@@ -369,7 +370,7 @@
 								</UML:Attribute>
 								<UML:Attribute name="qry" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
 									<UML:Attribute.initialValue>
-										<UML:Expression body="require(&quot;querystring&quot;)"/>
+										<UML:Expression body="LZR.getSingleton (null, null, &quot;querystring&quot;)"/>
 									</UML:Attribute.initialValue>
 									<UML:StructuralFeature.type>
 										<UML:Classifier xmi.idref="eaxmiid0"/>
@@ -392,7 +393,7 @@
 								</UML:Attribute>
 								<UML:Attribute name="path" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
 									<UML:Attribute.initialValue>
-										<UML:Expression body="LZR.nodejsTools ? LZR.nodejsTools.path : require(&quot;path&quot;)"/>
+										<UML:Expression body="LZR.getSingleton (null, null, &quot;path&quot;)"/>
 									</UML:Attribute.initialValue>
 									<UML:StructuralFeature.type>
 										<UML:Classifier xmi.idref="eaxmiid0"/>
@@ -906,10 +907,11 @@
 								<UML:TaggedValue tag="ea_sourceID" value="118"/>
 								<UML:TaggedValue tag="ea_targetID" value="66"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="-utUrl"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Association.connection>
-								<UML:AssociationEnd visibility="private" name="utUrl" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_F52B4BD4_8F6A_4220_9957_A45A1480CE90">
+								<UML:AssociationEnd visibility="private" multiplicity="1" name="utUrl" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_F52B4BD4_8F6A_4220_9957_A45A1480CE90">
 									<UML:ModelElement.taggedValue>
 										<UML:TaggedValue tag="description" value="URL&#24037;&#20855;"/>
 										<UML:TaggedValue tag="containment" value="Unspecified"/>
@@ -946,11 +948,11 @@
 								<UML:TaggedValue tag="ea_sourceID" value="118"/>
 								<UML:TaggedValue tag="ea_targetID" value="64"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
-								<UML:TaggedValue tag="lb" value="0"/>
+								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+utUrl"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Association.connection>
-								<UML:AssociationEnd visibility="public" multiplicity="0" name="utUrl" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_F52B4BD4_8F6A_4220_9957_A45A1480CE90">
+								<UML:AssociationEnd visibility="public" multiplicity="1" name="utUrl" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_F52B4BD4_8F6A_4220_9957_A45A1480CE90">
 									<UML:ModelElement.taggedValue>
 										<UML:TaggedValue tag="description" value="URL&#24037;&#20855;"/>
 										<UML:TaggedValue tag="containment" value="Unspecified"/>
@@ -1010,19 +1012,19 @@
 				<UML:TaggedValue tag="diagram_guid" value="EAID_45950178_3366_4a33_AD6B_E331B58CF66C"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
-		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=3;$LLB=;LLT=CX=60:CY=13:OX=-28:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_812F631F_8BAF_489d_834C_5295A144F721" style="Mode=3;EOID=08A139F5;SOID=EF843FE4;Color=-1;LWidth=0;">
+		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=3;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=60:CY=13:OX=-28:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_812F631F_8BAF_489d_834C_5295A144F721" style="Mode=3;EOID=08A139F5;SOID=EF843FE4;Color=-1;LWidth=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_45950178_3366_4a33_AD6B_E331B58CF66C"/>
 				<UML:TaggedValue tag="hidden" value="0"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
-		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=3;$LLB=;LLT=CX=60:CY=13:OX=-28:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_812F631F_8BAF_489d_834C_5295A144F721" style="Mode=3;EOID=08A139F5;SOID=EF843FE4;Color=-1;LWidth=0;">
+		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=3;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=60:CY=13:OX=-28:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_812F631F_8BAF_489d_834C_5295A144F721" style="Mode=3;EOID=08A139F5;SOID=EF843FE4;Color=-1;LWidth=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_45950178_3366_4a33_AD6B_E331B58CF66C"/>
 				<UML:TaggedValue tag="hidden" value="0"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
-		<UML:DiagramElement geometry="SX=0;SY=0;EX=-15;EY=-17;EDGE=1;$LLB=;LLT=CX=40:CY=13:OX=-20:OY=1:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_6EC0D0C0_C1F6_4c7b_ABE2_103DF6C8BCB0" style="Mode=3;EOID=28DA06E2;SOID=D1710F0A;Color=-1;LWidth=0;">
+		<UML:DiagramElement geometry="SX=0;SY=0;EX=-15;EY=-17;EDGE=1;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=40:CY=13:OX=-20:OY=1:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_6EC0D0C0_C1F6_4c7b_ABE2_103DF6C8BCB0" style="Mode=3;EOID=28DA06E2;SOID=D1710F0A;Color=-1;LWidth=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_45950178_3366_4a33_AD6B_E331B58CF66C"/>
 				<UML:TaggedValue tag="hidden" value="0"/>
@@ -1034,7 +1036,7 @@
 				<UML:TaggedValue tag="hidden" value="0"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
-		<UML:DiagramElement geometry="SX=0;SY=0;EX=-15;EY=-17;EDGE=1;$LLB=;LLT=CX=40:CY=13:OX=-20:OY=1:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_6EC0D0C0_C1F6_4c7b_ABE2_103DF6C8BCB0" style="Mode=3;EOID=28DA06E2;SOID=D1710F0A;Color=-1;LWidth=0;">
+		<UML:DiagramElement geometry="SX=0;SY=0;EX=-15;EY=-17;EDGE=1;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=40:CY=13:OX=-20:OY=1:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_6EC0D0C0_C1F6_4c7b_ABE2_103DF6C8BCB0" style="Mode=3;EOID=28DA06E2;SOID=D1710F0A;Color=-1;LWidth=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_45950178_3366_4a33_AD6B_E331B58CF66C"/>
 				<UML:TaggedValue tag="hidden" value="0"/>

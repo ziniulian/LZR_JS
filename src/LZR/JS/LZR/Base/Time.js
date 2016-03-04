@@ -2,14 +2,18 @@
 作者：子牛连
 类名：Time
 说明：时间
-创建日期：16-二月-2016 15:42:31
+创建日期：04-三月-2016 14:20:04
 版本号：1.0
 *************************************************/
 
 LZR.load([
-	"LZR.Base"
+	"LZR.Base",
+	"LZR.Base.Str"
 ], "LZR.Base.Time");
 LZR.Base.Time = function (obj) {
+	// 字符串工具
+	this.utStr/*m*/ = LZR.getSingleton(LZR.Base.Str);	/*as:LZR.Base.Str*/
+
 	if (obj && obj.super_) {
 		this.init_();
 	} else {
@@ -30,7 +34,7 @@ LZR.Base.Time.prototype.init_ = function (obj/*as:Object*/) {
 
 // 字符串转时间
 LZR.Base.Time.prototype.stringToDate = function (date/*as:string*/)/*as:Date*/ {
-	return eval( 'new Date(' + strDate.replace( /\d+(?=-[^-]+$)/, function (a) { return parseInt(a, 10) - 1; } ).match(/\d+/g) + ')' );
+	return eval( "new Date(" + strDate.replace( /\d+(?=-[^-]+$)/, function (a) { return parseInt(a, 10) - 1; } ).match(/\d+/g) + ")" );
 };
 
 // 时间转换为字符串
@@ -41,11 +45,11 @@ LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)
 	s += "-";
 	s += date.getDate();
 	s += " ";
-	s += LZR.HTML5.Util.format(date.getHours(), 2, "0");
+	s += this.utStr.format(date.getHours(), 2, "0");
 	s += ":";
-	s += LZR.HTML5.Util.format(date.getMinutes(), 2, "0");
+	s += this.utStr.format(date.getMinutes(), 2, "0");
 	s += ":";
-	s += LZR.HTML5.Util.format(date.getSeconds(), 2, "0");
+	s += this.utStr.format(date.getSeconds(), 2, "0");
 	return s;
 };
 
@@ -57,7 +61,7 @@ LZR.Base.Time.prototype.normalize = function (date/*as:Date*/, hour/*as:int*/, c
 		date = new Date(date.valueOf());
 	}
 	if (!hour) {
-		hour = 0;
+		hour = date.getHours();
 	}
 	date.setMinutes(0);
 	date.setSeconds(0);
