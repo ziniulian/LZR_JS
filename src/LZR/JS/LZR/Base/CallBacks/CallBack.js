@@ -2,13 +2,12 @@
 作者：子牛连
 类名：CallBack
 说明：回调函数
-创建日期：14-一月-2016 11:02:49
+创建日期：16-二月-2016 15:22:24
 版本号：1.0
 *************************************************/
 
 LZR.load([
-	"LZR.Base.CallBacks",
-	"LZR.Base.String"
+	"LZR.Base.CallBacks"
 ], "LZR.Base.CallBacks.CallBack");
 LZR.Base.CallBacks.CallBack = function (obj) {
 	// 名字
@@ -24,7 +23,7 @@ LZR.Base.CallBacks.CallBack = function (obj) {
 	this.fun = null;	/*as:fun*/
 
 	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+		this.init_();
 	} else {
 		this.init_(obj);
 	}

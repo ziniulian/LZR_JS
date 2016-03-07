@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Ajax
 说明：
-创建日期：14-一月-2016 11:02:49
+创建日期：16-二月-2016 15:55:54
 版本号：1.0
 *************************************************/
 
@@ -14,8 +14,11 @@ LZR.HTML5.Base.Ajax = function (obj) {
 	// AJAX对象
 	this.ajax = this.getAjax();	/*as:Object*/
 
+	// Json转换工具
+	this.utJson/*m*/ = LZR.getSingleton(LZR.Base.Json);	/*as:LZR.Base.Json*/
+
 	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+		this.init_();
 	} else {
 		this.init_(obj);
 	}
@@ -65,7 +68,7 @@ LZR.HTML5.Base.Ajax.prototype.post = function (url/*as:string*/, msg/*as:Object*
 			}
 			ms += n;
 			ms += "=";
-			ms += LZR.Base.Json.toJson ( msg[n] );
+			ms += this.utJson.toJson ( msg[n] );
 		}
 		msg = ms;
 	}

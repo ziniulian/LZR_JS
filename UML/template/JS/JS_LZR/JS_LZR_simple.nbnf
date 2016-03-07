@@ -18,11 +18,11 @@ parse(<language>);
 											token(<TYPECOMMENT>) |
 											token(<BASECOMMENT>) |
 											token(<INTFCOMMENT>) |
+											token(<LINKCOMMENT>) |
 											<COMMENT> |
 											token(<NUMBER>) |
 											token("\"") token(<STRING_BODY>) token("\"") |
 											token(keywords()) |
-											token("m_") |
 											token(<IDENTIFIER>);
 
 // 空格
@@ -88,6 +88,9 @@ parse(<language>);
 
 // 接口注释
 <INTFCOMMENT>							::= "/*interfaces:";
+
+// 链接属性注释
+<LINKCOMMENT>							::= "/*m*/";
 
 // 语法规则 -------------------------------
 <language>								::= <fileScope>*;
@@ -220,9 +223,9 @@ parse(<language>);
 <attr_val>								::= "=" attribute("DEFAULT", skip(";")) attributeEx("TYPE", "Object") ";";
 
 // 链接属性
-<attributeLinkDeclaration>				::= node("ATTRIBUTE", "this." <attributeLinkName> <attributeLinkBody> attributeEx("SCOPE", "private"));
+<attributeLinkDeclaration>				::= node("ATTRIBUTE", "this." <attributeLinkName> <LINKCOMMENT> <attributeLinkBody> attributeEx("SCOPE", "private"));
 
-<attributeLinkName>						::= attribute("NAME", "m_" <simpleName>);
+<attributeLinkName>						::= attribute("NAME", <simpleName>);
 
 <attributeLinkBody>						::= <attr_object> attributeEx("LOWBOUND", "0") attributeEx("HIGHBOUND", "1") |
 											"=" attribute("DEFAULT", "[" skip(";")) ";" <typCmt> attributeEx("HIGHBOUND", "*") |
@@ -230,7 +233,7 @@ parse(<language>);
 											// <attr_hasType> attributeEx("LOWBOUND", "0") attributeEx("HIGHBOUND", "*");
 
 // 忽略链接属性
-<attributeLinkNone>						::= "this." "m_" skip(";") ";" [<TYPECOMMENT> [<qualifiedName>] "*/"];
+<attributeLinkNone>						::= "this." <simpleName> <LINKCOMMENT> skip(";") ";" [<TYPECOMMENT> [<qualifiedName>] "*/"];
 
 // 方法声明 ------------------------
 <operationPart>							::= <operationDeclaration> |

@@ -2,15 +2,16 @@
 作者：子牛连
 类名：Div
 说明：基础容器
-创建日期：14-一月-2016 11:02:49
+创建日期：28-一月-2016 17:32:04
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.HTML5.Base",
-	"LZR.Base.Data",
 	"LZR.HTML5.Base.DomEvent",
-	"LZR.HTML5.Base.DomCss"
+	"LZR.HTML5.Base.DomCss",
+	"LZR.Base.String",
+	"LZR.Base.Data"
 ], "LZR.HTML5.Base.Div");
 LZR.HTML5.Base.Div = function (obj) /*bases:LZR.Base.Data*/ {
 	LZR.initSuper(this);
@@ -19,10 +20,10 @@ LZR.HTML5.Base.Div = function (obj) /*bases:LZR.Base.Data*/ {
 	this.dom = document.createElement("div");	/*as:Object*/
 
 	// 数据
-	this.data = new LZR.Base.Data();	/*as:LZR.Base.Data*/
+	this.data/*m*/ = new LZR.Base.Data();	/*as:LZR.Base.Data*/
 
 	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+		this.init_();
 	} else {
 		this.init_(obj);
 	}
@@ -117,7 +118,7 @@ LZR.HTML5.Base.Div.prototype.getPositionInDocument = function (dom/*as:Object*/)
 			p.left = box.left - d.clientLeft + window.pageXOffset;
 			p.top = box.top - d.clientTop + window.pageYOffset;
 		} else {
-			// IE 浏览器
+			// IE 濞村繗顫嶉崳?
 			d = obj.ownerDocument.body;
 			p.left = box.left - d.clientLeft + (d.scrollLeft || obj.ownerDocument.documentElement.scrollLeft);
 			p.top = box.top - d.clientTop + (d.scrollTop || obj.ownerDocument.documentElement.scrollTop);

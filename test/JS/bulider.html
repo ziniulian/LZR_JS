@@ -2,7 +2,7 @@
 	<head>
 		<title>库整合</title>
 		<meta charset="utf-8" />
-		<script src="../../src/JS/LZR.js"></script>
+		<script src="../../src/LZR/JS/LZR.js"></script>
 
 		<style type="text/css">
 			.body {
@@ -13,9 +13,9 @@
 
 		<script>
 			function init() {
-				LZR.curPath = "../../src/JS";
+				LZR.curPath = "../../src/LZR/JS";
 				LZR.load([
-					"LZR.HTML5.Project.Bp.StationInfo.Model"
+					"LZR.Base.ValCtrl"
 				]);
 
 				var d = LZR.existedClasses;
@@ -24,6 +24,9 @@
 					if (s.match("/LZR") === null) {
 						txt += d[s];
 						txt += "\n\n";
+						if (s == "LZR") {
+							txt += "LZR.load = function () {};\n\n";
+						}
 					}
 				}
 

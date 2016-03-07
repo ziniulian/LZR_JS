@@ -2,13 +2,13 @@
 作者：子牛连
 类名：LZR
 说明：
-创建日期：14-一月-2016 11:02:49
+创建日期：15-二月-2016 17:09:26
 版本号：1.0
 *************************************************/
 
 LZR = function (obj) {
 	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+		this.init_();
 	} else {
 		this.init_(obj);
 	}
@@ -17,13 +17,13 @@ LZR.prototype.className_ = "LZR";
 LZR.prototype.version_ = "1.0";
 
 // 库所在的当前路径
-LZR.curPath = "";	/*as:string*/
+LZR.curPath = "/myLib";	/*as:string*/
 
 // 已存在的类集合
 LZR.existedClasses = {};	/*as:Object*/
 
 // 加载方式
-LZR.laodTyp = 0;	/*as:int*/
+LZR.loadTyp = 0;	/*as:int*/
 
 // 用于同步加载其它类的简易 Ajax 对象
 LZR.spAjax = null;	/*as:Object*/
@@ -31,8 +31,15 @@ LZR.spAjax = null;	/*as:Object*/
 // 延后加载内容
 LZR.afterLoad = {};	/*as:Object*/
 
+// 单件对象集合
+LZR.singletons = {
+	nodejsTools:{}
+};	/*as:Object*/
+
 // Ajax 形式加载文本
 LZR.loadByAjax = function (path/*as:string*/) {
+	path = this.curPath + path;
+
 	if (this.spAjax === null) {
 		try{
 			this.spAjax = new XMLHttpRequest();
@@ -72,8 +79,22 @@ LZR.loadByAjax = function (path/*as:string*/) {
 };
 
 // Node.js 形式加载文本
-LZR.loadByNode = function (path/*as:string*/) {
-	
+LZR.loadByNode = function (uri/*as:string*/) {
+	if (uri) {
+		var nfs = this.getSingleton (null, null, "fs");
+		var npt = this.getSingleton (null, null, "path");
+// console.log (uri);
+		var filePath = npt.join(this.curPath, uri);
+// console.log (filePath);
+		try {
+			return nfs.readFileSync(filePath, "utf8");
+		} catch (e) {
+// console.log (e);
+			return null;
+		}
+	} else {
+		return null;
+	}
 };
 
 // 构造器
@@ -86,7 +107,7 @@ LZR.prototype.init_ = function (obj/*as:Object*/) {
 // 加载文本
 LZR.loadTxt = function (path/*as:string*/) {
 	var txt;
-	switch (this.laodTyp) {
+	switch (this.loadTyp) {
 		case 0:	// Ajax
 			txt = this.loadByAjax (path);
 			break;
@@ -99,11 +120,12 @@ LZR.loadTxt = function (path/*as:string*/) {
 
 // 加载js
 LZR.loadToJs = function (txt/*as:string*/) {
-	switch (this.laodTyp) {
+	switch (this.loadTyp) {
 		case 0:	// Ajax
 			window.eval(txt);
 			break;
 		case 1:	// Node.js
+			eval(txt);
 			break;
 	}
 };
@@ -139,6 +161,7 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 		} else {
 			this.load(this.afterLoad[self]);
 			this.afterLoad[self] = undefined;
+			delete this.afterLoad[self];
 			return;
 		}
 	} else {
@@ -188,14 +211,14 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 					continue;
 				}
 
-				txt = this.loadTxt (this.curPath + name);
+				txt = this.loadTxt (name);
 				if (txt) {
 					this.existedClasses[name] = true;
 					switch (suffix) {
 						case "css":
 							this.loadToCss(txt);
 							break;
-						case "js":
+						default:
 							this.loadToJs(txt);
 							break;
 					}
@@ -210,20 +233,11 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 						cn += "." + cns[i];
 					}
 					if (this.existedClasses[path + ".js"] === undefined) {
-						if ( cn == "LZR") {
-							txt = this.loadTxt (this.curPath + "/LZR_" + ".js");
-						} else {
-							txt = this.loadTxt (this.curPath + path + ".js");
-						}
+						txt = this.loadTxt (path + ".js");
 						if (txt) {
 							this.existedClasses[path + ".js"] = true;
 							if (cn != "LZR") {
-// console.log ("laod start : " + cn);
-								// this.afterLoad[cn] = [];
 								this.loadToJs(txt);
-								// this.load(this.afterLoad[cn]);
-								// this.afterLoad[cn] = undefined;
-// console.log ("laod end : " + cn);
 							}
 							this.existedClasses[cn] = txt;
 						}
@@ -301,13 +315,16 @@ LZR.setObj = function (obj/*as:Object*/, pro/*as:Object*/) {
 		var t = obj[s];
 		if (t !== undefined) {
 			var value = pro[s];
-
-			if ( (this.getClassName (t) === "LZR.Base.ValCtrl") && (this.getClassName (value) !== "LZR.Base.ValCtrl") ) {
-				// 调用值控制器赋值
-				t.set (value, false);
-			} else {
-				// 普通赋值
-				obj[s] = value;
+			switch (this.exist (t, "className_")) {
+				case "LZR.Base.Val":
+				case "LZR.Base.Val.Ctrl":
+					// 调用值控制器赋值
+					t.set (value, false);
+					break;
+				default:
+					// 普通赋值
+					obj[s] = value;
+					break;
 			}
 		}
 	}
@@ -350,10 +367,29 @@ LZR.initSuper = function (obj/*as:Object*/) {
 LZR.exist = function (obj/*as:Object*/, pro/*as:string*/)/*as:Object*/ {
 	var ps = pro.split(".");
 	for (var i = 0; i<ps.length; i++) {
-		obj = obj[ps[i]];
-		if (obj === undefined) {
-			return null;
+		if (undefined === obj || null === obj) {
+			return undefined;
 		}
+		obj = obj[ps[i]];
 	}
 	return obj;
+};
+
+// 获取一个单件对象
+LZR.getSingleton = function (cls/*as:fun*/, obj/*as:Object*/, nodejsClassName/*as:string*/)/*as:Object*/ {
+	var o;
+	if (nodejsClassName) {
+		o = LZR.singletons.nodejsTools[nodejsClassName];
+		if (!o) {
+			o = require(nodejsClassName);
+			LZR.singletons.nodejsTools[nodejsClassName] = o;
+		}
+	} else {
+		o = LZR.singletons[cls.prototype.className_];
+		if (!o) {
+			o = new cls(obj);
+			LZR.singletons[o.className_] = o;
+		}
+	}
+	return o;
 };
