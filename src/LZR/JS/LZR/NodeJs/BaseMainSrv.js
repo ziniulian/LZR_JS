@@ -25,6 +25,9 @@ LZR.NodeJs.BaseMainSrv = function (obj) /*interfaces:LZR.NodeJs.InfHttpSrv*/ {
 	// nodejs的HTTP模块
 	this.http = LZR.getSingleton(null, null, "http");	/*as:Object*/
 
+	// 服务
+	this.srv = null;	/*as:Object*/
+
 	// 子服务集合
 	this.subs/*m*/ = {};	/*as:LZR.NodeJs.InfHttpSrv*/
 
@@ -48,6 +51,7 @@ LZR.load(null, "LZR.NodeJs.BaseMainSrv");
 
 // 构造器
 LZR.NodeJs.BaseMainSrv.prototype.init_ = function (obj/*as:Object*/) {
+	this.srv = this.http.createServer( LZR.bind(this, this.execute) );
 	if (obj) {
 		LZR.setObj (this, obj);
 	}
@@ -82,8 +86,13 @@ LZR.NodeJs.BaseMainSrv.prototype.matchSubs = function (uri/*as:string*/)/*as:Obj
 // 启动服务
 LZR.NodeJs.BaseMainSrv.prototype.start = function (config/*as:Object*/) {
 	this.initSubs(config);
-	this.http.createServer( LZR.bind(this, this.execute) ).listen(this.port, this.ip);
+	this.srv.listen(this.port, this.ip);
 	console.log ("服务已运行：http://" + this.ip + ":" + this.port);
+};
+
+// 停止服务
+LZR.NodeJs.BaseMainSrv.prototype.stop = function () {
+	this.srv.close();
 };
 
 // ---------- 接口实现 --------------

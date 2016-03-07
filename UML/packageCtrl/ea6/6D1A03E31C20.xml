@@ -45,7 +45,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_B30A8796_39F2_4219_9231_6D1A03E31C20"/>
 								<UML:TaggedValue tag="date_created" value="2015-12-03 21:11:05"/>
-								<UML:TaggedValue tag="date_modified" value="2016-03-04 11:26:05"/>
+								<UML:TaggedValue tag="date_modified" value="2016-03-07 18:04:50"/>
 								<UML:TaggedValue tag="genfile" value="F:\GitLib\LZR_JS\src\LZR\JS\LZR.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -57,7 +57,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="102"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=9efb;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=1f44;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -772,7 +772,7 @@
 										<UML:TaggedValue tag="style" value="&#26500;&#36896;&#23646;&#24615;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_FB59C5F4_AEC6_476b_BA7C_3C3834919B26">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="for (var s in pro) {&#xA;		var t = obj[s];&#xA;		if (t !== undefined) {&#xA;			var value = pro[s];&#xA;&#xA;			if ( (this.getClassName (t) === &quot;LZR.Base.ValCtrl&quot;) &amp;&amp; (this.getClassName (value) !== &quot;LZR.Base.ValCtrl&quot;) ) {&#xA;				// &#35843;&#29992;&#20540;&#25511;&#21046;&#22120;&#36171;&#20540;&#xA;				t.set (value, false);&#xA;			} else {&#xA;				// &#26222;&#36890;&#36171;&#20540;&#xA;				obj[s] = value;&#xA;			}&#xA;		}&#xA;	}"/>
+												<UML:Comment name="for (var s in pro) {&#xA;		var t = obj[s];&#xA;		if (t !== undefined) {&#xA;			var value = pro[s];&#xA;			switch (this.exist (t, &quot;className_&quot;)) {&#xA;				case &quot;LZR.Base.Val&quot;:&#xA;				case &quot;LZR.Base.Val.Ctrl&quot;:&#xA;					// &#35843;&#29992;&#20540;&#25511;&#21046;&#22120;&#36171;&#20540;&#xA;					t.set (value, false);&#xA;					break;&#xA;				default:&#xA;					// &#26222;&#36890;&#36171;&#20540;&#xA;					obj[s] = value;&#xA;					break;&#xA;			}&#xA;		}&#xA;	}"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -938,7 +938,7 @@
 										<UML:TaggedValue tag="style" value="&#21028;&#26029;&#19968;&#20010;&#23545;&#35937;&#30340;&#23646;&#24615;&#26159;&#21542;&#23384;&#22312;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_A0740857_E25F_4ac1_8C7D_C840DB8D6507">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var ps = pro.split(&quot;.&quot;);&#xA;	for (var i = 0; i&lt;ps.length; i++) {&#xA;		obj = obj[ps[i]];&#xA;		if (obj === undefined) {&#xA;			return null;&#xA;		}&#xA;	}&#xA;	return obj;"/>
+												<UML:Comment name="var ps = pro.split(&quot;.&quot;);&#xA;	for (var i = 0; i&lt;ps.length; i++) {&#xA;		if (undefined === obj || null === obj) {&#xA;			return undefined;&#xA;		}&#xA;		obj = obj[ps[i]];&#xA;	}&#xA;	return obj;"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>

@@ -38,8 +38,15 @@ LZR.Base.CallBacks.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.Base.CallBacks");
 
+// 构造器
+LZR.Base.CallBacks.prototype.init_ = function (obj/*as:Object*/) {
+	if (obj) {
+		LZR.setObj (this, obj);
+	}
+};
+
 // 添加回调函数
-LZR.Base.CallBacks.prototype.append = function (fun/*as:fun*/, name/*as:LZR.Base.Str*/) {
+LZR.Base.CallBacks.prototype.add = function (fun/*as:fun*/, name/*as:LZR.Base.Str*/) {
 	if (name === undefined || name === null) {
 		name = this.count;
 	}
@@ -53,14 +60,15 @@ LZR.Base.CallBacks.prototype.append = function (fun/*as:fun*/, name/*as:LZR.Base
 LZR.Base.CallBacks.prototype.del = function (name/*as:LZR.Base.Str*/) {
 	if (this.funs[name] !== undefined) {
 		this.funs[name] = undefined;
+		delete this.funs[name];
 		this.count --;
 	}
 };
 
 // 执行回调函数
 LZR.Base.CallBacks.prototype.execute = function ()/*as:boolean*/ {
+	var b = true;	// 回调函数正常执行则返回 true，否则返回 false
 	if (this.enableEvent) {
-		var b = true;	// 回调函数正常执行则返回 true，否则返回 false
 		for (var s in this.funs) {
 			switch (s) {
 				case "length":
@@ -76,16 +84,8 @@ LZR.Base.CallBacks.prototype.execute = function ()/*as:boolean*/ {
 					break;
 			}
 		}
-		return b;
 	} else {
 		this.enableEvent = this.autoEvent;
-		return false;
 	}
-};
-
-// 构造器
-LZR.Base.CallBacks.prototype.init_ = function (obj/*as:Object*/) {
-	if (obj) {
-		this.obj = obj;
-	}
+	return b;
 };

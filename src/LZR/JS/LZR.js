@@ -315,13 +315,16 @@ LZR.setObj = function (obj/*as:Object*/, pro/*as:Object*/) {
 		var t = obj[s];
 		if (t !== undefined) {
 			var value = pro[s];
-
-			if ( (this.getClassName (t) === "LZR.Base.ValCtrl") && (this.getClassName (value) !== "LZR.Base.ValCtrl") ) {
-				// 调用值控制器赋值
-				t.set (value, false);
-			} else {
-				// 普通赋值
-				obj[s] = value;
+			switch (this.exist (t, "className_")) {
+				case "LZR.Base.Val":
+				case "LZR.Base.Val.Ctrl":
+					// 调用值控制器赋值
+					t.set (value, false);
+					break;
+				default:
+					// 普通赋值
+					obj[s] = value;
+					break;
 			}
 		}
 	}
@@ -364,10 +367,10 @@ LZR.initSuper = function (obj/*as:Object*/) {
 LZR.exist = function (obj/*as:Object*/, pro/*as:string*/)/*as:Object*/ {
 	var ps = pro.split(".");
 	for (var i = 0; i<ps.length; i++) {
-		obj = obj[ps[i]];
-		if (obj === undefined) {
-			return null;
+		if (undefined === obj || null === obj) {
+			return undefined;
 		}
+		obj = obj[ps[i]];
 	}
 	return obj;
 };
