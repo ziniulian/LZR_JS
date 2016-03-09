@@ -15,43 +15,43 @@
 			function init() {
 				LZR.curPath = "../../../../../src/LZR/JS";
 				LZR.load([
-					"LZR.HTML5.Base.Ajax"
+					"LZR.HTML.Base.Ajax"
 				]);
 				var aj;
 
 				// 同步GET
-				aj = new LZR.HTML5.Base.Ajax ();
-				LZR.HTML5.alog ( "\nStart ---------- 同步GET：" );
-				LZR.HTML5.alog ( aj.get ( "../../../../../log/2016.tt" ) );
-				LZR.HTML5.alog ( "end ---------- 同步GET" );
+				aj = new LZR.HTML.Base.Ajax ();
+				LZR.HTML.alog ( "\nStart ---------- 同步GET：" );
+				LZR.HTML.alog ( aj.get ( "../../../../../startServer.bat" ) );
+				LZR.HTML.alog ( "end ---------- 同步GET" );
 
 				// 同步POST
-				aj = new LZR.HTML5.Base.Ajax ();
-				LZR.HTML5.alog ( "\nStart ---------- 同步POST：" );
-				LZR.HTML5.alog ( aj.post ( "../../../../../log/2016.tt", {a:1, b:2, c:[ "fe", "th", "fr" ]} ) );
-				LZR.HTML5.alog ( "end ---------- 同步POST" );
+				aj = new LZR.HTML.Base.Ajax ();
+				LZR.HTML.alog ( "\nStart ---------- 同步POST：" );
+				LZR.HTML.alog ( aj.post ( "../../../../../startServer.bat", {a:1, b:2, c:[ "fe", "th", "fr" ]} ) );
+				LZR.HTML.alog ( "end ---------- 同步POST" );
 
 				// 异步GET
-				aj = new LZR.HTML5.Base.Ajax ();
-				LZR.HTML5.alog ( "\nStart ---------- 异步GET：" );
-				aj.get ( "../../../../../log/2016.tt", function (text, status) {
-					LZR.HTML5.alog ( "------------Start ---------- 异步GET：" );
-					LZR.HTML5.alog ( "---------- status："  + status );
-					LZR.HTML5.alog ( text );
-					LZR.HTML5.alog ( "-----------end ---------- 异步GET" );
+				aj = new LZR.HTML.Base.Ajax ();
+				LZR.HTML.alog ( "\nStart ---------- 异步GET：" );
+				aj.get ( "../../../../../startServer.bat", function (text, status) {
+					LZR.HTML.alog ( "------------Start ---------- 异步GET：" );
+					LZR.HTML.alog ( "---------- status："  + status );
+					LZR.HTML.alog ( text );
+					LZR.HTML.alog ( "-----------end ---------- 异步GET" );
 				} );
-				LZR.HTML5.alog ( "end ---------- 异步GET" );
+				LZR.HTML.alog ( "end ---------- 异步GET" );
 
 				// 异步POST
-				aj = new LZR.HTML5.Base.Ajax ();
-				LZR.HTML5.alog ( "\nStart ---------- 异步POST：" );
-				aj.post ( "../../../../../log/2016.tt", {a:1, b:2, c:[ "fe", "th", "fr" ]}, function (text, status) {
-					LZR.HTML5.alog ( "---------Start ---------- 异步POST：" );
-					LZR.HTML5.alog ( "---------- status："  + status );
-					LZR.HTML5.alog ( text );
-					LZR.HTML5.alog ( "--------------end ---------- 异步POST" );
+				aj = new LZR.HTML.Base.Ajax ();
+				LZR.HTML.alog ( "\nStart ---------- 异步POST：" );
+				aj.post ( "../../../../../startServer.bat", {a:1, b:2, c:[ "fe", "th", "fr" ]}, function (text, status) {
+					LZR.HTML.alog ( "---------Start ---------- 异步POST：" );
+					LZR.HTML.alog ( "---------- status："  + status );
+					LZR.HTML.alog ( text );
+					LZR.HTML.alog ( "--------------end ---------- 异步POST" );
 				} );
-				LZR.HTML5.alog ( "end ---------- 异步POST" );
+				LZR.HTML.alog ( "end ---------- 异步POST" );
 			}
 		</script>
 	</head>

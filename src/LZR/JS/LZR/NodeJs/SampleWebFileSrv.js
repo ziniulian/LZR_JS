@@ -31,7 +31,7 @@ LZR.NodeJs.SampleWebFileSrv = function (obj) /*interfaces:LZR.NodeJs.InfHttpSrv*
 	this.utFile/*m*/ = LZR.getSingleton(LZR.NodeJs.Util.File);	/*as:LZR.NodeJs.Util.File*/
 
 	if (obj && obj.super_) {
-		this.init_();
+		obj.super_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}

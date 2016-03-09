@@ -14,7 +14,7 @@ LZR.NodeJs.Util.File = function (obj) {
 	this.fs = LZR.getSingleton (null, null, "fs");	/*as:Object*/
 
 	if (obj && obj.super_) {
-		this.init_();
+		obj.super_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}

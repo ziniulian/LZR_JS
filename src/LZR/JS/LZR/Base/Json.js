@@ -14,7 +14,7 @@ LZR.Base.Json = function (obj) {
 	this.src = JSON ? (JSON) : (LZR.load(["/Lib/Util/JSON.js"]), JSON);	/*as:Object*/
 
 	if (obj && obj.super_) {
-		this.init_();
+		obj.super_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}

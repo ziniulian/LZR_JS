@@ -2,15 +2,15 @@
 作者：子牛连
 类名：Ajax
 说明：
-创建日期：16-二月-2016 15:55:54
+创建日期：08-三月-2016 11:24:23
 版本号：1.0
 *************************************************/
 
 LZR.load([
-	"LZR.HTML5.Base",
+	"LZR.HTML.Base",
 	"LZR.Base.Json"
-], "LZR.HTML5.Base.Ajax");
-LZR.HTML5.Base.Ajax = function (obj) {
+], "LZR.HTML.Base.Ajax");
+LZR.HTML.Base.Ajax = function (obj) {
 	// AJAX对象
 	this.ajax = this.getAjax();	/*as:Object*/
 
@@ -18,25 +18,25 @@ LZR.HTML5.Base.Ajax = function (obj) {
 	this.utJson/*m*/ = LZR.getSingleton(LZR.Base.Json);	/*as:LZR.Base.Json*/
 
 	if (obj && obj.super_) {
-		this.init_();
+		obj.super_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
 };
-LZR.HTML5.Base.Ajax.prototype.className_ = "LZR.HTML5.Base.Ajax";
-LZR.HTML5.Base.Ajax.prototype.version_ = "1.0";
+LZR.HTML.Base.Ajax.prototype.className_ = "LZR.HTML.Base.Ajax";
+LZR.HTML.Base.Ajax.prototype.version_ = "1.0";
 
-LZR.load(null, "LZR.HTML5.Base.Ajax");
+LZR.load(null, "LZR.HTML.Base.Ajax");
 
 // 构造器
-LZR.HTML5.Base.Ajax.prototype.init_ = function (obj/*as:Object*/) {
+LZR.HTML.Base.Ajax.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
 	}
 };
 
 // 获得一个ajax对象
-LZR.HTML5.Base.Ajax.prototype.getAjax = function ()/*as:Object*/ {
+LZR.HTML.Base.Ajax.prototype.getAjax = function ()/*as:Object*/ {
 	var xmlHttp = null;
 	try{
 		xmlHttp = new XMLHttpRequest();
@@ -52,7 +52,7 @@ LZR.HTML5.Base.Ajax.prototype.getAjax = function ()/*as:Object*/ {
 };
 
 // 发送POST请求
-LZR.HTML5.Base.Ajax.prototype.post = function (url/*as:string*/, msg/*as:Object*/, callback/*as:fun*/, msgType/*as:string*/, isGet/*as:boolean*/)/*as:string*/ {
+LZR.HTML.Base.Ajax.prototype.post = function (url/*as:string*/, msg/*as:Object*/, callback/*as:fun*/, msgType/*as:string*/, isGet/*as:boolean*/)/*as:string*/ {
 	var isAsyn = false;
 	if ( callback ) {
 		isAsyn = true;
@@ -99,18 +99,18 @@ LZR.HTML5.Base.Ajax.prototype.post = function (url/*as:string*/, msg/*as:Object*
 };
 
 // 发送GET请求
-LZR.HTML5.Base.Ajax.prototype.get = function (url/*as:string*/, callback/*as:fun*/)/*as:string*/ {
+LZR.HTML.Base.Ajax.prototype.get = function (url/*as:string*/, callback/*as:fun*/)/*as:string*/ {
 	return this.post ( url, null, callback, null, true );
 };
 
 // 异步回调
-LZR.HTML5.Base.Ajax.prototype.asynCallback = function (callback/*as:fun*/) {
+LZR.HTML.Base.Ajax.prototype.asynCallback = function (callback/*as:fun*/) {
 	if ( this.ajax.readyState == 4 ) {
 		callback ( this.ajax.responseText,  this.ajax.status );
 	}
 };
 
 // 取消请求
-LZR.HTML5.Base.Ajax.prototype.abort = function () {
+LZR.HTML.Base.Ajax.prototype.abort = function () {
 	this.ajax.abort();
 };

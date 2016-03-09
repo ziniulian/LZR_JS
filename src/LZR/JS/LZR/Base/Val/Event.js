@@ -21,7 +21,7 @@ LZR.Base.Val.Event = function (obj) {
 	this.set/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
 	if (obj && obj.super_) {
-		this.init_();
+		obj.super_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}

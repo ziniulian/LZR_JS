@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Ctrl
 说明：值控制器
-创建日期：07-三月-2016 15:26:42
+创建日期：08-三月-2016 14:12:00
 版本号：1.0
 *************************************************/
 
@@ -23,7 +23,7 @@ LZR.Base.Val.Ctrl = function (obj) /*bases:LZR.Base.Val*/ {
 	this.evt/*m*/ = new LZR.Base.Val.Event();	/*as:LZR.Base.Val.Event*/
 
 	if (obj && obj.super_) {
-		this.init_();
+		obj.super_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
@@ -44,15 +44,14 @@ LZR.Base.Val.Ctrl.prototype.init_ = function (obj/*as:Object*/) {
 };
 
 // 设置值
-LZR.Base.Val.Ctrl.prototype.set = function (obj/*as:Object*/, doEvent/*as:boolean*/) {
+LZR.Base.Val.Ctrl.prototype.set = function (obj/*as:Object*/, doEvent/*as:boolean*/)/*as:boolean*/ {
 	var r = true;
 	if (doEvent === false) {
 		this.val = obj;
 	} else {
 		if (this.enableEvent) {
 			var old = this.val;
-			r = this.beforeSet (obj, this, old) ;
-			if (r) {
+			if (this.beforeSet (obj, this, old)) {
 				if (obj !== old) {
 					this.val = obj;
 					r = this.onChange (obj, this, old);
@@ -75,16 +74,16 @@ LZR.Base.Val.Ctrl.prototype.setEventObj = function (obj/*as:Object*/) {
 };
 
 // 设置值之前触发的事件
-LZR.Base.Val.Ctrl.prototype.beforeSet = function (val/*as:Object*/, self/*as:ValCtrl*/, old/*as:Object*/)/*as:boolean*/ {
+LZR.Base.Val.Ctrl.prototype.beforeSet = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/)/*as:boolean*/ {
 	return this.evt.before.execute (val, self, old);
 };
 
 // 值变动后触发的事件
-LZR.Base.Val.Ctrl.prototype.onChange = function (val/*as:Object*/, self/*as:ValCtrl*/, old/*as:Object*/) {
+LZR.Base.Val.Ctrl.prototype.onChange = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/)/*as:boolean*/ {
 	return this.evt.change.execute (val, self, old);
 };
 
 // 设置值后触发的事件
-LZR.Base.Val.Ctrl.prototype.onSet = function (val/*as:Object*/, self/*as:ValCtrl*/, old/*as:Object*/) {
+LZR.Base.Val.Ctrl.prototype.onSet = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/)/*as:boolean*/ {
 	return this.evt.set.execute (val, self, old);
 };

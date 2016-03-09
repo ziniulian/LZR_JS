@@ -8,7 +8,6 @@
 
 LZR.load([
 	"LZR.NodeJs",
-	"LZR.NodeJs.SampleWebFileSrv",
 	"LZR.NodeJs.InfHttpSrv",
 	"LZR.Base.Str",
 	"LZR.NodeJs.Util.Url"
@@ -38,7 +37,7 @@ LZR.NodeJs.BaseMainSrv = function (obj) /*interfaces:LZR.NodeJs.InfHttpSrv*/ {
 	this.utUrl/*m*/ = LZR.getSingleton(LZR.NodeJs.Util.Url);	/*as:LZR.NodeJs.Util.Url*/
 
 	if (obj && obj.super_) {
-		this.init_();
+		obj.super_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
@@ -59,17 +58,50 @@ LZR.NodeJs.BaseMainSrv.prototype.init_ = function (obj/*as:Object*/) {
 
 // 配置子服务
 LZR.NodeJs.BaseMainSrv.prototype.initSubs = function (config/*as:Object*/) {
-	var wfs = LZR.NodeJs.SampleWebFileSrv;
+	var o;		/*
+				config 参数使用特殊字段 cls_ ，例如：
+				{
+					// 基础文件服务
+					web: {
+						cls_: LZR.NodeJs.SampleWebFileSrv,		// 用于对象创建的特殊字段
+						name: "/web/",
+						ajaxAllow: "*"
+					},
+
+					// LZR库文件访问服务
+					myLib: {
+						cls_: LZR.NodeJs.SampleWebFileSrv,
+						name: "/myLib/",
+						path: "/",
+						ajaxAllow: "*",
+						dir: LZR.curPath
+					},
+
+					// LOGO图片
+					logo: {
+						cls_: LZR.NodeJs.SampleWebFileSrv,
+						name: "/favicon.ico",
+						path: "/Logo.png"
+					},
+
+					// 主页跳转
+					home: {
+						cls_: LZR.NodeJs.SampleWebFileSrv,
+						name: "/",
+						path: "/web/index.html",
+						ajaxAllow: "*"
+					}
+				}
+			*/
 
 	for (var s in config) {
-		var o = config[s];
-		switch (o.srv) {
-			case "wfs":
-				this.subs[s] = new wfs(o.obj);
+		o = config[s];
+		switch (o.cls_.prototype.className_) {
+			default:
+				this.subs[s] = new o.cls_ (o);
 				break;
 		}
 	}
-// console.log (this.subs);
 };
 
 // 匹配子服务

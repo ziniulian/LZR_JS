@@ -11,7 +11,7 @@ LZR.load([
 ], "LZR.Base.Str");
 LZR.Base.Str = function (obj) {
 	if (obj && obj.super_) {
-		this.init_();
+		obj.super_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}

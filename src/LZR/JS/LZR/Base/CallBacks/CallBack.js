@@ -23,7 +23,7 @@ LZR.Base.CallBacks.CallBack = function (obj) {
 	this.fun = null;	/*as:fun*/
 
 	if (obj && obj.super_) {
-		this.init_();
+		obj.super_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
