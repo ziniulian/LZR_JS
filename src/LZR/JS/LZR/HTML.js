@@ -2,7 +2,7 @@
 作者：子牛连
 类名：HTML
 说明：
-创建日期：08-三月-2016 11:25:07
+创建日期：11-三月-2016 13:43:56
 版本号：1.0
 *************************************************/
 
@@ -28,7 +28,13 @@ LZR.HTML.logger = null;	/*as:Object*/
 LZR.HTML.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
+};
+
+// 对构造参数的特殊处理
+LZR.HTML.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
 };
 
 // 创建LOG

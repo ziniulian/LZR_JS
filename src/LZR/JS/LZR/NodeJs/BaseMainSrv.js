@@ -2,7 +2,7 @@
 作者：子牛连
 类名：BaseMainSrv
 说明：未使用框架的最基础主服务
-创建日期：17-二月-2016 10:31:32
+创建日期：11-三月-2016 13:51:25
 版本号：1.0
 *************************************************/
 
@@ -53,7 +53,13 @@ LZR.NodeJs.BaseMainSrv.prototype.init_ = function (obj/*as:Object*/) {
 	this.srv = this.http.createServer( LZR.bind(this, this.execute) );
 	if (obj) {
 		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
+};
+
+// 对构造参数的特殊处理
+LZR.NodeJs.BaseMainSrv.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
 };
 
 // 配置子服务
@@ -127,7 +133,7 @@ LZR.NodeJs.BaseMainSrv.prototype.stop = function () {
 	this.srv.close();
 };
 
-// ---------- 接口实现 --------------
+// ---- 执行服务
 LZR.NodeJs.BaseMainSrv.prototype.execute = function (req/*as:Object*/, rsp/*as:Object*/, url/*as:string*/) {
 	url = this.utUrl.getUri (req);
 // console.log (url);

@@ -2,7 +2,7 @@
 作者：子牛连
 类名：LZR
 说明：
-创建日期：15-二月-2016 17:09:26
+创建日期：11-三月-2016 13:37:40
 版本号：1.0
 *************************************************/
 
@@ -35,6 +35,19 @@ LZR.afterLoad = {};	/*as:Object*/
 LZR.singletons = {
 	nodejsTools:{}
 };	/*as:Object*/
+
+// 构造器
+LZR.prototype.init_ = function (obj/*as:Object*/) {
+	if (obj) {
+		this.setObj (this, obj);
+		this.hdObj_(obj);
+	}
+};
+
+// 对构造参数的特殊处理
+LZR.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
+};
 
 // Ajax 形式加载文本
 LZR.loadByAjax = function (path/*as:string*/) {
@@ -94,13 +107,6 @@ LZR.loadByNode = function (uri/*as:string*/) {
 		}
 	} else {
 		return null;
-	}
-};
-
-// 构造器
-LZR.prototype.init_ = function (obj/*as:Object*/) {
-	if (obj) {
-		this.setObj (this, obj);
 	}
 };
 
@@ -268,8 +274,8 @@ LZR.bind = function (self/*as:Object*/, fun/*as:fun*/, args/*as:___*/)/*as:fun*/
 
 // 复制一个对象
 LZR.clone = function (src/*as:Object*/, tag/*as:Object*/, objDep/*as:boolean*/, aryDep/*as:boolean*/)/*as:Object*/ {
-	var s;
-	switch ( this.getClassName(src) ) {
+	var s = this.getClassName(src);
+	switch ( s ) {
 		case "number":
 		case "string":
 		case "boolean":
@@ -282,6 +288,7 @@ LZR.clone = function (src/*as:Object*/, tag/*as:Object*/, objDep/*as:boolean*/, 
 			tag = new Date(src.valueOf());
 			break;
 		case "Array":
+			// 普通数组克隆
 			if (tag === null || tag === undefined) {
 				tag = [];
 			}
@@ -294,14 +301,39 @@ LZR.clone = function (src/*as:Object*/, tag/*as:Object*/, objDep/*as:boolean*/, 
 			}
 			break;
 		default:
-			if (tag === null || tag === undefined) {
-				tag = {};
-			}
-			for (s in src) {
-				if (objDep) {
-					tag[s] = this.clone (src[s], tag[s], objDep, aryDep);
+			if (s.indexOf("LZR.") === 0 && src !== src.constructor.prototype) {
+				// new 对象克隆
+				if (src.clone) {
+					// 有特殊克隆方法的对象克隆
+					tag = src.clone(tag);
 				} else {
-					tag[s] = src[s];
+					var obj = {};
+						for (s in src) {
+							if (tag) {
+								// 深度克隆
+								if (tag[s]) {
+									// 不需要深度克隆的特定属性
+									obj[s] = tag[s];
+								} else {
+									obj[s] = this.clone(src[s], true);
+								}
+							} else {
+								obj[s] = src[s];
+							}
+						}
+					tag = new src.constructor (obj);
+				}
+			} else {
+				// 普通对象克隆
+				if (tag === null || tag === undefined) {
+					tag = {};
+				}
+				for (s in src) {
+					if (objDep) {
+						tag[s] = this.clone (src[s], tag[s], objDep, aryDep);
+					} else {
+						tag[s] = src[s];
+					}
 				}
 			}
 			break;
@@ -315,11 +347,19 @@ LZR.setObj = function (obj/*as:Object*/, pro/*as:Object*/) {
 		var t = obj[s];
 		if (t !== undefined) {
 			var value = pro[s];
-			switch (this.exist (t, "className_")) {
+			switch (this.getClassName (t)) {
 				case "LZR.Base.Val":
 				case "LZR.Base.Val.Ctrl":
-					// 调用值控制器赋值
-					t.set (value, false);
+					switch (this.getClassName(value)) {
+						case "LZR.Base.Val":
+						case "LZR.Base.Val.Ctrl":
+							obj[s] = value;
+							break;
+						default:
+							// 调用值控制器赋值
+							t.set (value, false);
+							break;
+					}
 					break;
 				default:
 					// 普通赋值
@@ -337,12 +377,20 @@ LZR.getClassName = function (obj/*as:Object*/)/*as:string*/ {
 	var type = typeof obj;
 	if (type != "object")  return type;
 
+	// 自定义类属性
+	type = obj.className_;
+	if (type) {
+		// if (type.indexOf("LZR.") === 0) {
+			return type;
+		// }
+	}
+
+	// Dom类型
 	var c = Object.prototype.toString.apply ( obj );
 	c = c.substring( 8, c.length-1 );
 
+	// 其它类型
 	if ( c == "Object" ) {
-		if (obj.className_) return obj.className_;	// 自定义类属性
-
 		var con = obj.constructor;
 		if (con == Object) {
 			return c;

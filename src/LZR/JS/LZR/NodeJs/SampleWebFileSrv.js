@@ -2,7 +2,7 @@
 作者：子牛连
 类名：SampleWebFileSrv
 说明：简单的Web文件服务
-创建日期：17-二月-2016 13:02:16
+创建日期：11-三月-2016 13:50:08
 版本号：1.0
 *************************************************/
 
@@ -46,7 +46,13 @@ LZR.load(null, "LZR.NodeJs.SampleWebFileSrv");
 LZR.NodeJs.SampleWebFileSrv.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
+};
+
+// 对构造参数的特殊处理
+LZR.NodeJs.SampleWebFileSrv.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
 };
 
 // 返回Web文件请求
@@ -81,7 +87,7 @@ LZR.NodeJs.SampleWebFileSrv.prototype.loadFile = function (filename/*as:string*/
 	}));
 };
 
-// ---------- 接口实现 --------------
+// ---- 执行服务
 LZR.NodeJs.SampleWebFileSrv.prototype.execute = function (req/*as:Object*/, rsp/*as:Object*/, url/*as:string*/) {
 	var p = url;
 	if (this.path !== null) {

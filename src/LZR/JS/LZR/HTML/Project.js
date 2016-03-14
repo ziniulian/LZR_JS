@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Project
 说明：项目
-创建日期：08-三月-2016 11:24:23
+创建日期：11-三月-2016 13:58:04
 版本号：1.0
 *************************************************/
 
@@ -25,5 +25,11 @@ LZR.load(null, "LZR.HTML.Project");
 LZR.HTML.Project.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
+};
+
+// 对构造参数的特殊处理
+LZR.HTML.Project.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
 };

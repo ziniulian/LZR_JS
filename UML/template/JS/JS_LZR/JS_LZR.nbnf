@@ -2,6 +2,8 @@
 // 版本：V1.0
 // 日期：2015-11-30
 
+// 注：忽略了链接属性
+
 // Processing instructions
 caseInsensitive();
 
@@ -21,7 +23,6 @@ parse(<language>);
 											token(<NUMBER>) |
 											token("\"") token(<STRING_BODY>) token("\"") |
 											token(keywords()) |
-											token("m_") |
 											token(<IDENTIFIER>);
 
 // 空格
@@ -148,7 +149,7 @@ parse(<language>);
 
 
 // 属性声明 ------------------------
-<attributePart>							::= <attributeLinkDeclaration> |
+<attributePart>							::= <attributeLinkNone> |
 											<attributeDeclaration> |
 											<ctrlStatement> |
 											<funStatement> |

@@ -2,34 +2,40 @@
 作者：子牛连
 类名：Url
 说明：URL
-创建日期：08-三月-2016 11:24:23
+创建日期：11-三月-2016 14:02:27
 版本号：1.0
 *************************************************/
 
 LZR.load([
-	"LZR.HTML.Base"
-], "LZR.HTML.Base.Url");
-LZR.HTML.Base.Url = function (obj) {
+	"LZR.HTML.Util"
+], "LZR.HTML.Util.Url");
+LZR.HTML.Util.Url = function (obj) {
 	if (obj && obj.super_) {
 		obj.super_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
 };
-LZR.HTML.Base.Url.prototype.className_ = "LZR.HTML.Base.Url";
-LZR.HTML.Base.Url.prototype.version_ = "1.0";
+LZR.HTML.Util.Url.prototype.className_ = "LZR.HTML.Util.Url";
+LZR.HTML.Util.Url.prototype.version_ = "1.0";
 
-LZR.load(null, "LZR.HTML.Base.Url");
+LZR.load(null, "LZR.HTML.Util.Url");
 
 // 构造器
-LZR.HTML.Base.Url.prototype.init_ = function (obj/*as:Object*/) {
+LZR.HTML.Util.Url.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
 };
 
+// 对构造参数的特殊处理
+LZR.HTML.Util.Url.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
+};
+
 // 相对路径转换为绝对路径
-LZR.HTML.Base.Url.prototype.toAbsURL = function (url/*as:string*/)/*as:string*/ {
+LZR.HTML.Util.Url.prototype.toAbsURL = function (url/*as:string*/)/*as:string*/ {
 	var directlink = function(url){
 		var a = document.createElement ( "a" );
 		a.href = url;
@@ -45,7 +51,7 @@ LZR.HTML.Base.Url.prototype.toAbsURL = function (url/*as:string*/)/*as:string*/ 
 };
 
 // 获取 URL 参数
-LZR.HTML.Base.Url.prototype.getRequest = function ()/*as:Object*/ {
+LZR.HTML.Util.Url.prototype.getRequest = function ()/*as:Object*/ {
 	var url = location.search;
 	var theRequest = {};
 	if (url.indexOf("?") != -1) {

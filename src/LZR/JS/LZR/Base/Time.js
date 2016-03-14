@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Time
 说明：时间
-创建日期：04-三月-2016 14:20:04
+创建日期：11-三月-2016 14:23:26
 版本号：1.0
 *************************************************/
 
@@ -29,7 +29,13 @@ LZR.load(null, "LZR.Base.Time");
 LZR.Base.Time.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
+};
+
+// 对构造参数的特殊处理
+LZR.Base.Time.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
 };
 
 // 字符串转时间

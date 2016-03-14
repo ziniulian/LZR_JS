@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Url
 说明：对URL路径的处理工具
-创建日期：17-二月-2016 10:20:27
+创建日期：11-三月-2016 13:53:10
 版本号：1.0
 *************************************************/
 
@@ -34,7 +34,13 @@ LZR.load(null, "LZR.NodeJs.Util.Url");
 LZR.NodeJs.Util.Url.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
+};
+
+// 对构造参数的特殊处理
+LZR.NodeJs.Util.Url.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
 };
 
 // 获取不带域名和参数的URI路径

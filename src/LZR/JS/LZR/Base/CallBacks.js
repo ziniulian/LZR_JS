@@ -2,7 +2,7 @@
 作者：子牛连
 类名：CallBacks
 说明：回调函数集合
-创建日期：16-二月-2016 15:58:59
+创建日期：11-三月-2016 14:27:33
 版本号：1.0
 *************************************************/
 
@@ -42,7 +42,13 @@ LZR.load(null, "LZR.Base.CallBacks");
 LZR.Base.CallBacks.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
+};
+
+// 对构造参数的特殊处理
+LZR.Base.CallBacks.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
 };
 
 // 添加回调函数

@@ -1,45 +1,51 @@
 /*************************************************
 作者：子牛连
-类名：DomEvent
-说明：DOM元素事件
-创建日期：08-三月-2016 11:24:23
+类名：Evt
+说明：事件
+创建日期：11-三月-2016 14:04:43
 版本号：1.0
 *************************************************/
 
 LZR.load([
-	"LZR.HTML.Base"
-], "LZR.HTML.Base.DomEvent");
-LZR.HTML.Base.DomEvent = function (obj) {
+	"LZR.HTML.Util"
+], "LZR.HTML.Util.Evt");
+LZR.HTML.Util.Evt = function (obj) {
 	if (obj && obj.super_) {
 		obj.super_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
 };
-LZR.HTML.Base.DomEvent.prototype.className_ = "LZR.HTML.Base.DomEvent";
-LZR.HTML.Base.DomEvent.prototype.version_ = "1.0";
+LZR.HTML.Util.Evt.prototype.className_ = "LZR.HTML.Util.Evt";
+LZR.HTML.Util.Evt.prototype.version_ = "1.0";
 
-LZR.load(null, "LZR.HTML.Base.DomEvent");
+LZR.load(null, "LZR.HTML.Util.Evt");
 
 // 构造器
-LZR.HTML.Base.DomEvent.prototype.init_ = function (obj/*as:Object*/) {
+LZR.HTML.Util.Evt.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
 };
 
+// 对构造参数的特殊处理
+LZR.HTML.Util.Evt.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
+};
+
 // 获取事件
-LZR.HTML.Base.DomEvent.prototype.getEvent = function (e/*as:Object*/)/*as:Object*/ {
+LZR.HTML.Util.Evt.prototype.getEvent = function (e/*as:Object*/)/*as:Object*/ {
 	return window.event || e;
 };
 
 // 获取触发事件的DOM对象
-LZR.HTML.Base.DomEvent.prototype.getEventTarg = function (e/*as:Object*/)/*as:Object*/ {
+LZR.HTML.Util.Evt.prototype.getEventTarg = function (e/*as:Object*/)/*as:Object*/ {
 	return window.event.srcElement || e.target;
 };
 
 // 阻止默认事件的执行
-LZR.HTML.Base.DomEvent.prototype.stopDefault = function (e/*as:Object*/) {
+LZR.HTML.Util.Evt.prototype.stopDefault = function (e/*as:Object*/) {
 	if ( e && e.preventDefault ) {
 		e.preventDefault();
 	} else {
@@ -49,7 +55,7 @@ LZR.HTML.Base.DomEvent.prototype.stopDefault = function (e/*as:Object*/) {
 };
 
 // 阻止事件冒泡
-LZR.HTML.Base.DomEvent.prototype.stopBubble = function (e/*as:Object*/) {
+LZR.HTML.Util.Evt.prototype.stopBubble = function (e/*as:Object*/) {
 	if (e && e.stopPropagation)  {
 		e.stopPropagation();
 	} else {
@@ -59,7 +65,7 @@ LZR.HTML.Base.DomEvent.prototype.stopBubble = function (e/*as:Object*/) {
 };
 
 // 获取鼠标位置
-LZR.HTML.Base.DomEvent.prototype.getMousePosition = function (e/*as:Object*/)/*as:Object*/ {
+LZR.HTML.Util.Evt.prototype.getMousePosition = function (e/*as:Object*/)/*as:Object*/ {
 	if (e.pageX || e.pageY){
 		return {x: e.pageX, y: e.pageY};
 	} else {
@@ -72,7 +78,7 @@ LZR.HTML.Base.DomEvent.prototype.getMousePosition = function (e/*as:Object*/)/*a
 };
 
 // 添加一个DOM事件
-LZR.HTML.Base.DomEvent.prototype.appendEvent = function (obj/*as:Object*/, eventName/*as:string*/, callback/*as:fun*/, useCapture/*as:boolean*/)/*as:fun*/ {
+LZR.HTML.Util.Evt.prototype.appendEvent = function (obj/*as:Object*/, eventName/*as:string*/, callback/*as:fun*/, useCapture/*as:boolean*/)/*as:fun*/ {
 	if(obj.dispatchEvent){
 		obj.addEventListener(type, callback, useCapture  );
 	} else {
@@ -83,7 +89,7 @@ LZR.HTML.Base.DomEvent.prototype.appendEvent = function (obj/*as:Object*/, event
 };
 
 // 移除一个DOM事件
-LZR.HTML.Base.DomEvent.prototype.removeEvent = function (obj/*as:Object*/, eventName/*as:string*/, callback/*as:fun*/, useCapture/*as:boolean*/) {
+LZR.HTML.Util.Evt.prototype.removeEvent = function (obj/*as:Object*/, eventName/*as:string*/, callback/*as:fun*/, useCapture/*as:boolean*/) {
 	if(obj.dispatchEvent){
 		obj.removeEventListener(type, callback, useCapture  );
 	} else {
@@ -93,7 +99,7 @@ LZR.HTML.Base.DomEvent.prototype.removeEvent = function (obj/*as:Object*/, event
 };
 
 // 添加一个滚轮事件
-LZR.HTML.Base.DomEvent.prototype.appendWheel = function (obj/*as:Object*/, callback/*as:fun*/, useCapture/*as:boolean*/)/*as:fun*/ {
+LZR.HTML.Util.Evt.prototype.appendWheel = function (obj/*as:Object*/, callback/*as:fun*/, useCapture/*as:boolean*/)/*as:fun*/ {
 	var wheelType = "mousewheel";
 	try {
 		document.createEvent("MouseScrollEvents");
@@ -127,7 +133,7 @@ LZR.HTML.Base.DomEvent.prototype.appendWheel = function (obj/*as:Object*/, callb
 };
 
 // 移除一个滚轮事件
-LZR.HTML.Base.DomEvent.prototype.removeWheel = function (obj/*as:Object*/, callback/*as:fun*/, useCapture/*as:boolean*/) {
+LZR.HTML.Util.Evt.prototype.removeWheel = function (obj/*as:Object*/, callback/*as:fun*/, useCapture/*as:boolean*/) {
 	var wheelType = "mousewheel";
 	try {
 		document.createEvent("MouseScrollEvents");

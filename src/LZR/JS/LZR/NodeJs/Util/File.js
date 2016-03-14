@@ -2,7 +2,7 @@
 作者：子牛连
 类名：File
 说明：文件处理工具
-创建日期：17-二月-2016 10:20:18
+创建日期：11-三月-2016 13:54:30
 版本号：1.0
 *************************************************/
 
@@ -28,7 +28,13 @@ LZR.load(null, "LZR.NodeJs.Util.File");
 LZR.NodeJs.Util.File.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
+};
+
+// 对构造参数的特殊处理
+LZR.NodeJs.Util.File.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
 };
 
 // 判断路径是否存在

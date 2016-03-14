@@ -2,13 +2,13 @@
 作者：子牛连
 类名：Ctrl
 说明：值控制器
-创建日期：08-三月-2016 14:12:00
+创建日期：11-三月-2016 14:28:51
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.Base.Val",
-	"LZR.Base.Val.Event"
+	"LZR.Base.Val.Evt"
 ], "LZR.Base.Val.Ctrl");
 LZR.Base.Val.Ctrl = function (obj) /*bases:LZR.Base.Val*/ {
 	LZR.initSuper(this);
@@ -20,7 +20,7 @@ LZR.Base.Val.Ctrl = function (obj) /*bases:LZR.Base.Val*/ {
 	this.autoEvent = true;	/*as:boolean*/
 
 	// 事件集
-	this.evt/*m*/ = new LZR.Base.Val.Event();	/*as:LZR.Base.Val.Event*/
+	this.evt/*m*/ = new LZR.Base.Val.Evt();	/*as:LZR.Base.Val.Evt*/
 
 	if (obj && obj.super_) {
 		obj.super_.prototype.init_.call(this);
@@ -40,10 +40,16 @@ LZR.Base.Val.Ctrl.prototype.init_ = function (obj/*as:Object*/) {
 	this.setEventObj(this);
 	if (obj) {
 		this.val = obj;
+		this.hdObj_(obj);
 	}
 };
 
-// 设置值
+// 对构造参数的特殊处理
+LZR.Base.Val.Ctrl.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
+};
+
+// ---- 设置值
 LZR.Base.Val.Ctrl.prototype.set = function (obj/*as:Object*/, doEvent/*as:boolean*/)/*as:boolean*/ {
 	var r = true;
 	if (doEvent === false) {
@@ -64,6 +70,24 @@ LZR.Base.Val.Ctrl.prototype.set = function (obj/*as:Object*/, doEvent/*as:boolea
 		}
 	}
 	return r;
+};
+
+// ---- 克隆
+LZR.Base.Val.Ctrl.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
+	var r = this.super_[0].prototype.clone.call (this, dep);
+	r.enableEvent = this.enableEvent;
+	r.autoEvent = this.autoEvent;
+
+	// 事件克隆
+	LZR.clone(this.evt[s], true);
+	for (var s in r.evt) {
+		LZR.setObj (r.evt[s], this.evt[s]);
+		if (dep) {
+			// 深度克隆
+			r.evt[s].funs = LZR.clone(this.evt[s].funs, true);
+		}
+	}
+	r.setEventObj(r);
 };
 
 // 设置事件调用对象

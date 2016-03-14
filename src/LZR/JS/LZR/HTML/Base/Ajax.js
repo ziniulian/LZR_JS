@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Ajax
 说明：
-创建日期：08-三月-2016 11:24:23
+创建日期：11-三月-2016 14:13:03
 版本号：1.0
 *************************************************/
 
@@ -32,7 +32,13 @@ LZR.load(null, "LZR.HTML.Base.Ajax");
 LZR.HTML.Base.Ajax.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
+};
+
+// 对构造参数的特殊处理
+LZR.HTML.Base.Ajax.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
 };
 
 // 获得一个ajax对象
