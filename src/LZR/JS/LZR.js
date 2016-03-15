@@ -49,21 +49,28 @@ LZR.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
 
+// 获得一个ajax对象
+LZR.getAjax = function ()/*as:Object*/ {
+	var xmlHttp = null;
+	try{
+		xmlHttp = new XMLHttpRequest();
+	} catch (MSIEx) {
+		var activeX = [ "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP" ];
+		for (var i=0; i < activeX.length; i++) {
+			try {
+				xmlHttp = new ActiveXObject( activeX[i] );
+			} catch (e) {}
+		}
+	}
+	return xmlHttp;
+};
+
 // Ajax 形式加载文本
 LZR.loadByAjax = function (path/*as:string*/) {
 	path = this.curPath + path;
 
 	if (this.spAjax === null) {
-		try{
-			this.spAjax = new XMLHttpRequest();
-		} catch (MSIEx) {
-			var activeX = [ "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP" ];
-			for (var i=0; i < activeX.length; i++) {
-				try {
-					this.spAjax = new ActiveXObject( activeX[i] );
-				} catch (e) {}
-			}
-		}
+		this.spAjax = this.getAjax();
 		if (this.spAjax === null) {
 			this.spAjax = "null";
 			return null;
@@ -257,19 +264,59 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 	}
 };
 
-// 闭包调用
-LZR.bind = function (self/*as:Object*/, fun/*as:fun*/, args/*as:___*/)/*as:fun*/ {
-	var arg = Array.prototype.slice.call ( arguments, 2 );
-	return function () {
-		var i, args = [];
-		for ( i=0; i<arg.length; i++ ) {
-			args.push ( arg[i] );
+// 父类构造器
+LZR.initSuper = function (obj/*as:Object*/) {
+	for (var i=0; i<obj.super_.length; i++) {
+		obj.super_[i].call(obj, {super_: obj.super_[i]});
+	}
+};
+
+// 构造属性
+LZR.setObj = function (obj/*as:Object*/, pro/*as:Object*/) {
+	for (var s in pro) {
+		var t = obj[s];
+		if (t !== undefined) {
+			var value = pro[s];
+			switch (this.getClassName (t)) {
+				case "LZR.Base.Val":
+				case "LZR.Base.Val.Ctrl":
+					switch (this.getClassName(value)) {
+						case "LZR.Base.Val":
+						case "LZR.Base.Val.Ctrl":
+							obj[s] = value;
+							break;
+						default:
+							// 调用值控制器赋值
+							t.set (value, false);
+							break;
+					}
+					break;
+				default:
+					// 普通赋值
+					obj[s] = value;
+					break;
+			}
 		}
-		for ( i=0; i<arguments.length; i++ ) {
-			args.push ( arguments[i] );
+	}
+};
+
+// 获取一个单件对象
+LZR.getSingleton = function (cls/*as:fun*/, obj/*as:Object*/, nodejsClassName/*as:string*/)/*as:Object*/ {
+	var o;
+	if (nodejsClassName) {
+		o = LZR.singletons.nodejsTools[nodejsClassName];
+		if (!o) {
+			o = require(nodejsClassName);
+			LZR.singletons.nodejsTools[nodejsClassName] = o;
 		}
-		return fun.apply ( self, args );
-	};
+	} else {
+		o = LZR.singletons[cls.prototype.className_];
+		if (!o) {
+			o = new cls(obj);
+			LZR.singletons[o.className_] = o;
+		}
+	}
+	return o;
 };
 
 // 复制一个对象
@@ -307,8 +354,10 @@ LZR.clone = function (src/*as:Object*/, tag/*as:Object*/, objDep/*as:boolean*/, 
 					// 有特殊克隆方法的对象克隆
 					tag = src.clone(tag);
 				} else {
+					var p = src.constructor.prototype;
 					var obj = {};
-						for (s in src) {
+					for (s in src) {
+						if (p[s] !== undefined) {
 							if (tag) {
 								// 深度克隆
 								if (tag[s]) {
@@ -321,6 +370,7 @@ LZR.clone = function (src/*as:Object*/, tag/*as:Object*/, objDep/*as:boolean*/, 
 								obj[s] = src[s];
 							}
 						}
+					}
 					tag = new src.constructor (obj);
 				}
 			} else {
@@ -339,35 +389,6 @@ LZR.clone = function (src/*as:Object*/, tag/*as:Object*/, objDep/*as:boolean*/, 
 			break;
 	}
 	return tag;
-};
-
-// 构造属性
-LZR.setObj = function (obj/*as:Object*/, pro/*as:Object*/) {
-	for (var s in pro) {
-		var t = obj[s];
-		if (t !== undefined) {
-			var value = pro[s];
-			switch (this.getClassName (t)) {
-				case "LZR.Base.Val":
-				case "LZR.Base.Val.Ctrl":
-					switch (this.getClassName(value)) {
-						case "LZR.Base.Val":
-						case "LZR.Base.Val.Ctrl":
-							obj[s] = value;
-							break;
-						default:
-							// 调用值控制器赋值
-							t.set (value, false);
-							break;
-					}
-					break;
-				default:
-					// 普通赋值
-					obj[s] = value;
-					break;
-			}
-		}
-	}
 };
 
 // 获取类名
@@ -402,42 +423,4 @@ LZR.getClassName = function (obj/*as:Object*/)/*as:string*/ {
 	}
 
 	return c;
-};
-
-// 父类构造器
-LZR.initSuper = function (obj/*as:Object*/) {
-	for (var i=0; i<obj.super_.length; i++) {
-		obj.super_[i].call(obj, {super_: obj.super_[i]});
-	}
-};
-
-// 判断一个对象的属性是否存在
-LZR.exist = function (obj/*as:Object*/, pro/*as:string*/)/*as:Object*/ {
-	var ps = pro.split(".");
-	for (var i = 0; i<ps.length; i++) {
-		if (undefined === obj || null === obj) {
-			return undefined;
-		}
-		obj = obj[ps[i]];
-	}
-	return obj;
-};
-
-// 获取一个单件对象
-LZR.getSingleton = function (cls/*as:fun*/, obj/*as:Object*/, nodejsClassName/*as:string*/)/*as:Object*/ {
-	var o;
-	if (nodejsClassName) {
-		o = LZR.singletons.nodejsTools[nodejsClassName];
-		if (!o) {
-			o = require(nodejsClassName);
-			LZR.singletons.nodejsTools[nodejsClassName] = o;
-		}
-	} else {
-		o = LZR.singletons[cls.prototype.className_];
-		if (!o) {
-			o = new cls(obj);
-			LZR.singletons[o.className_] = o;
-		}
-	}
-	return o;
 };

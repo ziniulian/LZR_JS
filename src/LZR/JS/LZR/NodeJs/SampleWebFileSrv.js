@@ -7,6 +7,7 @@
 *************************************************/
 
 LZR.load([
+	"LZR.Util",
 	"LZR.NodeJs",
 	"LZR.NodeJs.Util.Url",
 	"LZR.NodeJs.InfHttpSrv",
@@ -29,6 +30,9 @@ LZR.NodeJs.SampleWebFileSrv = function (obj) /*interfaces:LZR.NodeJs.InfHttpSrv*
 
 	// 文件处理工具
 	this.utFile/*m*/ = LZR.getSingleton(LZR.NodeJs.Util.File);	/*as:LZR.NodeJs.Util.File*/
+
+	// 通用工具
+	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
 
 	if (obj && obj.super_) {
 		obj.super_.prototype.init_.call(this);
@@ -57,10 +61,10 @@ LZR.NodeJs.SampleWebFileSrv.prototype.hdObj_ = function (obj/*as:Object*/) {
 
 // 返回Web文件请求
 LZR.NodeJs.SampleWebFileSrv.prototype.loadFile = function (filename/*as:string*/, rsp/*as:Object*/) {
-	this.utFile.exists (filename, LZR.bind (this, function (exists) {
+	this.utFile.exists (filename, this.utLzr.bind (this, function (exists) {
 // console.log(exists + " : " + filename);
 		if (exists === 1) {
-			this.utFile.readFile (filename, "binary", LZR.bind (this, function (err, file) {
+			this.utFile.readFile (filename, "binary", this.utLzr.bind (this, function (err, file) {
 				if (err) {
 					rsp.writeHeader (500, {"Content-Type":"text/plain;charset=utf-8"});
 					rsp.write((err + "\n"), "utf-8");

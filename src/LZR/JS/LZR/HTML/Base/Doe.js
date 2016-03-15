@@ -92,22 +92,6 @@ LZR.HTML.Base.Doe.prototype.initSubsByDom = function () {
 	}
 };
 
-// 克隆
-LZR.HTML.Base.Doe.prototype.clone = function ()/*as:Object*/ {
-	var r = new this.constructor ({
-		id: this.id.get(),
-		css: this.utCss.parse(this.doe),
-		// data: this.data,	// 忽略数据的克隆
-		typ: this.typ
-		// 事件、控制器 的克隆问题未解决
-	});
-
-	for (var s in this.subs) {
-		r.add (this.subs[s].clone());
-	}
-	return r;
-};
-
 // 添加CSS样式
 LZR.HTML.Base.Doe.prototype.addCss = function (name/*as:string*/)/*as:boolean*/ {
 	if (this.css.add(name)) {
@@ -158,6 +142,31 @@ LZR.HTML.Base.Doe.prototype.del = function (id/*as:string*/)/*as:Object*/ {
 	var r = this.super_[0].prototype.del.call (this, id);
 	if (r) {
 		this.doe.removeChild(r.doe);
+	}
+	return r;
+};
+
+// ---- 处理克隆参数
+LZR.HTML.Base.Doe.prototype.hdClonePro = function (name/*as:string*/, dep/*as:boolean*/)/*as:Object*/ {
+	var r;
+	switch (name) {
+		case "doe":
+		// 事件、控制器 暂不知如何克隆
+		case "evt":
+		case "ctrl":
+			r = undefined;
+			break;
+		case "typ":
+		case "data":	// 数据不克隆
+		case "utCss":
+			r = this[name];
+			break;
+		case "css":
+			r = this.css.print();
+			break;
+		default:
+			r = this.super_[0].prototype.hdClonePro.call (this, name, dep);
+			break;
 	}
 	return r;
 };

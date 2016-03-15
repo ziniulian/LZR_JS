@@ -7,15 +7,23 @@
 *************************************************/
 
 LZR.load([
+	"LZR.Util",
 	"LZR.HTML.Base",
-	"LZR.Base.Json"
+	"LZR.Base.Json",
+	"LZR.HTML.Base.Ajax.Evt"
 ], "LZR.HTML.Base.Ajax");
 LZR.HTML.Base.Ajax = function (obj) {
 	// AJAX对象
-	this.ajax = this.getAjax();	/*as:Object*/
+	this.ajax = LZR.getAjax();	/*as:Object*/
 
 	// Json转换工具
 	this.utJson/*m*/ = LZR.getSingleton(LZR.Base.Json);	/*as:LZR.Base.Json*/
+
+	// 常用工具
+	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
+
+	// 事件集
+	this.evt/*m*/ = new LZR.HTML.Base.Ajax.Evt();	/*as:LZR.HTML.Base.Ajax.Evt*/
 
 	if (obj && obj.super_) {
 		obj.super_.prototype.init_.call(this);
@@ -41,28 +49,10 @@ LZR.HTML.Base.Ajax.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
 
-// 获得一个ajax对象
-LZR.HTML.Base.Ajax.prototype.getAjax = function ()/*as:Object*/ {
-	var xmlHttp = null;
-	try{
-		xmlHttp = new XMLHttpRequest();
-	} catch (MSIEx) {
-		var activeX = [ "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP" ];
-		for (var i=0; i < activeX.length; i++) {
-			try {
-				xmlHttp = new ActiveXObject( activeX[i] );
-			} catch (e) {}
-		}
-	}
-	return xmlHttp;
-};
-
 // 发送POST请求
-LZR.HTML.Base.Ajax.prototype.post = function (url/*as:string*/, msg/*as:Object*/, callback/*as:fun*/, msgType/*as:string*/, isGet/*as:boolean*/)/*as:string*/ {
-	var isAsyn = false;
-	if ( callback ) {
-		isAsyn = true;
-		this.ajax.onreadystatechange = LZR.bind ( this,  this.asynCallback, callback );
+LZR.HTML.Base.Ajax.prototype.post = function (url/*as:string*/, msg/*as:Object*/, msgType/*as:string*/, isAsyn/*as:boolean*/, isGet/*as:boolean*/)/*as:string*/ {
+	if ( isAsyn ) {
+		this.ajax.onreadystatechange = this.utLzr.bind ( this,  this.asynCallback );
 	}
 
 	// 处理 msg
@@ -92,6 +82,9 @@ LZR.HTML.Base.Ajax.prototype.post = function (url/*as:string*/, msg/*as:Object*/
 		}
 		this.ajax.send(msg);
 	} catch ( e ) {
+		if (isAsyn) {
+			// this.evt.rsp.execute (null);
+		}
 		return null;
 	}
 
@@ -104,15 +97,20 @@ LZR.HTML.Base.Ajax.prototype.post = function (url/*as:string*/, msg/*as:Object*/
 	return s;
 };
 
+// 异步POST请求
+LZR.HTML.Base.Ajax.prototype.asynPost = function (url/*as:string*/, msg/*as:Object*/, msgType/*as:string*/) {
+	this.post ( url, msg, msgType, true, false );
+};
+
 // 发送GET请求
-LZR.HTML.Base.Ajax.prototype.get = function (url/*as:string*/, callback/*as:fun*/)/*as:string*/ {
-	return this.post ( url, null, callback, null, true );
+LZR.HTML.Base.Ajax.prototype.get = function (url/*as:string*/, isAsyn/*as:boolean*/)/*as:string*/ {
+	return this.post ( url, null, null, isAsyn, true );
 };
 
 // 异步回调
-LZR.HTML.Base.Ajax.prototype.asynCallback = function (callback/*as:fun*/) {
+LZR.HTML.Base.Ajax.prototype.asynCallback = function () {
 	if ( this.ajax.readyState == 4 ) {
-		callback ( this.ajax.responseText,  this.ajax.status );
+		this.evt.rsp.execute (this.ajax.responseText, this.ajax.status);
 	}
 };
 

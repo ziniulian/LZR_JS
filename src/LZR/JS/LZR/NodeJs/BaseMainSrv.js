@@ -7,6 +7,7 @@
 *************************************************/
 
 LZR.load([
+	"LZR.Util",
 	"LZR.NodeJs",
 	"LZR.NodeJs.InfHttpSrv",
 	"LZR.Base.Str",
@@ -36,6 +37,9 @@ LZR.NodeJs.BaseMainSrv = function (obj) /*interfaces:LZR.NodeJs.InfHttpSrv*/ {
 	// URL工具
 	this.utUrl/*m*/ = LZR.getSingleton(LZR.NodeJs.Util.Url);	/*as:LZR.NodeJs.Util.Url*/
 
+	// 通用工具
+	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
+
 	if (obj && obj.super_) {
 		obj.super_.prototype.init_.call(this);
 	} else {
@@ -50,7 +54,7 @@ LZR.load(null, "LZR.NodeJs.BaseMainSrv");
 
 // 构造器
 LZR.NodeJs.BaseMainSrv.prototype.init_ = function (obj/*as:Object*/) {
-	this.srv = this.http.createServer( LZR.bind(this, this.execute) );
+	this.srv = this.http.createServer( this.utLzr.bind(this, this.execute) );
 	if (obj) {
 		LZR.setObj (this, obj);
 		this.hdObj_(obj);
@@ -64,43 +68,44 @@ LZR.NodeJs.BaseMainSrv.prototype.hdObj_ = function (obj/*as:Object*/) {
 
 // 配置子服务
 LZR.NodeJs.BaseMainSrv.prototype.initSubs = function (config/*as:Object*/) {
-	var o;		/*
-				config 参数使用特殊字段 cls_ ，例如：
-				{
-					// 基础文件服务
-					web: {
-						cls_: LZR.NodeJs.SampleWebFileSrv,		// 用于对象创建的特殊字段
-						name: "/web/",
-						ajaxAllow: "*"
-					},
+	if (!config) return;
+	/*
+		config 参数使用特殊字段 cls_ ，例如：
+		{
+			// 基础文件服务
+			web: {
+				cls_: LZR.NodeJs.SampleWebFileSrv,		// 用于对象创建的特殊字段
+				name: "/web/",
+				ajaxAllow: "*"
+			},
 
-					// LZR库文件访问服务
-					myLib: {
-						cls_: LZR.NodeJs.SampleWebFileSrv,
-						name: "/myLib/",
-						path: "/",
-						ajaxAllow: "*",
-						dir: LZR.curPath
-					},
+			// LZR库文件访问服务
+			myLib: {
+				cls_: LZR.NodeJs.SampleWebFileSrv,
+				name: "/myLib/",
+				path: "/",
+				ajaxAllow: "*",
+				dir: LZR.curPath
+			},
 
-					// LOGO图片
-					logo: {
-						cls_: LZR.NodeJs.SampleWebFileSrv,
-						name: "/favicon.ico",
-						path: "/Logo.png"
-					},
+			// LOGO图片
+			logo: {
+				cls_: LZR.NodeJs.SampleWebFileSrv,
+				name: "/favicon.ico",
+				path: "/Logo.png"
+			},
 
-					// 主页跳转
-					home: {
-						cls_: LZR.NodeJs.SampleWebFileSrv,
-						name: "/",
-						path: "/web/index.html",
-						ajaxAllow: "*"
-					}
-				}
-			*/
-
-	for (var s in config) {
+			// 主页跳转
+			home: {
+				cls_: LZR.NodeJs.SampleWebFileSrv,
+				name: "/",
+				path: "/web/index.html",
+				ajaxAllow: "*"
+			}
+		}
+	*/
+	var s, o;
+	for (s in config) {
 		o = config[s];
 		switch (o.cls_.prototype.className_) {
 			default:
