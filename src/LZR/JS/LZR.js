@@ -22,6 +22,9 @@ LZR.curPath = "/myLib";	/*as:string*/
 // 已存在的类集合
 LZR.existedClasses = {};	/*as:Object*/
 
+// 已存在类集合的存储方式
+LZR.ecTyp = 0;	/*as:int*/
+
 // 加载方式
 LZR.loadTyp = 0;	/*as:int*/
 
@@ -252,7 +255,14 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 							if (cn != "LZR") {
 								this.loadToJs(txt);
 							}
-							this.existedClasses[cn] = txt;
+							switch (this.ecTyp) {
+								case 1:
+									this.existedClasses[cn] = txt;
+									break;
+								default:
+									this.existedClasses[cn] = true;
+									break;
+							}
 						}
 					} else if (this.existedClasses[cn] === undefined) {
 						// this.existedClasses[cn] = eval(cn);

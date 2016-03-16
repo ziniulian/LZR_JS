@@ -78,36 +78,38 @@ LZR.HTML.Util.Evt.prototype.getMousePosition = function (e/*as:Object*/)/*as:Obj
 };
 
 // 添加一个DOM事件
-LZR.HTML.Util.Evt.prototype.appendEvent = function (obj/*as:Object*/, eventName/*as:string*/, callback/*as:fun*/, useCapture/*as:boolean*/)/*as:fun*/ {
+LZR.HTML.Util.Evt.prototype.addEvt = function (obj/*as:Object*/, eventName/*as:string*/, callback/*as:fun*/, useCapture/*as:boolean*/)/*as:fun*/ {
 	if(obj.dispatchEvent){
-		obj.addEventListener(type, callback, useCapture  );
+		obj.addEventListener(eventName, callback, useCapture  );
 	} else {
 		// IE 浏览器
-		obj.attachEvent( "on"+type, callback);
+		obj.attachEvent( "on"+eventName, callback);
 	}
 	return callback;
 };
 
 // 移除一个DOM事件
-LZR.HTML.Util.Evt.prototype.removeEvent = function (obj/*as:Object*/, eventName/*as:string*/, callback/*as:fun*/, useCapture/*as:boolean*/) {
+LZR.HTML.Util.Evt.prototype.delEvt = function (obj/*as:Object*/, eventName/*as:string*/, callback/*as:fun*/, useCapture/*as:boolean*/) {
 	if(obj.dispatchEvent){
-		obj.removeEventListener(type, callback, useCapture  );
+		obj.removeEventListener(eventName, callback, useCapture  );
 	} else {
 		// IE 浏览器
-		obj.detachEvent( "on"+type, callback);
+		obj.detachEvent( "on"+eventName, callback);
 	}
 };
 
 // 添加一个滚轮事件
-LZR.HTML.Util.Evt.prototype.appendWheel = function (obj/*as:Object*/, callback/*as:fun*/, useCapture/*as:boolean*/)/*as:fun*/ {
+LZR.HTML.Util.Evt.prototype.addWheel = function (obj/*as:Object*/, callback/*as:fun*/, useCapture/*as:boolean*/)/*as:fun*/ {
+	var self = LZR.getSingleton(LZR.HTML.Util.Evt);
+
 	var wheelType = "mousewheel";
 	try {
 		document.createEvent("MouseScrollEvents");
 		wheelType = "DOMMouseScroll";			// 火狐浏览器私有类型
 	} catch(e) {}
 
-	return this.appendEvent(obj, wheelType, function(e){
-		var event = this.getEvent(e);
+	return self.addEvt(obj, wheelType, function(e){
+		var event = self.getEvent(e);
 		if ("wheelDelta" in event){
 
 			//统一为±120，其中正数表示为向上滚动，负数表示向下滚动
@@ -133,12 +135,14 @@ LZR.HTML.Util.Evt.prototype.appendWheel = function (obj/*as:Object*/, callback/*
 };
 
 // 移除一个滚轮事件
-LZR.HTML.Util.Evt.prototype.removeWheel = function (obj/*as:Object*/, callback/*as:fun*/, useCapture/*as:boolean*/) {
+LZR.HTML.Util.Evt.prototype.delWheel = function (obj/*as:Object*/, callback/*as:fun*/, useCapture/*as:boolean*/) {
+	var self = LZR.getSingleton(LZR.HTML.Util.Evt);
+
 	var wheelType = "mousewheel";
 	try {
 		document.createEvent("MouseScrollEvents");
 		wheelType = "DOMMouseScroll";			// 火狐浏览器私有类型
 	} catch(e) {}
 
-	this.removeEvent(obj, wheelType, callback, useCapture);
+	self.delEvt(obj, wheelType, callback, useCapture);
 };

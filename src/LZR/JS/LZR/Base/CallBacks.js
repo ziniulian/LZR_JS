@@ -7,6 +7,7 @@
 *************************************************/
 
 LZR.load([
+	"LZR.Util",
 	"LZR.Base",
 	"LZR.Base.Str",
 	"LZR.Base.CallBacks.CallBack"
@@ -26,6 +27,12 @@ LZR.Base.CallBacks = function (obj) {
 
 	// 回调函数集合
 	this.funs/*m*/ = {};	/*as:LZR.Base.CallBacks.CallBack*/
+
+	// 通用工具
+	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
+
+	// 自身回调
+	this.exe = this.utLzr.bind (this, this.execute);	/*as:fun*/
 
 	if (obj && obj.super_) {
 		obj.super_.prototype.init_.call(this);

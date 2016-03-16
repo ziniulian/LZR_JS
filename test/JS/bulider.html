@@ -13,9 +13,10 @@
 
 		<script>
 			function init() {
+				LZR.ecTyp = 1;		// 记录类加载的文本信息
 				LZR.curPath = "../../src/LZR/JS";
 				LZR.load([
-					"LZR.Base.ValCtrl"
+					"LZR.Base.Val.Ctrl"
 				]);
 
 				var d = LZR.existedClasses;

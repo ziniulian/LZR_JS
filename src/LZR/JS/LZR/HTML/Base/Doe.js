@@ -9,8 +9,9 @@
 LZR.load([
 	"LZR.HTML.Base",
 	"LZR.Base.Data",
+	"LZR.Base.CallBacks",
+	"LZR.HTML.Util.Evt",
 	"LZR.HTML.Base.Doe.Css",
-	"LZR.HTML.Base.Doe.Evt",
 	"LZR.HTML.Base.Doe.Ctrl"
 ], "LZR.HTML.Base.Doe");
 LZR.HTML.Base.Doe = function (obj) /*bases:LZR.Base.Data*/ {
@@ -22,20 +23,26 @@ LZR.HTML.Base.Doe = function (obj) /*bases:LZR.Base.Data*/ {
 	// DOM元素的标记名称
 	this.typ = "";	/*as:string*/
 
+	// 事件集
+	this.evt = {};	/*as:Object*/
+
 	// 数据
 	this.data/*m*/ = null;	/*as:LZR.Base.Data*/
 
 	// 样式
 	this.css/*m*/ = new LZR.HTML.Base.Doe.Css();	/*as:LZR.HTML.Base.Doe.Css*/
 
-	// 事件集
-	this.evt/*m*/ = new LZR.HTML.Base.Doe.Evt();	/*as:LZR.HTML.Base.Doe.Evt*/
+	// 回调函数类
+	this.clsCb/*m*/ = (LZR.Base.CallBacks);	/*as:fun*/
 
-	// 控制器
-	this.ctrl/*m*/ = new LZR.HTML.Base.Doe.Ctrl();	/*as:LZR.HTML.Base.Doe.Ctrl*/
+	// 控制器类
+	this.clsCtrl/*m*/ = (LZR.HTML.Base.Doe.Ctrl);	/*as:fun*/
 
 	// 样式工具
 	this.utCss/*m*/ = (LZR.HTML.Base.Doe.Css);	/*as:fun*/
+
+	// 事件工具
+	this.utEvt/*m*/ = LZR.getSingleton(LZR.HTML.Util.Evt);	/*as:LZR.HTML.Util.Evt*/
 
 	if (obj && obj.super_) {
 		obj.super_.prototype.init_.call(this);
@@ -124,6 +131,76 @@ LZR.HTML.Base.Doe.prototype.remove = function () {
 	var p = this.doe.parentNode;
 	if (p) {
 		p.removeChild(this.doe);
+	}
+};
+
+// 添加事件
+LZR.HTML.Base.Doe.prototype.addEvt = function (name/*as:string*/, fun/*as:fun*/, funam/*as:string*/) {
+	var e = this.evt[name];
+	if (!e) {
+		// 创建事件
+		e = new this.clsCb({
+			obj: this
+		});
+		this.evt[name] = e;
+		switch (name) {
+			case "wheel":
+				this.utEvt.addWheel (this.doe, e.exe, false);
+				break;
+			case "resize":
+				this.utEvt.addEvt (window, name, e.exe, false);
+				break;
+			default:
+				this.utEvt.addEvt (this.doe, name, e.exe, false);
+				break;
+		}
+	}
+	e.add(fun, funam);
+};
+
+// 删除事件
+LZR.HTML.Base.Doe.prototype.delEvt = function (name/*as:string*/, funam/*as:string*/) {
+	var e = this.evt[name];
+	if (e) {
+		if (funam) {
+			e.del(funam);
+		} else {
+			switch (name) {
+				case "wheel":
+					this.utEvt.delWheel (this.doe, e.exe, false);
+					break;
+				case "resize":
+					this.utEvt.delEvt (window, name, e.exe, false);
+					break;
+				default:
+					this.utEvt.delEvt (this.doe, name, e.exe, false);
+					break;
+			}
+			delete this.evt[name];
+		}
+	}
+};
+
+// 创建控制器
+LZR.HTML.Base.Doe.prototype.crtCtrl = function () {
+	if (!this.ctrl) {
+		this.ctrl = new this.clsCtrl({
+			// ...
+		});
+	}
+};
+
+// 启动控制器
+LZR.HTML.Base.Doe.prototype.startCtrl = function () {
+	if (this.ctrl) {
+		// this.ctrl. ...
+	}
+};
+
+// 关闭控制器
+LZR.HTML.Base.Doe.prototype.stopCtrl = function () {
+	if (this.ctrl) {
+		// this.ctrl. ...
 	}
 };
 
