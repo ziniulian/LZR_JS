@@ -138,8 +138,7 @@ LZR.Base.Data.prototype.del = function (id/*as:string*/)/*as:Object*/ {
 		// 如果存在对应 id 的子元素，则删除它
 		var sub = this.subs[id];
 		if (sub !== undefined) {
-			this.subs[id] = undefined;
-			delete this.subs[id];
+			LZR.del(this.subs, id);
 			this.count --;
 			sub.root.set (sub);	// 会触发root的change事件
 			sub.parent.set(null, false);

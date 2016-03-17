@@ -72,8 +72,7 @@ LZR.Base.CallBacks.prototype.add = function (fun/*as:fun*/, name/*as:LZR.Base.St
 // 删除回调函数
 LZR.Base.CallBacks.prototype.del = function (name/*as:LZR.Base.Str*/) {
 	if (this.funs[name] !== undefined) {
-		this.funs[name] = undefined;
-		delete this.funs[name];
+		LZR.del(this.funs, name);
 		this.count --;
 	}
 };

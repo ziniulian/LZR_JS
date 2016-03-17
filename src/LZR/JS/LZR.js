@@ -176,8 +176,7 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 			}
 		} else {
 			this.load(this.afterLoad[self]);
-			this.afterLoad[self] = undefined;
-			delete this.afterLoad[self];
+			this.del(this.afterLoad, self);
 			return;
 		}
 	} else {
@@ -433,4 +432,11 @@ LZR.getClassName = function (obj/*as:Object*/)/*as:string*/ {
 	}
 
 	return c;
+};
+
+// 删除一个对象的属性
+LZR.del = function (obj/*as:Object*/, proName/*as:string*/) {
+	var note;
+	// obj[proName] = undefined;
+	delete obj[proName];
 };

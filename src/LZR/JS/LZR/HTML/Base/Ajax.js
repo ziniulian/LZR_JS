@@ -2,17 +2,20 @@
 作者：子牛连
 类名：Ajax
 说明：
-创建日期：11-三月-2016 14:13:03
+创建日期：17-三月-2016 14:09:15
 版本号：1.0
 *************************************************/
 
 LZR.load([
-	"LZR.Util",
 	"LZR.HTML.Base",
 	"LZR.Base.Json",
-	"LZR.HTML.Base.Ajax.Evt"
+	"LZR.Util",
+	"LZR.Base.CallBacks",
+	"LZR.Base.InfEvt"
 ], "LZR.HTML.Base.Ajax");
-LZR.HTML.Base.Ajax = function (obj) {
+LZR.HTML.Base.Ajax = function (obj) /*interfaces:LZR.Base.InfEvt*/ {
+	LZR.Base.InfEvt.call(this);
+
 	// AJAX对象
 	this.ajax = LZR.getAjax();	/*as:Object*/
 
@@ -22,8 +25,8 @@ LZR.HTML.Base.Ajax = function (obj) {
 	// 常用工具
 	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
 
-	// 事件集
-	this.evt/*m*/ = new LZR.HTML.Base.Ajax.Evt();	/*as:LZR.HTML.Base.Ajax.Evt*/
+	// Ajax应答
+	this.evt.rsp/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
 	if (obj && obj.super_) {
 		obj.super_.prototype.init_.call(this);
@@ -31,6 +34,7 @@ LZR.HTML.Base.Ajax = function (obj) {
 		this.init_(obj);
 	}
 };
+LZR.HTML.Base.Ajax.prototype = LZR.clone (LZR.Base.InfEvt.prototype, LZR.HTML.Base.Ajax.prototype);
 LZR.HTML.Base.Ajax.prototype.className_ = "LZR.HTML.Base.Ajax";
 LZR.HTML.Base.Ajax.prototype.version_ = "1.0";
 
@@ -97,14 +101,14 @@ LZR.HTML.Base.Ajax.prototype.post = function (url/*as:string*/, msg/*as:Object*/
 	return s;
 };
 
-// 异步POST请求
-LZR.HTML.Base.Ajax.prototype.asynPost = function (url/*as:string*/, msg/*as:Object*/, msgType/*as:string*/) {
-	this.post ( url, msg, msgType, true, false );
-};
-
 // 发送GET请求
 LZR.HTML.Base.Ajax.prototype.get = function (url/*as:string*/, isAsyn/*as:boolean*/)/*as:string*/ {
 	return this.post ( url, null, null, isAsyn, true );
+};
+
+// 异步POST请求
+LZR.HTML.Base.Ajax.prototype.asynPost = function (url/*as:string*/, msg/*as:Object*/, msgType/*as:string*/) {
+	this.post ( url, msg, msgType, true, false );
 };
 
 // 异步回调

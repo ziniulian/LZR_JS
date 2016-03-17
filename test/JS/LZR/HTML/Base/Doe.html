@@ -2,7 +2,7 @@
 	<head>
 		<title>元素测试</title>
 		<meta charset="utf-8" />
-		<script src="../../../../../../src/LZR/JS/LZR.js"></script>
+		<script src="../../../../../src/LZR/JS/LZR.js"></script>
 
 		<style type="text/css">
 			.body {
@@ -49,7 +49,7 @@
 
 		<script>
 			function init() {
-				LZR.curPath = "../../../../../../src/LZR/JS";
+				LZR.curPath = "../../../../../src/LZR/JS";
 				LZR.load([
 					"LZR.HTML.Base.Doe"
 				]);
@@ -82,8 +82,11 @@
 
 				LZR.HTML.log ("");
 				LZR.HTML.alog ("测试克隆（暂不测试 数据、事件、控制器）");
+				doms.css.getById("a").add("ttt");
+				LZR.HTML.alog ("原样式： " + doms.css.count + " --> " + doms.css.print());
 				var cds = LZR.clone(doms);
 				cds.id.set("clone");
+				LZR.HTML.alog ("新样式： " + cds.css.count + " --> " + cds.css.print());
 				LZR.HTML.alog (cds.print());
 				LZR.HTML.alog ("");
 				alert();

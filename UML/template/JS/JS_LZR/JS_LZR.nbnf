@@ -233,7 +233,7 @@ parse(<language>);
 											// <attr_hasType> attributeEx("LOWBOUND", "0") attributeEx("HIGHBOUND", "*");
 
 // 忽略链接属性
-<attributeLinkNone>						::= "this." <simpleName> <LINKCOMMENT> skip(";") ";" [<TYPECOMMENT> [<qualifiedName>] "*/"];
+<attributeLinkNone>						::= "this." <qualifiedName> <LINKCOMMENT> skip(";") ";" [<TYPECOMMENT> [<qualifiedName>] "*/"];
 
 // 方法声明 ------------------------
 <operationPart>							::= <operationDeclaration> |

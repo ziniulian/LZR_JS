@@ -100,15 +100,14 @@ LZR.HTML.Util.Evt.prototype.delEvt = function (obj/*as:Object*/, eventName/*as:s
 
 // 添加一个滚轮事件
 LZR.HTML.Util.Evt.prototype.addWheel = function (obj/*as:Object*/, callback/*as:fun*/, useCapture/*as:boolean*/)/*as:fun*/ {
-	var self = LZR.getSingleton(LZR.HTML.Util.Evt);
-
 	var wheelType = "mousewheel";
 	try {
 		document.createEvent("MouseScrollEvents");
 		wheelType = "DOMMouseScroll";			// 火狐浏览器私有类型
 	} catch(e) {}
 
-	return self.addEvt(obj, wheelType, function(e){
+	var self = this;
+	return this.addEvt(obj, wheelType, function(e){
 		var event = self.getEvent(e);
 		if ("wheelDelta" in event){
 
@@ -136,13 +135,11 @@ LZR.HTML.Util.Evt.prototype.addWheel = function (obj/*as:Object*/, callback/*as:
 
 // 移除一个滚轮事件
 LZR.HTML.Util.Evt.prototype.delWheel = function (obj/*as:Object*/, callback/*as:fun*/, useCapture/*as:boolean*/) {
-	var self = LZR.getSingleton(LZR.HTML.Util.Evt);
-
 	var wheelType = "mousewheel";
 	try {
 		document.createEvent("MouseScrollEvents");
 		wheelType = "DOMMouseScroll";			// 火狐浏览器私有类型
 	} catch(e) {}
 
-	self.delEvt(obj, wheelType, callback, useCapture);
+	this.delEvt(obj, wheelType, callback, useCapture);
 };

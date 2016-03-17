@@ -416,7 +416,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_5D031A92_48C4_4130_9E5E_9D15F1381A12"/>
 								<UML:TaggedValue tag="date_created" value="2015-12-15 15:57:27"/>
-								<UML:TaggedValue tag="date_modified" value="2016-03-11 14:05:23"/>
+								<UML:TaggedValue tag="date_modified" value="2016-03-17 09:28:01"/>
 								<UML:TaggedValue tag="genfile" value="F:\GitLib\LZR_JS\src\LZR\JS\LZR\HTML\Util\Evt.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -429,7 +429,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="146"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=1179;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=1a99;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -770,7 +770,7 @@
 										</UML:Parameter>
 									</UML:BehavioralFeature.parameter>
 								</UML:Operation>
-								<UML:Operation name="appendEvent" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+								<UML:Operation name="addEvt" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
 									<UML:ModelElement.taggedValue>
 										<UML:TaggedValue tag="type" value="fun"/>
 										<UML:TaggedValue tag="const" value="false"/>
@@ -784,7 +784,7 @@
 										<UML:TaggedValue tag="style" value="&#28155;&#21152;&#19968;&#20010;DOM&#20107;&#20214;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_38517950_7E8E_4ca6_A421_2EAC2681335E">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="if(obj.dispatchEvent){&#xA;		obj.addEventListener(type, callback, useCapture  );&#xA;	} else {&#xA;		// IE &#27983;&#35272;&#22120;&#xA;		obj.attachEvent( &quot;on&quot;+type, callback);&#xA;	}&#xA;	return callback;"/>
+												<UML:Comment name="if(obj.dispatchEvent){&#xA;		obj.addEventListener(eventName, callback, useCapture  );&#xA;	} else {&#xA;		// IE &#27983;&#35272;&#22120;&#xA;		obj.attachEvent( &quot;on&quot;+eventName, callback);&#xA;	}&#xA;	return callback;"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -866,7 +866,7 @@
 										</UML:Parameter>
 									</UML:BehavioralFeature.parameter>
 								</UML:Operation>
-								<UML:Operation name="removeEvent" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+								<UML:Operation name="delEvt" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
 									<UML:ModelElement.taggedValue>
 										<UML:TaggedValue tag="const" value="false"/>
 										<UML:TaggedValue tag="synchronised" value="0"/>
@@ -879,7 +879,7 @@
 										<UML:TaggedValue tag="style" value="&#31227;&#38500;&#19968;&#20010;DOM&#20107;&#20214;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_0187FD97_657D_49c0_92B6_6160484668E4">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="if(obj.dispatchEvent){&#xA;		obj.removeEventListener(type, callback, useCapture  );&#xA;	} else {&#xA;		// IE &#27983;&#35272;&#22120;&#xA;		obj.detachEvent( &quot;on&quot;+type, callback);&#xA;	}"/>
+												<UML:Comment name="if(obj.dispatchEvent){&#xA;		obj.removeEventListener(eventName, callback, useCapture  );&#xA;	} else {&#xA;		// IE &#27983;&#35272;&#22120;&#xA;		obj.detachEvent( &quot;on&quot;+eventName, callback);&#xA;	}"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -960,7 +960,7 @@
 										</UML:Parameter>
 									</UML:BehavioralFeature.parameter>
 								</UML:Operation>
-								<UML:Operation name="appendWheel" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+								<UML:Operation name="addWheel" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
 									<UML:ModelElement.taggedValue>
 										<UML:TaggedValue tag="type" value="fun"/>
 										<UML:TaggedValue tag="const" value="false"/>
@@ -974,7 +974,7 @@
 										<UML:TaggedValue tag="style" value="&#28155;&#21152;&#19968;&#20010;&#28378;&#36718;&#20107;&#20214;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_F4BAF90B_856D_4acb_B185_B91B7B2F4A6A">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var wheelType = &quot;mousewheel&quot;;&#xA;	try {&#xA;		document.createEvent(&quot;MouseScrollEvents&quot;);&#xA;		wheelType = &quot;DOMMouseScroll&quot;;			// &#28779;&#29392;&#27983;&#35272;&#22120;&#31169;&#26377;&#31867;&#22411;&#xA;	} catch(e) {}&#xA;&#xA;	return this.appendEvent(obj, wheelType, function(e){&#xA;		var event = this.getEvent(e);&#xA;		if (&quot;wheelDelta&quot; in event){&#xA;&#xA;			//&#32479;&#19968;&#20026;±120&#65292;&#20854;&#20013;&#27491;&#25968;&#34920;&#31034;&#20026;&#21521;&#19978;&#28378;&#21160;&#65292;&#36127;&#25968;&#34920;&#31034;&#21521;&#19979;&#28378;&#21160;&#xA;			var delta = event.wheelDelta;&#xA;&#xA;			//opera 9x&#31995;&#21015;&#30340;&#28378;&#21160;&#26041;&#21521;&#19982;IE&#20445;&#25345;&#19968;&#33268;&#65292;10&#21518;&#20462;&#27491;&#xA;			if( window.opera &amp;&amp; opera.version() &lt; 10 ) delta = -delta;&#xA;&#xA;			//&#30001;&#20110;&#20107;&#20214;&#23545;&#35937;&#30340;&#21407;&#26377;&#23646;&#24615;&#26159;&#21482;&#35835;&#65292;&#25105;&#20204;&#21482;&#33021;&#36890;&#36807;&#28155;&#21152;&#19968;&#20010;&#31169;&#26377;&#23646;&#24615;delta&#26469;&#35299;&#20915;&#20860;&#23481;&#38382;&#39064;&#xA;			event.delta = Math.round(delta) /120; //&#20462;&#27491;safari&#30340;&#28014;&#28857; bug&#xA;&#xA;		} else if (&quot;detail&quot; in event ) {&#xA;			//&#20026;&#28779;&#29392;&#28155;&#21152;&#26356;&#22823;&#20247;&#21270;&#30340;wheelDelta&#xA;			event.wheelDelta = -event.detail * 40;&#xA;&#xA;			//&#28155;&#21152;&#31169;&#26377;&#30340;delta&#xA;			event.delta = event.wheelDelta /120;&#xA;		}&#xA;&#xA;		// callback.call(obj,event);	// &#20462;&#27491;this&#25351;&#21521;&#xA;		callback(event);&#xA;	}, useCapture);"/>
+												<UML:Comment name="var wheelType = &quot;mousewheel&quot;;&#xA;	try {&#xA;		document.createEvent(&quot;MouseScrollEvents&quot;);&#xA;		wheelType = &quot;DOMMouseScroll&quot;;			// &#28779;&#29392;&#27983;&#35272;&#22120;&#31169;&#26377;&#31867;&#22411;&#xA;	} catch(e) {}&#xA;&#xA;	var self = this;&#xA;	return this.addEvt(obj, wheelType, function(e){&#xA;		var event = self.getEvent(e);&#xA;		if (&quot;wheelDelta&quot; in event){&#xA;&#xA;			//&#32479;&#19968;&#20026;±120&#65292;&#20854;&#20013;&#27491;&#25968;&#34920;&#31034;&#20026;&#21521;&#19978;&#28378;&#21160;&#65292;&#36127;&#25968;&#34920;&#31034;&#21521;&#19979;&#28378;&#21160;&#xA;			var delta = event.wheelDelta;&#xA;&#xA;			//opera 9x&#31995;&#21015;&#30340;&#28378;&#21160;&#26041;&#21521;&#19982;IE&#20445;&#25345;&#19968;&#33268;&#65292;10&#21518;&#20462;&#27491;&#xA;			if( window.opera &amp;&amp; opera.version() &lt; 10 ) delta = -delta;&#xA;&#xA;			//&#30001;&#20110;&#20107;&#20214;&#23545;&#35937;&#30340;&#21407;&#26377;&#23646;&#24615;&#26159;&#21482;&#35835;&#65292;&#25105;&#20204;&#21482;&#33021;&#36890;&#36807;&#28155;&#21152;&#19968;&#20010;&#31169;&#26377;&#23646;&#24615;delta&#26469;&#35299;&#20915;&#20860;&#23481;&#38382;&#39064;&#xA;			event.delta = Math.round(delta) /120; //&#20462;&#27491;safari&#30340;&#28014;&#28857; bug&#xA;&#xA;		} else if (&quot;detail&quot; in event ) {&#xA;			//&#20026;&#28779;&#29392;&#28155;&#21152;&#26356;&#22823;&#20247;&#21270;&#30340;wheelDelta&#xA;			event.wheelDelta = -event.detail * 40;&#xA;&#xA;			//&#28155;&#21152;&#31169;&#26377;&#30340;delta&#xA;			event.delta = event.wheelDelta /120;&#xA;		}&#xA;&#xA;		// callback.call(obj,event);	// &#20462;&#27491;this&#25351;&#21521;&#xA;		callback(event);&#xA;	}, useCapture);"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -1041,7 +1041,7 @@
 										</UML:Parameter>
 									</UML:BehavioralFeature.parameter>
 								</UML:Operation>
-								<UML:Operation name="removeWheel" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+								<UML:Operation name="delWheel" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
 									<UML:ModelElement.taggedValue>
 										<UML:TaggedValue tag="const" value="false"/>
 										<UML:TaggedValue tag="synchronised" value="0"/>
@@ -1054,7 +1054,7 @@
 										<UML:TaggedValue tag="style" value="&#31227;&#38500;&#19968;&#20010;&#28378;&#36718;&#20107;&#20214;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_AF86B91D_D695_49c5_ACDB_CCA2DADADA5C">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var wheelType = &quot;mousewheel&quot;;&#xA;	try {&#xA;		document.createEvent(&quot;MouseScrollEvents&quot;);&#xA;		wheelType = &quot;DOMMouseScroll&quot;;			// &#28779;&#29392;&#27983;&#35272;&#22120;&#31169;&#26377;&#31867;&#22411;&#xA;	} catch(e) {}&#xA;&#xA;	this.removeEvent(obj, wheelType, callback, useCapture);"/>
+												<UML:Comment name="var wheelType = &quot;mousewheel&quot;;&#xA;	try {&#xA;		document.createEvent(&quot;MouseScrollEvents&quot;);&#xA;		wheelType = &quot;DOMMouseScroll&quot;;			// &#28779;&#29392;&#27983;&#35272;&#22120;&#31169;&#26377;&#31867;&#22411;&#xA;	} catch(e) {}&#xA;&#xA;	this.delEvt(obj, wheelType, callback, useCapture);"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -1122,6 +1122,89 @@
 								</UML:Operation>
 							</UML:Classifier.feature>
 						</UML:Class>
+						<UML:Association xmi.id="EAID_C25F1D20_2BB1_45cc_B52D_300E7838645A" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="ea_type" value="Aggregation"/>
+								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="subtype" value="Weak"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="207"/>
+								<UML:TaggedValue tag="ea_sourceName" value="Evt"/>
+								<UML:TaggedValue tag="ea_targetName" value="Btn"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+								<UML:TaggedValue tag="ea_targetType" value="Class"/>
+								<UML:TaggedValue tag="ea_sourceID" value="146"/>
+								<UML:TaggedValue tag="ea_targetID" value="153"/>
+								<UML:TaggedValue tag="privatedata5" value="SX=-221;SY=-61;EX=104;EY=49;EDGE=4;"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+								<UML:TaggedValue tag="lb" value="1"/>
+								<UML:TaggedValue tag="lt" value="+utEvt"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Association.connection>
+								<UML:AssociationEnd visibility="public" multiplicity="1" name="utEvt" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_5B9CFFF7_C326_477e_BC62_CDB353DB4F64">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="description" value="&#20107;&#20214;&#24037;&#20855;"/>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="sourcestyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Non-Navigable;alias=&#20107;&#20214;&#24037;&#20855;;"/>
+										<UML:TaggedValue tag="ea_end" value="source"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+								<UML:AssociationEnd visibility="public" aggregation="shared" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_2A6367A8_08DC_4135_B153_044E5BA969B8">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+										<UML:TaggedValue tag="ea_end" value="target"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+							</UML:Association.connection>
+						</UML:Association>
+						<UML:Association xmi.id="EAID_F15F96F1_99DD_49f4_A4AD_3CEAD9E734DC" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="ea_type" value="Aggregation"/>
+								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="subtype" value="Weak"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="190"/>
+								<UML:TaggedValue tag="ea_sourceName" value="Evt"/>
+								<UML:TaggedValue tag="ea_targetName" value="Doe"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+								<UML:TaggedValue tag="ea_targetType" value="Class"/>
+								<UML:TaggedValue tag="ea_sourceID" value="146"/>
+								<UML:TaggedValue tag="ea_targetID" value="140"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+								<UML:TaggedValue tag="lb" value="1"/>
+								<UML:TaggedValue tag="lt" value="+utEvt"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Association.connection>
+								<UML:AssociationEnd visibility="public" multiplicity="1" name="utEvt" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_5B9CFFF7_C326_477e_BC62_CDB353DB4F64">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="description" value="&#20107;&#20214;&#24037;&#20855;"/>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="sourcestyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Non-Navigable;alias=&#20107;&#20214;&#24037;&#20855;;"/>
+										<UML:TaggedValue tag="ea_end" value="source"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+								<UML:AssociationEnd visibility="public" aggregation="shared" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_BA67A56C_1AD7_4c00_BBE8_7E314F5FC2BB">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+										<UML:TaggedValue tag="ea_end" value="target"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+							</UML:Association.connection>
+						</UML:Association>
 					</UML:Namespace.ownedElement>
 				</UML:Package>
 				<UML:DataType xmi.id="eaxmiid0" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
@@ -1157,7 +1240,44 @@
 				<UML:TaggedValue tag="diagram_guid" value="EAID_5E8A5D65_7154_4e92_9EE5_4E441F138A62"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
+		<UML:DiagramElement geometry="Left=760;Top=392;Right=1204;Bottom=571;" subject="EAID_5B9CFFF7_C326_477e_BC62_CDB353DB4F64" seqno="2" style="DUID=69D2AEA0;">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="diagram_guid" value="EAID_5741DC6D_5A74_4229_8CDD_9E21BE4B4E2B"/>
+			</UML:ModelElement.taggedValue>
+		</UML:DiagramElement>
+		<UML:DiagramElement geometry="Left=914;Top=55;Right=1358;Bottom=234;" subject="EAID_5B9CFFF7_C326_477e_BC62_CDB353DB4F64" seqno="1" style="DUID=68F700D7;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="diagram_guid" value="EAID_255AE169_93D0_41ad_BC46_34A6D9032412"/>
+			</UML:ModelElement.taggedValue>
+		</UML:DiagramElement>
+		<UML:DiagramElement geometry="SX=-221;SY=-61;EX=104;EY=49;EDGE=4;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=40:CY=13:OX=-3:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_C25F1D20_2BB1_45cc_B52D_300E7838645A" style="Mode=3;EOID=1849A791;SOID=68F700D7;Color=-1;LWidth=0;">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="diagram_guid" value="EAID_255AE169_93D0_41ad_BC46_34A6D9032412"/>
+				<UML:TaggedValue tag="hidden" value="0"/>
+			</UML:ModelElement.taggedValue>
+		</UML:DiagramElement>
+		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=4;$LLB=CX=6:CY=13:OX=-2:OY=2:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=40:CY=13:OX=-2:OY=-2:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_F15F96F1_99DD_49f4_A4AD_3CEAD9E734DC" style="Mode=3;EOID=817F3B06;SOID=69D2AEA0;Color=-1;LWidth=0;">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="diagram_guid" value="EAID_5741DC6D_5A74_4229_8CDD_9E21BE4B4E2B"/>
+				<UML:TaggedValue tag="hidden" value="0"/>
+			</UML:ModelElement.taggedValue>
+		</UML:DiagramElement>
+		<UML:DiagramElement geometry="SX=-221;SY=-61;EX=104;EY=49;EDGE=4;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=40:CY=13:OX=-3:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_C25F1D20_2BB1_45cc_B52D_300E7838645A" style="Mode=3;EOID=1849A791;SOID=68F700D7;Color=-1;LWidth=0;">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="diagram_guid" value="EAID_255AE169_93D0_41ad_BC46_34A6D9032412"/>
+				<UML:TaggedValue tag="hidden" value="0"/>
+			</UML:ModelElement.taggedValue>
+		</UML:DiagramElement>
+		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=4;$LLB=CX=6:CY=13:OX=-2:OY=2:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=40:CY=13:OX=-2:OY=-2:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_F15F96F1_99DD_49f4_A4AD_3CEAD9E734DC" style="Mode=3;EOID=817F3B06;SOID=69D2AEA0;Color=-1;LWidth=0;">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="diagram_guid" value="EAID_5741DC6D_5A74_4229_8CDD_9E21BE4B4E2B"/>
+				<UML:TaggedValue tag="hidden" value="0"/>
+			</UML:ModelElement.taggedValue>
+		</UML:DiagramElement>
 	</XMI.content>
 	<XMI.difference/>
-	<XMI.extensions xmi.extender="Enterprise Architect 2.5"/>
+	<XMI.extensions xmi.extender="Enterprise Architect 2.5">
+		<EAStub xmi.id="EAID_2A6367A8_08DC_4135_B153_044E5BA969B8" name="Btn" UMLType="Class"/>
+		<EAStub xmi.id="EAID_BA67A56C_1AD7_4c00_BBE8_7E314F5FC2BB" name="Doe" UMLType="Class"/>
+	</XMI.extensions>
 </XMI>

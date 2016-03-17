@@ -235,7 +235,7 @@ parse(<language>);
 											// <attr_hasType> attributeEx("LOWBOUND", "0") attributeEx("HIGHBOUND", "*");
 
 // 蹇界暐閾炬帴灞炴€?
-<attributeLinkNone>						::= "this." <simpleName> <LINKCOMMENT> skip(";") ";" [<TYPECOMMENT> [<qualifiedName>] "*/"];
+<attributeLinkNone>						::= "this." <qualifiedName> <LINKCOMMENT> skip(";") ";" [<TYPECOMMENT> [<qualifiedName>] "*/"];
 
 // 鏂规硶澹版槑 ------------------------
 <operationPart>							::= <operationDeclaration> |

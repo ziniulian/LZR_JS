@@ -2,7 +2,7 @@
 	<head>
 		<title>元素事件测试</title>
 		<meta charset="utf-8" />
-		<script src="../../../../../../src/LZR/JS/LZR.js"></script>
+		<script src="../../../../../src/LZR/JS/LZR.js"></script>
 
 		<style type="text/css">
 			.body {
@@ -49,7 +49,7 @@
 
 		<script>
 			function init() {
-				LZR.curPath = "../../../../../../src/LZR/JS";
+				LZR.curPath = "../../../../../src/LZR/JS";
 				LZR.load([
 					"LZR.HTML.Base.Doe"
 				]);
@@ -70,6 +70,10 @@
 				doms.addEvt ("click", hello, "sayHello");
 				LZR.HTML.alog ("");
 
+				LZR.HTML.alog ("添加click事件");
+				doms.getById("d").addEvt ("click", function(){alert("DDD!")}, "sayDDD");
+				LZR.HTML.alog ("");
+
 				LZR.HTML.alog ("删除click事件");
 				doms.delEvt ("click", "sayHello");
 				LZR.HTML.alog ("");
@@ -81,7 +85,6 @@
 				LZR.HTML.alog ("添加缩放事件");
 				doms.addEvt ("resize", hello, "sayHello");
 				LZR.HTML.alog ("");
-
 			}
 		</script>
 	</head>

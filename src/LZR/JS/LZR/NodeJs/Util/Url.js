@@ -50,8 +50,8 @@ LZR.NodeJs.Util.Url.prototype.getUri = function (req/*as:Object*/)/*as:string*/ 
 
 // 获取GET参数
 LZR.NodeJs.Util.Url.prototype.getParamGet = function (req/*as:Object*/)/*as:string*/ {
-	var data = this.parseUrl(req).query;
-	return this.qry.parse(data);
+	var dat = this.parseUrl(req).query;
+	return this.qry.parse(dat);
 };
 
 // 获取POST参数
