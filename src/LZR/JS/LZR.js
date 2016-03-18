@@ -366,7 +366,7 @@ LZR.clone = function (src/*as:Object*/, tag/*as:Object*/, objDep/*as:boolean*/, 
 					var p = src.constructor.prototype;
 					var obj = {};
 					for (s in src) {
-						if (p[s] !== undefined) {
+						if (p[s] === undefined) {
 							if (tag) {
 								// 深度克隆
 								if (tag[s]) {

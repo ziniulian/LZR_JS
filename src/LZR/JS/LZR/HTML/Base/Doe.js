@@ -8,6 +8,7 @@
 
 LZR.load([
 	"LZR.HTML.Base",
+	"LZR.HTML.Base.Ctrl",
 	"LZR.Base.Data",
 	"LZR.HTML.Base.Css",
 	"LZR.Base.CallBacks",
@@ -120,26 +121,13 @@ LZR.HTML.Base.Doe.prototype.delCss = function (name/*as:string*/)/*as:boolean*/ 
 };
 
 // 添加控制器
-LZR.HTML.Base.Doe.prototype.addCtrl = function (cls/*as:fun*/) {
-	var name = cls.prototype.className_;
-	if (!this.ctrl[name]) {
-		new cls ({
-			vcDoe: this
-		});
-	}
+LZR.HTML.Base.Doe.prototype.addCtrl = function (ctl/*as:LZR.HTML.Base.Ctrl*/) {
+	ctl.add(this);
 };
 
 // 删除控制器
-LZR.HTML.Base.Doe.prototype.delCtrl = function (cls/*as:fun*/) {
-	var name;
-	if (typeof(cls) === "string") {
-		name = cls;
-	} else {
-		name = cls.prototype.className_;
-	}
-	if (this.ctrl[name]) {
-		this.ctrl[name].vcDoe.set(null);
-	}
+LZR.HTML.Base.Doe.prototype.delCtrl = function (ctl/*as:LZR.HTML.Base.Ctrl*/) {
+	ctl.del(this);
 };
 
 // 添加事件
@@ -172,20 +160,23 @@ LZR.HTML.Base.Doe.prototype.delEvt = function (name/*as:string*/, funam/*as:stri
 	if (e) {
 		if (funam) {
 			e.del(funam);
-		} else {
-			switch (name) {
-				case "wheel":
-					this.utEvt.delWheel (this.doe, e.exe, false);
-					break;
-				case "resize":
-					this.utEvt.delEvt (window, name, e.exe, false);
-					break;
-				default:
-					this.utEvt.delEvt (this.doe, name, e.exe, false);
-					break;
+			if (e.count) {
+				return;
 			}
-			LZR.del(this.evt, name);
 		}
+
+		switch (name) {
+			case "wheel":
+				this.utEvt.delWheel (this.doe, e.exe, false);
+				break;
+			case "resize":
+				this.utEvt.delEvt (window, name, e.exe, false);
+				break;
+			default:
+				this.utEvt.delEvt (this.doe, name, e.exe, false);
+				break;
+		}
+		LZR.del(this.evt, name);
 	}
 };
 

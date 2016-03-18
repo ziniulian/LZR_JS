@@ -2,20 +2,42 @@
 作者：子牛连
 类名：Btn
 说明：按钮
-创建日期：17-三月-2016 16:22:16
+创建日期：18-三月-2016 10:57:17
 版本号：1.0
 *************************************************/
 
 LZR.load([
-	"LZR.HTML.Util.Evt",
 	"LZR.HTML.Base.Ctrl",
-	"LZR.HTML.Base.Doe",
 	"LZR.HTML.Base.Css",
 	"LZR.Base.CallBacks",
-	"LZR.Base.Data"
+	"LZR.Base.Time"
 ], "LZR.HTML.Base.Ctrl.Btn");
 LZR.HTML.Base.Ctrl.Btn = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	LZR.initSuper(this);
+
+	// 按下的自身回调
+	this.down = this.utLzr.bind(this, this.hdDown);	/*as:Object*/
+
+	// 抬起的自身回调
+	this.up = this.utLzr.bind(this, this.hdUp);	/*as:Object*/
+
+	// 移开的自身回调
+	this.out = this.utLzr.bind(this, this.hdOut);	/*as:Object*/
+
+	// 点击时间
+	this.tim = 0;	/*as:int*/
+
+	// 双击状态
+	this.dbStat = 0;	/*as:int*/
+
+	// 延时函数
+	this.timout = null;	/*as:fun*/
+
+	// 双击间隔
+	this.dbTim = 120;	/*as:int*/
+
+	// 长按间隔
+	this.longTim = 500;	/*as:int*/
 
 	// 按钮按下时的样式
 	this.css/*m*/ = new LZR.HTML.Base.Css();	/*as:LZR.HTML.Base.Css*/
@@ -35,11 +57,8 @@ LZR.HTML.Base.Ctrl.Btn = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	// 抬起
 	this.evt.up/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
-	// 数据
-	this.dat/*m*/ = null;	/*as:LZR.Base.Data*/
-
-	// 事件工具
-	this.utEvt/*m*/ = LZR.getSingleton(LZR.HTML.Util.Evt);	/*as:LZR.HTML.Util.Evt*/
+	// 时间工具
+	this.utTim/*m*/ = LZR.getSingleton(LZR.Base.Time);	/*as:LZR.Base.Time*/
 
 	if (obj && obj.super_) {
 		obj.super_.prototype.init_.call(this);
@@ -61,14 +80,8 @@ LZR.HTML.Base.Ctrl.Btn.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 
-	this.vcDoe.setEventObj (this);
-	this.vcDoe.evt.change.add(this.onVcDoeChange, "BtnChange");
-
+	this.setEventObj (this);
 	this.css.id.set(this.className_ + "_down");
-	var d = this.vcDoe.get();
-	if (d) {
-		this.addEvt (d);
-	}
 };
 
 // 对构造参数的特殊处理
@@ -76,55 +89,102 @@ LZR.HTML.Base.Ctrl.Btn.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
 
-// 添加按下样式
-LZR.HTML.Base.Ctrl.Btn.prototype.addCss = function () {
-	this.vcDoe.get().addCss(this.css);
+// 处理按下事件
+LZR.HTML.Base.Ctrl.Btn.prototype.hdDown = function (evt/*as:Object*/) {
+	if (this.utEvt.getEvent(evt).button === 0) {	// 判断是左键被按下
+		var doeo = this.getDoeo(evt);
+		doeo.addCss(this.css);
+
+		// 触发按下事件
+		if (this.onDown(doeo)) {
+			if ((this.dbStat === 2) && ((this.utTim.getTim() - this.tim) < 2*this.dbTim)) {
+				this.dbStat = 0;
+// console.log ("---- dbclick：" + this.dbStat);
+
+				// 删除延时单击
+				clearTimeout(this.timeout);
+
+				// 触发双击事件
+				this.onDbclick(doeo);
+				return;
+			} else {
+// console.log ("---- click：" + this.dbStat);
+				this.tim = this.utTim.getTim();
+			}
+		}
+		this.dbStat = 1;
+	}
 };
 
-// 删除按下样式
-LZR.HTML.Base.Ctrl.Btn.prototype.delCss = function () {
-	this.vcDoe.get().delCss(this.css);
-};
+// 处理抬起事件
+LZR.HTML.Base.Ctrl.Btn.prototype.hdUp = function (evt/*as:Object*/) {
+	if (this.dbStat === 1) {
+		var doeo = this.getDoeo(evt);
+		doeo.delCss(this.css);
 
-// 给元素添加事件集
-LZR.HTML.Base.Ctrl.Btn.prototype.addEvt = function (doe/*as:LZR.HTML.Base.Doe*/) {
-	var c = doe.ctrl[this.className_];
-	if (c) {
-		if (c === this) {
-			//
-		} else {
-			c.delEvt (doe);
+		// 触发抬起事件
+		if (this.onUp(doeo)) {
+			var t = this.utTim.getTim() - this.tim;
+			if (this.dbTim && t < this.dbTim) {
+				this.dbStat = 2;
+
+				// 创建延时单击
+				this.timeout = setTimeout(this.utLzr.bind(this, this.onClick, doeo), this.dbTim);
+				return;
+			} else if (t < this.longTim) {
+				// 触发单击事件
+				this.onClick(doeo);
+			} else {
+				// 触发长按事件
+				this.onLclick(doeo);
+			}
 		}
 	}
-	doe.ctrl[this.className_] = this;
+	this.dbStat = 0;
 };
 
-// 移除元素的事件集
-LZR.HTML.Base.Ctrl.Btn.prototype.delEvt = function (doe/*as:LZR.HTML.Base.Doe*/) {
-	LZR.del (doe.ctrl, this.className_);
+// 处理移出事件
+LZR.HTML.Base.Ctrl.Btn.prototype.hdOut = function (evt/*as:Object*/) {
+	var doeo = this.getDoeo(evt);
+	doeo.delCss(this.css);
+	this.dbStat = 0;
 };
 
-// 元素变动后触发的事件
-LZR.HTML.Base.Ctrl.Btn.prototype.onVcDoeChange = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/)/*as:boolean*/ {
-	if (old) {
-		this.delEvt (old);
-	}
-	if (val) {
-		this.addEvt (val);
-	}
+// 单击事件
+LZR.HTML.Base.Ctrl.Btn.prototype.onClick = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:boolean*/ {
+	return this.evt.click.execute (doeo);
 };
 
-// 按下时事件
-LZR.HTML.Base.Ctrl.Btn.prototype.ondown = function () {
-	
+// 长按事件
+LZR.HTML.Base.Ctrl.Btn.prototype.onLclick = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:boolean*/ {
+	return this.evt.lclick.execute (doeo);
 };
 
-// 抬起时事件
-LZR.HTML.Base.Ctrl.Btn.prototype.onup = function () {
-	
+// 双击事件
+LZR.HTML.Base.Ctrl.Btn.prototype.onDbclick = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:boolean*/ {
+	return this.evt.dbclick.execute (doeo);
 };
 
-// 移出时事件
-LZR.HTML.Base.Ctrl.Btn.prototype.onout = function () {
-	
+// 按下事件
+LZR.HTML.Base.Ctrl.Btn.prototype.onDown = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:boolean*/ {
+	return this.evt.down.execute (doeo);
+};
+
+// 抬起事件
+LZR.HTML.Base.Ctrl.Btn.prototype.onUp = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:boolean*/ {
+	return this.evt.up.execute (doeo);
+};
+
+// ---- 给元素添加事件集
+LZR.HTML.Base.Ctrl.Btn.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	doeo.addEvt ("mousedown", this.down, this.className_);
+	doeo.addEvt ("mouseup", this.up, this.className_);
+	doeo.addEvt ("mouseout", this.out, this.className_);
+};
+
+// ---- 移除元素的事件集
+LZR.HTML.Base.Ctrl.Btn.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	doeo.delEvt ("mousedown", this.down, this.className_);
+	doeo.delEvt ("mouseup", this.up, this.className_);
+	doeo.delEvt ("mouseout", this.out, this.className_);
 };

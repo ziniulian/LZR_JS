@@ -41,7 +41,8 @@ LZR.HTML.Util.Evt.prototype.getEvent = function (e/*as:Object*/)/*as:Object*/ {
 
 // 获取触发事件的DOM对象
 LZR.HTML.Util.Evt.prototype.getEventTarg = function (e/*as:Object*/)/*as:Object*/ {
-	return window.event.srcElement || e.target;
+	e = this.getEvent(e);
+	return e.srcElement || e.target;
 };
 
 // 阻止默认事件的执行

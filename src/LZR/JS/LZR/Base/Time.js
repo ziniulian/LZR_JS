@@ -62,7 +62,7 @@ LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)
 // 时间圆整
 LZR.Base.Time.prototype.normalize = function (date/*as:Date*/, hour/*as:int*/, clone/*as:boolean*/)/*as:Date*/ {
 	if (!date) {
-		date = new Date();
+		date = this.getDate();
 	} else if (clone) {
 		date = new Date(date.valueOf());
 	}
@@ -79,7 +79,7 @@ LZR.Base.Time.prototype.normalize = function (date/*as:Date*/, hour/*as:int*/, c
 // 时间加N个小时的时间
 LZR.Base.Time.prototype.addHour = function (n/*as:int*/, date/*as:Date*/, clone/*as:boolean*/)/*as:Date*/ {
 	if (!date) {
-		date = new Date();
+		date = this.getDate();
 	} else if (clone) {
 		date = new Date(date.valueOf());
 	}
@@ -90,7 +90,17 @@ LZR.Base.Time.prototype.addHour = function (n/*as:int*/, date/*as:Date*/, clone/
 // 复制一个时间
 LZR.Base.Time.prototype.clone = function (date/*as:Date*/)/*as:Date*/ {
 	if (!date) {
-		date = new Date();
+		return this.getDate();
 	}
 	return new Date(date.valueOf());
+};
+
+// 获取当前时间
+LZR.Base.Time.prototype.getDate = function ()/*as:Date*/ {
+	return new Date();
+};
+
+// 获取当前时间值
+LZR.Base.Time.prototype.getTim = function ()/*as:int*/ {
+	return this.getDate().getTime();
 };

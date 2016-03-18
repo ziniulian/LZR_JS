@@ -33,3 +33,25 @@ LZR.Base.Ary.prototype.init_ = function (obj/*as:Object*/) {
 LZR.Base.Ary.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+
+// 获取元素在数组中的位置
+LZR.Base.Ary.prototype.getId = function (ary/*as:Array*/, val/*as:Object*/)/*as:int*/ {
+	for (i = 0; i < ary.length; i++)
+	{
+		if (val === ary[i])
+		return i;
+	}
+	return undefined;
+};
+
+// 删除数组中的元素
+LZR.Base.Ary.prototype.delByVal = function (ary/*as:Array*/, val/*as:Object*/) {
+	this.delById(this.getId(ary, val));
+};
+
+// 删除数组中某个位置的元素
+LZR.Base.Ary.prototype.delById = function (ary/*as:Array*/, id/*as:int*/) {
+	if (!isNaN(id)) {
+		ary.splice(id, 1);
+	}
+};
