@@ -32,8 +32,8 @@ LZR.Base.Data = function (obj) {
 	// 数据之子
 	this.subs/*m*/ = {};	/*as:LZR.Base.Data*/
 
-	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}

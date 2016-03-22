@@ -45,7 +45,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_B30A8796_39F2_4219_9231_6D1A03E31C20"/>
 								<UML:TaggedValue tag="date_created" value="2015-12-03 21:11:05"/>
-								<UML:TaggedValue tag="date_modified" value="2016-03-18 13:41:29"/>
+								<UML:TaggedValue tag="date_modified" value="2016-03-22 16:55:41"/>
 								<UML:TaggedValue tag="genfile" value="F:\GitLib\LZR_JS\src\LZR\JS\LZR.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -57,7 +57,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="102"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=10de;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=1b2c;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -699,7 +699,7 @@
 										<UML:TaggedValue tag="style" value="&#29238;&#31867;&#26500;&#36896;&#22120;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_D7FD1606_83A8_4def_B2EA_CB209A5A50C4">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="for (var i=0; i&lt;obj.super_.length; i++) {&#xA;		obj.super_[i].call(obj, {super_: obj.super_[i]});&#xA;	}"/>
+												<UML:Comment name="var s;&#xA;	if (obj &amp;&amp; obj.lzrGeneralization_) {&#xA;		s = obj.lzrGeneralization_.prototype.super_;&#xA;	} else {&#xA;		s = self.super_;&#xA;	}&#xA;&#xA;	for (var i=0; i&lt;s.length; i++) {&#xA;		s[i].call(self, {lzrGeneralization_: s[i]});&#xA;	}"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -717,7 +717,7 @@
 												<UML:Expression/>
 											</UML:Parameter.defaultValue>
 										</UML:Parameter>
-										<UML:Parameter name="obj" kind="in" visibility="public">
+										<UML:Parameter name="self" kind="in" visibility="public">
 											<UML:Parameter.type>
 												<UML:Classifier xmi.idref="eaxmiid1"/>
 											</UML:Parameter.type>
@@ -727,6 +727,21 @@
 												<UML:TaggedValue tag="const" value="0"/>
 												<UML:TaggedValue tag="styleex" value="alias=&#23376;&#31867;&#23545;&#35937;;"/>
 												<UML:TaggedValue tag="ea_guid" value="{CEB2C6A7-11FE-417c-BDD1-0DF9B694751A}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="obj" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid1"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="1"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#26500;&#36896;&#21442;&#25968;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{ACEB1845-55F8-40f6-9CC2-689EBFD1F0A4}"/>
 											</UML:ModelElement.taggedValue>
 											<UML:Parameter.defaultValue>
 												<UML:Expression/>
@@ -1293,7 +1308,7 @@
 				<UML:DiagramElement geometry="Left=20;Top=20;Right=150;Bottom=177;" subject="EAID_D8216B82_A502_40d9_86C6_D0D3363F8677" seqno="2" style=" DUID=9418B312;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
 			</UML:Diagram.element>
 		</UML:Diagram>
-		<UML:DiagramElement geometry="Left=55;Top=36;Right=582;Bottom=366;" subject="EAID_61D8EB35_3695_4807_B6D5_F90C22714A1D" seqno="1" style="DUID=45C22500;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;">
+		<UML:DiagramElement geometry="Left=53;Top=32;Right=580;Bottom=364;" subject="EAID_61D8EB35_3695_4807_B6D5_F90C22714A1D" seqno="2" style="DUID=45C22500;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_7BC46D4C_E019_4880_8C84_F65E4DC4EBEC"/>
 			</UML:ModelElement.taggedValue>

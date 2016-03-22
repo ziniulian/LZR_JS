@@ -14,8 +14,8 @@ LZR.Base.Time = function (obj) {
 	// 字符串工具
 	this.utStr/*m*/ = LZR.getSingleton(LZR.Base.Str);	/*as:LZR.Base.Str*/
 
-	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}

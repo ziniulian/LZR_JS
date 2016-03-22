@@ -32,10 +32,10 @@ LZR.Base.CallBacks = function (obj) {
 	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
 
 	// 自身回调
-	this.exe = this.utLzr.bind (this, this.execute);	/*as:fun*/
+	this.exe = null;	/*as:fun*/
 
-	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
@@ -47,6 +47,7 @@ LZR.load(null, "LZR.Base.CallBacks");
 
 // 构造器
 LZR.Base.CallBacks.prototype.init_ = function (obj/*as:Object*/) {
+	this.exe = this.utLzr.bind (this, this.execute);
 	if (obj) {
 		LZR.setObj (this, obj);
 		this.hdObj_(obj);

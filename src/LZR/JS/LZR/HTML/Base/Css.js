@@ -8,16 +8,20 @@
 
 LZR.load([
 	"LZR.HTML.Base",
-	"LZR.Base.Data"
+	"LZR.Base.Data",
+	"LZR.Util"
 ], "LZR.HTML.Base.Css");
 LZR.HTML.Base.Css = function (obj) /*bases:LZR.Base.Data*/ {
-	LZR.initSuper(this);
+	LZR.initSuper(this, obj);
 
 	// CSS样式名
 	this.name = "";	/*as:string*/
 
-	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+	// 通用工具
+	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
+
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
@@ -65,7 +69,7 @@ LZR.HTML.Base.Css.prototype.add = function (name/*as:string*/)/*as:boolean*/ {
 			css = new this.constructor(name);
 			break;
 	}
-	return this.super_[0].prototype.add.call(this, css);
+	return this.utLzr.supCall (this, 0, "add", css);
 };
 
 // ---- 输出

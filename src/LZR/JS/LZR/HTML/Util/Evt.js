@@ -10,8 +10,8 @@ LZR.load([
 	"LZR.HTML.Util"
 ], "LZR.HTML.Util.Evt");
 LZR.HTML.Util.Evt = function (obj) {
-	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}

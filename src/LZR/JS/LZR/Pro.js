@@ -1,28 +1,28 @@
 /*************************************************
 作者：子牛连
-类名：Base
-说明：基础
-创建日期：11-三月-2016 13:58:41
+类名：Pro
+说明：项目
+创建日期：22-三月-2016 9:06:43
 版本号：1.0
 *************************************************/
 
 LZR.load([
-	"LZR.HTML"
-], "LZR.HTML.Base");
-LZR.HTML.Base = function (obj) {
+	"LZR"
+], "LZR.Pro");
+LZR.Pro = function (obj) {
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
 };
-LZR.HTML.Base.prototype.className_ = "LZR.HTML.Base";
-LZR.HTML.Base.prototype.version_ = "1.0";
+LZR.Pro.prototype.className_ = "LZR.Pro";
+LZR.Pro.prototype.version_ = "1.0";
 
-LZR.load(null, "LZR.HTML.Base");
+LZR.load(null, "LZR.Pro");
 
 // 构造器
-LZR.HTML.Base.prototype.init_ = function (obj/*as:Object*/) {
+LZR.Pro.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
 		this.hdObj_(obj);
@@ -30,6 +30,6 @@ LZR.HTML.Base.prototype.init_ = function (obj/*as:Object*/) {
 };
 
 // 对构造参数的特殊处理
-LZR.HTML.Base.prototype.hdObj_ = function (obj/*as:Object*/) {
+LZR.Pro.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };

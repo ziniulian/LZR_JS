@@ -18,9 +18,6 @@ LZR.load([
 LZR.HTML.Base.Ctrl = function (obj) /*interfaces:LZR.Base.InfEvt*/ {
 	LZR.Base.InfEvt.call(this);
 
-	// 数据
-	this.dat/*m*/ = null;	/*as:LZR.Base.Data*/
-
 	// 元素集合
 	this.subs/*m*/ = [];	/*as:LZR.HTML.Base.Doe*/
 
@@ -33,8 +30,8 @@ LZR.HTML.Base.Ctrl = function (obj) /*interfaces:LZR.Base.InfEvt*/ {
 	// 通用工具
 	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
 
-	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
@@ -60,6 +57,9 @@ LZR.HTML.Base.Ctrl.prototype.hdObj_ = function (obj/*as:Object*/) {
 
 // 添加一个Doe元素
 LZR.HTML.Base.Ctrl.prototype.add = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	if (!doeo.ctrl) {
+		doeo.ctrl = {};
+	}
 	var dc = doeo.ctrl[this.className_];
 	if (dc) {
 		dc.del(doeo);
@@ -70,10 +70,14 @@ LZR.HTML.Base.Ctrl.prototype.add = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 };
 
 // 删除一个Doe元素
-LZR.HTML.Base.Ctrl.prototype.del = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	this.delEvt(doeo);
-	LZR.del (doeo.ctrl, this.className_);
-	this.utAry.delByVal(this.subs, doeo);
+LZR.HTML.Base.Ctrl.prototype.del = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:boolean*/ {
+	if (doeo.ctrl && doeo.ctrl[this.className_] === this) {
+		this.delEvt(doeo);
+		LZR.del (doeo.ctrl, this.className_);
+		this.utAry.delByVal(this.subs, doeo);
+		return true;
+	}
+	return false;
 };
 
 // 获取触发事件的元素

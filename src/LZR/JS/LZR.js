@@ -7,8 +7,8 @@
 *************************************************/
 
 LZR = function (obj) {
-	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
@@ -274,9 +274,16 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 };
 
 // 父类构造器
-LZR.initSuper = function (obj/*as:Object*/) {
-	for (var i=0; i<obj.super_.length; i++) {
-		obj.super_[i].call(obj, {super_: obj.super_[i]});
+LZR.initSuper = function (self/*as:Object*/, obj/*as:Object*/) {
+	var s;
+	if (obj && obj.lzrGeneralization_) {
+		s = obj.lzrGeneralization_.prototype.super_;
+	} else {
+		s = self.super_;
+	}
+
+	for (var i=0; i<s.length; i++) {
+		s[i].call(self, {lzrGeneralization_: s[i]});
 	}
 };
 

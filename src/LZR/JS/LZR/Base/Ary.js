@@ -10,8 +10,8 @@ LZR.load([
 	"LZR.Base"
 ], "LZR.Base.Ary");
 LZR.Base.Ary = function (obj) {
-	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
@@ -46,7 +46,7 @@ LZR.Base.Ary.prototype.getId = function (ary/*as:Array*/, val/*as:Object*/)/*as:
 
 // 删除数组中的元素
 LZR.Base.Ary.prototype.delByVal = function (ary/*as:Array*/, val/*as:Object*/) {
-	this.delById(this.getId(ary, val));
+	this.delById(ary, this.getId(ary, val));
 };
 
 // 删除数组中某个位置的元素

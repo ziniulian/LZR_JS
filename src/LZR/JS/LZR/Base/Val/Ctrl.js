@@ -9,10 +9,11 @@
 LZR.load([
 	"LZR.Base.Val",
 	"LZR.Base.CallBacks",
-	"LZR.Base.InfEvt"
+	"LZR.Base.InfEvt",
+	"LZR.Util"
 ], "LZR.Base.Val.Ctrl");
 LZR.Base.Val.Ctrl = function (obj) /*bases:LZR.Base.Val*/ /*interfaces:LZR.Base.InfEvt*/ {
-	LZR.initSuper(this);
+	LZR.initSuper(this, obj);
 
 	LZR.Base.InfEvt.call(this);
 
@@ -31,8 +32,11 @@ LZR.Base.Val.Ctrl = function (obj) /*bases:LZR.Base.Val*/ /*interfaces:LZR.Base.
 	// 设置值后触发的事件
 	this.evt.set/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
-	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+	// 通用工具
+	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
+
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
@@ -47,7 +51,7 @@ LZR.load(null, "LZR.Base.Val.Ctrl");
 
 // 构造器
 LZR.Base.Val.Ctrl.prototype.init_ = function (obj/*as:Object*/) {
-	if (obj) {
+	if (obj !== undefined) {
 		this.val = obj;
 		this.hdObj_(obj);
 	}
@@ -98,7 +102,7 @@ LZR.Base.Val.Ctrl.prototype.set = function (obj/*as:Object*/, doEvent/*as:boolea
 
 // ---- 克隆
 LZR.Base.Val.Ctrl.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
-	var r = this.super_[0].prototype.clone.call (this, dep);
+	var r = this.utLzr.supCall(this, 0, "clone", dep);
 	r.enableEvent = this.enableEvent;
 	r.autoEvent = this.autoEvent;
 

@@ -19,8 +19,8 @@ LZR.NodeJs.Util.Url = function (obj) {
 	// Nodejs的路径工具模块
 	this.path = LZR.getSingleton (null, null, "path");	/*as:Object*/
 
-	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}

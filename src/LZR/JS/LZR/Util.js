@@ -10,8 +10,8 @@ LZR.load([
 	"LZR"
 ], "LZR.Util");
 LZR.Util = function (obj) {
-	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
@@ -47,6 +47,45 @@ LZR.Util.prototype.bind = function (self/*as:Object*/, fun/*as:fun*/, args/*as:_
 		}
 		return fun.apply ( self, args );
 	};
+};
+
+// 调用父类方法
+LZR.Util.prototype.supCall = function (self/*as:Object*/, idx/*as:int*/, funam/*as:string*/, args/*as:___*/)/*as:Object*/ {
+	var arg = Array.prototype.slice.call(arguments, 3);
+
+	// 检查最后一个参数值
+// console.log (arguments);
+	var last = arguments.callee.caller.arguments;
+// console.log (last);
+	last = last[last.length - 1];
+// console.log (last);
+
+	// 确定父类
+	var s;
+	if (last && last.lzrGeneralization_) {
+// console.log (last.lzrGeneralization_.prototype.className_);
+		s = last.lzrGeneralization_.prototype.super_;
+	} else {
+		s = self.super_;
+	}
+
+	var f = s[idx].prototype[funam];		// 父类函数
+	var n = f.length;	// 函数的形参个数
+
+	// 填充不完整的参数
+	while (arg.length < n) {
+// console.log (arg.length + " : " + n);
+		arg.push(undefined);
+	}
+
+	// 填充特殊的继承参数
+	arg.push({
+		lzrGeneralization_: s[idx]
+	});
+// console.log (arg);
+
+	// 执行父类函数
+	return f.apply ( self, arg );
 };
 
 // 判断一个对象的属性是否存在

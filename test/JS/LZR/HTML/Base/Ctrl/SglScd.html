@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>按钮控制器测试</title>
+		<title>单选器测试</title>
 		<meta charset="utf-8" />
 		<script src="../../../../../../src/LZR/JS/LZR.js"></script>
 
@@ -63,10 +63,10 @@
 			function init() {
 				LZR.curPath = "../../../../../../src/LZR/JS";
 				LZR.load([
-					"LZR.HTML.Base.Ctrl.Btn"
+					"LZR.HTML.Base.Ctrl.SglScd"
 				]);
 				var de = LZR.HTML.Base.Doe;
-				var bt = LZR.HTML.Base.Ctrl.Btn;
+				var sd = LZR.HTML.Base.Ctrl.SglScd;
 
 				LZR.HTML.alog ("DOM参数创建元素");
 				var doms = new de ({
@@ -76,8 +76,8 @@
 				LZR.HTML.alog ("");
 console.log (doms);
 
-				LZR.HTML.alog ("创建按钮控制器");
-				var c = new bt ();
+				LZR.HTML.alog ("创建选择器");
+				var c = new sd ();
 				c.css = "scd";
 				LZR.HTML.alog ("");
 
@@ -88,42 +88,27 @@ console.log (doms);
 				}
 				LZR.HTML.alog ("");
 
-				LZR.HTML.alog ("单击事件测试");
-				c.evt.click.add(function(d) {
-					console.log ("单击：" + d.id.get());
-				}, "c1");
-				LZR.HTML.alog ("");
-
-				LZR.HTML.alog ("双击事件测试");
-				c.evt.dbclick.add(function(d) {
-					console.log ("双击：" + d.id.get());
-				}, "d1");
-				LZR.HTML.alog ("");
-
-				LZR.HTML.alog ("长按事件测试");
-				c.evt.lclick.add(function(d) {
-					console.log ("长按：" + d.id.get());
-				}, "L1");
-				LZR.HTML.alog ("");
-
-				LZR.HTML.alog ("屏蔽双击测试");
-				c.dbTim = 0;
-				LZR.HTML.alog ("");
-
-				LZR.HTML.alog ("创建新按钮控制器");
-				var c2 = new bt ();
+				LZR.HTML.alog ("创建新选择器");
+				var c2 = new sd ();
 				c2.css = "scd2";
-				c2.evt.click.add(function(d) {
-					console.log ("单击2：" + d.id.get());
-				}, "c1");
-				c2.add(doms.getById("c"));
+				c2.add(doms.getById("d"));
+				c2.add(doms.getById("e"));
 				doms.getById("f").addCtrl(c2);
 				LZR.HTML.alog ("");
 
-				LZR.HTML.alog ("删除按钮控制器");
-				c.del(doms.getById("a"));
-				doms.getById("f").delCtrl(c);
-				doms.getById("f").delCtrl(c2);
+				LZR.HTML.alog ("删除选择器");
+				LZR.HTML.alog (c.del(doms.getById("a")));
+				LZR.HTML.alog (doms.getById("f").delCtrl(c));
+				LZR.HTML.alog (doms.getById("f").delCtrl(c2));
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("样式转换");
+				c.css = "scd2";
+				c2.css = "scd";
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("取消至少一个被选中的限制");
+				c.only = false;
 				LZR.HTML.alog ("");
 
 			}

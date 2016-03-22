@@ -13,8 +13,8 @@ LZR.NodeJs.Util.File = function (obj) {
 	// Nodejs的文件模块
 	this.fs = LZR.getSingleton (null, null, "fs");	/*as:Object*/
 
-	if (obj && obj.super_) {
-		obj.super_.prototype.init_.call(this);
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
