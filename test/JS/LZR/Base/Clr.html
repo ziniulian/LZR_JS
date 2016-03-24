@@ -1,0 +1,77 @@
+<html>
+	<head>
+		<title>颜色测试</title>
+		<meta charset="utf-8" />
+		<script src="../../../../src/LZR/JS/LZR.js"></script>
+
+		<style type="text/css">
+			.body {
+				padding: 0;
+				margin: 0;
+			}
+			.cd {
+				position: absolute;
+				right: 200px;
+				top: 50px;
+				width: 180px;
+				height: 180px;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "../../../../src/LZR/JS";
+				LZR.load([
+					"LZR.Base.Clr",
+					"LZR.HTML"
+				]);
+				var CL = LZR.Base.Clr;
+				var c;
+
+				LZR.HTML.alog ("解析3位#颜色：");
+				c = CL.parseCss ("#F91");
+				LZR.HTML.alog (c.toAry());	// 输出数组
+				LZR.HTML.alog (c.toRgba());	// 输出RGBA
+				LZR.HTML.alog (c.toCss());	// 输出#形式
+				cd.style.backgroundColor = c.toRgba();
+				LZR.HTML.alog ("");
+				alert(cd.style.backgroundColor);
+
+				LZR.HTML.alog ("解析6位#颜色：");
+				c = CL.parseCss ("#0FA980");
+				LZR.HTML.alog (c.toAry());	// 输出数组
+				LZR.HTML.alog (c.toRgba());	// 输出RGBA
+				LZR.HTML.alog (c.toCss());	// 输出#形式
+				cd.style.backgroundColor = c.toCss();	// #样式赋值后，依然被换算为 rgb 格式
+				LZR.HTML.alog ("");
+				alert(cd.style.backgroundColor);
+
+				LZR.HTML.alog ("创建对象：");
+				c = new CL({
+					r: 255,
+					alpha: 0.3
+				});
+				LZR.HTML.alog (c.toAry());	// 输出数组
+				LZR.HTML.alog (c.toRgba());	// 输出RGBA
+				LZR.HTML.alog (c.toCss());	// 输出#形式
+				cd.style.backgroundColor = c.toRgba();
+				LZR.HTML.alog ("");
+				alert(cd.style.backgroundColor);
+
+				LZR.HTML.alog ("颜色取反：");
+				c = c.invert();
+				LZR.HTML.alog (c.toAry());	// 输出数组
+				LZR.HTML.alog (c.toRgba());	// 输出RGBA
+				LZR.HTML.alog (c.toCss());	// 输出#形式
+				cd.style.backgroundColor = c.toRgba();
+				LZR.HTML.alog ("");
+				alert(cd.style.backgroundColor);
+
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+		<div class="cd" id = "cd"></div>
+	</body>
+</html>

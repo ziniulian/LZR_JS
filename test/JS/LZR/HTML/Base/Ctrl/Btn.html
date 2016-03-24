@@ -126,6 +126,13 @@ console.log (doms);
 				doms.getById("f").delCtrl(c2);
 				LZR.HTML.alog ("");
 
+				LZR.HTML.alog ("有控制器元素的克隆测试");
+				var cn = LZR.clone(doms);
+				cn.delCss("out");
+				cn.place(document.body);
+console.log (cn);
+				LZR.HTML.alog ("");
+
 			}
 		</script>
 	</head>

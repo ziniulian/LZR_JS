@@ -235,6 +235,12 @@ parse(<language>);
 // 忽略链接属性
 <attributeLinkNone>						::= "this." <qualifiedName> <LINKCOMMENT> skip(";") ";" [<TYPECOMMENT> [<qualifiedName>] "*/"];
 
+// 忽略公有静态链接属性
+<attributeLinkPubStcNone>				::= <qualifiedName> <LINKCOMMENT> skip(";") ";" [<TYPECOMMENT> [<qualifiedName>] "*/"];
+
+// 忽略私有静态链接属性
+<attributeLinkPrvStcNone>				::= <nameSpace> "prototype" "." <qualifiedName> <LINKCOMMENT> skip(";") ";" [<TYPECOMMENT> [<qualifiedName>] "*/"];
+
 // 方法声明 ------------------------
 <operationPart>							::= <operationDeclaration> |
 											<operationDeclarationStatic> |
@@ -242,6 +248,8 @@ parse(<language>);
 											<classNameAttribute> |
 											<superAttribute> |
 											<parentAttribute> |
+											<attributeLinkPubStcNone> |
+											<attributeLinkPrvStcNone> |
 											<attributeDeclarationPrvStc> |
 											<attributeDeclarationPubStc> |
 											<funStatement>;

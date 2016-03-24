@@ -27,6 +27,9 @@ LZR.HTML.Base.Doe = function (obj) /*bases:LZR.Base.Data*/ /*interfaces:LZR.Base
 	// DOM元素的标记名称
 	this.typ = "";	/*as:string*/
 
+	// 控制器相关的回调函数集合
+	this.ctrlCbs = null;	/*as:Object*/
+
 	// 数据
 	this.dat/*m*/ = null;	/*as:LZR.Base.Data*/
 
@@ -223,6 +226,7 @@ LZR.HTML.Base.Doe.prototype.hdClonePro = function (name/*as:string*/, dep/*as:bo
 		// 事件、控制器 暂不知如何克隆
 		case "evt":
 		case "ctrl":
+		case "ctrlCbs":
 			r = undefined;
 			break;
 		case "typ":
@@ -230,9 +234,25 @@ LZR.HTML.Base.Doe.prototype.hdClonePro = function (name/*as:string*/, dep/*as:bo
 		case "utCss":
 			r = this[name];
 			break;
+		case "css":
+			r = this.css.print();
+			break;
 		default:
 			r = this.utLzr.supCall (this, 0, "hdClonePro", name, dep);
 			break;
+	}
+	return r;
+};
+
+// ---- 克隆
+LZR.HTML.Base.Doe.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
+	var r = this.utLzr.supCall (this, 0, "clone", dep);
+
+	// 追加控制器
+	if (this.ctrl) {
+		for (var s in this.ctrl) {
+			this.ctrl[s].add(r);
+		}
 	}
 	return r;
 };

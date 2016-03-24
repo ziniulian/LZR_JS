@@ -47,17 +47,19 @@ LZR.HTML.Base.Ctrl.SglScd.prototype.hdObj_ = function (obj/*as:Object*/) {
 };
 
 // 选择前处理
-LZR.HTML.Base.Ctrl.SglScd.prototype.hdBefore = function (val/*as:boolean*/, self/*as:Object*/)/*as:boolean*/ {
-	if (self.scdCtrl.cur) {
+LZR.HTML.Base.Ctrl.SglScd.prototype.hdBefore = function (ctrl/*as:Object*/, val/*as:boolean*/)/*as:boolean*/ {
+// console.log (this.doe);
+// console.log (ctrl.cur);
+	if (ctrl.cur) {
 // alert(0);
-		// 此处 this 指向 doeo 元素，self 中也特别加入了选择器的引用 “scdCtrl”
-		if (self.scdCtrl.cur === this) {
+		// 此处 this 指向 doeo 元素
+		if (ctrl.cur === this) {
 // alert(4);
 			// 当，当前被选中的选项 与 正在选择的选项一致，时：
-			if (!val && !self.scdCtrl.only) {
+			if (!val && !ctrl.only) {
 // alert(5);
 				// 当，预设值为 false，且 不需要 至少有一个选项被选中，时：则可进行设值处理。
-				self.scdCtrl.cur = null;
+				ctrl.cur = null;
 				return true;
 			} else {
 // alert(6);
@@ -70,8 +72,8 @@ LZR.HTML.Base.Ctrl.SglScd.prototype.hdBefore = function (val/*as:boolean*/, self
 			if (val) {
 // alert(8);
 				// 当，预设值为 true 时：
-				var old = self.scdCtrl.cur;
-				self.scdCtrl.cur = this;
+				var old = ctrl.cur;
+				ctrl.cur = this;
 				old.dat.vcScd.set(false);
 				return true;
 			} else {
@@ -86,7 +88,7 @@ LZR.HTML.Base.Ctrl.SglScd.prototype.hdBefore = function (val/*as:boolean*/, self
 		if (val) {
 // alert(2);
 			// 当，预设值为 true 时，可进行设值处理。
-			self.scdCtrl.cur = this;
+			ctrl.cur = this;
 			return true;
 		} else {
 // alert(3);
@@ -100,5 +102,23 @@ LZR.HTML.Base.Ctrl.SglScd.prototype.hdBefore = function (val/*as:boolean*/, self
 // ---- 添加一个Doe元素
 LZR.HTML.Base.Ctrl.SglScd.prototype.add = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	this.utLzr.supCall(this, 0, "add", doeo);
-	doeo.dat.vcScd.evt.before.add(this.hdBefore, "SglScd_hdBefore");
+	var evtName = this.className_ + "_hdBefore";
+
+	// 与 Scd 的设置Css样式不同，无论关联多少个元素，只能触发一次
+	if (!doeo.dat.vcScd.evt.before.funs[evtName]) {
+		doeo.dat.vcScd.evt.before.add( this.utLzr.bind(doeo, this.hdBefore, this), evtName );
+	}
+};
+
+// ---- 删除一个Doe元素
+LZR.HTML.Base.Ctrl.SglScd.prototype.del = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:boolean*/ {
+	if (this.utLzr.supCall(this, 0, "del", doeo)) {
+		var evtName = this.className_ + "_hdBefore";
+		doeo.dat.vcScd.evt.before.del(evtName);
+		LZR.del (doeo.ctrlCbs, evtName);
+		this.cleanDat(doeo.dat);
+		return true;
+	} else {
+		return false;
+	}
 };

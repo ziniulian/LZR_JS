@@ -25,14 +25,14 @@ LZR.Base.CallBacks = function (obj) {
 	// 回调函数个数
 	this.count = 0;	/*as:int*/
 
+	// 自身回调
+	this.exe = null;	/*as:fun*/
+
 	// 回调函数集合
 	this.funs/*m*/ = {};	/*as:LZR.Base.CallBacks.CallBack*/
 
 	// 通用工具
 	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
-
-	// 自身回调
-	this.exe = null;	/*as:fun*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
@@ -60,7 +60,7 @@ LZR.Base.CallBacks.prototype.hdObj_ = function (obj/*as:Object*/) {
 };
 
 // 添加回调函数
-LZR.Base.CallBacks.prototype.add = function (fun/*as:fun*/, name/*as:LZR.Base.Str*/) {
+LZR.Base.CallBacks.prototype.add = function (fun/*as:fun*/, name/*as:LZR.Base.Str*/)/*as:string*/ {
 	if (name === undefined || name === null) {
 		name = this.count;
 	}
@@ -68,6 +68,7 @@ LZR.Base.CallBacks.prototype.add = function (fun/*as:fun*/, name/*as:LZR.Base.St
 		this.count ++;
 	}
 	this.funs[name] = new LZR.Base.CallBacks.CallBack ({name: name, fun: fun});
+	return name;
 };
 
 // 删除回调函数

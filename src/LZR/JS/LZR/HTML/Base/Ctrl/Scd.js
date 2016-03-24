@@ -21,6 +21,9 @@ LZR.HTML.Base.Ctrl.Scd = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	// 被选中时的样式
 	this.css = "";	/*as:string*/
 
+					// 值控制器类
+					this.clsVc/*m*/ = (LZR.Base.Val.Ctrl);	/*as:fun*/
+
 	// 值控制器类
 	this.clsVc/*m*/ = (LZR.Base.Val.Ctrl);	/*as:fun*/
 
@@ -62,31 +65,53 @@ LZR.HTML.Base.Ctrl.Scd.prototype.hdDown = function (evt/*as:Object*/) {
 };
 
 // 设置css样式
-LZR.HTML.Base.Ctrl.Scd.prototype.setCss = function (val/*as:boolean*/, self/*as:Object*/) {
+LZR.HTML.Base.Ctrl.Scd.prototype.setCss = function (ctrl/*as:Object*/, val/*as:boolean*/) {
 	if (val) {
-		// 此处 this 指向 doeo 元素，self 中也特别加入了选择器的引用 “scdCtrl”
-		this.addCss(self.scdCtrl.css);
+		// 此处 this 指向 doeo 元素
+		this.addCss(ctrl.css);
 	} else {
-		this.delCss(self.scdCtrl.css);
+		this.delCss(ctrl.css);
+	}
+};
+
+// 清理选择器在数据中额外添加的属性
+LZR.HTML.Base.Ctrl.Scd.prototype.cleanDat = function (dat/*as:LZR.Base.Data*/) {
+	var n = dat.vcScd.evt.set.count;
+	n += dat.vcScd.evt.before.count;
+	n += dat.vcScd.evt.change.count;
+	if (n === 0) {
+		LZR.del (dat, "vcScd");
 	}
 };
 
 // ---- 添加一个Doe元素
 LZR.HTML.Base.Ctrl.Scd.prototype.add = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	this.utLzr.supCall(this, 0, "add", doeo);
+
+	// 给数据添加 是否被选中的属性 vcScd
 	if (!doeo.dat) {
 		doeo.dat = {};
 	}
-	doeo.dat.vcScd = new this.clsVc(false);
-	doeo.dat.vcScd.scdCtrl = this;		// 在值控制器中引用选择器
-	doeo.dat.vcScd.setEventObj (doeo);
-	doeo.dat.vcScd.evt.set.add(this.setCss, "Scd_setCss");
+	if (!doeo.dat.vcScd) {
+		doeo.dat.vcScd = new this.clsVc(false);
+		doeo.dat.vcScd.setEventObj (doeo.dat);
+	}
+
+	// 给元素添加 回调函数
+	if (!doeo.ctrlCbs) {
+		doeo.ctrlCbs = {};	// 控制器相关的回调函数集合
+	}
+	var evtName = this.className_ + "_setCss";
+	doeo.ctrlCbs[evtName] = doeo.dat.vcScd.evt.set.add( this.utLzr.bind(doeo, this.setCss, this) );
 };
 
 // ---- 删除一个Doe元素
 LZR.HTML.Base.Ctrl.Scd.prototype.del = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:boolean*/ {
 	if (this.utLzr.supCall(this, 0, "del", doeo)) {
-		LZR.del (doeo.dat, "vcScd");
+		var evtName = this.className_ + "_setCss";
+		doeo.dat.vcScd.evt.set.del(doeo.ctrlCbs[evtName]);
+		LZR.del (doeo.ctrlCbs, evtName);
+		this.cleanDat(doeo.dat);
 		return true;
 	} else {
 		return false;

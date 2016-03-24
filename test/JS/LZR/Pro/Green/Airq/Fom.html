@@ -1,0 +1,65 @@
+<html>
+	<head>
+		<title>污染物测试</title>
+		<meta charset="utf-8" />
+		<script src="../../../../../../src/LZR/JS/LZR.js"></script>
+
+		<style type="text/css">
+			.body {
+				padding: 0;
+				margin: 0;
+			}
+			.cd {
+				position: absolute;
+				right: 200px;
+				top: 50px;
+				width: 180px;
+				height: 180px;
+			}
+		</style>
+
+		<script>
+			function print(f) {
+				LZR.HTML.alog (
+					f.emTyp.get().htm + ", " +
+					f.emTyp.get().unit + ", " +
+					f.vcAqi.get() + ", " +
+					f.emLevel.get().name + ", " +
+					f.emLevel.get().emClr.getKey() + ", " +
+					f.emLevel.get().emClr.get().toCss()
+				);
+			}
+
+			function init() {
+				LZR.curPath = "../../../../../../src/LZR/JS";
+				LZR.load([
+					"LZR.Pro.Green.Airq.Fom",
+					"LZR.HTML"
+				]);
+				var FM = LZR.Pro.Green.Airq.Fom;
+				var f;
+
+				LZR.HTML.alog ("创建对象：");
+				f = new FM();
+				f.emTyp.set("co");
+				print(f);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("修改AQI：");
+				f.vcAqi.set(158);
+				print(f);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("修改污染类型：");
+				f.emTyp.set("pm25");
+				print(f);
+				LZR.HTML.alog ("");
+
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+		<div class="cd" id = "cd"></div>
+	</body>
+</html>
