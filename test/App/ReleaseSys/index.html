@@ -1,0 +1,386 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="css/index.css" rel="stylesheet" type="text/css" />
+
+<script src="../../../src/LZR/JS/LZR.js"></script>
+<script src="js/index.js"></script>
+
+</head>
+
+<body onload="init()">
+	<div id="top">
+    </div>
+	
+	<div id="main">
+		<div class="main_left">
+			<div class="main_left_top">
+				<div class="left_top_l">
+				<img src="images/main_left_top.png" />
+				</div>
+				<h1>城市列表</h1>
+			</div>
+						<!--13个城市-->
+				<div id = "list" class="main_left_down">
+					<div id = "city" class="city noselect">
+			    	<div class="city_inner">
+								<div class="city_img"><img id = "levelImg" src="images/good.png" />
+								</div>
+					<div class="city_r">
+								<h2 id = "name">石家庄市</h2>
+								<div id = "_1" class="number">
+									<h3 id = "minFom" class="number-a">40</h3>
+									<h3 id = "_2" class="number-0"> - </h3>
+									<h3 id = "maxFom" class="number-b">95</h3>
+								</div>
+								<div id = "mainFom" class="city_r_f1">
+						   		PM<sub>2.5</sub>
+								</div>
+								<div id = "levelName" class="city_r_f2">
+								良好
+								</div>
+								<div id = "alarm" class="city_r_f3">
+								三级预警
+								</div>
+					 </div>	
+					</div>
+			
+			</div>
+      		<!-- <div class="city">
+			     <a href="images/lianghao.png">
+			     <div class="city_inner">
+					<div class="city_img"><img src="images/good.png" /></div>
+					<div class="city_r">
+						<h2>承德市</h2>
+						<div class="number"><h3 class="number-c">106-</h3><h3 class="number-d">190</h3></div>
+						<div class="city_r_f1">
+						   PM<sub>2.5</sub>
+						</div>
+						<div class="city_r_f2">
+						良好</div>
+						<div class="city_r_f4">
+						二级预警
+						</div>
+						
+				   </div>	
+			  </div></a>
+			
+			</div>	
+			<div class="city">
+			     <a href="#"><div class="city_inner">
+					<div class="city_img"> <img src="images/good2.png" /></div>
+					<div class="city_r">
+						<h2>张家口市</h2>
+						<div class="number"><h3 class="number-e">280-</h3><h3 class="number-f">300</h3></div>
+						<div class="city_r_f1">
+						   PM<sub>2.5</sub>
+						</div>
+						<div class="city_r_f2">
+						良好/轻度
+						</div>
+						<div class="city_r_f5">
+						一级预警
+						</div>
+						
+				   </div>	
+				</div>
+				</a>
+			</div>
+ 			<div class="city">
+			    <a href="#"> <div class="city_inner">
+					<div class="city_img"><img src="images/good2.png" /></div>
+					<div class="city_r">
+						<h2>秦皇岛市</h2>
+						<div class="number"><h3 class="number-a">40-</h3><h3 class="number-b">95</h3></div>
+						<div class="city_r_f1">
+						   PM<sub>2.5</sub>
+						</div>
+						<div class="city_r_f2">
+						良好/轻度
+						</div>
+						<div class="city_r_f3">
+						二级预警
+						</div>
+						
+				  </div>	
+				</div></a>
+			
+			</div>
+	    	<div class="city">
+			     <a href="#"><div class="city_inner">
+					<div class="city_img"><img src="images/good0.png" /></div>
+					<div class="city_r">
+						<h2>唐山市</h2>
+						<h3>75-95</h3>
+						<div class="city_r_f1">
+						   PM<sub>2.5</sub>
+						</div>
+						<div class="city_r_f2">
+						
+						</div>
+						
+						
+				   </div>	
+				</div></a>
+			
+			</div>	
+			<div class="city">
+			    <a href="#"> <div class="city_inner">
+					<div class="city_img"><img src="images/good3.png" /></div>
+					<div class="city_r">
+						<h2>廊坊市</h2>
+						<h3>75-95</h3>
+						<div class="city_r_f1">
+						   PM<sub>2.5</sub>
+						</div>
+						<div class="city_r_f2">
+						良好
+						</div>
+						
+						
+				  </div>	
+				</div></a>
+			
+			</div>
+		    <div class="city">
+			    <a href="#"> <div class="city_inner">
+					<div class="city_img"><img src="images/good4.png" /></div>
+					<div class="city_r">
+						<h2>保定市</h2>
+						<h3>75-95</h3>
+						<div class="city_r_f1">
+						   PM<sub>2.5</sub>
+						</div>
+						<div class="city_r_f2">
+						良好</div>
+						
+						
+				  </div>	
+				</div></a>
+			
+			</div>
+			<div class="city">
+			   <a href="#"><div class="city_inner">
+					<div class="city_img"><img src="images/good5.png" /></div>
+					<div class="city_r">
+						<h2>沧州市</h2>
+						<h3>75-95</h3>
+						<div class="city_r_f1">
+						   PM<sub>2.5</sub>
+						</div>
+						<div class="city_r_f2">良好/轻度</div>
+						
+						
+				 </div>	
+				</div></a>
+			
+			</div>
+   		 	<div class="city">
+			     <a href="#"><div class="city_inner">
+					<div class="city_img"><img src="images/good.png" /></div>
+					<div class="city_r">
+						<h2>衡水市</h2>
+						<h3>75-95</h3>
+						<div class="city_r_f1">
+						   PM<sub>2.5</sub>
+						</div>
+						<div class="city_r_f2">良好/轻度</div>
+						
+						
+				   </div>	
+				</div></a>
+			
+			</div>	
+			<div class="city">
+			    <a href="#"> <div class="city_inner">
+					<div class="city_img"><img src="images/good.png" /></div>
+					<div class="city_r">
+						<h2>邢台市</h2>
+						<h3>75-95</h3>
+						<div class="city_r_f1">
+						   PM<sub>2.5</sub>
+						</div>
+						<div class="city_r_f2">良好/轻度</div>
+						
+						
+				  </div>	
+				</div></a>
+			
+			</div>
+ 			<div class="city">
+			   <a href="#">  <div class="city_inner">
+					<div class="city_img"><img src="images/good.png" /></div>
+					<div class="city_r">
+						<h2>邯郸市</h2>
+						<h3>75-95</h3>
+						<div class="city_r_f1">
+						   PM<sub>2.5</sub>
+						</div>
+						<div class="city_r_f2">
+						良好/轻度
+						</div>
+						
+						
+				 </div>	
+				</div></a>
+			
+			</div>
+	        		<div class="city">
+			 <a href="#">    <div class="city_inner">
+					<div class="city_img"><img src="images/good.png" /></div>
+					<div class="city_r">
+						<h2>定州市</h2>
+						<h3>75-95</h3>
+						<div class="city_r_f1">
+						   PM<sub>2.5</sub>
+						</div>
+						<div class="city_r_f2">
+						良好/轻度
+						</div>
+						
+						
+			   </div>	
+				</div></a>
+			
+			</div>	
+	        		<div class="city">
+			 <a href="#">    <div class="city_inner">
+					<div class="city_img"><img src="images/good.png" /></div>
+					<div class="city_r">
+						<h2>辛集市</h2>
+						<h3>75-95</h3>
+						<div class="city_r_f1">
+						   PM<sub>2.5</sub>
+						</div>
+						<div class="city_r_f2">
+						良好/轻度
+						</div>
+						
+						
+			   </div>	
+				</div></a>
+			
+			</div> -->
+		   </div>
+		</div>
+		
+    <div class="main_middle">
+			<div id = "tim" class="main_middle_top">
+				<div id = "curTim" class="main_middle_top_a">2月25日环境空气质量预报</div>
+				<div id = "tim1" class="main_middle_top_b noselect">24小时预报</div>
+				<div id = "tim2" class="main_middle_top_b noselect">48小时预报</div>
+				<div id = "tim3" class="main_middle_top_b noselect">72小时预报</div>
+				<div id = "baseTim" class="main_middle_top_c">2016年2月24日17时发布</div>
+            </div>
+			
+			
+			<div id = "map" class="main_middle_main">
+				<!-- <img src="images/map.png" /> -->
+			</div>
+			<div class="main_middle_foot">发布单位：中国环境监测总站 技术支持：  建议使用火狐、谷歌或IE8以上版本浏览器访问平台</div>
+		
+		</div>
+		<!--中间-->
+		
+	<div class="main_right">
+			  	<div class="main_right_a">
+							<div class="main_right_top">
+								<div class="right_top_l">
+								<img src="images/main_right_top.png" />
+								</div>
+								<h1>区域预报预警信息</h1>
+							</div>
+				</div>
+			  <div class="main_right_b">
+				<p>区域形势：未来一周，京津冀及周边区域空气质量总体较好，出现大面积PM2.5重污染过程的可能性较小；受大风扬尘影响，可能出现短时PM10污染过程。（更多预报信息请参照各地预报结果）
+8～10日，扩散条件总体有利，京津冀北部、内蒙古中部、山东东部和山西大部优良；11～12日，扩散条件逐步转差，内蒙古中部以优良为主.京津冀中南部、山东西部和河南北部以良至轻度污染为主，首要污染物为PM2.5和PM10。
+11～12日，扩散条件逐步转差，内蒙古中部以优良为主.来一周，京津冀及周边区域空气质量总体较好，出现大面积PM2.5重污染过程的可能性较小；受大风扬尘影响，可能出现短时PM10污染过程。（更多预报信息请参照各地预报结果）
+8～10日，扩散条件总体有利，京津冀北部、内蒙古中部、山东东部和山西大部优良；11～12日，扩散条件逐步转差，内蒙古中部以优良为主.</p>
+				</div>
+				
+				
+				<div class="main_right_c">
+					<div class="main_right_c_a">
+					<div class="rignt_c_1">健康提示</div>
+					<div class="rignt_c_M"><a href="#">一级</a></div>
+					<div class="rignt_c_2"><a href="#">二级</a></div>
+					<div class="rignt_c_2"><a href="#">三级</a></div>
+					<div class="rignt_c_2"><a href="#">四级</a></div>
+					<div class="rignt_c_2"><a href="#">五级</a></div>
+					</div>
+					<div class="main_right_c_b">空气质量指数为0－50，空气质量级别为一级，。此时，空气质量令人满意，各类人群可正常活动。</div>
+				</div>
+				
+				
+				<div class="main_right_d">
+								<div class="main_right_d_top">
+							
+								<div class="main_right_d_top_l">形势图</div>
+								
+							</div>
+				<img src="images/foot.png" />
+				
+				</div>
+				
+				</div>
+		
+		
+		
+
+	
+	
+	
+	</div>
+	<!--DIV-->	
+			 	<!-- <div id="middle_div">	
+			
+							<div class="m_div_top">
+								<div class="m_div_top_img">
+								<img src="images/icon.png" />
+								</div>
+								<div class="city_name">石家庄市</div>
+								
+							</div>
+					
+					<div class="m_div_middle">
+						<div class="m_div_middle_l">
+						<div class="today">周四</div>
+						<div class="today">3月1日</div>
+						<div class="today_img"><img src="images/good2.png" /></div>
+						<div class="today_n">66~96</div>
+						<div class="today">良</div>
+						<div class="today_CD">PM<sub>2.5</sub></div>
+					    </div>
+						
+						
+					
+					<div class="m_div_middle_l">
+						<div class="today">周五</div>
+						<div class="today">3月1日</div>
+						<div class="today_img"><img src="images/good.png" /></div>
+						<div class="today_n">120~150</div>
+						<div class="today">轻度</div>
+						<div class="today_CD">PM<sub>2.5</sub></div>
+					</div>
+					
+					<div class="m_div_middle_l">
+						<div class="today">周六</div>
+						<div class="today">3月1日</div>
+						<div class="today_img"><img src="images/good.png" /></div>
+						<div class="today_n">150~170</div>
+						<div class="today">良</div>
+						<div class="today_CD">PM<sub>2.5</sub></div>
+					</div>
+					</div>
+					<div class="m_div_line"></div>
+					<div class="m_div_foot"><div class="span">播报：</div><p>3月10-11日，受强冷空气影响，珠三角地区
+空气质量以优为主，12日，空气质量优至良，
+首要污染物主要为PM2.5或NO2。</p></div>
+				</div> -->
+			<!--DIV-->
+
+			
+</body>
+</html>

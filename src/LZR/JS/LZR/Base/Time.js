@@ -45,17 +45,53 @@ LZR.Base.Time.prototype.stringToDate = function (date/*as:string*/)/*as:Date*/ {
 
 // 时间转换为字符串
 LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)/*as:string*/ {
-	var s = date.getFullYear();
-	s += "-";
-	s += date.getMonth() + 1;
-	s += "-";
-	s += date.getDate();
-	s += " ";
-	s += this.utStr.format(date.getHours(), 2, "0");
-	s += ":";
-	s += this.utStr.format(date.getMinutes(), 2, "0");
-	s += ":";
-	s += this.utStr.format(date.getSeconds(), 2, "0");
+	var s;
+	switch (format) {
+		case "date":
+			s = date.getFullYear();
+			s += "-";
+			s += date.getMonth() + 1;
+			s += "-";
+			s += date.getDate();
+			break;
+		case "dateChn":
+			s = date.getFullYear();
+			s += "年";
+			s += date.getMonth() + 1;
+			s += "月";
+			s += date.getDate();
+			s += "日";
+			break;
+		case "hourChn":
+			s = date.getFullYear();
+			s += "年";
+			s += date.getMonth() + 1;
+			s += "月";
+			s += date.getDate();
+			s += "日";
+			s += this.utStr.format(date.getHours(), 2, "0");
+			s += "时";
+			break;
+		case "mdChn":
+			s = date.getMonth() + 1;
+			s += "月";
+			s += date.getDate();
+			s += "日";
+			break;
+		default:
+			s = date.getFullYear();
+			s += "-";
+			s += date.getMonth() + 1;
+			s += "-";
+			s += date.getDate();
+			s += " ";
+			s += this.utStr.format(date.getHours(), 2, "0");
+			s += ":";
+			s += this.utStr.format(date.getMinutes(), 2, "0");
+			s += ":";
+			s += this.utStr.format(date.getSeconds(), 2, "0");
+			break;
+	}
 	return s;
 };
 

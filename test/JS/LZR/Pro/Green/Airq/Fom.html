@@ -40,8 +40,9 @@
 				var f;
 
 				LZR.HTML.alog ("创建对象：");
-				f = new FM();
-				f.emTyp.set("co");
+				f = new FM({
+					typ: "co"
+				});
 				print(f);
 				LZR.HTML.alog ("");
 

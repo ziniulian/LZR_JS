@@ -14,15 +14,6 @@ LZR.load([
 LZR.HTML.Base.Ctrl.Btn = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	LZR.initSuper(this, obj);
 
-	// 按下的自身回调
-	this.down = null;	/*as:Object*/
-
-	// 抬起的自身回调
-	this.up = null;	/*as:Object*/
-
-	// 移开的自身回调
-	this.out = null;	/*as:Object*/
-
 	// 点击时间
 	this.tim = 0;	/*as:int*/
 
@@ -74,10 +65,6 @@ LZR.load(null, "LZR.HTML.Base.Ctrl.Btn");
 
 // 构造器
 LZR.HTML.Base.Ctrl.Btn.prototype.init_ = function (obj/*as:Object*/) {
-	this.down = this.utLzr.bind(this, this.hdDown);
-	this.up = this.utLzr.bind(this, this.hdUp);
-	this.out = this.utLzr.bind(this, this.hdOut);
-
 	if (obj) {
 		LZR.setObj (this, obj);
 		this.hdObj_(obj);
@@ -92,9 +79,8 @@ LZR.HTML.Base.Ctrl.Btn.prototype.hdObj_ = function (obj/*as:Object*/) {
 };
 
 // 处理按下事件
-LZR.HTML.Base.Ctrl.Btn.prototype.hdDown = function (evt/*as:Object*/) {
+LZR.HTML.Base.Ctrl.Btn.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
 	if (this.utEvt.getEvent(evt).button === 0) {	// 判断是左键被按下
-		var doeo = this.getDoeo(evt);
 		doeo.addCss(this.css);
 
 		// 触发按下事件
@@ -117,15 +103,12 @@ LZR.HTML.Base.Ctrl.Btn.prototype.hdDown = function (evt/*as:Object*/) {
 };
 
 // 处理抬起事件
-LZR.HTML.Base.Ctrl.Btn.prototype.hdUp = function (evt/*as:Object*/) {
-	var doeo;
+LZR.HTML.Base.Ctrl.Btn.prototype.hdUp = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
 	switch (this.dbStat) {
 		case 3:
-			doeo = this.getDoeo(evt);
 			doeo.delCss(this.css);
 			break;
 		case 1:
-			doeo = this.getDoeo(evt);
 			doeo.delCss(this.css);
 
 			// 触发抬起事件
@@ -151,8 +134,7 @@ LZR.HTML.Base.Ctrl.Btn.prototype.hdUp = function (evt/*as:Object*/) {
 };
 
 // 处理移出事件
-LZR.HTML.Base.Ctrl.Btn.prototype.hdOut = function (evt/*as:Object*/) {
-	var doeo = this.getDoeo(evt);
+LZR.HTML.Base.Ctrl.Btn.prototype.hdOut = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
 	doeo.delCss(this.css);
 	this.dbStat = 0;
 };
@@ -184,9 +166,9 @@ LZR.HTML.Base.Ctrl.Btn.prototype.onUp = function (doeo/*as:LZR.HTML.Base.Doe*/)/
 
 // ---- 给元素添加事件集
 LZR.HTML.Base.Ctrl.Btn.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	doeo.addEvt ("mousedown", this.down, this.className_);
-	doeo.addEvt ("mouseup", this.up, this.className_);
-	doeo.addEvt ("mouseout", this.out, this.className_);
+	doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo), this.className_);
+	doeo.addEvt ("mouseup",  this.utLzr.bind(this, this.hdUp, doeo), this.className_);
+	doeo.addEvt ("mouseout",  this.utLzr.bind(this, this.hdOut, doeo), this.className_);
 };
 
 // ---- 移除元素的事件集

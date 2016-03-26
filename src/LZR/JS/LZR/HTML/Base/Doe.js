@@ -74,7 +74,7 @@ LZR.HTML.Base.Doe.prototype.init_ = function (obj/*as:Object*/) {
 LZR.HTML.Base.Doe.prototype.hdObj_ = function (obj/*as:Object*/) {
 	if (obj.typ) {
 		this.doe = document.createElement(obj.typ);
-		if (obj.css && (typeof(obj.css) === "string")) {
+		if (typeof(obj.css) === "string") {
 			this.css = this.utCss.parse(obj.css);
 		}
 		this.css.flush(this.doe);
@@ -223,15 +223,17 @@ LZR.HTML.Base.Doe.prototype.hdClonePro = function (name/*as:string*/, dep/*as:bo
 	var r;
 	switch (name) {
 		case "doe":
-		// 事件、控制器 暂不知如何克隆
 		case "evt":
 		case "ctrl":
 		case "ctrlCbs":
+		case "clsCb":
+		case "utCss":
+		case "utEvt":
+		case "utLzr":
 			r = undefined;
 			break;
 		case "typ":
 		case "dat":	// 数据不克隆
-		case "utCss":
 			r = this[name];
 			break;
 		case "css":

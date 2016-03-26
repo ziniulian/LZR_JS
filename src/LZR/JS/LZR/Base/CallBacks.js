@@ -28,6 +28,9 @@ LZR.Base.CallBacks = function (obj) {
 	// 自身回调
 	this.exe = null;	/*as:fun*/
 
+	// 唯一ID
+	this.id = 0;	/*as:int*/
+
 	// 回调函数集合
 	this.funs/*m*/ = {};	/*as:LZR.Base.CallBacks.CallBack*/
 
@@ -62,8 +65,9 @@ LZR.Base.CallBacks.prototype.hdObj_ = function (obj/*as:Object*/) {
 // 添加回调函数
 LZR.Base.CallBacks.prototype.add = function (fun/*as:fun*/, name/*as:LZR.Base.Str*/)/*as:string*/ {
 	if (name === undefined || name === null) {
-		name = this.count;
+		name = this.id;
 	}
+	this.id ++;
 	if (this.funs[name] === undefined) {
 		this.count ++;
 	}
@@ -72,11 +76,13 @@ LZR.Base.CallBacks.prototype.add = function (fun/*as:fun*/, name/*as:LZR.Base.St
 };
 
 // 删除回调函数
-LZR.Base.CallBacks.prototype.del = function (name/*as:LZR.Base.Str*/) {
-	if (this.funs[name] !== undefined) {
+LZR.Base.CallBacks.prototype.del = function (name/*as:LZR.Base.Str*/)/*as:LZR.Base.CallBacks.CallBack*/ {
+	var r = this.funs[name];
+	if (r !== undefined) {
 		LZR.del(this.funs, name);
 		this.count --;
 	}
+	return r;
 };
 
 // 执行回调函数

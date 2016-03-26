@@ -34,6 +34,9 @@ LZR.NodeJs.SampleWebFileSrv = function (obj) /*interfaces:LZR.NodeJs.InfHttpSrv*
 	// 通用工具
 	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
 
+	// 字符串工具
+	this.utStr/*m*/ = LZR.getSingleton(LZR.Base.Str);	/*as:LZR.Base.Str*/
+
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
@@ -74,9 +77,13 @@ LZR.NodeJs.SampleWebFileSrv.prototype.loadFile = function (filename/*as:string*/
 					if (this.ajaxAllow) {
 						h["Access-Control-Allow-Origin"] = this.ajaxAllow;
 					}
-					h["Content-Type"] = "text/html; charset=utf-8";	// 文件格式； 字符编码
-					// h["Content-Type"] = "image/jpeg; charset=utf-8";	// 图片
-					// h["Content-Type"] = "x-world/x-vrml; charset=utf-8";	// vrml 3D模型
+					if (this.utStr.endWith(filename, ".css")) {
+						h["Content-Type"] = "text/css; charset=utf-8";	// CSS
+					} else {
+						h["Content-Type"] = "text/html; charset=utf-8";	// 文件格式； 字符编码
+						// h["Content-Type"] = "image/jpeg; charset=utf-8";	// 图片
+						// h["Content-Type"] = "x-world/x-vrml; charset=utf-8";	// vrml 3D模型
+					}
 					rsp.writeHeader (200, h);
 					rsp.write(file, "binary");
 					rsp.end();

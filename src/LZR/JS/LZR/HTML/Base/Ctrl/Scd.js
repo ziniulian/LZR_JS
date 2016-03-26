@@ -15,9 +15,6 @@ LZR.load([
 LZR.HTML.Base.Ctrl.Scd = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	LZR.initSuper(this, obj);
 
-	// 按下自身回调
-	this.down = null;	/*as:Object*/
-
 	// 被选中时的样式
 	this.css = "";	/*as:string*/
 
@@ -42,8 +39,6 @@ LZR.load(null, "LZR.HTML.Base.Ctrl.Scd");
 
 // 构造器
 LZR.HTML.Base.Ctrl.Scd.prototype.init_ = function (obj/*as:Object*/) {
-	this.down = this.utLzr.bind(this, this.hdDown);
-
 	if (obj) {
 		LZR.setObj (this, obj);
 		this.hdObj_(obj);
@@ -56,9 +51,8 @@ LZR.HTML.Base.Ctrl.Scd.prototype.hdObj_ = function (obj/*as:Object*/) {
 };
 
 // 处理按下事件
-LZR.HTML.Base.Ctrl.Scd.prototype.hdDown = function (evt/*as:Object*/) {
+LZR.HTML.Base.Ctrl.Scd.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
 	if (this.utEvt.getEvent(evt).button === 0) {	// 判断是左键被按下
-		var doeo = this.getDoeo(evt);
 		var b = doeo.dat.vcScd.get();
 		doeo.dat.vcScd.set (!b);
 	}
@@ -120,7 +114,7 @@ LZR.HTML.Base.Ctrl.Scd.prototype.del = function (doeo/*as:LZR.HTML.Base.Doe*/)/*
 
 // ---- 给元素添加事件集
 LZR.HTML.Base.Ctrl.Scd.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	doeo.addEvt ("mousedown", this.down, this.className_);
+	doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo), this.className_);
 };
 
 // ---- 移除元素的事件集

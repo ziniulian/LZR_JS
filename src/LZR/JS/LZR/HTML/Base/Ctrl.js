@@ -1,18 +1,17 @@
 /*************************************************
 作者：子牛连
 类名：Ctrl
-说明：控制器
-创建日期：18-三月-2016 9:09:10
+说明：Doe控制器
+创建日期：26-三月-2016 18:43:03
 版本号：1.0
 *************************************************/
 
 LZR.load([
-	"LZR.Util",
 	"LZR.HTML.Base",
 	"LZR.HTML.Base.Doe",
 	"LZR.Base.InfEvt",
 	"LZR.Base.Ary",
-	"LZR.Base.Data",
+	"LZR.Util",
 	"LZR.HTML.Util.Evt"
 ], "LZR.HTML.Base.Ctrl");
 LZR.HTML.Base.Ctrl = function (obj) /*interfaces:LZR.Base.InfEvt*/ {
@@ -24,11 +23,11 @@ LZR.HTML.Base.Ctrl = function (obj) /*interfaces:LZR.Base.InfEvt*/ {
 	// 数组工具
 	this.utAry/*m*/ = LZR.getSingleton(LZR.Base.Ary);	/*as:LZR.Base.Ary*/
 
-	// 事件工具
-	this.utEvt/*m*/ = LZR.getSingleton(LZR.HTML.Util.Evt);	/*as:LZR.HTML.Util.Evt*/
-
 	// 通用工具
 	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
+
+	// 事件工具
+	this.utEvt/*m*/ = LZR.getSingleton(LZR.HTML.Util.Evt);	/*as:LZR.HTML.Util.Evt*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
@@ -78,15 +77,4 @@ LZR.HTML.Base.Ctrl.prototype.del = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:b
 		return true;
 	}
 	return false;
-};
-
-// 获取触发事件的元素
-LZR.HTML.Base.Ctrl.prototype.getDoeo = function (evt/*as:Object*/)/*as:LZR.HTML.Base.Doe*/ {
-	var doe = this.utEvt.getEventTarg (evt);
-	for (var i=0; i<this.subs.length; i++) {
-		if (this.subs[i].doe === doe) {
-			return this.subs[i];
-		}
-	}
-	return undefined;
 };

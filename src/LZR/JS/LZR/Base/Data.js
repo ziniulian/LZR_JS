@@ -205,6 +205,8 @@ LZR.Base.Data.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
 			}
 		}
 	}
+// var rrr = r;
+// console.log (rrr);
 	r = new this.constructor(r);
 
 	for (s in this.subs) {
