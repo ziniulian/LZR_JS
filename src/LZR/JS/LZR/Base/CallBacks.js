@@ -2,11 +2,12 @@
 作者：子牛连
 类名：CallBacks
 说明：回调函数集合
-创建日期：16-二月-2016 15:58:59
+创建日期：11-三月-2016 14:27:33
 版本号：1.0
 *************************************************/
 
 LZR.load([
+	"LZR.Util",
 	"LZR.Base",
 	"LZR.Base.Str",
 	"LZR.Base.CallBacks.CallBack"
@@ -24,11 +25,20 @@ LZR.Base.CallBacks = function (obj) {
 	// 回调函数个数
 	this.count = 0;	/*as:int*/
 
+	// 自身回调
+	this.exe = null;	/*as:fun*/
+
+	// 唯一ID
+	this.id = 0;	/*as:int*/
+
 	// 回调函数集合
 	this.funs/*m*/ = {};	/*as:LZR.Base.CallBacks.CallBack*/
 
-	if (obj && obj.super_) {
-		this.init_();
+	// 通用工具
+	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
+
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
@@ -40,29 +50,39 @@ LZR.load(null, "LZR.Base.CallBacks");
 
 // 构造器
 LZR.Base.CallBacks.prototype.init_ = function (obj/*as:Object*/) {
+	this.exe = this.utLzr.bind (this, this.execute);
 	if (obj) {
 		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
 };
 
+// 对构造参数的特殊处理
+LZR.Base.CallBacks.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
+};
+
 // 添加回调函数
-LZR.Base.CallBacks.prototype.add = function (fun/*as:fun*/, name/*as:LZR.Base.Str*/) {
+LZR.Base.CallBacks.prototype.add = function (fun/*as:fun*/, name/*as:LZR.Base.Str*/)/*as:string*/ {
 	if (name === undefined || name === null) {
-		name = this.count;
+		name = this.id;
 	}
+	this.id ++;
 	if (this.funs[name] === undefined) {
 		this.count ++;
 	}
 	this.funs[name] = new LZR.Base.CallBacks.CallBack ({name: name, fun: fun});
+	return name;
 };
 
 // 删除回调函数
-LZR.Base.CallBacks.prototype.del = function (name/*as:LZR.Base.Str*/) {
-	if (this.funs[name] !== undefined) {
-		this.funs[name] = undefined;
-		delete this.funs[name];
+LZR.Base.CallBacks.prototype.del = function (name/*as:LZR.Base.Str*/)/*as:LZR.Base.CallBacks.CallBack*/ {
+	var r = this.funs[name];
+	if (r !== undefined) {
+		LZR.del(this.funs, name);
 		this.count --;
 	}
+	return r;
 };
 
 // 执行回调函数

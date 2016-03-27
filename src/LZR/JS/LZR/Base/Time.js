@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Time
 说明：时间
-创建日期：04-三月-2016 14:20:04
+创建日期：11-三月-2016 14:23:26
 版本号：1.0
 *************************************************/
 
@@ -14,8 +14,8 @@ LZR.Base.Time = function (obj) {
 	// 字符串工具
 	this.utStr/*m*/ = LZR.getSingleton(LZR.Base.Str);	/*as:LZR.Base.Str*/
 
-	if (obj && obj.super_) {
-		this.init_();
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
@@ -29,7 +29,13 @@ LZR.load(null, "LZR.Base.Time");
 LZR.Base.Time.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
+};
+
+// 对构造参数的特殊处理
+LZR.Base.Time.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
 };
 
 // 字符串转时间
@@ -39,24 +45,60 @@ LZR.Base.Time.prototype.stringToDate = function (date/*as:string*/)/*as:Date*/ {
 
 // 时间转换为字符串
 LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)/*as:string*/ {
-	var s = date.getFullYear();
-	s += "-";
-	s += date.getMonth() + 1;
-	s += "-";
-	s += date.getDate();
-	s += " ";
-	s += this.utStr.format(date.getHours(), 2, "0");
-	s += ":";
-	s += this.utStr.format(date.getMinutes(), 2, "0");
-	s += ":";
-	s += this.utStr.format(date.getSeconds(), 2, "0");
+	var s;
+	switch (format) {
+		case "date":
+			s = date.getFullYear();
+			s += "-";
+			s += date.getMonth() + 1;
+			s += "-";
+			s += date.getDate();
+			break;
+		case "dateChn":
+			s = date.getFullYear();
+			s += "年";
+			s += date.getMonth() + 1;
+			s += "月";
+			s += date.getDate();
+			s += "日";
+			break;
+		case "hourChn":
+			s = date.getFullYear();
+			s += "年";
+			s += date.getMonth() + 1;
+			s += "月";
+			s += date.getDate();
+			s += "日";
+			s += this.utStr.format(date.getHours(), 2, "0");
+			s += "时";
+			break;
+		case "mdChn":
+			s = date.getMonth() + 1;
+			s += "月";
+			s += date.getDate();
+			s += "日";
+			break;
+		default:
+			s = date.getFullYear();
+			s += "-";
+			s += date.getMonth() + 1;
+			s += "-";
+			s += date.getDate();
+			s += " ";
+			s += this.utStr.format(date.getHours(), 2, "0");
+			s += ":";
+			s += this.utStr.format(date.getMinutes(), 2, "0");
+			s += ":";
+			s += this.utStr.format(date.getSeconds(), 2, "0");
+			break;
+	}
 	return s;
 };
 
 // 时间圆整
 LZR.Base.Time.prototype.normalize = function (date/*as:Date*/, hour/*as:int*/, clone/*as:boolean*/)/*as:Date*/ {
 	if (!date) {
-		date = new Date();
+		date = this.getDate();
 	} else if (clone) {
 		date = new Date(date.valueOf());
 	}
@@ -73,7 +115,7 @@ LZR.Base.Time.prototype.normalize = function (date/*as:Date*/, hour/*as:int*/, c
 // 时间加N个小时的时间
 LZR.Base.Time.prototype.addHour = function (n/*as:int*/, date/*as:Date*/, clone/*as:boolean*/)/*as:Date*/ {
 	if (!date) {
-		date = new Date();
+		date = this.getDate();
 	} else if (clone) {
 		date = new Date(date.valueOf());
 	}
@@ -84,7 +126,17 @@ LZR.Base.Time.prototype.addHour = function (n/*as:int*/, date/*as:Date*/, clone/
 // 复制一个时间
 LZR.Base.Time.prototype.clone = function (date/*as:Date*/)/*as:Date*/ {
 	if (!date) {
-		date = new Date();
+		return this.getDate();
 	}
 	return new Date(date.valueOf());
+};
+
+// 获取当前时间
+LZR.Base.Time.prototype.getDate = function ()/*as:Date*/ {
+	return new Date();
+};
+
+// 获取当前时间值
+LZR.Base.Time.prototype.getTim = function ()/*as:int*/ {
+	return this.getDate().getTime();
 };

@@ -1,0 +1,144 @@
+<html>
+	<head>
+		<title>区域测试</title>
+		<meta charset="utf-8" />
+		<script src="../../../../../src/LZR/JS/LZR.js"></script>
+
+		<style type="text/css">
+			.body {
+				padding: 0;
+				margin: 0;
+			}
+			.cd {
+				position: absolute;
+				right: 200px;
+				top: 50px;
+				width: 180px;
+				height: 180px;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "../../../../../src/LZR/JS";
+				LZR.load([
+					"LZR.Pro.Gis.Area",
+					"LZR.HTML"
+				]);
+				var AR = LZR.Pro.Gis.Area;
+				var a;
+
+				LZR.HTML.alog ("创建对象：");
+				a = new AR({
+					id: "中国",
+					level: "country",
+					chd_: {
+						"陕西": {
+							level: "prvn",
+							chd_: {
+								"西安": {
+									level: "city"
+								},
+								"宝鸡": {
+									level: "city"
+								},
+								"秦岭": {
+									level: "city"
+								},
+								"咸阳": {
+									level: "city"
+								}
+							}
+						},
+						"甘肃": {
+							level: "prvn",
+							chd_: {
+								"兰州": {
+									level: "city",
+									chd_: {
+										"五泉山": {
+											level: "station"
+										},
+										"龚家湾": {
+											level: "station"
+										},
+										"二十七中": {
+											level: "station"
+										},
+										"西站": {
+											level: "station"
+										}
+									}
+								},
+								"酒泉": {
+									level: "city"
+								},
+								"嘉峪关": {
+									level: "city"
+								}
+							}
+						},
+						"宁夏": {
+							level: "prvn",
+							chd_: {
+								"银川": {
+									level: "city"
+								}
+							}
+						},
+						"广东": {
+							level: "prvn",
+							chd_: {
+								"深圳": {
+									level: "city",
+									chd_: {
+										"富士康": {
+											level: "station"
+										},
+										"大水坑": {
+											level: "station"
+										}
+									}
+								},
+								"广州": {
+									level: "city"
+								},
+								"香港": {
+									level: "city"
+								},
+								"澳门": {
+									level: "city"
+								},
+								"珠海": {
+									level: "city"
+								}
+							}
+						},
+						"河南": {
+							level: "prvn",
+							chd_: {
+								"郑州": {
+									level: "city"
+								},
+								"开封": {
+									level: "city"
+								},
+								"驻马店": {
+									level: "city"
+								}
+							}
+						}
+					}
+				});
+				LZR.HTML.alog (a.print());
+				console.log (a);
+				LZR.HTML.alog ("");
+
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+		<div class="cd" id = "cd"></div>
+	</body>
+</html>

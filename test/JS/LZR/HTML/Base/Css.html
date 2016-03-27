@@ -1,0 +1,154 @@
+<html>
+	<head>
+		<title>Css</title>
+		<meta charset="utf-8" />
+		<script src="../../../../../src/LZR/JS/LZR.js"></script>
+
+		<style type="text/css">
+			.body {
+				padding: 0;
+				margin: 0;
+			}
+			.red {
+				width: 50%;
+				height: 50%;
+				background-color: red;
+			}
+			.yel {
+				width: 40%;
+				height: 40%;
+				background-color: yellow;
+			}
+			.blue {
+				width: 30%;
+				height: 30%;
+				background-color: blue;
+			}
+			.grn {
+				width: 20%;
+				height: 20%;
+				background-color: green;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "../../../../../src/LZR/JS";
+				LZR.load([
+					"LZR.HTML.Base.Css"
+				]);
+
+				// 工具类测试：
+				var uc = LZR.HTML.Base.Css;
+				uc.addCss(d, "red");
+				LZR.HTML.log ("red");
+				alert();
+
+				uc.addCss(d, "yel");
+				LZR.HTML.log ("yel");
+				alert();
+
+				uc.addCss(d, "blue");
+				LZR.HTML.log ("blue");
+				alert();
+
+				uc.addCss(d, "grn");
+				LZR.HTML.log ("grn");
+				alert();
+
+				uc.delCss(d, "grn");
+				LZR.HTML.log ("del -- grn");
+				alert();
+
+				uc.delCss(d, "blue");
+				LZR.HTML.log ("del -- blue");
+				alert();
+
+				uc.delCss(d, "yel");
+				LZR.HTML.log ("del -- yel");
+				alert();
+
+				uc.addCss(d, "blue");
+				LZR.HTML.log ("blue");
+				alert();
+
+				uc.addCss(d, "grn");
+				LZR.HTML.log ("grn");
+				alert();
+
+				LZR.HTML.alog ("测试字符串解析");
+				LZR.HTML.alog (uc.parse(" , ddd hsh dhn hsi ii 12 pdoi 093  dhn    jdn   ").print());
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("解析测试");
+				d.className = "    " + d.className + "   ";
+				var c = uc.parse(d);
+				LZR.HTML.alog (d.className);
+				LZR.HTML.alog (c.print());
+				LZR.HTML.alog ("");
+				console.log (c);
+
+				LZR.HTML.alog ("测试字符串添加");
+				c.add ("xxr");
+				LZR.HTML.alog (c.print());
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("测试对象添加");
+				c.add (new uc ({
+					id: "top",
+					name: "top"
+				}));
+				LZR.HTML.alog (c.print());
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("测试构造参数添加");
+				c.add ({
+					id: "a",
+					name: "a"
+				});
+				LZR.HTML.alog (c.print());
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("测试添加失败");
+				LZR.HTML.alog (c.add ({
+					id: "a",
+					name: "uu"
+				}));
+				LZR.HTML.alog (c.print());
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("测试结构输出");
+				var s = c.subs["a"];
+				s.add("b");
+				s = s.subs["b"];
+				s.add("c");
+				s = s.subs["c"];
+				s.add("d");
+				s.add("c1");
+				s.add("c2");
+				s.add("c3");
+				s.add("c4");
+				s = s.subs["d"];
+				s.add("e");
+				LZR.HTML.alog (c.print());
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("测试删除");
+				s = c.getById("c");
+				s.parent.set();
+				c.del("grn");
+				LZR.HTML.alog (c.print());
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("测试刷新样式");
+				c.flush(d);
+				LZR.HTML.alog (d.className);
+				LZR.HTML.alog ("");
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+		<div id=d></div>
+	</body>
+</html>

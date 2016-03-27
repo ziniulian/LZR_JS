@@ -2,11 +2,12 @@
 作者：子牛连
 类名：SampleWebFileSrv
 说明：简单的Web文件服务
-创建日期：17-二月-2016 13:02:16
+创建日期：11-三月-2016 13:50:08
 版本号：1.0
 *************************************************/
 
 LZR.load([
+	"LZR.Util",
 	"LZR.NodeJs",
 	"LZR.NodeJs.Util.Url",
 	"LZR.NodeJs.InfHttpSrv",
@@ -30,8 +31,14 @@ LZR.NodeJs.SampleWebFileSrv = function (obj) /*interfaces:LZR.NodeJs.InfHttpSrv*
 	// 文件处理工具
 	this.utFile/*m*/ = LZR.getSingleton(LZR.NodeJs.Util.File);	/*as:LZR.NodeJs.Util.File*/
 
-	if (obj && obj.super_) {
-		this.init_();
+	// 通用工具
+	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
+
+	// 字符串工具
+	this.utStr/*m*/ = LZR.getSingleton(LZR.Base.Str);	/*as:LZR.Base.Str*/
+
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
@@ -46,15 +53,21 @@ LZR.load(null, "LZR.NodeJs.SampleWebFileSrv");
 LZR.NodeJs.SampleWebFileSrv.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
+};
+
+// 对构造参数的特殊处理
+LZR.NodeJs.SampleWebFileSrv.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
 };
 
 // 返回Web文件请求
 LZR.NodeJs.SampleWebFileSrv.prototype.loadFile = function (filename/*as:string*/, rsp/*as:Object*/) {
-	this.utFile.exists (filename, LZR.bind (this, function (exists) {
+	this.utFile.exists (filename, this.utLzr.bind (this, function (exists) {
 // console.log(exists + " : " + filename);
 		if (exists === 1) {
-			this.utFile.readFile (filename, "binary", LZR.bind (this, function (err, file) {
+			this.utFile.readFile (filename, "binary", this.utLzr.bind (this, function (err, file) {
 				if (err) {
 					rsp.writeHeader (500, {"Content-Type":"text/plain;charset=utf-8"});
 					rsp.write((err + "\n"), "utf-8");
@@ -64,9 +77,13 @@ LZR.NodeJs.SampleWebFileSrv.prototype.loadFile = function (filename/*as:string*/
 					if (this.ajaxAllow) {
 						h["Access-Control-Allow-Origin"] = this.ajaxAllow;
 					}
-					h["Content-Type"] = "text/html; charset=utf-8";	// 文件格式； 字符编码
-					// h["Content-Type"] = "image/jpeg; charset=utf-8";	// 图片
-					// h["Content-Type"] = "x-world/x-vrml; charset=utf-8";	// vrml 3D模型
+					if (this.utStr.endWith(filename, ".css")) {
+						h["Content-Type"] = "text/css; charset=utf-8";	// CSS
+					} else {
+						h["Content-Type"] = "text/html; charset=utf-8";	// 文件格式； 字符编码
+						// h["Content-Type"] = "image/jpeg; charset=utf-8";	// 图片
+						// h["Content-Type"] = "x-world/x-vrml; charset=utf-8";	// vrml 3D模型
+					}
 					rsp.writeHeader (200, h);
 					rsp.write(file, "binary");
 					rsp.end();
@@ -81,7 +98,7 @@ LZR.NodeJs.SampleWebFileSrv.prototype.loadFile = function (filename/*as:string*/
 	}));
 };
 
-// ---------- 接口实现 --------------
+// ---- 执行服务
 LZR.NodeJs.SampleWebFileSrv.prototype.execute = function (req/*as:Object*/, rsp/*as:Object*/, url/*as:string*/) {
 	var p = url;
 	if (this.path !== null) {

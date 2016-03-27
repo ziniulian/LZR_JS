@@ -2,13 +2,13 @@
 作者：子牛连
 类名：LZR
 说明：
-创建日期：15-二月-2016 17:09:26
+创建日期：11-三月-2016 13:37:40
 版本号：1.0
 *************************************************/
 
 LZR = function (obj) {
-	if (obj && obj.super_) {
-		this.init_();
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
@@ -21,6 +21,9 @@ LZR.curPath = "/myLib";	/*as:string*/
 
 // 已存在的类集合
 LZR.existedClasses = {};	/*as:Object*/
+
+// 已存在类集合的存储方式
+LZR.ecTyp = 0;	/*as:int*/
 
 // 加载方式
 LZR.loadTyp = 0;	/*as:int*/
@@ -36,21 +39,41 @@ LZR.singletons = {
 	nodejsTools:{}
 };	/*as:Object*/
 
+// 构造器
+LZR.prototype.init_ = function (obj/*as:Object*/) {
+	if (obj) {
+		this.setObj (this, obj);
+		this.hdObj_(obj);
+	}
+};
+
+// 对构造参数的特殊处理
+LZR.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
+};
+
+// 获得一个ajax对象
+LZR.getAjax = function ()/*as:Object*/ {
+	var xmlHttp = null;
+	try{
+		xmlHttp = new XMLHttpRequest();
+	} catch (MSIEx) {
+		var activeX = [ "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP" ];
+		for (var i=0; i < activeX.length; i++) {
+			try {
+				xmlHttp = new ActiveXObject( activeX[i] );
+			} catch (e) {}
+		}
+	}
+	return xmlHttp;
+};
+
 // Ajax 形式加载文本
 LZR.loadByAjax = function (path/*as:string*/) {
 	path = this.curPath + path;
 
 	if (this.spAjax === null) {
-		try{
-			this.spAjax = new XMLHttpRequest();
-		} catch (MSIEx) {
-			var activeX = [ "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP" ];
-			for (var i=0; i < activeX.length; i++) {
-				try {
-					this.spAjax = new ActiveXObject( activeX[i] );
-				} catch (e) {}
-			}
-		}
+		this.spAjax = this.getAjax();
 		if (this.spAjax === null) {
 			this.spAjax = "null";
 			return null;
@@ -94,13 +117,6 @@ LZR.loadByNode = function (uri/*as:string*/) {
 		}
 	} else {
 		return null;
-	}
-};
-
-// 构造器
-LZR.prototype.init_ = function (obj/*as:Object*/) {
-	if (obj) {
-		this.setObj (this, obj);
 	}
 };
 
@@ -160,8 +176,7 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 			}
 		} else {
 			this.load(this.afterLoad[self]);
-			this.afterLoad[self] = undefined;
-			delete this.afterLoad[self];
+			this.del(this.afterLoad, self);
 			return;
 		}
 	} else {
@@ -239,7 +254,14 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 							if (cn != "LZR") {
 								this.loadToJs(txt);
 							}
-							this.existedClasses[cn] = txt;
+							switch (this.ecTyp) {
+								case 1:
+									this.existedClasses[cn] = txt;
+									break;
+								default:
+									this.existedClasses[cn] = true;
+									break;
+							}
 						}
 					} else if (this.existedClasses[cn] === undefined) {
 						// this.existedClasses[cn] = eval(cn);
@@ -251,62 +273,18 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 	}
 };
 
-// 闭包调用
-LZR.bind = function (self/*as:Object*/, fun/*as:fun*/, args/*as:___*/)/*as:fun*/ {
-	var arg = Array.prototype.slice.call ( arguments, 2 );
-	return function () {
-		var i, args = [];
-		for ( i=0; i<arg.length; i++ ) {
-			args.push ( arg[i] );
-		}
-		for ( i=0; i<arguments.length; i++ ) {
-			args.push ( arguments[i] );
-		}
-		return fun.apply ( self, args );
-	};
-};
-
-// 复制一个对象
-LZR.clone = function (src/*as:Object*/, tag/*as:Object*/, objDep/*as:boolean*/, aryDep/*as:boolean*/)/*as:Object*/ {
+// 父类构造器
+LZR.initSuper = function (self/*as:Object*/, obj/*as:Object*/) {
 	var s;
-	switch ( this.getClassName(src) ) {
-		case "number":
-		case "string":
-		case "boolean":
-		case "function":
-		case "null":
-		case "undefined":
-			tag = src;
-			break;
-		case "Date":
-			tag = new Date(src.valueOf());
-			break;
-		case "Array":
-			if (tag === null || tag === undefined) {
-				tag = [];
-			}
-			for (s in src) {
-				if (aryDep) {
-					tag[s] = this.clone (src[s], tag[s], objDep, aryDep);
-				} else {
-					tag[s] = src[s];
-				}
-			}
-			break;
-		default:
-			if (tag === null || tag === undefined) {
-				tag = {};
-			}
-			for (s in src) {
-				if (objDep) {
-					tag[s] = this.clone (src[s], tag[s], objDep, aryDep);
-				} else {
-					tag[s] = src[s];
-				}
-			}
-			break;
+	if (obj && obj.lzrGeneralization_) {
+		s = obj.lzrGeneralization_.prototype.super_;
+	} else {
+		s = self.super_;
 	}
-	return tag;
+
+	for (var i=0; i<s.length; i++) {
+		s[i].call(self, {lzrGeneralization_: s[i]});
+	}
 };
 
 // 构造属性
@@ -315,11 +293,19 @@ LZR.setObj = function (obj/*as:Object*/, pro/*as:Object*/) {
 		var t = obj[s];
 		if (t !== undefined) {
 			var value = pro[s];
-			switch (this.exist (t, "className_")) {
+			switch (this.getClassName (t)) {
 				case "LZR.Base.Val":
 				case "LZR.Base.Val.Ctrl":
-					// 调用值控制器赋值
-					t.set (value, false);
+					switch (this.getClassName(value)) {
+						case "LZR.Base.Val":
+						case "LZR.Base.Val.Ctrl":
+							obj[s] = value;
+							break;
+						default:
+							// 调用值控制器赋值
+							t.set (value, false);
+							break;
+					}
 					break;
 				default:
 					// 普通赋值
@@ -328,51 +314,6 @@ LZR.setObj = function (obj/*as:Object*/, pro/*as:Object*/) {
 			}
 		}
 	}
-};
-
-// 获取类名
-LZR.getClassName = function (obj/*as:Object*/)/*as:string*/ {
-	if (null === obj)  return "null";
-
-	var type = typeof obj;
-	if (type != "object")  return type;
-
-	var c = Object.prototype.toString.apply ( obj );
-	c = c.substring( 8, c.length-1 );
-
-	if ( c == "Object" ) {
-		if (obj.className_) return obj.className_;	// 自定义类属性
-
-		var con = obj.constructor;
-		if (con == Object) {
-			return c;
-		}
-
-		if (obj.prototype && "classname" in obj.prototype.constructor && typeof obj.prototype.constructor.classname == "string") {
-			return con.prototype.classname;
-		}
-	}
-
-	return c;
-};
-
-// 父类构造器
-LZR.initSuper = function (obj/*as:Object*/) {
-	for (var i=0; i<obj.super_.length; i++) {
-		obj.super_[i].call(obj, {super_: obj.super_[i]});
-	}
-};
-
-// 判断一个对象的属性是否存在
-LZR.exist = function (obj/*as:Object*/, pro/*as:string*/)/*as:Object*/ {
-	var ps = pro.split(".");
-	for (var i = 0; i<ps.length; i++) {
-		if (undefined === obj || null === obj) {
-			return undefined;
-		}
-		obj = obj[ps[i]];
-	}
-	return obj;
 };
 
 // 获取一个单件对象
@@ -392,4 +333,117 @@ LZR.getSingleton = function (cls/*as:fun*/, obj/*as:Object*/, nodejsClassName/*a
 		}
 	}
 	return o;
+};
+
+// 复制一个对象
+LZR.clone = function (src/*as:Object*/, tag/*as:Object*/, objDep/*as:boolean*/, aryDep/*as:boolean*/)/*as:Object*/ {
+	var s = this.getClassName(src);
+	switch ( s ) {
+		case "number":
+		case "string":
+		case "boolean":
+		case "function":
+		case "null":
+		case "undefined":
+			tag = src;
+			break;
+		case "Date":
+			tag = new Date(src.valueOf());
+			break;
+		case "Array":
+			// 普通数组克隆
+			if (tag === null || tag === undefined) {
+				tag = [];
+			}
+			for (s in src) {
+				if (aryDep) {
+					tag[s] = this.clone (src[s], tag[s], objDep, aryDep);
+				} else {
+					tag[s] = src[s];
+				}
+			}
+			break;
+		default:
+			if (s.indexOf("LZR.") === 0 && src !== src.constructor.prototype) {
+				// new 对象克隆
+				if (src.clone) {
+					// 有特殊克隆方法的对象克隆
+					tag = src.clone(tag);
+				} else {
+					var p = src.constructor.prototype;
+					var obj = {};
+					for (s in src) {
+						if (p[s] === undefined) {
+							if (tag) {
+								// 深度克隆
+								if (tag[s]) {
+									// 不需要深度克隆的特定属性
+									obj[s] = tag[s];
+								} else {
+									obj[s] = this.clone(src[s], true);
+								}
+							} else {
+								obj[s] = src[s];
+							}
+						}
+					}
+					tag = new src.constructor (obj);
+				}
+			} else {
+				// 普通对象克隆
+				if (tag === null || tag === undefined) {
+					tag = {};
+				}
+				for (s in src) {
+					if (objDep) {
+						tag[s] = this.clone (src[s], tag[s], objDep, aryDep);
+					} else {
+						tag[s] = src[s];
+					}
+				}
+			}
+			break;
+	}
+	return tag;
+};
+
+// 获取类名
+LZR.getClassName = function (obj/*as:Object*/)/*as:string*/ {
+	if (null === obj)  return "null";
+
+	var type = typeof obj;
+	if (type != "object")  return type;
+
+	// 自定义类属性
+	type = obj.className_;
+	if (type) {
+		// if (type.indexOf("LZR.") === 0) {
+			return type;
+		// }
+	}
+
+	// Dom类型
+	var c = Object.prototype.toString.apply ( obj );
+	c = c.substring( 8, c.length-1 );
+
+	// 其它类型
+	if ( c == "Object" ) {
+		var con = obj.constructor;
+		if (con == Object) {
+			return c;
+		}
+
+		if (obj.prototype && "classname" in obj.prototype.constructor && typeof obj.prototype.constructor.classname == "string") {
+			return con.prototype.classname;
+		}
+	}
+
+	return c;
+};
+
+// 删除一个对象的属性
+LZR.del = function (obj/*as:Object*/, proName/*as:string*/) {
+	var note;
+	// obj[proName] = undefined;
+	delete obj[proName];
 };

@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Json
 说明：
-创建日期：16-二月-2016 15:28:34
+创建日期：11-三月-2016 14:25:05
 版本号：1.0
 *************************************************/
 
@@ -13,8 +13,8 @@ LZR.Base.Json = function (obj) {
 	// 映射的源 JSON 对象
 	this.src = JSON ? (JSON) : (LZR.load(["/Lib/Util/JSON.js"]), JSON);	/*as:Object*/
 
-	if (obj && obj.super_) {
-		this.init_();
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
@@ -28,7 +28,13 @@ LZR.load(null, "LZR.Base.Json");
 LZR.Base.Json.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
+};
+
+// 对构造参数的特殊处理
+LZR.Base.Json.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
 };
 
 // 将对象转换成 json 文本
