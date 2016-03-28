@@ -2,7 +2,7 @@
 作者：子牛连
 类名：EmFomTyp
 说明：污染物类型枚举
-创建日期：25-三月-2016 18:18:17
+创建日期：28-三月-2016 15:09:36
 版本号：1.0
 *************************************************/
 
@@ -75,13 +75,8 @@ LZR.Pro.Green.Airq.Fom.EmFomTyp.o3/*m*/ = new LZR.Pro.Green.Airq.Fom.FomType({
 	unit: "ug/m<sup>3</sup>"
 });	/*as:LZR.Pro.Green.Airq.Fom.FomType*/
 
-// 构造器
-LZR.Pro.Green.Airq.Fom.EmFomTyp.prototype.init_ = function (obj/*as:Object*/) {
-	if (obj) {
-		this.set(obj);
-		this.hdObj_(obj);
-	}
-};
+// 无
+LZR.Pro.Green.Airq.Fom.EmFomTyp.emnull/*m*/ = new LZR.Pro.Green.Airq.Fom.FomType();	/*as:LZR.Pro.Green.Airq.Fom.FomType*/
 
 // 对构造参数的特殊处理
 LZR.Pro.Green.Airq.Fom.EmFomTyp.prototype.hdObj_ = function (obj/*as:Object*/) {

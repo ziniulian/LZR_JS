@@ -43,6 +43,8 @@ LZR.load(null, "LZR.Pro.Green.Airq.Fom.Aqi");
 
 // 构造器
 LZR.Pro.Green.Airq.Fom.Aqi.prototype.init_ = function (obj/*as:Object*/) {
+	this.emMainFom.push( new this.clsEmFomTyp() );
+
 	if (obj) {
 		LZR.setObj (this, obj);
 		this.hdObj_(obj);
@@ -57,7 +59,17 @@ LZR.Pro.Green.Airq.Fom.Aqi.prototype.hdObj_ = function (obj/*as:Object*/) {
 
 	if (obj.mainFom) {
 		for (var i=0; i<obj.mainFom.length; i++) {
-			this.emMainFom.push( new this.clsEmFomTyp(this.clsEmFomTyp[i]) );
+			this.emMainFom = [];
+			this.emMainFom.push( new this.clsEmFomTyp(obj.mainFom[i]) );
 		}
 	}
+
+	if (obj.hd_min) {
+		this.min.vcAqi.set(obj.hd_min);
+	}
+
+	if (obj.hd_max) {
+		this.max.vcAqi.set(obj.hd_max);
+	}
+
 };

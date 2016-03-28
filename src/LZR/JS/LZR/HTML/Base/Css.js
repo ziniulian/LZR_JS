@@ -49,7 +49,10 @@ LZR.HTML.Base.Css.prototype.hdObj_ = function (obj/*as:Object*/) {
 
 // 刷新样式
 LZR.HTML.Base.Css.prototype.flush = function (doe/*as:Object*/) {
-	doe.className = this.print();
+	var s = this.print();
+	if (s) {
+		doe.className = s;
+	}
 };
 
 // ---- 添加
@@ -57,10 +60,20 @@ LZR.HTML.Base.Css.prototype.add = function (name/*as:string*/)/*as:boolean*/ {
 	var css;
 	switch (LZR.getClassName(name)) {
 		case "string":
-			css = new this.constructor({
-				id: name,
-				name: name
-			});
+			if (name.indexOf(" ") === -1) {
+				css = new this.constructor({
+					id: name,
+					name: name
+				});
+			} else {
+				// 字符串包含多个样式名时的处理
+				var s = name.split(" ");
+				var b = false;
+				for (var i=0; i<s.length; i++) {
+					b = this.add (s[i]) || b;
+				}
+				return b;
+			}
 			break;
 		case this.className_:
 			css = name;

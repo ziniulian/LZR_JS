@@ -124,6 +124,14 @@ LZR.HTML.Base.Doe.prototype.delCss = function (name/*as:string*/)/*as:boolean*/ 
 	}
 };
 
+// 替换CSS样式
+LZR.HTML.Base.Doe.prototype.chgCss = function (name/*as:string*/)/*as:boolean*/ {
+	for (var s in this.css.subs) {
+		this.css.del (s);
+	}
+	return this.addCss(name);
+};
+
 // 添加控制器
 LZR.HTML.Base.Doe.prototype.addCtrl = function (ctl/*as:LZR.HTML.Base.Ctrl*/) {
 	ctl.add(this);

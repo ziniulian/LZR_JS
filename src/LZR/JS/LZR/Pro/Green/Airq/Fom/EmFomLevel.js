@@ -64,7 +64,7 @@ LZR.Pro.Green.Airq.Fom.EmFomLevel.v2/*m*/ = new LZR.Pro.Green.Airq.Fom.FomLevel(
 });	/*as:LZR.Pro.Green.Airq.Fom.FomLevel*/
 
 // 无级别
-LZR.Pro.Green.Airq.Fom.EmFomLevel.no/*m*/ = new LZR.Pro.Green.Airq.Fom.FomLevel({
+LZR.Pro.Green.Airq.Fom.EmFomLevel.emnull/*m*/ = new LZR.Pro.Green.Airq.Fom.FomLevel({
 	id: 0,
 	name: "",
 	clr: "gray7f"
@@ -88,14 +88,6 @@ LZR.Pro.Green.Airq.Fom.EmFomLevel.v1/*m*/ = new LZR.Pro.Green.Airq.Fom.FomLevel(
 	clr: "v1"
 });	/*as:LZR.Pro.Green.Airq.Fom.FomLevel*/
 
-// 构造器
-LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.init_ = function (obj/*as:Object*/) {
-	this.set(obj);
-	if (obj) {
-		this.hdObj_(obj);
-	}
-};
-
 // 对构造参数的特殊处理
 LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
@@ -105,7 +97,7 @@ LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.hdObj_ = function (obj/*as:Object*/)
 LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.setByAqi = function (aqi/*as:int*/) {
 	if (!isNaN(aqi)) {
 		for (var s in this.constructor) {
-			if (s !== "no") {
+			if (s !== "emnull") {
 				if (aqi >= this.constructor[s].rangeMin && aqi <= this.constructor[s].rangeMax) {
 					this.set(s);
 					return;
@@ -113,17 +105,5 @@ LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.setByAqi = function (aqi/*as:int*/) 
 			}
 		}
 	}
-	this.set("no");
-};
-
-// ---- 设置值
-LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.set = function (key/*as:string*/)/*as:boolean*/ {
-	if (key) {
-		this.key = key;
-		this.val = this.constructor[key];
-	} else {
-		this.key = "";
-		this.val = this.constructor.no;
-	}
-	return true;
+	this.set("emnull");
 };

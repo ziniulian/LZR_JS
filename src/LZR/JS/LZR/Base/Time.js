@@ -78,6 +78,31 @@ LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)
 			s += date.getDate();
 			s += "日";
 			break;
+		case "weekChn":
+			switch (date.getDay()) {
+				case 0:
+					s = "周日";
+					break;
+				case 1:
+					s = "周一";
+					break;
+				case 2:
+					s = "周二";
+					break;
+				case 3:
+					s = "周三";
+					break;
+				case 4:
+					s = "周四";
+					break;
+				case 5:
+					s = "周五";
+					break;
+				case 6:
+					s = "周六";
+					break;
+			}
+			break;
 		default:
 			s = date.getFullYear();
 			s += "-";

@@ -44,7 +44,7 @@ LZR.Base.EmClr.v6/*m*/ = new LZR.Base.Clr({
 });	/*as:LZR.Base.Clr*/
 
 // 透明色
-LZR.Base.EmClr.no/*m*/ = new LZR.Base.Clr({
+LZR.Base.EmClr.emnull/*m*/ = new LZR.Base.Clr({
 	alpha: 0
 });	/*as:LZR.Base.Clr*/
 
@@ -105,14 +105,6 @@ LZR.Base.EmClr.v3/*m*/ = new LZR.Base.Clr({
 	g: 126
 });	/*as:LZR.Base.Clr*/
 
-// 构造器
-LZR.Base.EmClr.prototype.init_ = function (obj/*as:Object*/) {
-	this.set(obj);
-	if (obj) {
-		this.hdObj_(obj);
-	}
-};
-
 // 对构造参数的特殊处理
 LZR.Base.EmClr.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
@@ -125,7 +117,7 @@ LZR.Base.EmClr.prototype.hdGray = function (grayKey/*as:string*/)/*as:Object*/ {
 		s = "#" + s + s + s;
 // console.log (s);
 // console.log (grayKey);
-		this.constructor[grayKey] = this.constructor.no.constructor.parseCss(s);
+		this.constructor[grayKey] = this.constructor.emnull.constructor.parseCss(s);
 	}
 	return this.constructor[grayKey];
 };
@@ -133,15 +125,21 @@ LZR.Base.EmClr.prototype.hdGray = function (grayKey/*as:string*/)/*as:Object*/ {
 // ---- 设置值
 LZR.Base.EmClr.prototype.set = function (key/*as:string*/)/*as:boolean*/ {
 	if (key) {
-		this.key = key;
 		if (this.utStr.startWith(key, "gray")) {
+			this.key = key;
 			this.val = this.hdGray(key);
-		} else {
+		} else if (this.constructor[key]) {
+			this.key = key;
 			this.val = this.constructor[key];
+		} else {
+			return false;
 		}
-	} else {
+		return true;
+	} else if (!key && this.constructor.emnull) {
 		this.key = "";
-		this.val = this.constructor.no;
+		this.val = this.constructor.emnull;
+		return true;
+	} else {
+		return false;
 	}
-	return true;
 };

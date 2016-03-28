@@ -30,8 +30,8 @@ LZR.load(null, "LZR.Base.Val.Enum");
 
 // 构造器
 LZR.Base.Val.Enum.prototype.init_ = function (obj/*as:Object*/) {
+	this.set(obj);
 	if (obj) {
-		this.set(obj);
 		this.hdObj_(obj);
 	}
 };
@@ -74,9 +74,13 @@ LZR.Base.Val.Enum.prototype.enums = function ()/*as:Object*/ {
 
 // ---- 设置值
 LZR.Base.Val.Enum.prototype.set = function (key/*as:string*/)/*as:boolean*/ {
-	if (key) {
+	if (key && this.constructor[key]) {
 		this.key = key;
 		this.val = this.constructor[key];
+		return true;
+	} else if (!key && this.constructor.emnull) {
+		this.key = "emnull";
+		this.val = this.constructor.emnull;
 		return true;
 	} else {
 		return false;

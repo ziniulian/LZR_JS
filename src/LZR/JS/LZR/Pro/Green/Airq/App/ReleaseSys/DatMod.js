@@ -14,6 +14,9 @@ LZR.load([
 LZR.Pro.Green.Airq.App.ReleaseSys.DatMod = function (obj) /*bases:LZR.Pro.Gis.Area*/ {
 	LZR.initSuper(this, obj);
 
+	// 播报
+	this.broadcast = "";	/*as:string*/
+
 	// 指数集合
 	this.aqis/*m*/ = {};	/*as:LZR.Pro.Green.Airq.Fom.Aqi*/
 
@@ -35,7 +38,11 @@ LZR.load(null, "LZR.Pro.Green.Airq.App.ReleaseSys.DatMod");
 
 // 构造器
 LZR.Pro.Green.Airq.App.ReleaseSys.DatMod.prototype.init_ = function (obj/*as:Object*/) {
-	this.initFom();
+	this.hdAqis({
+		"24": undefined,
+		"48": undefined,
+		"72": undefined
+	});
 
 	if (obj) {
 		LZR.setObj (this, obj);
@@ -43,9 +50,19 @@ LZR.Pro.Green.Airq.App.ReleaseSys.DatMod.prototype.init_ = function (obj/*as:Obj
 	}
 };
 
-// 初始化近三天污染数据
-LZR.Pro.Green.Airq.App.ReleaseSys.DatMod.prototype.initFom = function () {
-	this.aqis["24"] = new this.clsAqi();
-	this.aqis["48"] = new this.clsAqi();
-	this.aqis["72"] = new this.clsAqi();
+// 对构造参数的特殊处理
+LZR.Pro.Green.Airq.App.ReleaseSys.DatMod.prototype.hdObj_ = function (obj/*as:Object*/) {
+	if (obj.hd_aqis) {
+		this.hdAqis (obj.hd_aqis);
+	}
+
+	// 调用父类的参数处理（子数据的递归创建）
+	this.utLzr.supCall (this, 0, "hdObj_", obj);
+};
+
+// 处理污染指数
+LZR.Pro.Green.Airq.App.ReleaseSys.DatMod.prototype.hdAqis = function (obj/*as:Object*/) {
+	for (var s in obj) {
+		this.aqis[s] = new this.clsAqi(obj[s]);
+	}
 };
