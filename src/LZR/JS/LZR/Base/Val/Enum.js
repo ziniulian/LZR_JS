@@ -15,6 +15,9 @@ LZR.Base.Val.Enum = function (obj) /*bases:LZR.Base.Val*/ {
 	// 枚举名
 	this.key = "";	/*as:string*/
 
+	// 通用工具
+	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
+
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {

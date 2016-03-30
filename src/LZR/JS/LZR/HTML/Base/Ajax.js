@@ -57,6 +57,9 @@ LZR.HTML.Base.Ajax.prototype.hdObj_ = function (obj/*as:Object*/) {
 LZR.HTML.Base.Ajax.prototype.post = function (url/*as:string*/, msg/*as:Object*/, msgType/*as:string*/, isAsyn/*as:boolean*/, isGet/*as:boolean*/)/*as:string*/ {
 	if ( isAsyn ) {
 		this.ajax.onreadystatechange = this.utLzr.bind ( this,  this.asynCallback );
+		isAsyn = true;
+	} else {
+		isAsyn = false;
 	}
 
 	// 处理 msg

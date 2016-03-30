@@ -2,18 +2,21 @@
 作者：子牛连
 类名：Aqi
 说明：污染综合指数
-创建日期：25-三月-2016 18:31:15
+创建日期：30-三月-2016 9:26:43
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.Pro.Green.Airq.Fom",
-	"LZR.Pro.Green.Airq.Alarm.EmAlarmLevel",
-	"LZR.Pro.Green.Airq.Fom.EmFomTyp"
+	"LZR.Pro.Green.Airq.Fom.EmFomTyp",
+	"LZR.Pro.Green.Airq.Alarm.EmAlarmLevel"
 ], "LZR.Pro.Green.Airq.Fom.Aqi");
 LZR.Pro.Green.Airq.Fom.Aqi = function (obj) {
 	// 时间
-	this.tim = null;	/*as:Date*/
+	this.tim = new Date(null);	/*as:Date*/
+
+	// 附加信息
+	this.memo = {};	/*as:Object*/
 
 	// 引用枚举类
 	this.clsEmFomTyp/*m*/ = (LZR.Pro.Green.Airq.Fom.EmFomTyp);	/*as:fun*/
@@ -58,10 +61,7 @@ LZR.Pro.Green.Airq.Fom.Aqi.prototype.hdObj_ = function (obj/*as:Object*/) {
 	}
 
 	if (obj.mainFom) {
-		for (var i=0; i<obj.mainFom.length; i++) {
-			this.emMainFom = [];
-			this.emMainFom.push( new this.clsEmFomTyp(obj.mainFom[i]) );
-		}
+		this.emMainFom = this.hdMainFom(obj.mainFom);
 	}
 
 	if (obj.hd_min) {
@@ -71,5 +71,26 @@ LZR.Pro.Green.Airq.Fom.Aqi.prototype.hdObj_ = function (obj/*as:Object*/) {
 	if (obj.hd_max) {
 		this.max.vcAqi.set(obj.hd_max);
 	}
+};
 
+// 处理主要污染物
+LZR.Pro.Green.Airq.Fom.Aqi.prototype.hdMainFom = function (obj/*as:Object*/)/*as:Array*/ {
+	var r = [];
+	for (var i=0; i<obj.length; i++) {
+		r.push( new this.clsEmFomTyp(obj[i]) );
+	}
+	return r;
+};
+
+// 获取唯一首要污染物
+LZR.Pro.Green.Airq.Fom.Aqi.prototype.getOneMainFom = function ()/*as:LZR.Pro.Green.Airq.Fom.EmFomTyp*/ {
+	var order = ["pm25", "pm10", "o3", "so2", "no2", "co"];
+	for (var i = 0; i<order.length; i++) {
+		for (var j = 0; j<this.emMainFom.length; j++) {
+			if (order[i] === this.emMainFom[j].getKey()) {
+				return this.emMainFom[j];
+			}
+		}
+	}
+	return new this.clsEmFomTyp();
 };

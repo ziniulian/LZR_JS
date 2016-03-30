@@ -17,6 +17,18 @@ LZR.Pro.Green.Airq.App.ReleaseSys.DatMod = function (obj) /*bases:LZR.Pro.Gis.Ar
 	// 播报
 	this.broadcast = "";	/*as:string*/
 
+	// 城市图片
+	this.imgUrl = "";	/*as:string*/
+
+	// 地图小图标Doe
+	this.mapSmallDoe = null;	/*as:LZR.HTML.Base.Doe*/
+
+	// 地图大图标Doe
+	this.mapBigDoe = null;	/*as:LZR.HTML.Base.Doe*/
+
+	// 标牌元素
+	this.boardDoe = null;	/*as:LZR.HTML.Base.Doe*/
+
 	// 指数集合
 	this.aqis/*m*/ = {};	/*as:LZR.Pro.Green.Airq.Fom.Aqi*/
 

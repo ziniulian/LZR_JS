@@ -39,7 +39,7 @@ LZR.Base.Time.prototype.hdObj_ = function (obj/*as:Object*/) {
 };
 
 // 字符串转时间
-LZR.Base.Time.prototype.stringToDate = function (date/*as:string*/)/*as:Date*/ {
+LZR.Base.Time.prototype.stringToDate = function (strDate/*as:string*/)/*as:Date*/ {
 	return eval( "new Date(" + strDate.replace( /\d+(?=-[^-]+$)/, function (a) { return parseInt(a, 10) - 1; } ).match(/\d+/g) + ")" );
 };
 
