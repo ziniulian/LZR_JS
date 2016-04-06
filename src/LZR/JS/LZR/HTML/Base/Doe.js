@@ -72,22 +72,44 @@ LZR.HTML.Base.Doe.prototype.init_ = function (obj/*as:Object*/) {
 
 // 对构造参数的特殊处理
 LZR.HTML.Base.Doe.prototype.hdObj_ = function (obj/*as:Object*/) {
-	if (obj.typ) {
-		this.doe = document.createElement(obj.typ);
-		if (typeof(obj.css) === "string") {
-			this.css = this.utCss.parse(obj.css);
-		}
-		this.css.flush(this.doe);
-	} else if (obj.doe) {
-		if (this.doe.tagName) {
-			this.typ = this.doe.tagName;
-			this.css = this.utCss.parse(this.doe);
-			this.initSubsByDom ();
-		}
+	if (obj.hd_typ) {
+		this.hdCss(obj.hd_css, false);
+		this.hdTyp (obj.hd_typ);
+	} else if (obj.hd_doe) {
+		this.hdDoe(obj.hd_doe);
 	}
 
 	// 调用父类的参数处理（子数据的递归创建）
 	this.utLzr.supCall (this, 0, "hdObj_", obj);
+};
+
+// 处理标记
+LZR.HTML.Base.Doe.prototype.hdTyp = function (hd_typ/*as:string*/, flushCss/*as:boolean*/) {
+	this.typ = hd_typ;
+	this.doe = document.createElement(hd_typ);
+	if (flushCss !== false) {
+		this.css.flush(this.doe);
+	}
+};
+
+// 处理样式
+LZR.HTML.Base.Doe.prototype.hdCss = function (hd_css/*as:string*/, flushCss/*as:boolean*/) {
+	if (typeof(hd_css) === "string") {
+		this.css = this.utCss.parse(hd_css);
+		if (flushCss !== false) {
+			this.css.flush(this.doe);
+		}
+	}
+};
+
+// 处理DOM元素
+LZR.HTML.Base.Doe.prototype.hdDoe = function (hd_doe/*as:Object*/) {
+	if (hd_doe.tagName) {
+		this.doe = hd_doe;
+		this.typ = hd_doe.tagName;
+		this.css = this.utCss.parse(hd_doe);
+		this.initSubsByDom ();
+	}
 };
 
 // 用元素初始化时包含递归的子元素
@@ -96,8 +118,8 @@ LZR.HTML.Base.Doe.prototype.initSubsByDom = function () {
 	for (var i = 0; i<ns.length; i++) {
 		if (ns[i].tagName) {
 			var d = new this.constructor ({
-				id: (ns[i].id ? ns[i].id : this.count.toString()),
-				doe: ns[i]
+				id: (ns[i].id ? ns[i].id : "doe_" + this.count.toString()),
+				hd_doe: ns[i]
 			});
 			this.utLzr.supCall (this, 0, "add", d);	// 不能用 this.add (d); 方法
 		}
@@ -227,8 +249,7 @@ LZR.HTML.Base.Doe.prototype.del = function (id/*as:string*/)/*as:Object*/ {
 };
 
 // ---- 处理克隆参数
-LZR.HTML.Base.Doe.prototype.hdClonePro = function (name/*as:string*/, dep/*as:boolean*/)/*as:Object*/ {
-	var r;
+LZR.HTML.Base.Doe.prototype.hdClonePro = function (name/*as:string*/, rt/*as:Object*/, dep/*as:boolean*/)/*as:Object*/ {
 	switch (name) {
 		case "doe":
 		case "evt":
@@ -238,20 +259,21 @@ LZR.HTML.Base.Doe.prototype.hdClonePro = function (name/*as:string*/, dep/*as:bo
 		case "utCss":
 		case "utEvt":
 		case "utLzr":
-			r = undefined;
 			break;
 		case "typ":
+			rt.hd_typ = this[name];
+			break;
 		case "dat":	// 数据不克隆
-			r = this[name];
+			rt.dat = this[name];
 			break;
 		case "css":
-			r = this.css.print();
+			rt.hd_css = this.css.print();
 			break;
 		default:
-			r = this.utLzr.supCall (this, 0, "hdClonePro", name, dep);
+			this.utLzr.supCall (this, 0, "hdClonePro", name, rt, dep);
 			break;
 	}
-	return r;
+	return rt;
 };
 
 // ---- 克隆

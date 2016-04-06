@@ -195,13 +195,10 @@ LZR.Base.Data.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
 				case "subs":
 					break;
 				case "id":
-					r[s] = this.id.get();
+					r.id = this.id.get();
 					break;
 				default:
-					var v =  this.hdClonePro (s, dep);
-					if (v !== undefined) {
-						r[s] = v;
-					}
+					this.hdClonePro (s, r, dep);
 			}
 		}
 	}
@@ -216,14 +213,13 @@ LZR.Base.Data.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
 };
 
 // 处理克隆参数
-LZR.Base.Data.prototype.hdClonePro = function (name/*as:string*/, dep/*as:boolean*/)/*as:Object*/ {
-	var r;
+LZR.Base.Data.prototype.hdClonePro = function (name/*as:string*/, rt/*as:Object*/, dep/*as:boolean*/)/*as:Object*/ {
 	if (dep) {
-		r = LZR.clone(this[name], dep);
+		rt[name] = LZR.clone(this[name], dep);
 	} else {
-		r = this[name];
+		rt[name] = this[name];
 	}
-	return r;
+	return rt;
 };
 
 // 父类变化时触发的事件
