@@ -34,11 +34,6 @@ LZR.spAjax = null;	/*as:Object*/
 // 延后加载内容
 LZR.afterLoad = {};	/*as:Object*/
 
-// 单件对象集合
-LZR.singletons = {
-	nodejsTools:{}
-};	/*as:Object*/
-
 // 构造器
 LZR.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
@@ -50,22 +45,6 @@ LZR.prototype.init_ = function (obj/*as:Object*/) {
 // 对构造参数的特殊处理
 LZR.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
-};
-
-// 获得一个ajax对象
-LZR.getAjax = function ()/*as:Object*/ {
-	var xmlHttp = null;
-	try{
-		xmlHttp = new XMLHttpRequest();
-	} catch (MSIEx) {
-		var activeX = [ "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP" ];
-		for (var i=0; i < activeX.length; i++) {
-			try {
-				xmlHttp = new ActiveXObject( activeX[i] );
-			} catch (e) {}
-		}
-	}
-	return xmlHttp;
 };
 
 // Ajax 形式加载文本
@@ -271,6 +250,38 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 			}
 		}
 	}
+};
+
+
+
+
+
+
+
+
+
+/* ************************************************************************* */
+
+// LZR = {};
+// 单件对象集合
+LZR.singletons = {
+	nodejsTools:{}
+};	/*as:Object*/
+
+// 获得一个ajax对象
+LZR.getAjax = function ()/*as:Object*/ {
+	var xmlHttp = null;
+	try{
+		xmlHttp = new XMLHttpRequest();
+	} catch (MSIEx) {
+		var activeX = [ "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP", "Microsoft.XMLHTTP" ];
+		for (var i=0; i < activeX.length; i++) {
+			try {
+				xmlHttp = new ActiveXObject( activeX[i] );
+			} catch (e) {}
+		}
+	}
+	return xmlHttp;
 };
 
 // 父类构造器

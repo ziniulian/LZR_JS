@@ -56,7 +56,7 @@ LZR.HTML.Base.Ajax.prototype.hdObj_ = function (obj/*as:Object*/) {
 // 发送POST请求
 LZR.HTML.Base.Ajax.prototype.post = function (url/*as:string*/, msg/*as:Object*/, msgType/*as:string*/, isAsyn/*as:boolean*/, isGet/*as:boolean*/)/*as:string*/ {
 	if ( isAsyn ) {
-		this.ajax.onreadystatechange = this.utLzr.bind ( this,  this.asynCallback );
+		this.ajax.onreadystatechange = this.utLzr.bind ( this,  this.onRsp );
 		isAsyn = true;
 	} else {
 		isAsyn = false;
@@ -114,8 +114,8 @@ LZR.HTML.Base.Ajax.prototype.asynPost = function (url/*as:string*/, msg/*as:Obje
 	this.post ( url, msg, msgType, true, false );
 };
 
-// 异步回调
-LZR.HTML.Base.Ajax.prototype.asynCallback = function () {
+// Ajax应答触发的事件
+LZR.HTML.Base.Ajax.prototype.onRsp = function (text/*as:string*/, status/*as:int*/) {
 	if ( this.ajax.readyState == 4 ) {
 		this.evt.rsp.execute (this.ajax.responseText, this.ajax.status);
 	}
