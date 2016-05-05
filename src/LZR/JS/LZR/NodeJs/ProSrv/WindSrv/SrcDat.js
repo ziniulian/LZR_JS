@@ -50,7 +50,7 @@ LZR.load(null, "LZR.NodeJs.ProSrv.WindSrv.SrcDat");
 
 // 构造器
 LZR.NodeJs.ProSrv.WindSrv.SrcDat.prototype.init_ = function (obj/*as:Object*/) {
-	this.calcStep();
+	this.calcStep(this);
 
 	if (obj) {
 		LZR.setObj (this, obj);
@@ -64,7 +64,7 @@ LZR.NodeJs.ProSrv.WindSrv.SrcDat.prototype.hdObj_ = function (obj/*as:Object*/) 
 };
 
 // 计算间隔
-LZR.NodeJs.ProSrv.WindSrv.SrcDat.prototype.calcStep = function () {
-	this.lonstep = (this.lonmax - this.lonmin) / (this.cols - 1);
-	this.latstep = (this.latmax - this.latmin) / (this.rows - 1);
+LZR.NodeJs.ProSrv.WindSrv.SrcDat.prototype.calcStep = function (obj/*as:Object*/) {
+	obj.lonstep = (obj.lonmax - obj.lonmin) / (obj.cols - 1);
+	obj.latstep = (obj.latmax - obj.latmin) / (obj.rows - 1);
 };

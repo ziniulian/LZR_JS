@@ -95,7 +95,17 @@ LZR.Base.CallBacks.prototype.execute = function ()/*as:boolean*/ {
 					break;
 				default:
 					if (this.funs[s].enableEvent) {
-						if ( (this.funs[s].fun.apply ( this.obj, arguments )) === false ) {
+						var arg = Array.prototype.slice.call ( arguments );
+						if (this.funs[s].selfInfo) {
+							arg.push({
+								id: "selfInfo",
+								root: this,
+								parent: this.funs,
+								self: this.funs[s],
+								nam: this.funs[s].name
+							});
+						}
+						if ( (this.funs[s].fun.apply ( this.obj, arg )) === false ) {
 							b = false;
 						}
 					} else {

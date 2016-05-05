@@ -19,6 +19,9 @@ LZR.Base.CallBacks.CallBack = function (obj) {
 	// 事件自动恢复
 	this.autoEvent = true;	/*as:boolean*/
 
+	// 回调参数中是否添加自我的相关信息
+	this.selfInfo = false;	/*as:boolean*/
+
 	// 函数
 	this.fun = null;	/*as:fun*/
 
