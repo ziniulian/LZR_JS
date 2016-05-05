@@ -11,7 +11,7 @@ LZR.load([
 ], "LZR.Base.Json");
 LZR.Base.Json = function (obj) {
 	// 映射的源 JSON 对象
-	this.src = window.JSON ? (JSON) : (LZR.load(["/Lib/Util/JSON.js"]), JSON);	/*as:Object*/
+	this.src = JSON ? (JSON) : (LZR.load(["/Lib/Util/JSON.js"]), JSON);	/*as:Object*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);

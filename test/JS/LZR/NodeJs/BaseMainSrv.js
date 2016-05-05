@@ -8,6 +8,7 @@ require("LZR");
 LZR.load([
 	"LZR.NodeJs.BaseMainSrv",
 	"LZR.NodeJs.SampleProxySrv",
+	"LZR.NodeJs.ProSrv.WindSrv",
 	"LZR.NodeJs.SampleWebFileSrv"
 ]);
 // console.log ("\n======= 测试 LZR 子模块加载 =======");
@@ -25,6 +26,12 @@ var srv = new LZR.NodeJs.BaseMainSrv ({
 
 // 测试服务启动
 srv.start({
+	// 风场服务
+	wind: {
+		cls_: LZR.NodeJs.ProSrv.WindSrv,
+		name: "/wind"
+	},
+
 	// 简单的代理服务
 	proxy: {
 		cls_: LZR.NodeJs.SampleProxySrv,

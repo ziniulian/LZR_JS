@@ -18,9 +18,6 @@ LZR.HTML.Base.Ctrl.Scd = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	// 被选中时的样式
 	this.css = "";	/*as:string*/
 
-					// 值控制器类
-					this.clsVc/*m*/ = (LZR.Base.Val.Ctrl);	/*as:fun*/
-
 	// 值控制器类
 	this.clsVc/*m*/ = (LZR.Base.Val.Ctrl);	/*as:fun*/
 

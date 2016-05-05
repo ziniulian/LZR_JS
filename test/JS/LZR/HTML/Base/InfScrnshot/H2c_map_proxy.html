@@ -40,6 +40,7 @@
 				// h2c.loog = true;
 				// h2c.proxy = "/proxy";
 				h2c.evt.render.add(function(cav) {
+// console.log (cav.toDataURL("image/png"));
 					document.body.appendChild(cav);
 				});
 
@@ -53,19 +54,19 @@
 
 				var map = new ol.Map({
 					layers: [
-						new ol.layer.Tile({
-							title: "name",
-							name: "name",
-							type: "base",
-							visible: true,
-							source: new ol.source.XYZ({
-								url: "/proxy?url=http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer" + "/tile/{z}/{y}/{x}"
-							})
-						})
-
 						// new ol.layer.Tile({
-						// 	source: new ol.source.OSM()
+						// 	title: "name",
+						// 	name: "name",
+						// 	type: "base",
+						// 	visible: true,
+						// 	source: new ol.source.XYZ({
+						// 		url: "/proxy?url=http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer" + "/tile/{z}/{y}/{x}"
+						// 	})
 						// })
+
+						new ol.layer.Tile({
+							source: new ol.source.OSM()
+						})
 					],
 					target: "map",
 					view: new ol.View({
@@ -74,6 +75,12 @@
 						center: [0,0]
 					})
 				});
+
+				var ddd = document.createElement("div");
+				ddd.id = "ddd";
+				var pp = map.getViewport();
+				pp.insertBefore(ddd, pp.childNodes[1]);
+				// pp.insertBefore(ddd, pp.childNodes[10]);
 
 			}
 		</script>
