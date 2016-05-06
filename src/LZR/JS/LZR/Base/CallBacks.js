@@ -63,7 +63,7 @@ LZR.Base.CallBacks.prototype.hdObj_ = function (obj/*as:Object*/) {
 };
 
 // 添加回调函数
-LZR.Base.CallBacks.prototype.add = function (fun/*as:fun*/, name/*as:LZR.Base.Str*/)/*as:string*/ {
+LZR.Base.CallBacks.prototype.add = function (fun/*as:fun*/, name/*as:LZR.Base.Str*/, self/*as:boolean*/)/*as:string*/ {
 	if (name === undefined || name === null) {
 		name = this.id;
 	}
@@ -71,7 +71,14 @@ LZR.Base.CallBacks.prototype.add = function (fun/*as:fun*/, name/*as:LZR.Base.St
 	if (this.funs[name] === undefined) {
 		this.count ++;
 	}
-	this.funs[name] = new LZR.Base.CallBacks.CallBack ({name: name, fun: fun});
+	var o = {
+		name: name,
+		fun: fun
+	};
+	if (self === true) {
+		o.selfInfo = true;
+	}
+	this.funs[name] = new LZR.Base.CallBacks.CallBack (o);
 	return name;
 };
 
@@ -95,8 +102,9 @@ LZR.Base.CallBacks.prototype.execute = function ()/*as:boolean*/ {
 					break;
 				default:
 					if (this.funs[s].enableEvent) {
-						var arg = Array.prototype.slice.call ( arguments );
+						var arg;
 						if (this.funs[s].selfInfo) {
+							arg = Array.prototype.slice.call ( arguments );
 							arg.push({
 								id: "selfInfo",
 								root: this,
@@ -104,6 +112,8 @@ LZR.Base.CallBacks.prototype.execute = function ()/*as:boolean*/ {
 								self: this.funs[s],
 								nam: this.funs[s].name
 							});
+						} else {
+							arg = arguments;
 						}
 						if ( (this.funs[s].fun.apply ( this.obj, arg )) === false ) {
 							b = false;

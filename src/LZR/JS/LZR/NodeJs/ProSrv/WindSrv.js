@@ -210,7 +210,7 @@ LZR.NodeJs.ProSrv.WindSrv.prototype.response = function (dat/*as:string*/, rsp/*
 
 // 添加源数据事件处理
 LZR.NodeJs.ProSrv.WindSrv.prototype.addSrcEvt = function (obj/*as:Object*/, rsp/*as:Object*/) {
-	this.evt.src.funs[this.evt.src.add(this.utLzr.bind(this, this.hdSrc, obj, rsp))].selfInfo = true;
+	this.evt.src.add(this.utLzr.bind(this, this.hdSrc, obj, rsp), null, true);
 // console.log (this.evt.src.count);
 };
 

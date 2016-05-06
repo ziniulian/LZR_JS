@@ -50,7 +50,7 @@ LZR.HTML.Base.Css.prototype.hdObj_ = function (obj/*as:Object*/) {
 // 刷新样式
 LZR.HTML.Base.Css.prototype.flush = function (doe/*as:Object*/) {
 	var s = this.print();
-	if (s) {
+	if (s || s === "") {
 		doe.className = s;
 	}
 };

@@ -252,6 +252,26 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 	}
 };
 
+// 加载外部库
+LZR.loadAnnex = function (obj/*as:Object*/) {
+	var a, s;
+	a = [];
+	for (s in obj) {
+		if (s[3] === "_" && s[2] === "s" && s[1] === "s" && s[0] === "c") {
+			a.push(obj[s]);
+		} else {
+			try {
+				eval(s);
+			} catch (e) {
+				a.push(obj[s]);
+			}
+		}
+	}
+	if (a.length > 0) {
+		this.load(a);
+	}
+};
+
 
 
 
@@ -262,7 +282,7 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 
 /* ************************************************************************* */
 
-// LZR = {};
+// LZR = { load: function(){}, loadAnnex: function(){} };
 // 单件对象集合
 LZR.singletons = {
 	nodejsTools:{}
@@ -455,6 +475,5 @@ LZR.getClassName = function (obj/*as:Object*/)/*as:string*/ {
 // 删除一个对象的属性
 LZR.del = function (obj/*as:Object*/, proName/*as:string*/) {
 	var note;
-	// obj[proName] = undefined;
 	delete obj[proName];
 };

@@ -2,16 +2,20 @@
 作者：子牛连
 类名：Json
 说明：
-创建日期：11-三月-2016 14:25:05
+创建日期：06-五月-2016 14:15:47
 版本号：1.0
 *************************************************/
+
+LZR.loadAnnex({
+	JSON: "/Lib/Util/JSON.js"
+});
 
 LZR.load([
 	"LZR.Base"
 ], "LZR.Base.Json");
 LZR.Base.Json = function (obj) {
 	// 映射的源 JSON 对象
-	this.src = JSON ? (JSON) : (LZR.load(["/Lib/Util/JSON.js"]), JSON);	/*as:Object*/
+	this.src = JSON;	/*as:Object*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);

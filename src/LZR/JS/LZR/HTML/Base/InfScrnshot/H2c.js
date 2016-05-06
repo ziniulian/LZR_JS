@@ -2,9 +2,13 @@
 作者：子牛连
 类名：H2c
 说明：Html2Canvas
-创建日期：27-四月-2016 16:25:07
+创建日期：06-五月-2016 14:11:39
 版本号：1.0
 *************************************************/
+
+LZR.loadAnnex({
+	html2canvas: "/Lib/Util/htm2cav/h2c_noIE.js"
+});
 
 LZR.load([
 	"LZR.HTML.Base.InfScrnshot",
@@ -14,7 +18,7 @@ LZR.HTML.Base.InfScrnshot.H2c = function (obj) /*interfaces:LZR.HTML.Base.InfScr
 	LZR.HTML.Base.InfScrnshot.call(this);
 
 	// 控件对象
-	this.h2c = window.html2canvas ? (html2canvas) : (LZR.load(["/Lib/Util/htm2cav/h2c_noIE.js"]), html2canvas);	/*as:Object*/
+	this.h2c = html2canvas;	/*as:Object*/
 
 	// 代理服务名
 	this.proxy = "";	/*as:string*/
