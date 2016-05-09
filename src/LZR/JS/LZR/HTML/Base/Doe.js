@@ -154,6 +154,16 @@ LZR.HTML.Base.Doe.prototype.chgCss = function (name/*as:string*/)/*as:boolean*/ 
 	return this.addCss(name);
 };
 
+// 设置DOM元素属性
+LZR.HTML.Base.Doe.prototype.setAtt = function (key/*as:string*/, val/*as:string*/) {
+	this.doe.setAttribute(key, val);
+};
+
+// 设置DOM元素的Styley样式
+LZR.HTML.Base.Doe.prototype.setStyle = function (key/*as:string*/, val/*as:string*/) {
+	this.doe.style[key] = val;
+};
+
 // 添加控制器
 LZR.HTML.Base.Doe.prototype.addCtrl = function (ctl/*as:LZR.HTML.Base.Ctrl*/) {
 	ctl.add(this);

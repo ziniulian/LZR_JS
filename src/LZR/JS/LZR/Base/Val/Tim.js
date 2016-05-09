@@ -2,16 +2,18 @@
 作者：子牛连
 类名：Tim
 说明：时间
-创建日期：06-五月-2016 15:35:07
+创建日期：09-五月-2016 9:30:03
 版本号：1.0
 *************************************************/
 
 LZR.load([
-	"LZR.Base",
+	"LZR.Base.Val",
 	"LZR.Base.Val.Ctrl",
-	"LZR.Base.Time"
-], "LZR.Base.Tim");
-LZR.Base.Tim = function (obj) {
+	"LZR.Base.Time",
+	"LZR.Util",
+	"LZR.Base.Str"
+], "LZR.Base.Val.Tim");
+LZR.Base.Val.Tim = function (obj) {
 	// 时间对象
 	this.dt = null;	/*as:Date*/
 
@@ -19,7 +21,7 @@ LZR.Base.Tim = function (obj) {
 	this.evt = null;	/*as:Object*/
 
 	// 基础值
-	this.base/*m*/ = new LZR.Base.Val.Ctrl();	/*as:LZR.Base.Val.Ctrl*/
+	this.vcBase/*m*/ = new LZR.Base.Val.Ctrl();	/*as:LZR.Base.Val.Ctrl*/
 
 	// 时间工具
 	this.utTim/*m*/ = LZR.getSingleton(LZR.Base.Time);	/*as:LZR.Base.Time*/
@@ -36,40 +38,40 @@ LZR.Base.Tim = function (obj) {
 		this.init_(obj);
 	}
 };
-LZR.Base.Tim.prototype.className_ = "LZR.Base.Tim";
-LZR.Base.Tim.prototype.version_ = "1.0";
+LZR.Base.Val.Tim.prototype.className_ = "LZR.Base.Val.Tim";
+LZR.Base.Val.Tim.prototype.version_ = "1.0";
 
-LZR.load(null, "LZR.Base.Tim");
+LZR.load(null, "LZR.Base.Val.Tim");
 
 // 构造器
-LZR.Base.Tim.prototype.init_ = function (obj/*as:Object*/) {
+LZR.Base.Val.Tim.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
 		this.hdObj_(obj);
 	}
 
-	if (isNaN(this.base.get())) {
+	if (typeof(this.vcBase.get()) !== "number") {
 		if (!this.dt || isNaN(this.dt.valueOf())) {
 			this.dt = new Date();
 		}
-		this.base.set(this.dat.valueOf(), false);
-	} else if (!this.dt || this.dt.valueOf() !== this.base.get()) {
-		this.dt = new Date(this.base.get());
+		this.vcBase.set(this.dt.valueOf(), false);
+	} else if (!this.dt || this.dt.valueOf() !== this.vcBase.get()) {
+		this.dt = new Date(this.vcBase.get());
 	}
 
-	this.evt = this.base.evt;
-	this.evt.change.add(this.utLzr.bind(this, this.baseToDt));
+	this.evt = this.vcBase.evt;
+	this.evt.change.add(this.utLzr.bind(this, this.baseToDt), "Tim_baseToDt");
 };
 
 // 对构造参数的特殊处理
-LZR.Base.Tim.prototype.hdObj_ = function (obj/*as:Object*/) {
+LZR.Base.Val.Tim.prototype.hdObj_ = function (obj/*as:Object*/) {
 	if (obj.hd_tim) {
 		this.hdTim(obj.hd_tim);
 	}
 };
 
 // 处理日期参数
-LZR.Base.Tim.prototype.hdTim = function (pro/*as:Object*/) {
+LZR.Base.Val.Tim.prototype.hdTim = function (pro/*as:Object*/) {
 	switch(LZR.getClassName(pro)) {
 		case "string":
 			this.dt = this.utTim.stringToDate(pro);
@@ -84,29 +86,29 @@ LZR.Base.Tim.prototype.hdTim = function (pro/*as:Object*/) {
 };
 
 // 处理基础值与时间对象的同步
-LZR.Base.Tim.prototype.baseToDt = function (v/*as:int*/) {
+LZR.Base.Val.Tim.prototype.baseToDt = function (v/*as:int*/) {
 	if (this.dt.valueOf() !== v) {
 		this.dt.setTime(v);
 	}
 };
 
 // 时间增减
-LZR.Base.Tim.prototype.add = function (ms/*as:int*/) {
-	this.base.set( (this.base.get() + ms) );
+LZR.Base.Val.Tim.prototype.add = function (ms/*as:int*/) {
+	this.vcBase.set( (this.vcBase.get() + ms) );
 };
 
 // 月增减
-LZR.Base.Tim.prototype.addMon = function (mon/*as:int*/) {
+LZR.Base.Val.Tim.prototype.addMon = function (mon/*as:int*/) {
 	var d = this.dt.getDate();
 	this.dt.setMonth(this.dt.getMonth() + mon);
 	if (this.dt.getDate() !== d) {
 		this.dt.setDate(0);
 	}
-	this.base.set(this.dt.valueOf());
+	this.vcBase.set(this.dt.valueOf());
 };
 
 // 格式化输出
-LZR.Base.Tim.prototype.format = function (fom/*as:string*/)/*as:string*/ {
+LZR.Base.Val.Tim.prototype.format = function (fom/*as:string*/)/*as:string*/ {
 	var key = "";
 	var num = 0;
 	var r = "";
@@ -145,14 +147,14 @@ LZR.Base.Tim.prototype.format = function (fom/*as:string*/)/*as:string*/ {
 					key = fom[i];
 					num = 1;
 				} else {
-					r += print(this.utStr.format, this.dat, key, num);
+					r += print(this.utStr.format, this.dt, key, num);
 					key = fom[i];
 					num = 1;
 				}
 				break;
 			default:
 				if (key) {
-					r += print(this.utStr.format, this.dat, key, num);
+					r += print(this.utStr.format, this.dt, key, num);
 					key = "";
 					num = 0;
 				}
@@ -161,13 +163,36 @@ LZR.Base.Tim.prototype.format = function (fom/*as:string*/)/*as:string*/ {
 		}
 	}
 	if (key) {
-		r += print(this.utStr.format, this.dat, key, num);
+		r += print(this.utStr.format, this.dt, key, num);
 	}
 	return r;
 };
 
+// 设置
+LZR.Base.Val.Tim.prototype.set = function (y/*as:int*/, m/*as:int*/, d/*as:int*/, h/*as:int*/, mut/*as:int*/, s/*as:int*/, f/*as:int*/, doEvent/*as:boolean*/) {
+	var o = this.vcBase.get();
+	this.evt.change.enableEvent = false;
+	this.doYear(y);
+	this.evt.change.enableEvent = false;
+	this.doMon(m);
+	this.evt.change.enableEvent = false;
+	this.doDay(d);
+	this.evt.change.enableEvent = false;
+	this.doHour(h);
+	this.evt.change.enableEvent = false;
+	this.doMut(mut);
+	this.evt.change.enableEvent = false;
+	this.doSec(s);
+	this.evt.change.enableEvent = false;
+	this.doMs(f);
+	this.evt.change.enableEvent = this.evt.change.autoEvent;
+	if (doEvent !== false && o !== this.vcBase.get()) {
+		this.vcBase.onChange(this.vcBase.get(), this.vcBase, o);
+	}
+};
+
 // 设置年
-LZR.Base.Tim.prototype.doYear = function (year/*as:int*/)/*as:int*/ {
+LZR.Base.Val.Tim.prototype.doYear = function (year/*as:int*/)/*as:int*/ {
 	if (year) {
 		year = parseInt(year, 10);
 		if (!isNaN(year)) {
@@ -176,7 +201,7 @@ LZR.Base.Tim.prototype.doYear = function (year/*as:int*/)/*as:int*/ {
 			if (this.dt.getMonth() !== m) {
 				this.dt.setDate(0);
 			}
-			this.base.set(this.dt.valueOf());
+			this.vcBase.set(this.dt.valueOf());
 		}
 	} else {
 		return this.dt.getFullYear();
@@ -184,7 +209,7 @@ LZR.Base.Tim.prototype.doYear = function (year/*as:int*/)/*as:int*/ {
 };
 
 // 设置月
-LZR.Base.Tim.prototype.doMon = function (mon/*as:int*/)/*as:int*/ {
+LZR.Base.Val.Tim.prototype.doMon = function (mon/*as:int*/)/*as:int*/ {
 	if (mon) {
 		mon = parseInt(mon, 10);
 		if (!isNaN(mon) && mon>0 && mon<13) {
@@ -193,7 +218,7 @@ LZR.Base.Tim.prototype.doMon = function (mon/*as:int*/)/*as:int*/ {
 			if (this.dt.getMonth() !== mon) {
 				this.dt.setDate(0);
 			}
-			this.base.set(this.dt.valueOf());
+			this.vcBase.set(this.dt.valueOf());
 		}
 	} else {
 		return (this.dt.getMonth() + 1);
@@ -201,7 +226,7 @@ LZR.Base.Tim.prototype.doMon = function (mon/*as:int*/)/*as:int*/ {
 };
 
 // 设置日
-LZR.Base.Tim.prototype.doDay = function (day/*as:int*/)/*as:int*/ {
+LZR.Base.Val.Tim.prototype.doDay = function (day/*as:int*/)/*as:int*/ {
 	if (day) {
 		day = parseInt(day, 10);
 		if (!isNaN(day) && day>0 && day<32) {
@@ -209,7 +234,7 @@ LZR.Base.Tim.prototype.doDay = function (day/*as:int*/)/*as:int*/ {
 			if (this.dt.getDate() !== day) {
 				this.dt.setDate(0);
 			}
-			this.base.set(this.dt.valueOf());
+			this.vcBase.set(this.dt.valueOf());
 		}
 	} else {
 		return this.dt.getDate();
@@ -217,12 +242,12 @@ LZR.Base.Tim.prototype.doDay = function (day/*as:int*/)/*as:int*/ {
 };
 
 // 设置小时
-LZR.Base.Tim.prototype.doHour = function (hour/*as:int*/)/*as:int*/ {
-	if (hour) {
+LZR.Base.Val.Tim.prototype.doHour = function (hour/*as:int*/)/*as:int*/ {
+	if (hour || hour === 0) {
 		hour = parseInt(hour, 10);
 		if (!isNaN(hour) && hour>-1 && hour<24) {
 			this.dt.setHours(hour);
-			this.base.set(this.dt.valueOf());
+			this.vcBase.set(this.dt.valueOf());
 		}
 	} else {
 		return this.dt.getHours();
@@ -230,12 +255,12 @@ LZR.Base.Tim.prototype.doHour = function (hour/*as:int*/)/*as:int*/ {
 };
 
 // 设置分钟
-LZR.Base.Tim.prototype.doMut = function (mut/*as:int*/)/*as:int*/ {
-	if (mut) {
+LZR.Base.Val.Tim.prototype.doMut = function (mut/*as:int*/)/*as:int*/ {
+	if (mut || mut === 0) {
 		mut = parseInt(mut, 10);
 		if (!isNaN(mut) && mut>-1 && mut<60) {
 			this.dt.setMinutes(mut);
-			this.base.set(this.dt.valueOf());
+			this.vcBase.set(this.dt.valueOf());
 		}
 	} else {
 		return this.dt.getMinutes();
@@ -243,12 +268,12 @@ LZR.Base.Tim.prototype.doMut = function (mut/*as:int*/)/*as:int*/ {
 };
 
 // 设置秒
-LZR.Base.Tim.prototype.doSec = function (sec/*as:int*/)/*as:int*/ {
-	if (sec) {
+LZR.Base.Val.Tim.prototype.doSec = function (sec/*as:int*/)/*as:int*/ {
+	if (sec || sec === 0) {
 		sec = parseInt(sec, 10);
 		if (!isNaN(sec) && sec>-1 && sec<60) {
 			this.dt.setSeconds(sec);
-			this.base.set(this.dt.valueOf());
+			this.vcBase.set(this.dt.valueOf());
 		}
 	} else {
 		return this.dt.getSeconds();
@@ -256,12 +281,12 @@ LZR.Base.Tim.prototype.doSec = function (sec/*as:int*/)/*as:int*/ {
 };
 
 // 设置毫秒
-LZR.Base.Tim.prototype.doMs = function (ms/*as:int*/)/*as:int*/ {
-	if (ms) {
+LZR.Base.Val.Tim.prototype.doMs = function (ms/*as:int*/)/*as:int*/ {
+	if (ms || ms === 0) {
 		ms = parseInt(ms, 10);
-		if (!isNaN(ms) && ms>-1 && ms<999) {
+		if (!isNaN(ms) && ms>-1 && ms<1000) {
 			this.dt.setMilliseconds(ms);
-			this.base.set(this.dt.valueOf());
+			this.vcBase.set(this.dt.valueOf());
 		}
 	} else {
 		return this.dt.getMilliseconds();

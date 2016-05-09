@@ -107,7 +107,7 @@ LZR.Base.Val.Ctrl.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
 	r.autoEvent = this.autoEvent;
 
 	// 事件克隆
-	LZR.clone(this.evt[s], true);
+	// LZR.clone(this.evt[s], true);
 	for (var s in r.evt) {
 		LZR.setObj (r.evt[s], this.evt[s]);
 		if (dep) {

@@ -7,7 +7,7 @@
 *************************************************/
 
 LZR.loadAnnex({
-	html2canvas: "/Lib/Util/htm2cav/h2c_noIE.js"
+	html2canvas: "/Lib/Util/htm2cav/h2c.js"
 });
 
 LZR.load([

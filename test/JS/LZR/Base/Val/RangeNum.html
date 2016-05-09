@@ -1,0 +1,91 @@
+<html>
+	<head>
+		<title>范围的数值测试</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.Base.Val.RangeNum",
+					"LZR.HTML"
+				]);
+				var Rn = LZR.Base.Val.RangeNum;
+				var H = LZR.HTML;
+				var n;
+
+				H.alog ("创建对象：");
+				n = new Rn();
+				H.alog (n.get());
+				H.alog ("");
+
+				H.alog ("设置值：");
+				n.set(100);
+				H.alog (n.get());
+				n.set(0);
+				H.alog (n.get());
+				n.set(50);
+				H.alog (n.get());
+				n.set(-50);
+				H.alog (n.get());
+				n.set(150);
+				H.alog (n.get());
+				H.alog ("");
+
+				H.alog ("修改最大值：");
+				n.vcMax.set(50);
+				H.alog (n.get());
+				H.alog ("");
+
+				H.alog ("修改步距：");
+				n.vcStep.set(7);
+				H.alog (n.get());
+				H.alog ("");
+
+				H.alog ("修改最小值：");
+				n.vcMin.set(5);
+				H.alog (n.get());
+				H.alog ("");
+
+				H.alog ("增减测试：");
+				n.add(1);
+				H.alog (n.get());
+				n.add(-5);
+				H.alog (n.get());
+				n.add(3);
+				H.alog (n.get());
+				H.alog ("");
+
+				H.alog ("取消圆整测试：");
+				n.isNorm = false;
+				n.set(1);
+				H.alog (n.get());
+				n.add(1);
+				H.alog (n.get());
+				n.set(6);
+				H.alog (n.get());
+				n.add(1);
+				H.alog (n.get());
+				n.add(2);
+				H.alog (n.get());
+				n.isNorm = true;
+				n.add(-2);
+				H.alog (n.get());
+				H.alog ("");
+
+			}
+		</script>
+	</head>
+
+	<body onload="init()">
+	</body>
+</html>
