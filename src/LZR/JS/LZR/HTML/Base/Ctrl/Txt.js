@@ -17,9 +17,6 @@ LZR.HTML.Base.Ctrl.Txt = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	// 是否可换行
 	this.single = true;	/*as:boolean*/
 
-					// 内容改变
-					this.evt.chg/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
-
 	// 内容改变
 	this.evt.chg/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
@@ -35,6 +32,19 @@ LZR.HTML.Base.Ctrl.Txt.prototype.className_ = "LZR.HTML.Base.Ctrl.Txt";
 LZR.HTML.Base.Ctrl.Txt.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.HTML.Base.Ctrl.Txt");
+
+// 构造器
+LZR.HTML.Base.Ctrl.Txt.prototype.init_ = function (obj/*as:Object*/) {
+	if (obj) {
+		LZR.setObj (this, obj);
+		this.hdObj_(obj);
+	}
+};
+
+// 对构造参数的特殊处理
+LZR.HTML.Base.Ctrl.Txt.prototype.hdObj_ = function (obj/*as:Object*/) {
+
+};
 
 // 文本处理
 LZR.HTML.Base.Ctrl.Txt.prototype.hdTxt = function (html/*as:string*/)/*as:string*/ {
@@ -83,12 +93,7 @@ LZR.HTML.Base.Ctrl.Txt.prototype.onChg = function (doeo/*as:LZR.HTML.Base.Doe*/,
 
 // 给元素添加事件集
 LZR.HTML.Base.Ctrl.Txt.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	// 添加数据 历史文本内容 hct_txt
-	if (!doeo.dat) {
-		doeo.dat = {};
-	}
-	doeo.dat.hct_txt = "";
-	doeo.doe.innerHTML = "";
+	doeo.doe.innerHTML = this.crtDat(doeo, "hct_txt", "");
 
 	doeo.setAtt("contenteditable", "true");
 	doeo.addEvt ("keyup", this.utLzr.bind(this, this.hdKeyUp, doeo), this.className_);
@@ -97,10 +102,9 @@ LZR.HTML.Base.Ctrl.Txt.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/
 
 // 移除元素的事件集
 LZR.HTML.Base.Ctrl.Txt.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	// 删除数据 历史文本内容 hct_txt
-	LZR.del (doeo.dat, "hct_txt");
+	this.delDat(doeo, "hct_txt");
 
-	doeo.setAtt("contenteditable", "");
+	doeo.delAtt("contenteditable");
 	doeo.delEvt ("keyup", this.className_);
 	doeo.delEvt ("blur", this.className_);
 };

@@ -150,6 +150,15 @@
 				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff") + " \t减一天");
 				H.alog ("");
 
+				H.alog ("测试日期参数修改时间：");
+				t.setByDate("1985-6-17");
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				t.setByDate(1);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				t.setByDate(new Date());
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				H.alog ("");
+
 			}
 		</script>
 	</head>

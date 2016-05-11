@@ -17,6 +17,9 @@ LZR.Base.Val.Ctrl = function (obj) /*bases:LZR.Base.Val*/ /*interfaces:LZR.Base.
 
 	LZR.Base.InfEvt.call(this);
 
+	// 可在事件中变化的临时值
+	this.tmpVal = {};	/*as:Object*/
+
 	// 是否触发事件
 	this.enableEvent = true;	/*as:boolean*/
 
@@ -63,18 +66,18 @@ LZR.Base.Val.Ctrl.prototype.hdObj_ = function (obj/*as:Object*/) {
 };
 
 // 设置值之前触发的事件
-LZR.Base.Val.Ctrl.prototype.beforeSet = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/)/*as:boolean*/ {
-	return this.evt.before.execute (val, self, old);
+LZR.Base.Val.Ctrl.prototype.beforeSet = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/, tmpVal/*as:Object*/)/*as:boolean*/ {
+	return this.evt.before.execute (val, self, old, tmpVal);
 };
 
 // 值变动后触发的事件
-LZR.Base.Val.Ctrl.prototype.onChange = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/)/*as:boolean*/ {
-	return this.evt.change.execute (val, self, old);
+LZR.Base.Val.Ctrl.prototype.onChange = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/, tmpVal/*as:Object*/)/*as:boolean*/ {
+	return this.evt.change.execute (val, self, old, tmpVal);
 };
 
 // 设置值后触发的事件
-LZR.Base.Val.Ctrl.prototype.onSet = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/)/*as:boolean*/ {
-	return this.evt.set.execute (val, self, old);
+LZR.Base.Val.Ctrl.prototype.onSet = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/, tmpVal/*as:Object*/)/*as:boolean*/ {
+	return this.evt.set.execute (val, self, old, tmpVal);
 };
 
 // ---- 设置值
@@ -85,13 +88,21 @@ LZR.Base.Val.Ctrl.prototype.set = function (obj/*as:Object*/, doEvent/*as:boolea
 	} else {
 		if (this.enableEvent) {
 			var old = this.val;
-			if (this.beforeSet (obj, this, old)) {
-				if (obj !== old) {
-					this.val = obj;
-					r = this.onChange (obj, this, old);
+			this.tmpVal.tmpVal = obj;
+			if (this.beforeSet (obj, this, old, this.tmpVal)) {
+				if (this.tmpVal.tmpVal !== old) {
+					this.val = this.tmpVal.tmpVal;
+					r = this.onChange (this.tmpVal.tmpVal, this, old, this.tmpVal);
+					if (!r) {
+						this.val = this.tmpVal.tmpVal;
+					}
 				}
-				r = this.onSet (obj, this, old) && r;
+				if (!(this.onSet (this.tmpVal.tmpVal, this, old, this.tmpVal))) {
+					this.val = this.tmpVal.tmpVal;
+					r = false;
+				}
 			}
+			this.tmpVal.tmpVal = undefined;
 		} else {
 			this.enableEvent = this.autoEvent;
 			this.val = obj;

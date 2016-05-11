@@ -1,0 +1,96 @@
+<html>
+	<head>
+		<title>块状数值增减控制器测试</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+			.a {
+				display: inline-block;
+				vertical-align: top;
+				margin: 5px;
+			}
+			.scd {
+				border-radius: 12px;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.HTML.Base.Ctrl.NumBase.BlockNum"
+				]);
+				var de = LZR.HTML.Base.Doe;
+				var cls = LZR.HTML.Base.Ctrl.NumBase.BlockNum;
+
+				LZR.HTML.alog ("DOM参数创建元素");
+				var a = new de ({
+					id: "年",
+					hd_doe: document.getElementById("a")
+				});
+				var b = new de ({
+					id: "月",
+					hd_doe: document.getElementById("b")
+				});
+				var c = new de ({
+					id: "日",
+					hd_doe: document.getElementById("c")
+				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("创建按钮控制器");
+				var ttt = new cls ({
+					formatDigit: 2,
+					hd_css: "scd"
+				});
+				ttt.add(a, {
+					min: 1900,
+					max: 2100,
+					step: 1,
+					num: 1985
+				});
+				ttt.add(b);
+				ttt.add(c, {
+					min: 1,
+					max: 30,
+					step: 1,
+					num: 17
+				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("测试删除元素");
+				ttt.del(b);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("测试元素再添加");
+				ttt.add(b, {
+					min: 1,
+					max: 12,
+					step: 1,
+					num: 6
+				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("测试事件响应");
+				ttt.evt.chg.add(function(d, v) {
+					LZR.HTML.alog (v + d.id.get());
+				});
+				LZR.HTML.alog ("");
+
+console.log (ttt);
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+		<div id = "a" class = "a"></div>
+		<div id = "b" class = "a"></div>
+		<div id = "c" class = "a"></div>
+	</body>
+</html>

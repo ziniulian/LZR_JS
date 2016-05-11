@@ -115,7 +115,7 @@ LZR.Base.Val.RangeNum.prototype.check = function (v/*as:double*/)/*as:double*/ {
 // 设置
 LZR.Base.Val.RangeNum.prototype.set = function (num/*as:double*/, doEvt/*as:boolean*/)/*as:double*/ {
 	this.vcNum.set (this.check(num), doEvt);
-	return num;
+	return this.vcNum.get();
 };
 
 // 检查并重设数据

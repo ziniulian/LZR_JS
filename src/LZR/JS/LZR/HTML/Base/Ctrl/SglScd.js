@@ -17,9 +17,6 @@ LZR.HTML.Base.Ctrl.SglScd = function (obj) /*bases:LZR.HTML.Base.Ctrl.Scd*/ {
 	// 至少有一个选项被选中
 	this.only = true;	/*as:boolean*/
 
-	// 字符串工具
-	this.utStr/*m*/ = LZR.getSingleton(LZR.Base.Str);	/*as:LZR.Base.Str*/
-
 	// 当前被选中的元素
 	this.vcCur/*m*/ = new LZR.Base.Val.Ctrl();	/*as:LZR.Base.Val.Ctrl*/
 

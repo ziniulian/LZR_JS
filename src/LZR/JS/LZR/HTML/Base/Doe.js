@@ -159,6 +159,11 @@ LZR.HTML.Base.Doe.prototype.setAtt = function (key/*as:string*/, val/*as:string*
 	this.doe.setAttribute(key, val);
 };
 
+// 删除DOM元素属性
+LZR.HTML.Base.Doe.prototype.delAtt = function (key/*as:string*/) {
+	this.doe.removeAttribute(key);
+};
+
 // 设置DOM元素的Styley样式
 LZR.HTML.Base.Doe.prototype.setStyle = function (key/*as:string*/, val/*as:string*/) {
 	this.doe.style[key] = val;

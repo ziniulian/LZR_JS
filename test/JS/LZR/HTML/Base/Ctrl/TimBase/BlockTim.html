@@ -1,0 +1,76 @@
+<html>
+	<head>
+		<title>块状时间制器测试</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+			.a {
+				margin: 10;
+			}
+			.scd {
+				border-radius: 12px;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.HTML.Base.Ctrl.TimBase.BlockTim"
+				]);
+				var de = LZR.HTML.Base.Doe;
+				var cls = LZR.HTML.Base.Ctrl.TimBase.BlockTim;
+
+				LZR.HTML.alog ("DOM参数创建元素");
+				var a = new de ({
+					hd_doe: document.getElementById("a")
+				});
+				LZR.HTML.alog ("");
+console.log (a);
+
+				LZR.HTML.alog ("创建按钮控制器");
+				var ttt = new cls ({
+					hd_formatDigit: 2,
+					hd_css: "scd",
+					format: "yMdh"
+				});
+				ttt.add(a, {
+					hd_tim: "1985-6-17",
+					dtMax: new Date("2099/6/1")
+				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("测试事件响应");
+				ttt.evt.chg.add(function(d, v) {
+					LZR.HTML.alog (v);
+				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("测试删除元素");
+				ttt.del(a);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("测试元素再添加");
+				ttt.add(a);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("测试时间设置");
+				a.dat.hct_tim.set(1990, 2, 31, 12, null, null, null, false);
+				a.dat.hct_tim.set(1985, 6, 17, 22);
+				a.dat.hct_tim.setByDate(new Date());
+				LZR.HTML.alog ("");
+
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+		<div id = "a" class = "a"></div>
+	</body>
+</html>
