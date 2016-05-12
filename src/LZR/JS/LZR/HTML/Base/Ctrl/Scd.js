@@ -2,14 +2,14 @@
 作者：子牛连
 类名：Scd
 说明：选择器
-创建日期：21-三月-2016 11:24:04
+创建日期：12-五月-2016 15:15:53
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.HTML.Base.Ctrl",
-	"LZR.HTML.Base.Css",
 	"LZR.HTML.Base.Doe",
+	"LZR.Base.Data",
 	"LZR.Base.Val.Ctrl"
 ], "LZR.HTML.Base.Ctrl.Scd");
 LZR.HTML.Base.Ctrl.Scd = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {

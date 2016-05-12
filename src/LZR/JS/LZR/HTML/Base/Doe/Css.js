@@ -2,16 +2,16 @@
 作者：子牛连
 类名：Css
 说明：样式
-创建日期：17-三月-2016 15:22:00
+创建日期：12-五月-2016 15:09:09
 版本号：1.0
 *************************************************/
 
 LZR.load([
-	"LZR.HTML.Base",
+	"LZR.HTML.Base.Doe",
 	"LZR.Base.Data",
 	"LZR.Util"
-], "LZR.HTML.Base.Css");
-LZR.HTML.Base.Css = function (obj) /*bases:LZR.Base.Data*/ {
+], "LZR.HTML.Base.Doe.Css");
+LZR.HTML.Base.Doe.Css = function (obj) /*bases:LZR.Base.Data*/ {
 	LZR.initSuper(this, obj);
 
 	// CSS样式名
@@ -26,15 +26,15 @@ LZR.HTML.Base.Css = function (obj) /*bases:LZR.Base.Data*/ {
 		this.init_(obj);
 	}
 };
-LZR.HTML.Base.Css.prototype = LZR.clone (LZR.Base.Data.prototype, LZR.HTML.Base.Css.prototype);
-LZR.HTML.Base.Css.prototype.super_ = [LZR.Base.Data];
-LZR.HTML.Base.Css.prototype.className_ = "LZR.HTML.Base.Css";
-LZR.HTML.Base.Css.prototype.version_ = "1.0";
+LZR.HTML.Base.Doe.Css.prototype = LZR.clone (LZR.Base.Data.prototype, LZR.HTML.Base.Doe.Css.prototype);
+LZR.HTML.Base.Doe.Css.prototype.super_ = [LZR.Base.Data];
+LZR.HTML.Base.Doe.Css.prototype.className_ = "LZR.HTML.Base.Doe.Css";
+LZR.HTML.Base.Doe.Css.prototype.version_ = "1.0";
 
-LZR.load(null, "LZR.HTML.Base.Css");
+LZR.load(null, "LZR.HTML.Base.Doe.Css");
 
 // 构造器
-LZR.HTML.Base.Css.prototype.init_ = function (obj/*as:Object*/) {
+LZR.HTML.Base.Doe.Css.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
 		this.hdObj_(obj);
@@ -43,12 +43,12 @@ LZR.HTML.Base.Css.prototype.init_ = function (obj/*as:Object*/) {
 };
 
 // 对构造参数的特殊处理
-LZR.HTML.Base.Css.prototype.hdObj_ = function (obj/*as:Object*/) {
+LZR.HTML.Base.Doe.Css.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
 
 // 刷新样式
-LZR.HTML.Base.Css.prototype.flush = function (doe/*as:Object*/) {
+LZR.HTML.Base.Doe.Css.prototype.flush = function (doe/*as:Object*/) {
 	var s = this.print();
 	if (s || s === "") {
 		doe.className = s;
@@ -56,7 +56,7 @@ LZR.HTML.Base.Css.prototype.flush = function (doe/*as:Object*/) {
 };
 
 // ---- 添加
-LZR.HTML.Base.Css.prototype.add = function (name/*as:string*/)/*as:boolean*/ {
+LZR.HTML.Base.Doe.Css.prototype.add = function (name/*as:string*/)/*as:boolean*/ {
 	var css;
 	switch (LZR.getClassName(name)) {
 		case "string":
@@ -86,7 +86,7 @@ LZR.HTML.Base.Css.prototype.add = function (name/*as:string*/)/*as:boolean*/ {
 };
 
 // ---- 输出
-LZR.HTML.Base.Css.prototype.print = function ()/*as:string*/ {
+LZR.HTML.Base.Doe.Css.prototype.print = function ()/*as:string*/ {
 	var r = this.name;
 	for (var s in this.subs) {
 		if (r) {
@@ -98,7 +98,7 @@ LZR.HTML.Base.Css.prototype.print = function ()/*as:string*/ {
 };
 
 // 解析样式
-LZR.HTML.Base.Css.parse = function (doe/*as:Object*/)/*as:Css*/ {
+LZR.HTML.Base.Doe.Css.parse = function (doe/*as:Object*/)/*as:Css*/ {
 	var r = new this();
 	var s = doe.className;
 	if (!s && (typeof(doe) === "string")) {
@@ -116,14 +116,14 @@ LZR.HTML.Base.Css.parse = function (doe/*as:Object*/)/*as:Css*/ {
 };
 
 // 添加样式
-LZR.HTML.Base.Css.addCss = function (doe/*as:Object*/, name/*as:string*/) {
+LZR.HTML.Base.Doe.Css.addCss = function (doe/*as:Object*/, name/*as:string*/) {
 	var r = this.parse(doe);
 	r.add(name);
 	r.flush(doe);
 };
 
 // 删除样式
-LZR.HTML.Base.Css.delCss = function (doe/*as:Object*/, name/*as:string*/) {
+LZR.HTML.Base.Doe.Css.delCss = function (doe/*as:Object*/, name/*as:string*/) {
 	var r = this.parse(doe);
 	r.del(name);
 	r.flush(doe);

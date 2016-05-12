@@ -120,7 +120,7 @@ LZR.HTML.Base.Ctrl.Btn.prototype.hdUp = function (doeo/*as:LZR.HTML.Base.Doe*/, 
 					// 创建延时单击
 					this.timeout = setTimeout(this.utLzr.bind(this, this.onClick, doeo), this.dbTim);
 					return;
-				} else if (t < this.longTim) {
+				} else if (t < this.longTim || !this.longTim) {
 					// 触发单击事件
 					this.onClick(doeo);
 				} else {

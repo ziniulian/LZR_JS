@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Doe
 说明：元素
-创建日期：17-三月-2016 15:37:55
+创建日期：12-五月-2016 15:10:09
 版本号：1.0
 *************************************************/
 
@@ -10,11 +10,12 @@ LZR.load([
 	"LZR.HTML.Base",
 	"LZR.HTML.Base.Ctrl",
 	"LZR.Base.Data",
-	"LZR.HTML.Base.Css",
-	"LZR.Base.CallBacks",
 	"LZR.HTML.Util.Evt",
 	"LZR.Base.InfEvt",
-	"LZR.Util"
+	"LZR.Base.CallBacks",
+	"LZR.Util",
+	"LZR.HTML.Base.Doe.Css",
+	"LZR.HTML.Base.Doe.DoePosition"
 ], "LZR.HTML.Base.Doe");
 LZR.HTML.Base.Doe = function (obj) /*bases:LZR.Base.Data*/ /*interfaces:LZR.Base.InfEvt*/ {
 	LZR.initSuper(this, obj);
@@ -30,23 +31,23 @@ LZR.HTML.Base.Doe = function (obj) /*bases:LZR.Base.Data*/ /*interfaces:LZR.Base
 	// 控制器相关的回调函数集合
 	this.ctrlCbs = null;	/*as:Object*/
 
+	// 事件工具
+	this.utEvt/*m*/ = LZR.getSingleton(LZR.HTML.Util.Evt);	/*as:LZR.HTML.Util.Evt*/
+
 	// 数据
 	this.dat/*m*/ = null;	/*as:LZR.Base.Data*/
-
-	// 样式
-	this.css/*m*/ = new LZR.HTML.Base.Css();	/*as:LZR.HTML.Base.Css*/
 
 	// 回调函数类
 	this.clsCb/*m*/ = (LZR.Base.CallBacks);	/*as:fun*/
 
-	// 样式工具
-	this.utCss/*m*/ = (LZR.HTML.Base.Css);	/*as:fun*/
-
-	// 事件工具
-	this.utEvt/*m*/ = LZR.getSingleton(LZR.HTML.Util.Evt);	/*as:LZR.HTML.Util.Evt*/
-
 	// 通用工具
 	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
+
+	// 样式
+	this.css/*m*/ = new LZR.HTML.Base.Doe.Css();	/*as:LZR.HTML.Base.Doe.Css*/
+
+	// 元素在文档中的位置
+	this.position/*m*/ = new LZR.HTML.Base.Doe.DoePosition();	/*as:LZR.HTML.Base.Doe.DoePosition*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
@@ -95,7 +96,7 @@ LZR.HTML.Base.Doe.prototype.hdTyp = function (hd_typ/*as:string*/, flushCss/*as:
 // 处理样式
 LZR.HTML.Base.Doe.prototype.hdCss = function (hd_css/*as:string*/, flushCss/*as:boolean*/) {
 	if (typeof(hd_css) === "string") {
-		this.css = this.utCss.parse(hd_css);
+		this.css = this.css.constructor.parse(hd_css);
 		if (flushCss !== false) {
 			this.css.flush(this.doe);
 		}
@@ -107,7 +108,7 @@ LZR.HTML.Base.Doe.prototype.hdDoe = function (hd_doe/*as:Object*/) {
 	if (hd_doe.tagName) {
 		this.doe = hd_doe;
 		this.typ = hd_doe.tagName;
-		this.css = this.utCss.parse(hd_doe);
+		this.css = this.css.constructor.parse(hd_doe);
 		this.initSubsByDom ();
 	}
 };
@@ -244,6 +245,42 @@ LZR.HTML.Base.Doe.prototype.remove = function () {
 	}
 };
 
+// 计算位置
+LZR.HTML.Base.Doe.prototype.calcPosition = function (doe/*as:Object*/)/*as:Object*/ {
+	var d, box, b = false;
+	var r = new this.position.constructor();
+	if (!doe) {
+		b = true;
+		doe = this.doe;
+	}
+
+	if (doe === document) {
+		r.left = 0;
+		r.top = 0;
+		r.width = window.innerWidth;
+		r.height = window.innerHeight;
+	} else {
+		box = doe.getBoundingClientRect();
+		r.width = box.right - box.left;
+		r.height = box.bottom - box.top;
+		if (window.pageXOffset !== undefined) {
+			d = doe.ownerDocument.documentElement;
+			r.left = box.left - d.clientLeft + window.pageXOffset;
+			r.top = box.top - d.clientTop + window.pageYOffset;
+		} else {
+			// IE 浏览器
+			d = doe.ownerDocument.body;
+			r.left = box.left - d.clientLeft + (d.scrollLeft || doe.ownerDocument.documentElement.scrollLeft);
+			r.top = box.top - d.clientTop + (d.scrollTop || doe.ownerDocument.documentElement.scrollTop);
+		}
+	}
+
+	if (b) {
+		this.position = r;
+	}
+	return r;
+};
+
 // ---- 添加
 LZR.HTML.Base.Doe.prototype.add = function (sub/*as:LZR.Base.Data*/, id/*as:string*/)/*as:boolean*/ {
 	if (this.utLzr.supCall (this, 0, "add", sub, id)) {
@@ -271,7 +308,6 @@ LZR.HTML.Base.Doe.prototype.hdClonePro = function (name/*as:string*/, rt/*as:Obj
 		case "ctrl":
 		case "ctrlCbs":
 		case "clsCb":
-		case "utCss":
 		case "utEvt":
 		case "utLzr":
 			break;

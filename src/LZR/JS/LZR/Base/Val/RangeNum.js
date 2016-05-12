@@ -15,6 +15,9 @@ LZR.Base.Val.RangeNum = function (obj) {
 	// 是否圆整
 	this.isNorm = true;	/*as:boolean*/
 
+	// 是否保证在范围内
+	this.inLimit = true;	/*as:boolean*/
+
 	// 最大值
 	this.vcMax/*m*/ = new LZR.Base.Val.Ctrl(100);	/*as:LZR.Base.Val.Ctrl*/
 
@@ -87,11 +90,7 @@ LZR.Base.Val.RangeNum.prototype.normalize = function (v/*as:double*/)/*as:double
 	var b;
 	var t = this.vcStep.get();
 	var min = this.vcMin.get();
-	if (v > this.vcMax.get()) {
-		v = this.vcMax.get();
-	} else if (v < min) {
-		v = min;
-	}
+	v = this.checkLimit(v);
 	v -= min;
 	b = Math.floor(v/t);
 	v = b*t + min;
@@ -103,6 +102,14 @@ LZR.Base.Val.RangeNum.prototype.check = function (v/*as:double*/)/*as:double*/ {
 	if (this.isNorm) {
 		v = this.normalize(v);
 	} else {
+		v = this.checkLimit(v);
+	}
+	return v;
+};
+
+// 检查数据界限
+LZR.Base.Val.RangeNum.prototype.checkLimit = function (v/*as:double*/)/*as:double*/ {
+	if (this.inLimit) {
 		if (v > this.vcMax.get()) {
 			v = this.vcMax.get();
 		} else if (v < this.vcMin.get()) {
