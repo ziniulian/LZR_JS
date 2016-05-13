@@ -167,7 +167,39 @@ LZR.HTML.Base.Doe.prototype.delAtt = function (key/*as:string*/) {
 
 // 设置DOM元素的Styley样式
 LZR.HTML.Base.Doe.prototype.setStyle = function (key/*as:string*/, val/*as:string*/) {
-	this.doe.style[key] = val;
+	this.doe.style[this.calcStyleNam(key)] = val;
+};
+
+// 获取DOM元素的Styley样式
+LZR.HTML.Base.Doe.prototype.getStyle = function (key/*as:string*/)/*as:string*/ {
+	if ("\v" == "v") {
+		//简单判断ie6~8
+		key = this.calcStyleNam(key);
+		if(key === "backgroundPosition"){
+			//IE6~8不兼容backgroundPosition写法，识别backgroundPositionX/Y
+			return this.doe.currentStyle.backgroundPositionX + " " + this.doe.currentStyle.backgroundPositionY;
+		}
+		return this.doe.currentStyle[key];
+	}else{
+		return document.defaultView.getComputedStyle(this.doe, null).getPropertyValue(this.calcStyleNam(key, true));
+	}
+};
+
+// 处理样式名
+LZR.HTML.Base.Doe.prototype.calcStyleNam = function (key/*as:int*/, lower/*as:boolean*/)/*as:string*/ {
+	if (lower) {
+		return key.replace(/[A-Z]/g, function(all, letter){
+			// console.log ("all : " + all);
+			// console.log ("leter : " + letter);
+			return "-" + all.toLowerCase();
+		});
+	} else {
+		return key.replace(/\-(\w)/g, function(all, letter){
+			// console.log ("all : " + all);
+			// console.log ("leter : " + letter);
+			return letter.toUpperCase();
+		});
+	}
 };
 
 // 添加控制器

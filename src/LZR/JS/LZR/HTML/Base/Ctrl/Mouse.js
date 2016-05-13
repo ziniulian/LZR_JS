@@ -10,6 +10,7 @@ LZR.load([
 	"LZR.HTML.Base.Ctrl",
 	"LZR.HTML.Base.Doe",
 	"LZR.Base.CallBacks",
+	"LZR.Base.Time",
 	"LZR.HTML.Base.Ctrl.Mouse.MouseInfo"
 ], "LZR.HTML.Base.Ctrl.Mouse");
 LZR.HTML.Base.Ctrl.Mouse = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
@@ -26,6 +27,9 @@ LZR.HTML.Base.Ctrl.Mouse = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 
 	// 鼠标经过是否可用
 	this.enableMove = false;	/*as:boolean*/
+
+	// 事件
+	this.evt = {lk:{}, mid:{}, rk:{}};
 
 	// 右长
 	this.evt.rk.lclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
@@ -72,11 +76,17 @@ LZR.HTML.Base.Ctrl.Mouse = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	// 鼠标信息类
 	this.clsMof/*m*/ = (LZR.HTML.Base.Ctrl.Mouse.MouseInfo);	/*as:fun*/
 
+	// 时间工具
+	this.utTim/*m*/ = new LZR.Base.Time();	/*as:LZR.Base.Time*/
+
 	// 左长
 	this.evt.lk.lclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
 	// 经过
 	this.evt.move/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+
+	// 抬起
+	this.evt.up/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
@@ -145,15 +155,17 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe
 		if (v.enableStat & v.STAT[k]) {
 			// 添加事件
 			if (v.stat === 0) {
-				doeo.addEvt ("mousemove", this.utLzr.bind(this, this.hdDocumentMove, doeo), this.className_ + "_hdDocumentMove");
-				doeo.addEvt ("mouseup", this.utLzr.bind(this, this.hdDocumentUp, doeo), this.className_ + "_hdDocumentUp");
+				doeo.delEvt ("mousemove", this.className_);
+				this.utEvt.addEvt (document, "mousemove", v.docMoveFun, false);
+				this.utEvt.addEvt (document, "mouseup", v.docUpFun, false);
+				this.utEvt.addEvt (document, "contextmenu", this.utEvt.stopDefault, false);
 			}
 			v.stat += v.STAT[k];
 
 			// 判断是否双击
 			var p = this.utEvt.getMousePosition(evt);
 			if (this.dbTim && v[k].dbStat === 2 && ((this.utTim.getTim() - v[k].tim) < this.dbTim)) {
-				this.dbStat = 3;
+				v[k].dbStat = 3;
 
 				// 删除延时单击
 				clearTimeout(v[k].timeout);
@@ -173,10 +185,10 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe
 						break;
 				}
 			} else {
-				this.dbStat = 1;
+				v[k].dbStat = 1;
 				v[k].sx = p.x;
-				v[k].ex = p.x;
 				v[k].sy = p.y;
+				v[k].ex = p.x;
 				v[k].ey = p.y;
 				v[k].tim = this.utTim.getTim();
 			}
@@ -192,65 +204,71 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.hdDocumentUp = function (doeo/*as:LZR.HTML.Ba
 	var k = this.parseStat(evt);
 	var v = doeo.dat.hct_mof;
 	// 检查按键是否可用
-	if (v.enableStat & v.STAT[k]) {
+	if (v.stat & v.STAT[k]) {
 		v.stat -= v.STAT[k];
 		if (v.stat === 0) {
-			doeo.delEvt ("mousemove", this.className_ + "_hdDocumentMove");
-			doeo.delEvt ("mouseup", this.className_ + "_hdDocumentUp");
+			this.utEvt.delEvt (document, "mousemove", v.docMoveFun, false);
+			this.utEvt.delEvt (document, "mouseup", v.docUpFun, false);
+			if (this.enableMove) {
+				doeo.addEvt ("mousemove", v.selfMoveFun, this.className_);
+			}
+			// this.utEvt.delEvt (document, "contextmenu", this.utEvt.stopDefault, false);	// 直接移除该事件，会导致右键菜单弹出。需要延时删除
+			setTimeout(this.utLzr.bind(this, this.utEvt.delEvt, document, "contextmenu", this.utEvt.stopDefault, false), 1);
 		}
 
-		if (v[k].dbStat === 1) {
-			var t = this.utTim.getTim() - v[k].tim;
-			var p = this.utEvt.getMousePosition(evt);
-			var x = p.x - doeo.position.left;
-			var y = p.y - doeo.position.top;
-			if (this.dbTim && t < this.dbTim) {
-				// 双击状态
-				v[k].dbStat = 2;
+		if (this.onUp(doeo, evt)) {
+			if (v[k].dbStat === 1) {
+				var t = this.utTim.getTim() - v[k].tim;
+				var p = this.utEvt.getMousePosition(evt);
+				var x = p.x - doeo.position.left;
+				var y = p.y - doeo.position.top;
+				if (this.dbTim && t < this.dbTim) {
+					// 双击状态
+					v[k].dbStat = 2;
 
-				// 创建延时单击
-				switch (k) {
-					case "lk":
-						v[k].timeout = setTimeout(this.utLzr.bind(this, this.onLeftClick, doeo, x, y, p.x, p.y), this.dbTim);
-						break;
-					case "rk":
-						v[k].timeout = setTimeout(this.utLzr.bind(this, this.onRightClick, doeo, x, y, p.x, p.y), this.dbTim);
-						break;
-					case "mid":
-						v[k].timeout = setTimeout(this.utLzr.bind(this, this.onMidClick, doeo, x, y, p.x, p.y), this.dbTim);
-						break;
-				}
+					// 创建延时单击
+					switch (k) {
+						case "lk":
+							v[k].timeout = setTimeout(this.utLzr.bind(this, this.onLeftClick, doeo, x, y, p.x, p.y), this.dbTim);
+							break;
+						case "rk":
+							v[k].timeout = setTimeout(this.utLzr.bind(this, this.onRightClick, doeo, x, y, p.x, p.y), this.dbTim);
+							break;
+						case "mid":
+							v[k].timeout = setTimeout(this.utLzr.bind(this, this.onMidClick, doeo, x, y, p.x, p.y), this.dbTim);
+							break;
+					}
 
-				v[k].tim += t;
-			} else if (t < this.longTim || !this.longTim) {
-				// 触发单击事件
-				switch (k) {
-					case "lk":
-						this.onLeftClick(doeo, x, y, p.x, p.y);
-						break;
-					case "rk":
-						this.onRightClick(doeo, x, y, p.x, p.y);
-						break;
-					case "mid":
-						this.onMidClick(doeo, x, y, p.x, p.y);
-						break;
-				}
-			} else {
-				// 触发长按事件
-				switch (k) {
-					case "lk":
-						this.onLeftLong(doeo, x, y, p.x, p.y);
-						break;
-					case "rk":
-						this.onRightLong(doeo, x, y, p.x, p.y);
-						break;
-					case "mid":
-						this.onMidLong(doeo, x, y, p.x, p.y);
-						break;
+					v[k].tim += t;
+				} else if (t < this.longTim || !this.longTim) {
+					// 触发单击事件
+					switch (k) {
+						case "lk":
+							this.onLeftClick(doeo, x, y, p.x, p.y);
+							break;
+						case "rk":
+							this.onRightClick(doeo, x, y, p.x, p.y);
+							break;
+						case "mid":
+							this.onMidClick(doeo, x, y, p.x, p.y);
+							break;
+					}
+				} else {
+					// 触发长按事件
+					switch (k) {
+						case "lk":
+							this.onLeftLong(doeo, x, y, p.x, p.y);
+							break;
+						case "rk":
+							this.onRightLong(doeo, x, y, p.x, p.y);
+							break;
+						case "mid":
+							this.onMidLong(doeo, x, y, p.x, p.y);
+							break;
+					}
 				}
 			}
 		}
-
 	}
 };
 
@@ -259,42 +277,52 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.hdDocumentMove = function (doeo/*as:LZR.HTML.
 	this.utEvt.stopDefault(evt);
 	this.utEvt.stopBubble(evt);
 
-	var k = this.parseStat(evt);
+	var p = this.utEvt.getMousePosition(evt);
+	var x = p.x - doeo.position.left;
+	var y = p.y - doeo.position.top;
 	var v = doeo.dat.hct_mof;
-	// 检查按键是否可用
-	if (v.enableStat & v.STAT[k]) {
+	var k;
+
+	k = "lk";
+	if (v.stat & v.STAT[k]) {
 		if (v[k].dbStat) {
 			v[k].dbStat = 0;
 		}
+		v[k].ex = p.x;
+		v[k].ey = p.y;
+		this.onLeftDrop(doeo, x, y, p.x, p.y);
+	}
 
-		var p = this.utEvt.getMousePosition(evt);
-		var x = p.x - doeo.position.left;
-		var y = p.y - doeo.position.top;
-
-		// 触发拖拽事件
-		switch (k) {
-			case "lk":
-				this.onLeftDrop(doeo, x, y, p.x, p.y);
-				break;
-			case "rk":
-				this.onRightDrop(doeo, x, y, p.x, p.y);
-				break;
-			case "mid":
-				this.onMidDrop(doeo, x, y, p.x, p.y);
-				break;
+	k = "rk";
+	if (v.stat & v.STAT[k]) {
+		if (v[k].dbStat) {
+			v[k].dbStat = 0;
 		}
+		v[k].ex = p.x;
+		v[k].ey = p.y;
+		this.onRightDrop(doeo, x, y, p.x, p.y);
+	}
+
+	k = "mid";
+	if (v.stat & v.STAT[k]) {
+		if (v[k].dbStat) {
+			v[k].dbStat = 0;
+		}
+		v[k].ex = p.x;
+		v[k].ey = p.y;
+		this.onMidDrop(doeo, x, y, p.x, p.y);
 	}
 };
 
 // 处理移动事件
 LZR.HTML.Base.Ctrl.Mouse.prototype.hdMove = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
-	this.utEvt.stopDefault(evt);
-	this.utEvt.stopBubble(evt);
+	var v = doeo.dat.hct_mof;
+	// this.utEvt.stopDefault(evt);
+	// this.utEvt.stopBubble(evt);
 
 	var p = this.utEvt.getMousePosition(evt);
 	var x = p.x - doeo.position.left;
 	var y = p.y - doeo.position.top;
-	var v = doeo.dat.hct_mof;
 
 	this.onMove(doeo, x, y, p.x, p.y);
 };
@@ -323,6 +351,11 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.hdWheel = function (doeo/*as:LZR.HTML.Base.Do
 // 按下事件
 LZR.HTML.Base.Ctrl.Mouse.prototype.onDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/)/*as:boolean*/ {
 	return this.evt.down.execute (doeo, evt);
+};
+
+// 抬起事件
+LZR.HTML.Base.Ctrl.Mouse.prototype.onUp = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/)/*as:boolean*/ {
+	return this.evt.up.execute (doeo, evt);
 };
 
 // 左键单击事件
@@ -410,11 +443,14 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe
 	} else {
 		v = this.crtDat(doeo, "hct_mof", new this.clsMof(pro));
 	}
-	v.doep = doeo.calcPosition();
+	doeo.calcPosition();
 	v.STAT = this.STAT;
+	v.docMoveFun = this.utLzr.bind(this, this.hdDocumentMove, doeo);
+	v.docUpFun = this.utLzr.bind(this, this.hdDocumentUp, doeo);
+	v.selfMoveFun = this.utLzr.bind(this, this.hdMove, doeo);
 
 	if (this.enableMove) {
-		doeo.addEvt ("mousemove", this.utLzr.bind(this, this.hdMove, doeo), this.className_);
+		doeo.addEvt ("mousemove", v.selfMoveFun, this.className_);
 	}
 	if (this.enableWheel) {
 		doeo.addEvt ("wheel", this.utLzr.bind(this, this.hdWheel, doeo), this.className_);
@@ -424,10 +460,10 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe
 
 // ---- 移除元素的事件集
 LZR.HTML.Base.Ctrl.Mouse.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	// 删除数据
-	this.delDat(doeo, "hct_mof");
-
 	doeo.delEvt ("mousemove", this.className_);
 	doeo.delEvt ("wheel", this.className_);
 	doeo.delEvt ("mousedown", this.className_);
+
+	// 删除数据
+	this.delDat(doeo, "hct_mof");
 };

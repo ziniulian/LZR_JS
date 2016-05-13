@@ -48,6 +48,8 @@ LZR.load(null, "LZR.HTML.Base.Ctrl.NumBase.BlockNum");
 LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.init_ = function (obj/*as:Object*/) {
 	this.addBtnCtrl.dbTim = 0;
 	this.subBtnCtrl.dbTim = 0;
+	this.addBtnCtrl.longTim = 0;
+	this.subBtnCtrl.longTim = 0;
 	this.addBtnCtrl.evt.click.add(this.utLzr.bind(this, this.addOne), "BlockNum_addOne");
 	this.subBtnCtrl.evt.click.add(this.utLzr.bind(this, this.subOne), "BlockNum_subOne");
 	this.txtCtrl.evt.chg.add(this.utLzr.bind(this, this.hdTxtSet), "BlockNum_hdTxtSet");

@@ -15,7 +15,7 @@ LZR.HTML.Base.Ctrl.Mouse.MouseInfo = function (obj) {
 	this.stat = 0;	/*as:int*/
 
 	// 按键可用性状态
-	this.enableStat = 7;	/*as:int*/
+	this.enableStat = 3;	/*as:int*/
 
 	// 滚动值
 	this.wheelVal = 0;	/*as:int*/
@@ -23,11 +23,17 @@ LZR.HTML.Base.Ctrl.Mouse.MouseInfo = function (obj) {
 	// 硬滚动值
 	this.dwVal = 0;	/*as:int*/
 
-	// 元素位置
-	this.doep = null;	/*as:Object*/
-
 	// 鼠标状态常量
 	this.STAT = null;	/*as:Object*/
+
+	// 文档移动函数
+	this.docMoveFun = null;	/*as:fun*/
+
+	// 文档抬起函数
+	this.docUpFun = null;	/*as:fun*/
+
+	// 自身移动函数
+	this.selfMoveFun = null;	/*as:fun*/
 
 	// 左
 	this.lk/*m*/ = new LZR.HTML.Base.Ctrl.Mouse.MouseKey();	/*as:LZR.HTML.Base.Ctrl.Mouse.MouseKey*/
@@ -37,9 +43,6 @@ LZR.HTML.Base.Ctrl.Mouse.MouseInfo = function (obj) {
 
 	// 右
 	this.rk/*m*/ = new LZR.HTML.Base.Ctrl.Mouse.MouseKey();	/*as:LZR.HTML.Base.Ctrl.Mouse.MouseKey*/
-
-	// 经过
-	this.move/*m*/ = new LZR.HTML.Base.Ctrl.Mouse.MouseKey();	/*as:LZR.HTML.Base.Ctrl.Mouse.MouseKey*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
