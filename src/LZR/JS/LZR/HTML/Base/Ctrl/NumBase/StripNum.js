@@ -18,7 +18,7 @@ LZR.HTML.Base.Ctrl.NumBase.StripNum = function (obj) /*bases:LZR.HTML.Base.Ctrl.
 	this.vertical = false;	/*as:boolean*/
 
 	// 底条是否可拖动
-	this.enableDropBase = false;	/*as:boolean*/
+	this.enableDropBase = true;	/*as:boolean*/
 
 	// 按钮拖动
 	this.btnCtrl/*m*/ = new LZR.HTML.Base.Ctrl.Mouse();	/*as:LZR.HTML.Base.Ctrl.Mouse*/
@@ -103,25 +103,73 @@ LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBaseClick = function (doeo/*as:L
 
 // 处理底图拖动
 LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBaseDrop = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/) {
+	var d;
+	var v = doeo.dat.hct_mof;
+	var n = doeo.dat.hct_num;
+	var min = n.vcMin.get();
 
+	if (this.vertical) {
+		d = this.position2Num(doeo, v.lk.sy - v.lk.ey);
+	} else {
+		d = this.position2Num(doeo, v.lk.sx - v.lk.ex);
+	}
+
+	if (d < min) {
+		this.calcRange(n, d, 0);
+	} else if (d > min) {
+		this.calcRange(n, d - min + max, 0);
+	}
+
+	d = this.position2Num(doeo, min, true);
+	if (this.vertical) {
+		v.lk.sy += d;
+	} else {
+		v.lk.sx += d;
+	}
 };
 
 // 处理按钮拖动
 LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBtnDrop = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/) {
+	var d;
+	var v = doeo.dat.hct_mof;
+	var n = doeo.dat.hct_num;
+	var min = n.vcMin.get();
+	var num = n.get();
 
+	if (this.vertical) {
+		d = this.position2Num(doeo, v.lk.ey - v.lk.sy) - min;
+	} else {
+		d = this.position2Num(doeo, v.lk.ex - v.lk.sx) - min;
+	}
+
+	d = this.position2Num(doeo, n.set(num + d) - num + min, true);
+	if (this.vertical) {
+		v.lk.sy += d;
+	} else {
+		v.lk.sx += d;
+	}
 };
 
 // 处理数值变化
 LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdNumChg = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:double*/) {
 	if (this.enableDropBase) {
-		var n = doeo.dat.hct_num;
-		if (v>n.vcMax.get()) {
-			// 范围调整
-		} else if (v<n.vcMin.get()) {
-			// 范围调整
-		}
+		this.calcRange(doeo.dat.hct_num, v, 0.2);
 	}
 	this.placeBtn(doeo);
+};
+
+// 计算范围
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.calcRange = function (n/*as:Object*/, v/*as:double*/, multiple/*as:double*/) {
+	var max = n.vcMax.get();
+	var min = n.vcMin.get();
+	var d = max - min;
+	if (v>max) {
+		n.vcMax.set( n.normalize((v + d*multiple), true), false );
+		n.vcMin.set(n.vcMax.get() - d);
+	} else if (v<min) {
+		n.vcMin.set( n.normalize((v - d*multiple), true), false );
+		n.vcMax.set(n.vcMin.get() + d);
+	}
 };
 
 // ---- 给元素添加事件集
@@ -153,13 +201,8 @@ LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.addEvt = function (doeo/*as:LZR.HT
 			doeo.setStyle("position", "relative");
 			break;
 	}
-	switch (d.getStyle("position")) {
-		case "absolute":
-		case "relative":
-			break;
-		default:
-			d.setStyle("position", "relative");
-			break;
+	if (d.getStyle("position") !== "absolute") {
+		d.setStyle("position", "absolute");
 	}
 
 	// 事件添加

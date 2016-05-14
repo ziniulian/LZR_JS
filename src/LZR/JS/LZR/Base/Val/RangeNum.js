@@ -86,11 +86,13 @@ LZR.Base.Val.RangeNum.prototype.add = function (n/*as:int*/)/*as:double*/ {
 };
 
 // 圆整数据
-LZR.Base.Val.RangeNum.prototype.normalize = function (v/*as:double*/)/*as:double*/ {
+LZR.Base.Val.RangeNum.prototype.normalize = function (v/*as:double*/, noLimit/*as:boolean*/)/*as:double*/ {
 	var b;
 	var t = this.vcStep.get();
 	var min = this.vcMin.get();
-	v = this.checkLimit(v);
+	if (!noLimit) {
+		v = this.checkLimit(v);
+	}
 	v -= min;
 	b = Math.floor(v/t);
 	v = b*t + min;
