@@ -155,7 +155,7 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe
 		if (v.enableStat & v.STAT[k]) {
 			// 添加事件
 			if (v.stat === 0) {
-				doeo.delEvt ("mousemove", this.className_);
+				// doeo.delEvt ("mousemove", this.className_);
 				this.utEvt.addEvt (document, "mousemove", v.docMoveFun, false);
 				this.utEvt.addEvt (document, "mouseup", v.docUpFun, false);
 				this.utEvt.addEvt (document, "contextmenu", this.utEvt.stopDefault, false);
@@ -209,9 +209,9 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.hdDocumentUp = function (doeo/*as:LZR.HTML.Ba
 		if (v.stat === 0) {
 			this.utEvt.delEvt (document, "mousemove", v.docMoveFun, false);
 			this.utEvt.delEvt (document, "mouseup", v.docUpFun, false);
-			if (this.enableMove) {
-				doeo.addEvt ("mousemove", v.selfMoveFun, this.className_);
-			}
+			// if (this.enableMove) {
+			// 	doeo.addEvt ("mousemove", v.selfMoveFun, this.className_);
+			// }
 			// this.utEvt.delEvt (document, "contextmenu", this.utEvt.stopDefault, false);	// 直接移除该事件，会导致右键菜单弹出。需要延时删除
 			setTimeout(this.utLzr.bind(this, this.utEvt.delEvt, document, "contextmenu", this.utEvt.stopDefault, false), 1);
 		}
@@ -285,32 +285,32 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.hdDocumentMove = function (doeo/*as:LZR.HTML.
 
 	k = "lk";
 	if (v.stat & v.STAT[k]) {
-		if (v[k].dbStat) {
+		if (!(v[k].dbStat && (v[k].sx === p.x) && (v[k].sy === p.y))) {
 			v[k].dbStat = 0;
+			v[k].ex = p.x;
+			v[k].ey = p.y;
+			this.onLeftDrop(doeo, x, y, p.x, p.y);
 		}
-		v[k].ex = p.x;
-		v[k].ey = p.y;
-		this.onLeftDrop(doeo, x, y, p.x, p.y);
 	}
 
 	k = "rk";
 	if (v.stat & v.STAT[k]) {
-		if (v[k].dbStat) {
+		if (!(v[k].dbStat && (v[k].sx === p.x) && (v[k].sy === p.y))) {
 			v[k].dbStat = 0;
+			v[k].ex = p.x;
+			v[k].ey = p.y;
+			this.onRightDrop(doeo, x, y, p.x, p.y);
 		}
-		v[k].ex = p.x;
-		v[k].ey = p.y;
-		this.onRightDrop(doeo, x, y, p.x, p.y);
 	}
 
 	k = "mid";
 	if (v.stat & v.STAT[k]) {
-		if (v[k].dbStat) {
+		if (!(v[k].dbStat && (v[k].sx === p.x) && (v[k].sy === p.y))) {
 			v[k].dbStat = 0;
+			v[k].ex = p.x;
+			v[k].ey = p.y;
+			this.onMidDrop(doeo, x, y, p.x, p.y);
 		}
-		v[k].ex = p.x;
-		v[k].ey = p.y;
-		this.onMidDrop(doeo, x, y, p.x, p.y);
 	}
 };
 

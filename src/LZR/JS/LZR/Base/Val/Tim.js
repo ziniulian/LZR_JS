@@ -96,7 +96,7 @@ LZR.Base.Val.Tim.prototype.hdTim = function (pro/*as:Object*/)/*as:Date*/ {
 
 // 处理基础值与时间对象的同步
 LZR.Base.Val.Tim.prototype.base2Dt = function (v/*as:int*/) {
-	if (this.dt.valueOf() !== v) {
+	if (v && this.dt.valueOf() !== v) {
 		this.dt.setTime(v);
 	}
 };

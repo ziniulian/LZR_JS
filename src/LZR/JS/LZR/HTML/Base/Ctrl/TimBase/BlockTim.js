@@ -103,7 +103,6 @@ LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdSetTim = function (doeo/*as:LZR.
 // 处理时间的自动变化
 LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdAutoChg = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	var d, i, v;
-
 	for (i = 0; i<this.format.length; i++) {
 		switch (this.format[i]) {
 			case "y":	// 年
