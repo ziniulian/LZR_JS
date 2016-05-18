@@ -72,7 +72,7 @@ LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.hdLimitChg = function (doeo/*as:LZ
 		n.vcMax.set(m, false);
 		n.vcMin.set(min + m - max, false);
 	} else {
-		this.scall.draw(doeo, this.numCtrl);
+		this.scall.draw(doeo);
 	}
 };
 
@@ -108,7 +108,7 @@ LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.addEvt = function (doeo/*as:LZR.HT
 	this.crtCb2Dat(doeo, doeo.dat.hct_tim.evt.change, "onChg");
 
 	this.numCtrl.placeBtn(doeo);
-	this.scall.draw(doeo, this.numCtrl);
+	this.scall.draw(doeo);
 };
 
 // ---- 移除元素的事件集

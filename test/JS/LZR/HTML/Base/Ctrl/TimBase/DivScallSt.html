@@ -70,12 +70,18 @@
 
 				LZR.HTML.alog ("创建时间轴");
 				var c = new cls ();
+				// c.scall.stat = 1;
+				// c.scall.stat = 2;
 				c.add(a, {
 					hd_tim: utTim.normalize(),
 					dtMax: new Date("2016/5/21"),
 					step: 3600*1000,
-					min: 72,
-					max: 24
+					min: 24 * 4,
+					max: 24 * 1
+					// min: 24 * 80,
+					// max: 24 * 2
+					// min: 24 * 1800,
+					// max: 24 * 2
 				});
 				LZR.HTML.alog ("");
 

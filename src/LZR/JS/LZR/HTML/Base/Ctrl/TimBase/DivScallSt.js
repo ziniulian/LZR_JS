@@ -15,7 +15,9 @@ LZR.HTML.Base.Ctrl.TimBase.DivScallSt = function (obj) /*bases:LZR.HTML.Base.Ctr
 	LZR.initSuper(this, obj);
 
 	// 刻度
-	this.scall/*m*/ = new LZR.HTML.Base.Ctrl.TimBase.StDivScall();	/*as:LZR.HTML.Base.Ctrl.TimBase.StDivScall*/
+	this.scall/*m*/ = new LZR.HTML.Base.Ctrl.TimBase.StDivScall({
+		belongCtrl: this
+	});	/*as:LZR.HTML.Base.Ctrl.TimBase.StDivScall*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);

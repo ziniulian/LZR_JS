@@ -18,14 +18,8 @@ LZR.load([
 LZR.HTML.Base.Ctrl.TimBase.StDivScall = function (obj) /*interfaces:LZR.HTML.Base.Ctrl.TimBase.InfCalibration*/ {
 	LZR.HTML.Base.Ctrl.TimBase.InfCalibration.call(this);
 
-	// 时间工具
-	this.utTim/*m*/ = LZR.getSingleton(LZR.Base.Time);	/*as:LZR.Base.Time*/
-
-	// 时间工具
-	this.utTim/*m*/ = LZR.getSingleton(LZR.Base.Time);	/*as:LZR.Base.Time*/
-
-	// 元素类
-	this.clsDoe/*m*/ = (LZR.HTML.Base.Doe);	/*as:fun*/
+	// 刻度样式
+	this.stat = 0;	/*as:int*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
@@ -52,48 +46,243 @@ LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.hdObj_ = function (obj/*as:Objec
 	
 };
 
-// 划刻度
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.draw = function (doeo/*as:LZR.HTML.Base.Doe*/, ctrl/*as:LZR.HTML.Base.Ctrl.NumBase.StripNum*/) {
+// 显示时间
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.shouTim = function (doeo/*as:LZR.HTML.Base.Doe*/, txt/*as:string*/, usecss/*as:boolean*/) {
+	doeo.doe.innerHTML = txt;
+	if (usecss) {
+		doeo.addCss("Lc_hct_StDivScall_Big_hover");
+	} else {
+		doeo.delCss("Lc_hct_StDivScall_Big_hover");
+	}
+};
+
+// 生成容器
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.crtDoe = function (i/*as:int*/)/*as:LZR.HTML.Base.Doe*/ {
+	return new this.belongCtrl.clsDoe({
+		id: "up_" + i,
+		hd_typ: "div",
+		hd_css: "Lc_hct_StDivScall_Up",
+		chd_: {
+			big: {
+				hd_typ: "div",
+				hd_css: "Lc_hct_StDivScall_Big"
+			},
+			line: {
+				hd_typ: "div",
+				hd_css: "Lc_hct_StDivScall_Line"
+			},
+			point: {
+				hd_typ: "div",
+				hd_css: "Lc_hct_StDivScall_Point"
+			}
+		}
+	});
+};
+
+// 生成时间
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.crtTim = function (min/*as:double*/)/*as:Object*/ {
+	var r = new this.belongCtrl.clsTim({
+		hd_tim: min
+	});
+	switch(this.stat) {
+		case 1:		// 日
+			r.doHour(0, false);
+			if (r.vcBase.get() < min) {
+				r.add(24*3600*1000);
+			}
+			break;
+		case 2:		// 月
+			r.doDay(1, false);
+			r.doHour(0, false);
+			if (r.vcBase.get() < min) {
+				r.addMon(1);
+			}
+			break;
+	}
+	return r;
+};
+
+// 计算总数
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.calcCount = function (dt/*as:Object*/, max/*as:double*/)/*as:int*/ {
+	var d = {
+		d: 0,
+		t: 0
+	};
+	switch(this.stat) {
+		case 0:		// 时
+			d.d = Math.floor((max - dt.vcBase.get()) / (3600 * 1000));
+			d.t = d.d * 3600*1000 + dt.vcBase.get();
+			break;
+		case 1:		// 日
+			d.d = Math.floor((max - dt.vcBase.get()) / (24 * 3600 * 1000));
+			d.t = d.d * 24*3600*1000 + dt.vcBase.get();
+			break;
+		case 2:		// 月
+			d.t = new this.belongCtrl.clsTim({
+				hd_tim: max
+			});
+			d.t.doDay(1, false);
+			d.t.doHour(0, false);
+			d.d = (d.t.doYear() * 12) + (d.t.doMon() - 1) - (dt.doYear() * 12) - (dt.doMon() - 1);
+			d.t = d.t.vcBase.get();
+	}
+	return d;
+};
+
+// 计算小方块宽度
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.calcWidth = function (w/*as:double*/, d/*as:Object*/, dt/*as:Object*/, doeo/*as:LZR.HTML.Base.Doe*/, ctrl/*as:Object*/)/*as:int*/ {
+	switch(this.stat) {
+		case 0:		// 时
+		case 1:		// 日
+			return w;
+		case 2:		// 月
+			if (d.monow === undefined) {
+				d.monow = d.f;
+			} else {
+				d.monow = d.monnw;
+			}
+			dt.addMon(1);
+			d.monnw = ctrl.position2Num(doeo, dt.vcBase.get(), true);
+			return d.monnw - d.monow - 1;
+		default:
+			return 0;
+	}
+};
+
+// 获取判别节点
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getNode = function (dt/*as:Object*/)/*as:int*/ {
+	switch(this.stat) {
+		case 0:		// 时
+			return dt.doDay();
+		case 1:		// 日
+			return dt.doMon();
+		case 2:		// 月
+			return dt.doYear();
+		default:
+			return 0;
+	}
+};
+
+// 设置判别节点
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.setNode = function (dt/*as:Object*/) {
+	switch(this.stat) {
+		case 0:		// 时
+			dt.add(3600 * 1000);
+			break;
+		case 1:		// 日
+			dt.add(24 * 3600 * 1000);
+			break;
+		case 2:		// 月
+			// dt.addMon(1);
+			break;
+	}
+};
+
+// 获取提示内容
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getTxt = function (dt/*as:Object*/)/*as:string*/ {
+	switch(this.stat) {
+		case 0:		// 时
+			return dt.format("d日(M月)");
+		case 1:		// 日
+			return dt.format("M月(y年)");
+		case 2:		// 月
+			return dt.format("y年");
+		default:
+			return "";
+	}
+};
+
+// 获取经过的提示内容
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getHoverTxt = function (dt/*as:Object*/)/*as:string*/ {
+	switch(this.stat) {
+		case 0:		// 时
+			return dt.format("y-M-d hh时");
+		case 1:		// 日
+			return dt.format("y-M-d");
+		case 2:		// 月
+			return dt.format("y年M月");
+		default:
+			return "";
+	}
+};
+
+// ---- 划刻度
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.draw = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	var n = doeo.dat.hct_num;
-	var dt = n.vcMin.get();
-	var step = n.vcStep.get();
-	var d = Math.floor( (n.vcMax.get() - dt) / step );
-	var w = (doeo.position.width / d);
-	var old = new Date(dt);
-	var i, j, sd, out, bd, up;
+	var ctrl = this.belongCtrl.numCtrl;
+	var dt = this.crtTim(n.vcMin.get());
+	var d, w, i, old, out, up, big, sd;
 
 	// 清空容器
-	doeo.innerHTML = "";
+	doeo.del("hct_StDivScall");
+	out = new this.belongCtrl.clsDoe({
+		id: "hct_StDivScall",
+		hd_typ: "div",
+		hd_css: "Lc_hct_StDivScall_Out"
+	});
+	doeo.add(out);
+
+	// 创建容器
+	up = this.crtDoe(0);
+	big = up.subs.big;
+	big.doe.innerHTML = this.getTxt(dt);
+	out.add(up);
+
+	// 计算距离、宽度
+	d = this.calcCount( dt, n.vcMax.get() );
+	d.w = ctrl.position2Num(doeo, d.t, true);
+
+	// 补正
+	d.f = ctrl.position2Num(doeo, dt.vcBase.get(), true);
+	if (d.f) {
+		w = new this.belongCtrl.clsDoe({
+			id: "offset",
+			hd_typ: "div",
+			hd_css: "Lc_hct_StDivScall_Offset"
+		});
+		w.setStyle("width", d.f);
+		up.add(w);
+	}
+
+	w = ((d.w - d.f) / d.d) - 1;
 
 	// 放容器
-	i = 0;
-	j = 0;
-	// out = new this.clsDoe({
-	// 	id: "StDivScall_Out_" + i,
-	// 	hd_typ: "div",
-	// 	hd_css: "Lc_hct_StDivScall_Out",
-	// 	chd_: {
-	// 		up: {
-	// 			hd_typ: "div",
-	// 			hd_css: "Lc_hct_StDivScall_Up"
-	// 		},
-	// 		big: {
-	// 			hd_typ: "div",
-	// 			hd_css: "Lc_hct_StDivScall_Big"
-	// 		}
-	// 	}
-	// });
-	// up = 
-	// doeo.add(sd);
+	for (i = 0; i<d.d; i++) {
+		if (i) {
+			this.setNode(dt);
+			if (old !== this.getNode(dt)) {
+				up = this.crtDoe(i);
+				big = up.subs.big;
+				big.doe.innerHTML = this.getTxt(dt);
+				out.add(up);
+			}
+		}
 
-	for (i = 0; i<d; i++) {
-		sd = new this.clsDoe({
-			id: "StDivScall_Small_" + i,
+		sd = new this.belongCtrl.clsDoe({
+			id: "sd_" + i,
 			hd_typ: "div",
 			hd_css: "Lc_hct_StDivScall_Small"
 		});
-		doeo.add(sd);
-		sd.setStyle("width", w);
-		sd.setStyle("left", i * w);
+		sd.addEvt("mouseover", this.belongCtrl.utLzr.bind(this, this.shouTim, big, this.getHoverTxt(dt), true));
+		sd.addEvt("mouseout", this.belongCtrl.utLzr.bind(this, this.shouTim, big, this.getTxt(dt), false));
+		old = this.getNode(dt);
+		sd.setStyle("width", this.calcWidth(w, d, dt, doeo, ctrl));	// 月刻度会使 dt 值增加
+		up.add(sd);
+	}
+
+	// 清空最后的点线
+	up.del("point");
+	up.del("line");
+
+	// 补正
+	i = Math.floor(doeo.position.width - d.w - 1);
+	if (i>0) {
+		w = new this.belongCtrl.clsDoe({
+			id: "offset2",
+			hd_typ: "div",
+			hd_css: "Lc_hct_StDivScall_Offset2"
+		});
+		w.setStyle("width", i);
+		up.add(w);
 	}
 };
