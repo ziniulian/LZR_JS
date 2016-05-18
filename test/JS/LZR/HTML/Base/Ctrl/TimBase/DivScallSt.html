@@ -11,38 +11,10 @@
 				height: 100%;
 			}
 			.a {
-				display: inline-block;
-				vertical-align: top;
-				width: 70%;
-				height: 50px;
-				margin: 75px 0 0 50px;
-				background-color: yellow;
-			}
-			.b {
-				position: absolute;
-				width: 100px;
-				height: 70px;
-				top: -75px;
-				left: -50px;
-				font-size: 12px;
-				line-height: 18px;
-				color: #EEE;
-				text-align: center;
-				background-color: green;
-			}
-			.c {
-				position: absolute;
-				width: 1px;
-				height: 100%;
-				background-color: red;
-			}
-
-			.d {
-				display: inline-block;
-				vertical-align: top;
+				margin: 20px 0 0 20px;
 			}
 			.scd {
-				border-radius: 12px;
+				border-radius: 15px;
 			}
 		</style>
 
@@ -51,11 +23,9 @@
 				LZR.curPath = "/myLib";
 				LZR.load([
 					"LZR.Base.Time",
-					"LZR.HTML.Base.Ctrl.TimBase.BlockTim",
 					"LZR.HTML.Base.Ctrl.TimBase.DivScallSt"
 				]);
 				var de = LZR.HTML.Base.Doe;
-				var bck = LZR.HTML.Base.Ctrl.TimBase.BlockTim;
 				var cls = LZR.HTML.Base.Ctrl.TimBase.DivScallSt;
 				var utTim = LZR.getSingleton(LZR.Base.Time);
 
@@ -63,62 +33,35 @@
 				var a = new de ({
 					hd_doe: document.getElementById("a")
 				});
-				var d = new de ({
-					hd_doe: document.getElementById("d")
-				});
 				LZR.HTML.alog ("");
 
 				LZR.HTML.alog ("创建时间轴");
-				var c = new cls ();
-				// c.scall.stat = 1;
-				// c.scall.stat = 2;
+				var c = new cls ({
+					scdCss: "scd",
+					hd_css: "scd"
+				});
 				c.add(a, {
 					hd_tim: utTim.normalize(),
-					dtMax: new Date("2016/5/21"),
-					step: 3600*1000,
-					min: 24 * 4,
-					max: 24 * 1
-					// min: 24 * 80,
-					// max: 24 * 2
-					// min: 24 * 1800,
-					// max: 24 * 2
+					// dtMax: new Date("2016/5/21")
+					dtMax: new Date("2020/1/1")
 				});
-				LZR.HTML.alog ("");
-
-				LZR.HTML.alog ("创建时间块");
-				var b = new bck ({
-					hd_formatDigit: 2,
-					hd_css: "scd",
-					format: "yMdh"
-				});
-				d.dat = {
-					hct_tim: a.dat.hct_tim
-				}
-				b.add(d);
-				document.getElementById("b").innerHTML = a.dat.hct_tim.dt;
 				LZR.HTML.alog ("");
 
 				LZR.HTML.alog ("测试事件响应");
 				c.evt.chg.add(function(d, v) {
-					document.getElementById("b").innerHTML = v;
+					console.log (v);
 				});
 				LZR.HTML.alog ("");
 
 				LZR.HTML.alog ("重算元素位置");
 				LZR.HTML.alog ("");
-				a.calcPosition();
+				a.subs["hct_StDivScall_stripDoe"].calcPosition();
 
 			}
 		</script>
 	</head>
 
 	<body class="body" onload="init()">
-		<div id = "d" class = "d"></div>
-
-		<div id = "a" class = "a">
-			<div id = "hct_StripNumBtn" class = "c">
-				<div id = "b" class = "b"></div>
-			</div>
-		</div>
+		<div id = "a" class = "a"></div>
 	</body>
 </html>

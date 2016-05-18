@@ -18,9 +18,6 @@ LZR.load([
 LZR.HTML.Base.Ctrl.TimBase.StDivScall = function (obj) /*interfaces:LZR.HTML.Base.Ctrl.TimBase.InfCalibration*/ {
 	LZR.HTML.Base.Ctrl.TimBase.InfCalibration.call(this);
 
-	// 刻度样式
-	this.stat = 0;	/*as:int*/
-
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
@@ -80,11 +77,11 @@ LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.crtDoe = function (i/*as:int*/)/
 };
 
 // 生成时间
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.crtTim = function (min/*as:double*/)/*as:Object*/ {
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.crtTim = function (min/*as:double*/, stat/*as:int*/)/*as:Object*/ {
 	var r = new this.belongCtrl.clsTim({
 		hd_tim: min
 	});
-	switch(this.stat) {
+	switch(stat) {
 		case 1:		// 日
 			r.doHour(0, false);
 			if (r.vcBase.get() < min) {
@@ -103,12 +100,12 @@ LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.crtTim = function (min/*as:doubl
 };
 
 // 计算总数
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.calcCount = function (dt/*as:Object*/, max/*as:double*/)/*as:int*/ {
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.calcCount = function (dt/*as:Object*/, max/*as:double*/, stat/*as:int*/)/*as:int*/ {
 	var d = {
 		d: 0,
 		t: 0
 	};
-	switch(this.stat) {
+	switch(stat) {
 		case 0:		// 时
 			d.d = Math.floor((max - dt.vcBase.get()) / (3600 * 1000));
 			d.t = d.d * 3600*1000 + dt.vcBase.get();
@@ -130,8 +127,8 @@ LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.calcCount = function (dt/*as:Obj
 };
 
 // 计算小方块宽度
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.calcWidth = function (w/*as:double*/, d/*as:Object*/, dt/*as:Object*/, doeo/*as:LZR.HTML.Base.Doe*/, ctrl/*as:Object*/)/*as:int*/ {
-	switch(this.stat) {
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.calcWidth = function (w/*as:double*/, d/*as:Object*/, dt/*as:Object*/, doeo/*as:LZR.HTML.Base.Doe*/, ctrl/*as:Object*/, stat/*as:int*/)/*as:int*/ {
+	switch(stat) {
 		case 0:		// 时
 		case 1:		// 日
 			return w;
@@ -150,8 +147,8 @@ LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.calcWidth = function (w/*as:doub
 };
 
 // 获取判别节点
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getNode = function (dt/*as:Object*/)/*as:int*/ {
-	switch(this.stat) {
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getNode = function (dt/*as:Object*/, stat/*as:int*/)/*as:int*/ {
+	switch(stat) {
 		case 0:		// 时
 			return dt.doDay();
 		case 1:		// 日
@@ -164,8 +161,8 @@ LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getNode = function (dt/*as:Objec
 };
 
 // 设置判别节点
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.setNode = function (dt/*as:Object*/) {
-	switch(this.stat) {
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.setNode = function (dt/*as:Object*/, stat/*as:int*/) {
+	switch(stat) {
 		case 0:		// 时
 			dt.add(3600 * 1000);
 			break;
@@ -179,8 +176,8 @@ LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.setNode = function (dt/*as:Objec
 };
 
 // 获取提示内容
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getTxt = function (dt/*as:Object*/)/*as:string*/ {
-	switch(this.stat) {
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getTxt = function (dt/*as:Object*/, stat/*as:int*/)/*as:string*/ {
+	switch(stat) {
 		case 0:		// 时
 			return dt.format("d日(M月)");
 		case 1:		// 日
@@ -193,8 +190,8 @@ LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getTxt = function (dt/*as:Object
 };
 
 // 获取经过的提示内容
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getHoverTxt = function (dt/*as:Object*/)/*as:string*/ {
-	switch(this.stat) {
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getHoverTxt = function (dt/*as:Object*/, stat/*as:int*/)/*as:string*/ {
+	switch(stat) {
 		case 0:		// 时
 			return dt.format("y-M-d hh时");
 		case 1:		// 日
@@ -209,8 +206,9 @@ LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getHoverTxt = function (dt/*as:O
 // ---- 划刻度
 LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.draw = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	var n = doeo.dat.hct_num;
+	var stat = doeo.dat.hct_StDivScall_stat;
 	var ctrl = this.belongCtrl.numCtrl;
-	var dt = this.crtTim(n.vcMin.get());
+	var dt = this.crtTim(n.vcMin.get(), stat);
 	var d, w, i, old, out, up, big, sd;
 
 	// 清空容器
@@ -225,11 +223,11 @@ LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.draw = function (doeo/*as:LZR.HT
 	// 创建容器
 	up = this.crtDoe(0);
 	big = up.subs.big;
-	big.doe.innerHTML = this.getTxt(dt);
+	big.doe.innerHTML = this.getTxt(dt, stat);
 	out.add(up);
 
 	// 计算距离、宽度
-	d = this.calcCount( dt, n.vcMax.get() );
+	d = this.calcCount( dt, n.vcMax.get(), stat );
 	d.w = ctrl.position2Num(doeo, d.t, true);
 
 	// 补正
@@ -249,11 +247,11 @@ LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.draw = function (doeo/*as:LZR.HT
 	// 放容器
 	for (i = 0; i<d.d; i++) {
 		if (i) {
-			this.setNode(dt);
-			if (old !== this.getNode(dt)) {
+			this.setNode(dt, stat);
+			if (old !== this.getNode(dt, stat)) {
 				up = this.crtDoe(i);
 				big = up.subs.big;
-				big.doe.innerHTML = this.getTxt(dt);
+				big.doe.innerHTML = this.getTxt(dt, stat);
 				out.add(up);
 			}
 		}
@@ -263,10 +261,10 @@ LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.draw = function (doeo/*as:LZR.HT
 			hd_typ: "div",
 			hd_css: "Lc_hct_StDivScall_Small"
 		});
-		sd.addEvt("mouseover", this.belongCtrl.utLzr.bind(this, this.shouTim, big, this.getHoverTxt(dt), true));
-		sd.addEvt("mouseout", this.belongCtrl.utLzr.bind(this, this.shouTim, big, this.getTxt(dt), false));
-		old = this.getNode(dt);
-		sd.setStyle("width", this.calcWidth(w, d, dt, doeo, ctrl));	// 月刻度会使 dt 值增加
+		sd.addEvt("mouseover", this.belongCtrl.utLzr.bind(this, this.shouTim, big, this.getHoverTxt(dt, stat), true));
+		sd.addEvt("mouseout", this.belongCtrl.utLzr.bind(this, this.shouTim, big, this.getTxt(dt, stat), false));
+		old = this.getNode(dt, stat);
+		sd.setStyle("width", this.calcWidth(w, d, dt, doeo, ctrl, stat));	// 月刻度会使 dt 值增加
 		up.add(sd);
 	}
 

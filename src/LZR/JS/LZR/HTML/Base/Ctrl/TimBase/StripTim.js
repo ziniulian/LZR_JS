@@ -71,9 +71,8 @@ LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.hdLimitChg = function (doeo/*as:LZ
 		}
 		n.vcMax.set(m, false);
 		n.vcMin.set(min + m - max, false);
-	} else {
-		this.scall.draw(doeo);
 	}
+	this.scall.draw(doeo);
 };
 
 // ---- 给元素添加事件集
@@ -86,7 +85,10 @@ LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.addEvt = function (doeo/*as:LZR.HT
 	} else {
 		/*
 			参数说明：
-			step: 3600*1000,	// 时间间隔（毫秒）
+			hd_tim: new Date(),	// 当前时间
+			dtMax: new Date(),	// 最大时间
+			dtMin: new Date(),	// 最小时间
+			// step: 3600*1000,	// 时间间隔（毫秒）
 			min: 72,	// 时间轴相对当前时间的最小值（step 的倍数）
 			max: 24,	// 时间轴相对当前时间的最大值（step 的倍数）
 		*/
@@ -97,6 +99,9 @@ LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.addEvt = function (doeo/*as:LZR.HT
 	this.numCtrl.add(doeo);
 
 	// 数据关联
+	if (!pro.step) {
+		pro.step = 3600*1000;
+	}
 	n = doeo.dat.hct_num;
 	n.vcNum.set(v.vcBase.get(), false);
 	n.vcStep.set(pro.step, false);
