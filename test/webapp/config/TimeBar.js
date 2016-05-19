@@ -1,7 +1,9 @@
 function webapp () {
 	return {
-		nam: "时间轴",
-		fileNam: "TimBar",
+		alias: "时间轴",
+		nam: "TimBar",
+		publish: false,
+		version: "v1.0",
 		loads: [
 			"LZR.HTML.Base.Ctrl.TimBase.DivScallSt"
 		],

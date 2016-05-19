@@ -46,6 +46,10 @@ LZR.load(null, "LZR.HTML.Base.Ctrl.TimBase.BlockTim");
 // 构造器
 LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.init_ = function (obj/*as:Object*/) {
 	this.numCtrl.evt.chg.add(this.utLzr.bind(this, this.hdSetTim), "BlockTim_hdSetTim");
+	this.numCtrl.addBtnCtrl.evt.click.del("BlockNum_addOne");
+	this.numCtrl.subBtnCtrl.evt.click.del("BlockNum_subOne");
+	this.numCtrl.addBtnCtrl.evt.click.add(this.utLzr.bind(this, this.addOne, 1), "BlockTim_addOne");
+	this.numCtrl.subBtnCtrl.evt.click.add(this.utLzr.bind(this, this.addOne, -1), "BlockTim_subOne");
 
 	if (obj) {
 		LZR.setObj (this, obj);
@@ -71,6 +75,44 @@ LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdCss = function (s/*as:Object*/) 
 //  处理位数参数
 LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdFormatDigit = function (v/*as:int*/) {
 	this.numCtrl.formatDigit = v;
+};
+
+// 增加一个时间
+LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.addOne = function (sign/*as:int*/, doeo/*as:LZR.HTML.Base.Doe*/) {
+	var d = doeo.parent.get();
+	var b = true;
+	while(b) {
+		b = false;
+		switch (d.id.get()) {
+			case "hct_BlockTimDoe_y":
+				d.dat.hct_tim.addMon(12 * sign);
+				break;
+			case "hct_BlockTimDoe_M":
+				d.dat.hct_tim.addMon(sign);
+				break;
+			case "hct_BlockTimDoe_d":
+				d.dat.hct_tim.add(24*3600*1000 * sign);
+				break;
+			case "hct_BlockTimDoe_h":
+				d.dat.hct_tim.add(3600*1000 * sign);
+				break;
+			case "hct_BlockTimDoe_m":
+				d.dat.hct_tim.add(60*1000 * sign);
+				break;
+			case "hct_BlockTimDoe_s":
+				d.dat.hct_tim.add(1000 * sign);
+				break;
+			case "hct_BlockTimDoe_f":
+				d.dat.hct_tim.add(sign);
+				break;
+			default:
+				d = d.parent.get();
+				if (d) {
+					b = true;
+				}
+				break;
+		}
+	}
 };
 
 // 处理时间设置
