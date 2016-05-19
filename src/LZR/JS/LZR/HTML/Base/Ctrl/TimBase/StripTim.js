@@ -63,15 +63,39 @@ LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.hdTimChg = function (doeo/*as:LZR.
 
 // 处理范围变化
 LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.hdLimitChg = function (doeo/*as:LZR.HTML.Base.Doe*/, min/*as:double*/, max/*as:double*/) {
-	var m = doeo.dat.hct_tim.dtMax.valueOf();
-	if (max > m) {
-		var n = doeo.dat.hct_num;
-		if (n.get() > m) {
-			n.set(m, false);
+	var m, n;
+	// 判断最大值
+	if (doeo.dat.hct_tim.dtMax) {
+		m = doeo.dat.hct_tim.dtMax.valueOf();
+		if (max > m) {
+			n = doeo.dat.hct_num;
+			if (n.get() > m) {
+				n.set(m, false);
+			}
+			n.vcMax.set(m, false);
+			n.vcMin.set(min + m - max, false);
 		}
-		n.vcMax.set(m, false);
-		n.vcMin.set(min + m - max, false);
 	}
+
+	// 判断最小值
+	if (doeo.dat.hct_tim.dtMin) {
+		m = doeo.dat.hct_tim.dtMin.valueOf();
+		if (min < m) {
+			n = doeo.dat.hct_num;
+			if (n.get() < m) {
+				n.set(m, false);
+			}
+			n.vcMin.set(m, false);
+			n.vcMax.set(m + max - min, false);
+		}
+	}
+	this.scall.draw(doeo);
+};
+
+// 调整
+LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.resize = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	doeo.calcPosition();
+	this.numCtrl.placeBtn(doeo);
 	this.scall.draw(doeo);
 };
 

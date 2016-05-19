@@ -106,7 +106,7 @@ LZR.HTML.Base.Ctrl.prototype.crtDoe = function (doeo/*as:LZR.HTML.Base.Doe*/, id
 		d = new this.clsDoe ({
 			id: id,
 			hd_typ: typ,
-			hd_css: css,
+			hd_css: css
 		});
 		doeo.add(d);
 	}

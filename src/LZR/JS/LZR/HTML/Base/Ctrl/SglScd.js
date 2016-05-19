@@ -96,7 +96,6 @@ LZR.HTML.Base.Ctrl.SglScd.prototype.hdBefore = function (ctrl/*as:Object*/, val/
 			return true;
 		}
 	}
-	return false;
 };
 
 // ---- 添加一个Doe元素

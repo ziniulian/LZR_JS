@@ -1,0 +1,79 @@
+<html>
+	<head>
+		<title>库整合</title>
+		<meta charset="utf-8" />
+		<script src="config/TimeBar.js"></script>
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+		</style>
+
+		<script>
+			function init() {
+				var p = webapp();
+				LZR.ecTxt = {};		// 记录类加载的文本信息
+				LZR.curPath = "/myLib";
+				LZR.load(p.loads);
+
+				var d = LZR.ecTxt;
+				var txt = "{";
+				var s;
+				for (s in d) {
+					if (s.indexOf("/") !== 0) {
+// console.log (s);
+						if (s === "LZR") {
+							txt += d[s].substr( d[s].indexOf("var LZR") );
+						} else {
+							txt += d[s];
+						}
+						txt += "\n\n";
+					}
+				}
+				txt += "var r = {root:LZR,obj:{}";
+				for (s in p.tools) {
+					txt += ",";
+					txt += s;
+					txt += ":";
+					txt += p.tools[s];
+				}
+				txt += "};r.obj.root=r;"
+
+				if (p.fun) {
+					txt += "\nvar fun = ";
+					txt += p.fun.toString();
+					txt += ";\nfun.prototype.tools = r;return fun;}";
+				} else {
+					txt += "return r;}";
+				}
+
+				var fun = "function HelloWorld () " + txt;
+				var blob = new Blob([fun], {type:"text/text;charset=utf-8"});
+				var u = URL.createObjectURL(blob);
+				var a = document.createElement("a");
+				a.innerText = p.nam + "（function 格式）";
+				a.download = p.fileNam + "_fun.js";
+				a.href = u;
+				document.body.appendChild(a);
+
+				document.body.appendChild(document.createElement("br"));
+
+				fun = "define([], function () " + txt + ");";
+				blob = new Blob([fun], {type:"text/text;charset=utf-8"});
+				u = URL.createObjectURL(blob);
+				var a2 = document.createElement("a");
+				a2.innerText = p.nam + "（AMD格式）";
+				a2.download = p.fileNam + "_AMD.js";
+				a2.href = u;
+				document.body.appendChild(a2);
+			}
+		</script>
+	</head>
+
+	<body onload="init()">
+	</body>
+</html>

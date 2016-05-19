@@ -22,8 +22,8 @@ LZR.curPath = "/myLib";	/*as:string*/
 // 已存在的类集合
 LZR.existedClasses = {};	/*as:Object*/
 
-// 已存在类集合的存储方式
-LZR.ecTyp = 0;	/*as:int*/
+// 类集合的存储内容
+LZR.ecTxt = null;	/*as:Object*/
 
 // 加载方式
 LZR.loadTyp = 0;	/*as:int*/
@@ -154,6 +154,11 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 				}
 			}
 		} else {
+			if (this.ecTxt !== null) {
+				if (this.ecTxt[self] === undefined) {
+					this.ecTxt[self] = "";
+				}
+			}
 			this.load(this.afterLoad[self]);
 			this.del(this.afterLoad, self);
 			return;
@@ -233,14 +238,10 @@ LZR.load = function (clsName/*as:Array*/, self/*as:string*/) {
 							if (cn != "LZR") {
 								this.loadToJs(txt);
 							}
-							switch (this.ecTyp) {
-								case 1:
-									this.existedClasses[cn] = txt;
-									break;
-								default:
-									this.existedClasses[cn] = true;
-									break;
+							if (this.ecTxt !== null) {
+								this.ecTxt[cn] = txt;
 							}
+							this.existedClasses[cn] = true;
 						}
 					} else if (this.existedClasses[cn] === undefined) {
 						// this.existedClasses[cn] = eval(cn);
@@ -282,7 +283,7 @@ LZR.loadAnnex = function (obj/*as:Object*/) {
 
 /* ************************************************************************* */
 
-// LZR = { load: function(){}, loadAnnex: function(){} };
+// var LZR = { load: function(){}, loadAnnex: function(){} };
 // 单件对象集合
 LZR.singletons = {
 	nodejsTools:{}
