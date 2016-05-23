@@ -30,6 +30,8 @@ function webapp () {
 				事件：
 					onChg: function (tim) {}
 			*/
+			// 匹配dojo
+			this.tools.Doe.prototype.adaptation = "dojo";
 
 			// 生成元素
 			this.doe = new this.tools.Doe ({
@@ -49,7 +51,11 @@ function webapp () {
 			// 事件添加
 			this.onChg = function (tim) {};
 			this.ctrl.evt.chg.add(this.tools.ut.bind(this, function (d, t) {
-				this.onChg(t);
+				if (this.noChg) {
+					this.noChg = t;
+				} else {
+					this.onChg(t);
+				}
 			}));
 
 			// 元素添加
@@ -71,6 +77,18 @@ function webapp () {
 			this.resize = function () {
 				this.ctrl.resize(this.doe.getById("hct_StDivScall_stripDoe"));
 			};
+
+			// 屏蔽拖动时触发事件
+			this.noChg = false;
+			this.ctrl.numCtrl.btnCtrl.evt.down.add(this.tools.ut.bind(this, function (d) {
+				this.noChg = true;
+			}));
+			this.ctrl.numCtrl.btnCtrl.evt.up.add(this.tools.ut.bind(this, function (d) {
+				if (this.noChg !== true) {
+					this.onChg(this.noChg);
+				}
+				this.noChg = false;
+			}));
 		}
 	};
 }

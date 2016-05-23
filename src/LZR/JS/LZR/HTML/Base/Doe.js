@@ -63,6 +63,9 @@ LZR.HTML.Base.Doe.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.HTML.Base.Doe");
 
+// 适配参数
+LZR.HTML.Base.Doe.prototype.adaptation = "";	/*as:string*/
+
 // 构造器
 LZR.HTML.Base.Doe.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
@@ -115,11 +118,16 @@ LZR.HTML.Base.Doe.prototype.hdDoe = function (hd_doe/*as:Object*/) {
 
 // 用元素初始化时包含递归的子元素
 LZR.HTML.Base.Doe.prototype.initSubsByDom = function () {
+	var i, d, idd;
 	var ns = this.doe.childNodes;
-	for (var i = 0; i<ns.length; i++) {
+	for (i = 0; i<ns.length; i++) {
 		if (ns[i].tagName) {
-			var d = new this.constructor ({
-				id: (ns[i].id ? ns[i].id : "doe_" + this.count.toString()),
+			idd = ns[i].getAttribute("idLzr");
+			if (!idd) {
+				idd = ns[i].id ? ns[i].id : ("doe_" + this.count.toString());
+			}
+			d = new this.constructor ({
+				id: idd,
 				hd_doe: ns[i]
 			});
 			this.utLzr.supCall (this, 0, "add", d);	// 不能用 this.add (d); 方法
@@ -160,6 +168,11 @@ LZR.HTML.Base.Doe.prototype.setAtt = function (key/*as:string*/, val/*as:string*
 	this.doe.setAttribute(key, val);
 };
 
+// 获取DOM元素属性
+LZR.HTML.Base.Doe.prototype.getAtt = function (key/*as:string*/)/*as:string*/ {
+	return this.doe.getAttribute(key);
+};
+
 // 删除DOM元素属性
 LZR.HTML.Base.Doe.prototype.delAtt = function (key/*as:string*/) {
 	this.doe.removeAttribute(key);
@@ -167,6 +180,15 @@ LZR.HTML.Base.Doe.prototype.delAtt = function (key/*as:string*/) {
 
 // 设置DOM元素的Styley样式
 LZR.HTML.Base.Doe.prototype.setStyle = function (key/*as:string*/, val/*as:string*/) {
+	if (this.adaptation) {
+		switch (this.adaptation) {
+			case "dojo":
+				if (typeof (val) === "number") {
+					val = val + "px";
+				}
+				break;
+		}
+	}
 	this.doe.style[this.calcStyleNam(key)] = val;
 };
 

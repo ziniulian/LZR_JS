@@ -209,9 +209,11 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.hdDocumentUp = function (doeo/*as:LZR.HTML.Ba
 		if (v.stat === 0) {
 			this.utEvt.delEvt (document, "mousemove", v.docMoveFun, false);
 			this.utEvt.delEvt (document, "mouseup", v.docUpFun, false);
-			// if (this.enableMove) {
-			// 	doeo.addEvt ("mousemove", v.selfMoveFun, this.className_);
-			// }
+/*
+			if (this.enableMove) {
+				doeo.addEvt ("mousemove", v.selfMoveFun, this.className_);
+			}
+*/
 			// this.utEvt.delEvt (document, "contextmenu", this.utEvt.stopDefault, false);	// 直接移除该事件，会导致右键菜单弹出。需要延时删除
 			setTimeout(this.utLzr.bind(this, this.utEvt.delEvt, document, "contextmenu", this.utEvt.stopDefault, false), 1);
 		}
