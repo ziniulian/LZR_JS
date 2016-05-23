@@ -147,17 +147,17 @@ LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.addEvt = function (doeo/*as:LZR.
 	d = this.crtDoe(b, "hct_StDivScall_scdDoe_h", "div", "Lc_hct_StDivScall_scdDoe_sub");
 	v.add(d);
 	if (pro.scallStat === 0) {
-		d.dat.vcScd.set(true);
+		d.dat.hct_scd.set(true);
 	}
 	d = this.crtDoe(b, "hct_StDivScall_scdDoe_d", "div", "Lc_hct_StDivScall_scdDoe_sub");
 	v.add(d);
 	if (pro.scallStat === 1) {
-		d.dat.vcScd.set(true);
+		d.dat.hct_scd.set(true);
 	}
 	d = this.crtDoe(b, "hct_StDivScall_scdDoe_M", "div", "Lc_hct_StDivScall_scdDoe_sub");
 	v.add(d);
 	if (pro.scallStat === 2) {
-		d.dat.vcScd.set(true);
+		d.dat.hct_scd.set(true);
 	}
 };
 

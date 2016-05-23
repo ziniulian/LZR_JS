@@ -21,6 +21,9 @@ LZR.HTML.Util.Evt.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.HTML.Util.Evt");
 
+// 鼠标按键状态常量
+LZR.HTML.Util.Evt.prototype.MouseStat = {lk: 1, rk: 2, mid: 4};	/*as:Object*/
+
 // 构造器
 LZR.HTML.Util.Evt.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
@@ -75,6 +78,32 @@ LZR.HTML.Util.Evt.prototype.getMousePosition = function (e/*as:Object*/)/*as:Obj
 			x: window.event.clientX + document.body.scrollLeft - document.body.clientLeft,
 			y: window.event.clientY + document.body.scrollTop - document.body.clientTop
 		};
+	}
+};
+
+// 解析鼠标按键状态
+LZR.HTML.Util.Evt.prototype.parseMouseKey = function (evt/*as:Object*/)/*as:string*/ {
+	var k = this.getEvent(evt).button;
+	if ("\v" != "v") {
+		// 非 IE 6、7、8 版 rotate
+		switch (k) {
+			case 0:
+				k = this.MouseStat.lk;
+				break;
+			case 1:
+				k = this.MouseStat.mid;
+				break;
+		}
+	}
+	switch (k) {
+		case this.MouseStat.lk:
+			return "lk";
+		case this.MouseStat.rk:
+			return "rk";
+		case this.MouseStat.mid:
+			return "mid";
+		default:
+			return "";
 	}
 };
 

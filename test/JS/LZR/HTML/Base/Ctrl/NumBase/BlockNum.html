@@ -18,6 +18,12 @@
 			.scd {
 				border-radius: 12px;
 			}
+			.add {
+				border: 5px solid #0FF;
+			}
+			.sub {
+				border: 5px solid #F0F;
+			}
 		</style>
 
 		<script>
@@ -47,7 +53,11 @@
 				LZR.HTML.alog ("创建按钮控制器");
 				var ttt = new cls ({
 					formatDigit: 2,
-					hd_css: "scd"
+					// hd_css: "scd"
+					hd_css: {
+						add: "add",
+						sub: "sub"
+					}
 				});
 				ttt.add(a, {
 					min: 1900,

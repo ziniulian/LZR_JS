@@ -69,8 +69,13 @@ LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.hdObj_ = function (obj/*as:Object*
 
 //  处理样式参数
 LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.hdCss = function (s/*as:Object*/) {
-	this.addBtnCtrl.css = s;
-	this.subBtnCtrl.css = s;
+	if (typeof(s) === "string") {
+		this.addBtnCtrl.css = s;
+		this.subBtnCtrl.css = s;
+	} else {
+		this.addBtnCtrl.css = s.add;
+		this.subBtnCtrl.css = s.sub;
+	}
 };
 
 // 增加一个步距
@@ -95,9 +100,9 @@ LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.hdTxtSet = function (doeo/*as:LZR.
 // 处理数值的变化
 LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.hdNumSet = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:double*/) {
 	var d = doeo.getById("hct_BlockNumTxtView");
-	// BUG ： 带文本输入控制器的 hct_txt 改为值控制器后，此处代码需更改。
-	d.dat.hct_txt = this.formatTxt(v);
-	d.doe.innerHTML = d.dat.hct_txt;
+	this.txtCtrl.evt.chg.enableEvent = false;
+	d.dat.hct_txt.set(this.formatTxt(v));
+	this.txtCtrl.evt.chg.enableEvent = this.txtCtrl.evt.chg.autoEvent;
 };
 
 // 格式化输入框内容
@@ -126,8 +131,10 @@ LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.addEvt = function (doeo/*as:LZR.HT
 
 	// 文本框
 	d = this.crtDoe(doeo, "hct_BlockNumTxtView", "div");
-	this.crtDat(d, "hct_txt", this.formatTxt(doeo.dat.hct_num.get()));
 	this.txtCtrl.add(d);
+	this.txtCtrl.evt.chg.enableEvent = false;
+	d.dat.hct_txt.set(this.formatTxt(doeo.dat.hct_num.get()));
+	this.txtCtrl.evt.chg.enableEvent = this.txtCtrl.evt.chg.autoEvent;
 	this.crtDat(d, "hct_num", v);
 
 	// 减按钮

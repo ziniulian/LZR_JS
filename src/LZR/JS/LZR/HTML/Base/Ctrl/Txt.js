@@ -14,11 +14,14 @@ LZR.load([
 LZR.HTML.Base.Ctrl.Txt = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	LZR.initSuper(this, obj);
 
-	// 是否可换行
+	// 是否为单行
 	this.single = true;	/*as:boolean*/
 
 	// 内容改变
 	this.evt.chg/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+
+	// 值控制器类
+	this.clsVc/*m*/ = (LZR.Base.Val.Ctrl);	/*as:fun*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
@@ -46,13 +49,26 @@ LZR.HTML.Base.Ctrl.Txt.prototype.hdObj_ = function (obj/*as:Object*/) {
 
 };
 
-// 文本处理
-LZR.HTML.Base.Ctrl.Txt.prototype.hdTxt = function (html/*as:string*/)/*as:string*/ {
+// HTML转文本
+LZR.HTML.Base.Ctrl.Txt.prototype.html2Txt = function (html/*as:string*/)/*as:string*/ {
 	var r;
 // console.log (html);
 	r = html.replace(/^<(div|p)>|<(br|\/p|\/div)>/g, "");
 	r = r.replace(/<(div|p)>/g, "\n");
+	if (this.single) {
+		r = r.match(/.*/)[0];
+	}
 	return r;
+};
+
+// 文本转HTML
+LZR.HTML.Base.Ctrl.Txt.prototype.txt2Html = function (txt/*as:string*/)/*as:string*/ {
+	if (this.single) {
+		return txt;
+	} else {
+		var s = "<div>" + txt.replace(/\n/g, "</div><div>") + "</div>";
+		return s.replace(/<div><\/div>/g, "<div><br></div>");
+	}
 };
 
 // 处理按键抬起事件
@@ -70,20 +86,18 @@ LZR.HTML.Base.Ctrl.Txt.prototype.hdKeyUp = function (doeo/*as:LZR.HTML.Base.Doe*
 
 // 处理失去焦点事件
 LZR.HTML.Base.Ctrl.Txt.prototype.hdBlur = function (doeo/*as:LZR.HTML.Base.Doe*/, e/*as:Object*/) {
-	var t = this.hdTxt(doeo.doe.innerHTML);
-	if (this.single) {
-		// 获取出现回车符之前部分的文字
-		t = t.match(/.*/)[0];
-		doeo.doe.innerHTML = t;
-	} else{
-		var s = "<div>" + t.replace(/\n/g, "</div><div>") + "</div>";
-		doeo.doe.innerHTML = s.replace(/<div><\/div>/g, "<div><br></div>");
-	}
+	var t = this.html2Txt(doeo.doe.innerHTML);
+	var f = this.getCb2Dat(doeo, doeo.dat.hct_txt.evt.change, "hdChg");
+	// f.enableEvent = false;
+	doeo.dat.hct_txt.set(t);
+	// f.enableEvent = f.autoEvent;
+	// doeo.doe.innerHTML = this.txt2Html(doeo.dat.hct_txt.get());	// 值不变时若需整理 innerHTML 内容，则需使用此方式。目前暂未遇到问题，故不采纳。
+	return;
+};
 
-	if (doeo.dat.hct_txt !== t) {
-		doeo.dat.hct_txt = t;
-		this.onChg(doeo, t);
-	}
+// 处理内容变化事件
+LZR.HTML.Base.Ctrl.Txt.prototype.hdChg = function (doeo/*as:LZR.HTML.Base.Doe*/, txt/*as:string*/) {
+	doeo.doe.innerHTML = this.txt2Html(txt);
 };
 
 // 内容变化时的触发事件
@@ -92,19 +106,39 @@ LZR.HTML.Base.Ctrl.Txt.prototype.onChg = function (doeo/*as:LZR.HTML.Base.Doe*/,
 };
 
 // 给元素添加事件集
-LZR.HTML.Base.Ctrl.Txt.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	doeo.doe.innerHTML = this.crtDat(doeo, "hct_txt", "");
+LZR.HTML.Base.Ctrl.Txt.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*as:Object*/, obj/*as:Object*/) {
+	var v;
+	// 创建数据
+	if (obj) {
+		v = this.crtDat(doeo, "hct_txt", obj);
+	} else {
+		if (!pro) {
+			pro = "";
+		}
+		v = this.crtDat(doeo, "hct_txt", new this.clsVc(pro));
+	}
 
+	// 初始化网页内容
 	doeo.setAtt("contenteditable", "true");
+	doeo.doe.innerHTML = this.txt2Html(v.get());
+
+	// 添加事件
 	doeo.addEvt ("keyup", this.utLzr.bind(this, this.hdKeyUp, doeo), this.className_);
 	doeo.addEvt ("blur", this.utLzr.bind(this, this.hdBlur, doeo), this.className_);
+	this.crtCb2Dat(doeo, doeo.dat.hct_txt.evt.change, "hdChg");
+	this.crtCb2Dat(doeo, doeo.dat.hct_txt.evt.change, "onChg");
 };
 
 // 移除元素的事件集
 LZR.HTML.Base.Ctrl.Txt.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	this.delDat(doeo, "hct_txt");
-
 	doeo.delAtt("contenteditable");
+
+	// 删除事件
 	doeo.delEvt ("keyup", this.className_);
 	doeo.delEvt ("blur", this.className_);
+	this.delCb2Dat(doeo, doeo.dat.hct_txt.evt.change, "hdChg");
+	this.delCb2Dat(doeo, doeo.dat.hct_txt.evt.change, "onChg");
+
+	// 删除数据
+	this.delDat(doeo, "hct_txt");
 };

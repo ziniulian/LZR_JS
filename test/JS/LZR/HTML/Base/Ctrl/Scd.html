@@ -97,7 +97,7 @@ console.log (doms);
 
 				LZR.HTML.alog ("删除选择器");
 				c.del(doms.getById("a"));
-				doms.getById("f").delCtrl(c);
+				console.log (doms.getById("f").delCtrl(c));
 				doms.getById("f").delCtrl(c2);
 				LZR.HTML.alog ("");
 
@@ -112,6 +112,7 @@ console.log (cn);
 				cn.getById("f").addCtrl(c2);
 				doms.getById("d").delCtrl(c);
 				doms.getById("a").addCtrl(c);
+				doms.getById("f").addCtrl(c);
 				LZR.HTML.alog ("");
 
 			}

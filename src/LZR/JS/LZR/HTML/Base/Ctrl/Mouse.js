@@ -101,9 +101,6 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.HTML.Base.Ctrl.Mouse");
 
-// 鼠标状态常量
-LZR.HTML.Base.Ctrl.Mouse.prototype.STAT = {lk: 1, rk: 2, mid: 4};	/*as:Object*/
-
 // 构造器
 LZR.HTML.Base.Ctrl.Mouse.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
@@ -117,39 +114,13 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
 
-// 解析状态
-LZR.HTML.Base.Ctrl.Mouse.prototype.parseStat = function (evt/*as:Object*/)/*as:string*/ {
-	var k = this.utEvt.getEvent(evt).button;
-	if ("\v" != "v") {
-		// 非 IE 6、7、8 版 rotate
-		switch (k) {
-			case 0:
-				k = this.STAT.lk;
-				break;
-			case 1:
-				k = this.STAT.mid;
-				break;
-		}
-	}
-	switch (k) {
-		case this.STAT.lk:
-			return "lk";
-		case this.STAT.rk:
-			return "rk";
-		case this.STAT.mid:
-			return "mid";
-		default:
-			return "";
-	}
-};
-
 // 处理按下事件
 LZR.HTML.Base.Ctrl.Mouse.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
 	this.utEvt.stopDefault(evt);
 	this.utEvt.stopBubble(evt);
 
 	if (this.onDown(doeo, evt)) {
-		var k = this.parseStat(evt);
+		var k = this.utEvt.parseMouseKey(evt);
 		var v = doeo.dat.hct_mof;
 		// 检查按键是否可用
 		if (v.enableStat & v.STAT[k]) {
@@ -201,7 +172,7 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.hdDocumentUp = function (doeo/*as:LZR.HTML.Ba
 	this.utEvt.stopDefault(evt);
 	this.utEvt.stopBubble(evt);
 
-	var k = this.parseStat(evt);
+	var k = this.utEvt.parseMouseKey(evt);
 	var v = doeo.dat.hct_mof;
 	// 检查按键是否可用
 	if (v.stat & v.STAT[k]) {
@@ -446,7 +417,7 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe
 		v = this.crtDat(doeo, "hct_mof", new this.clsMof(pro));
 	}
 	doeo.calcPosition();
-	v.STAT = this.STAT;
+	v.STAT = this.utEvt.MouseStat;
 	v.docMoveFun = this.utLzr.bind(this, this.hdDocumentMove, doeo);
 	v.docUpFun = this.utLzr.bind(this, this.hdDocumentUp, doeo);
 	v.selfMoveFun = this.utLzr.bind(this, this.hdMove, doeo);

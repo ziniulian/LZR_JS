@@ -16,6 +16,12 @@
 			.scd {
 				border-radius: 15px;
 			}
+			.add {
+				border: 5px solid #0FF;
+			}
+			.sub {
+				border: 5px solid #F0F;
+			}
 		</style>
 
 		<script>
@@ -38,7 +44,11 @@
 				LZR.HTML.alog ("创建时间轴");
 				var c = new cls ({
 					scdCss: "scd",
-					hd_css: "scd"
+					// hd_css: "scd"
+					hd_css: {
+						add: "add",
+						sub: "sub"
+					}
 				});
 				c.add(a, {
 					hd_tim: utTim.normalize(),

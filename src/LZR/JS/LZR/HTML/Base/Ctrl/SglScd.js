@@ -3,7 +3,7 @@
 类名：SglScd
 说明：单选器
 创建日期：22-三月-2016 13:56:29
-版本号：1.0
+版本号：1.1
 *************************************************/
 
 LZR.load([
@@ -47,19 +47,18 @@ LZR.HTML.Base.Ctrl.SglScd.prototype.hdObj_ = function (obj/*as:Object*/) {
 };
 
 // 选择前处理
-LZR.HTML.Base.Ctrl.SglScd.prototype.hdBefore = function (ctrl/*as:Object*/, val/*as:boolean*/)/*as:boolean*/ {
-// console.log (this.doe);
-// console.log (ctrl.vcCur.get());
-	if (ctrl.vcCur.get()) {
+LZR.HTML.Base.Ctrl.SglScd.prototype.hdBefore = function (doeo/*as:LZR.HTML.Base.Doe*/, val/*as:boolean*/)/*as:boolean*/ {
+// console.log (doeo.doe);
+// console.log (this.vcCur.get());
+	if (this.vcCur.get()) {
 // alert(0);
-		// 此处 this 指向 doeo 元素
-		if (ctrl.vcCur.get() === this) {
+		if (this.vcCur.get() === doeo) {
 // alert(4);
 			// 当，当前被选中的选项 与 正在选择的选项一致，时：
-			if (!val && !ctrl.only) {
+			if (!val && !this.only) {
 // alert(5);
 				// 当，预设值为 false，且 不需要 至少有一个选项被选中，时：则可进行设值处理。
-				ctrl.vcCur.set(null);
+				this.vcCur.set(null);
 				return true;
 			} else {
 // alert(6);
@@ -72,9 +71,9 @@ LZR.HTML.Base.Ctrl.SglScd.prototype.hdBefore = function (ctrl/*as:Object*/, val/
 			if (val) {
 // alert(8);
 				// 当，预设值为 true 时：
-				var old = ctrl.vcCur.get();
-				ctrl.vcCur.set(this);
-				old.dat.vcScd.set(false);
+				var old = this.vcCur.get();
+				this.vcCur.set(doeo);
+				old.dat.hct_scd.set(false);
 				return true;
 			} else {
 // alert(9);
@@ -88,7 +87,7 @@ LZR.HTML.Base.Ctrl.SglScd.prototype.hdBefore = function (ctrl/*as:Object*/, val/
 		if (val) {
 // alert(2);
 			// 当，预设值为 true 时，可进行设值处理。
-			ctrl.vcCur.set(this);
+			this.vcCur.set(doeo);
 			return true;
 		} else {
 // alert(3);
@@ -98,16 +97,16 @@ LZR.HTML.Base.Ctrl.SglScd.prototype.hdBefore = function (ctrl/*as:Object*/, val/
 	}
 };
 
-// ---- 添加一个Doe元素
-LZR.HTML.Base.Ctrl.SglScd.prototype.add = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	this.utLzr.supCall(this, 0, "add", doeo);
+// ---- 给元素添加事件集
+LZR.HTML.Base.Ctrl.SglScd.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*as:Object*/, obj/*as:Object*/) {
+	this.utLzr.supCall(this, 0, "addEvt", doeo);
 
-	var evtName = this.className_ + "_hdBefore_";
-	doeo.ctrlCbs[evtName] =  evtName + doeo.dat.vcScd.evt.before.id;
-	doeo.dat.vcScd.evt.before.add( this.utLzr.bind(doeo, this.hdBefore, this), doeo.ctrlCbs[evtName] );
+	// 添加事件
+	this.crtCb2Dat(doeo, doeo.dat.hct_scd.evt.before, "hdBefore");
 
 	// 与 Scd 的设置Css样式不同，无论关联多少个元素，只能触发一次
-	var cbs = doeo.dat.vcScd.evt.before.funs;
+	var evtName = this.className_ + "_hdBefore_";
+	var cbs = doeo.dat.hct_scd.evt.before.funs;
 	var b = true;
 	for (var s in cbs) {
 		if (this.utStr.startWith(s, evtName)) {
@@ -124,32 +123,28 @@ LZR.HTML.Base.Ctrl.SglScd.prototype.add = function (doeo/*as:LZR.HTML.Base.Doe*/
 	}
 };
 
-// ---- 删除一个Doe元素
-LZR.HTML.Base.Ctrl.SglScd.prototype.del = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:boolean*/ {
-	if (this.utLzr.supCall(this, 0, "del", doeo)) {
-		var evtName = this.className_ + "_hdBefore_";
-		var cb = doeo.dat.vcScd.evt.before.del(doeo.ctrlCbs[evtName]);
-		LZR.del (doeo.ctrlCbs, evtName);
+// ---- 移除元素的事件集
+LZR.HTML.Base.Ctrl.SglScd.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	var cb = this.delCb2Dat(doeo, doeo.dat.hct_scd.evt.before, "hdBefore");
 
-		if (cb.enableEvent && cb.autoEvent) {
-			var cbs = doeo.dat.vcScd.evt.before.funs;
-			// 只能触发一次的事件被关闭时，须寻找有无其它可开启的事件。
-			for (var s in cbs) {
-				if (this.utStr.startWith(s, evtName)) {
+	// 只能触发一次的事件被关闭时，须寻找有无其它可开启的事件。
+	if (cb.enableEvent && cb.autoEvent) {
+		var evtName = this.className_ + "_hdBefore_";
+		var cbs = doeo.dat.hct_scd.evt.before.funs;
+		for (var s in cbs) {
+			if (this.utStr.startWith(s, evtName)) {
 // console.log (s);
-					cbs[s].enableEvent = true;
-					cbs[s].autoEvent = true;
-					if (this.vcCur.get() === doeo) {
-						// 当前被选中的与要删除的元素相同，且 元素的数据有与之匹配的其它元素时：须将当前被选中元素改为可用的其它元素。
-						// （目前暂无实现此部分功能）
-					}
-					break;
+				cbs[s].enableEvent = true;
+				cbs[s].autoEvent = true;
+				if (this.vcCur.get() === doeo) {
+					// 当前被选中的与要删除的元素相同，且 元素的数据有与之匹配的其它元素时：须将当前被选中元素改为可用的其它元素。
+					// （目前暂未实现此部分功能）
 				}
+				break;
 			}
 		}
-		this.cleanDat(doeo.dat);
-		return true;
-	} else {
-		return false;
 	}
+
+	// 调用父类方法
+	this.utLzr.supCall(this, 0, "delEvt", doeo);
 };

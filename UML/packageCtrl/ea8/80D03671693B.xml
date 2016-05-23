@@ -44,7 +44,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_939DD4E2_AADE_4131_95DA_80D03671693B"/>
 								<UML:TaggedValue tag="date_created" value="2016-05-16 16:47:49"/>
-								<UML:TaggedValue tag="date_modified" value="2016-05-18 19:39:33"/>
+								<UML:TaggedValue tag="date_modified" value="2016-05-23 18:54:39"/>
 								<UML:TaggedValue tag="genfile" value="F:\GitLib\LZR_JS\src\LZR\JS\LZR\HTML\Base\Ctrl\TimBase\DivScallSt.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -57,7 +57,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="344"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=24ab;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=2295;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -329,7 +329,7 @@
 										<UML:TaggedValue tag="style" value="---- &#32473;&#20803;&#32032;&#28155;&#21152;&#20107;&#20214;&#38598;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_04A3F1B8_BD6A_477a_B011_541F15C09433">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var b, d, v;&#xA;	/*&#xA;		&#21442;&#25968;&#35828;&#26126;&#65306;&#xA;		hd_tim: new Date(),	// &#24403;&#21069;&#26102;&#38388;&#xA;		dtMax: new Date(),	// &#26368;&#22823;&#26102;&#38388;&#xA;		dtMin: new Date(),	// &#26368;&#23567;&#26102;&#38388;&#xA;		// scallStat: 0,	// &#21051;&#24230;&#26679;&#24335;&#65288;0&#65306;&#23567;&#26102;&#65292;1&#65306;&#26085;&#65292;2&#65306;&#26376;&#65289;&#xA;	*/&#xA;&#xA;	// &#22359;&#29366;&#26102;&#38388;&#25511;&#20214;&#xA;	b = this.crtDoe(doeo, &quot;hct_StDivScall_blockDoe&quot;, &quot;div&quot;);&#xA;&#xA;	// &#26465;&#29366;&#26102;&#38388;&#25511;&#20214;&#xA;	d = this.crtDoe(doeo, &quot;hct_StDivScall_stripDoe&quot;, &quot;div&quot;);&#xA;&#xA;	// &#28155;&#21152;&#21051;&#24230;&#26679;&#24335;&#25968;&#25454;&#xA;	if (!pro.scallStat) {&#xA;		pro.scallStat = 0;&#xA;	}&#xA;	this.crtDat(d, &quot;hct_StDivScall_stat&quot;, pro.scallStat);&#xA;&#xA;	// &#35843;&#29992;&#29238;&#31867;&#26041;&#27861;&#xA;	this.utLzr.supCall (this, 0, &quot;addEvt&quot;, d, pro, obj);&#xA;&#xA;	// &#25968;&#25454;&#20851;&#32852;&#xA;	this.crtDat(b, &quot;hct_tim&quot;, d.dat.hct_tim);&#xA;&#xA;	// &#32465;&#23450;&#22359;&#29366;&#26102;&#38388;&#25511;&#21046;&#22120;&#xA;	this.blockCtrl.add(b);&#xA;&#xA;	// &#28155;&#21152;&#21051;&#24230;&#20999;&#25442;&#36873;&#39033;&#xA;	v = new this.clsScd({&#xA;		css: this.scdCss&#xA;	});&#xA;	this.crtDat(doeo, &quot;hct_StDivScall_scdCtrl&quot;, v);&#xA;	this.crtCb2Dat(d, v.vcCur.evt.change, &quot;statChg&quot;);&#xA;&#xA;	b = this.crtDoe(doeo, &quot;hct_StDivScall_scdDoe&quot;, &quot;div&quot;);&#xA;	d = this.crtDoe(b, &quot;hct_StDivScall_scdDoe_h&quot;, &quot;div&quot;, &quot;Lc_hct_StDivScall_scdDoe_sub&quot;);&#xA;	v.add(d);&#xA;	if (pro.scallStat === 0) {&#xA;		d.dat.vcScd.set(true);&#xA;	}&#xA;	d = this.crtDoe(b, &quot;hct_StDivScall_scdDoe_d&quot;, &quot;div&quot;, &quot;Lc_hct_StDivScall_scdDoe_sub&quot;);&#xA;	v.add(d);&#xA;	if (pro.scallStat === 1) {&#xA;		d.dat.vcScd.set(true);&#xA;	}&#xA;	d = this.crtDoe(b, &quot;hct_StDivScall_scdDoe_M&quot;, &quot;div&quot;, &quot;Lc_hct_StDivScall_scdDoe_sub&quot;);&#xA;	v.add(d);&#xA;	if (pro.scallStat === 2) {&#xA;		d.dat.vcScd.set(true);&#xA;	}"/>
+												<UML:Comment name="var b, d, v;&#xA;	/*&#xA;		&#21442;&#25968;&#35828;&#26126;&#65306;&#xA;		hd_tim: new Date(),	// &#24403;&#21069;&#26102;&#38388;&#xA;		dtMax: new Date(),	// &#26368;&#22823;&#26102;&#38388;&#xA;		dtMin: new Date(),	// &#26368;&#23567;&#26102;&#38388;&#xA;		// scallStat: 0,	// &#21051;&#24230;&#26679;&#24335;&#65288;0&#65306;&#23567;&#26102;&#65292;1&#65306;&#26085;&#65292;2&#65306;&#26376;&#65289;&#xA;	*/&#xA;&#xA;	// &#22359;&#29366;&#26102;&#38388;&#25511;&#20214;&#xA;	b = this.crtDoe(doeo, &quot;hct_StDivScall_blockDoe&quot;, &quot;div&quot;);&#xA;&#xA;	// &#26465;&#29366;&#26102;&#38388;&#25511;&#20214;&#xA;	d = this.crtDoe(doeo, &quot;hct_StDivScall_stripDoe&quot;, &quot;div&quot;);&#xA;&#xA;	// &#28155;&#21152;&#21051;&#24230;&#26679;&#24335;&#25968;&#25454;&#xA;	if (!pro.scallStat) {&#xA;		pro.scallStat = 0;&#xA;	}&#xA;	this.crtDat(d, &quot;hct_StDivScall_stat&quot;, pro.scallStat);&#xA;&#xA;	// &#35843;&#29992;&#29238;&#31867;&#26041;&#27861;&#xA;	this.utLzr.supCall (this, 0, &quot;addEvt&quot;, d, pro, obj);&#xA;&#xA;	// &#25968;&#25454;&#20851;&#32852;&#xA;	this.crtDat(b, &quot;hct_tim&quot;, d.dat.hct_tim);&#xA;&#xA;	// &#32465;&#23450;&#22359;&#29366;&#26102;&#38388;&#25511;&#21046;&#22120;&#xA;	this.blockCtrl.add(b);&#xA;&#xA;	// &#28155;&#21152;&#21051;&#24230;&#20999;&#25442;&#36873;&#39033;&#xA;	v = new this.clsScd({&#xA;		css: this.scdCss&#xA;	});&#xA;	this.crtDat(doeo, &quot;hct_StDivScall_scdCtrl&quot;, v);&#xA;	this.crtCb2Dat(d, v.vcCur.evt.change, &quot;statChg&quot;);&#xA;&#xA;	b = this.crtDoe(doeo, &quot;hct_StDivScall_scdDoe&quot;, &quot;div&quot;);&#xA;	d = this.crtDoe(b, &quot;hct_StDivScall_scdDoe_h&quot;, &quot;div&quot;, &quot;Lc_hct_StDivScall_scdDoe_sub&quot;);&#xA;	v.add(d);&#xA;	if (pro.scallStat === 0) {&#xA;		d.dat.hct_scd.set(true);&#xA;	}&#xA;	d = this.crtDoe(b, &quot;hct_StDivScall_scdDoe_d&quot;, &quot;div&quot;, &quot;Lc_hct_StDivScall_scdDoe_sub&quot;);&#xA;	v.add(d);&#xA;	if (pro.scallStat === 1) {&#xA;		d.dat.hct_scd.set(true);&#xA;	}&#xA;	d = this.crtDoe(b, &quot;hct_StDivScall_scdDoe_M&quot;, &quot;div&quot;, &quot;Lc_hct_StDivScall_scdDoe_sub&quot;);&#xA;	v.add(d);&#xA;	if (pro.scallStat === 2) {&#xA;		d.dat.hct_scd.set(true);&#xA;	}"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -465,7 +465,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="296"/>
 								<UML:TaggedValue tag="ea_targetID" value="344"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=2;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1.."/>
 								<UML:TaggedValue tag="lt" value="+clsScd"/>
@@ -507,7 +506,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="278"/>
 								<UML:TaggedValue tag="ea_targetID" value="344"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+blockCtrl"/>
 							</UML:ModelElement.taggedValue>
@@ -548,7 +546,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="342"/>
 								<UML:TaggedValue tag="ea_targetID" value="344"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+scall"/>
 							</UML:ModelElement.taggedValue>
@@ -604,7 +601,6 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
@@ -1478,7 +1474,6 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Dependency>
@@ -2028,7 +2023,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="333"/>
 								<UML:TaggedValue tag="ea_targetID" value="339"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=2;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+numCtrl"/>
 							</UML:ModelElement.taggedValue>
@@ -2084,7 +2078,6 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
@@ -2107,7 +2100,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="340"/>
 								<UML:TaggedValue tag="ea_targetID" value="339"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+scall"/>
 							</UML:ModelElement.taggedValue>
@@ -2797,7 +2789,6 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
-								<UML:TaggedValue tag="privatedata5" value="EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>

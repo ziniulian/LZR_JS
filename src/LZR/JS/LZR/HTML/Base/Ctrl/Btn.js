@@ -80,7 +80,7 @@ LZR.HTML.Base.Ctrl.Btn.prototype.hdObj_ = function (obj/*as:Object*/) {
 
 // 处理按下事件
 LZR.HTML.Base.Ctrl.Btn.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
-	if (this.utEvt.getEvent(evt).button === 0) {	// 判断是左键被按下
+	if (this.utEvt.parseMouseKey(evt) === "lk") {	// 判断是左键被按下
 		doeo.addCss(this.css);
 
 		// 触发按下事件

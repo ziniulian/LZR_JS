@@ -18,6 +18,9 @@ LZR.load([
 LZR.HTML.Base.Ctrl = function (obj) /*interfaces:LZR.Base.InfEvt*/ {
 	LZR.Base.InfEvt.call(this);
 
+	// 删除方式
+	this.delMode = 1;	/*as:int*/
+
 	// 数组工具
 	this.utAry/*m*/ = LZR.getSingleton(LZR.Base.Ary);	/*as:LZR.Base.Ary*/
 
@@ -134,17 +137,26 @@ LZR.HTML.Base.Ctrl.prototype.delDat = function (doeo/*as:LZR.HTML.Base.Doe*/, ke
 	var s;
 	var n = 0;
 	var e = doeo.dat[key];
-	if (e && e.evt) {
-		e = e.evt;
-		for (s in e) {
-			n += e[s].count;
-		}
-	}
-	if (n === 0) {
-		LZR.del (doeo.dat, key);
-		return true;
-	} else {
-		return false;
+	switch (this.delMode) {
+		case 0:
+			return false;
+		case 1:
+			if (e && e.evt) {
+				e = e.evt;
+				for (s in e) {
+					n += e[s].count;
+				}
+			}
+			if (n === 0) {
+				LZR.del (doeo.dat, key);
+				return true;
+			} else {
+				return false;
+			}
+			break;
+		case 2:
+			LZR.del (doeo.dat, key);
+			return true;
 	}
 };
 
@@ -163,8 +175,14 @@ LZR.HTML.Base.Ctrl.prototype.crtCb2Dat = function (doeo/*as:LZR.HTML.Base.Doe*/,
 };
 
 // 删除元素数据的相关回调
-LZR.HTML.Base.Ctrl.prototype.delCb2Dat = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/, cbNam/*as:string*/) {
+LZR.HTML.Base.Ctrl.prototype.delCb2Dat = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/, cbNam/*as:string*/)/*as:LZR.Base.CallBacks.CallBack*/ {
 	var enam = this.className_ + "_" + cbNam;
-	evt.del(doeo.ctrlCbs[enam]);
+	var r = evt.del(doeo.ctrlCbs[enam]);
 	LZR.del (doeo.ctrlCbs, enam);
+	return r;
+};
+
+// 获取元素数据的相关回调
+LZR.HTML.Base.Ctrl.prototype.getCb2Dat = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/, cbNam/*as:string*/)/*as:LZR.Base.CallBacks.CallBack*/ {
+	return evt.funs[ doeo.ctrlCbs[(this.className_ + "_" + cbNam)] ];
 };
