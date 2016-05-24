@@ -17,9 +17,6 @@ LZR.Base.Val.Ctrl = function (obj) /*bases:LZR.Base.Val*/ /*interfaces:LZR.Base.
 
 	LZR.Base.InfEvt.call(this);
 
-	// 可在事件中变化的临时值
-	this.tmpVal = {};	/*as:Object*/
-
 	// 是否触发事件
 	this.enableEvent = true;	/*as:boolean*/
 
@@ -88,21 +85,22 @@ LZR.Base.Val.Ctrl.prototype.set = function (obj/*as:Object*/, doEvent/*as:boolea
 	} else {
 		if (this.enableEvent) {
 			var old = this.val;
-			this.tmpVal.tmpVal = obj;
-			if (this.beforeSet (obj, this, old, this.tmpVal)) {
-				if (this.tmpVal.tmpVal !== old) {
-					this.val = this.tmpVal.tmpVal;
-					r = this.onChange (this.tmpVal.tmpVal, this, old, this.tmpVal);
+			var tmp = {
+				tmpVal: obj
+			};
+			if (this.beforeSet (obj, this, old, tmp)) {
+				if (tmp.tmpVal !== old) {
+					this.val = tmp.tmpVal;
+					r = this.onChange (this.val, this, old, tmp);
 					if (!r) {
-						this.val = this.tmpVal.tmpVal;
+						this.val = tmp.tmpVal;
 					}
 				}
-				if (!(this.onSet (this.tmpVal.tmpVal, this, old, this.tmpVal))) {
-					this.val = this.tmpVal.tmpVal;
+				if (!(this.onSet (this.val, this, old, tmp))) {
+					this.val = tmp.tmpVal;
 					r = false;
 				}
 			}
-			this.tmpVal.tmpVal = undefined;
 		} else {
 			this.enableEvent = this.autoEvent;
 			this.val = obj;

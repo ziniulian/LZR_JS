@@ -18,12 +18,6 @@ LZR.load([
 LZR.HTML.Base.Ctrl.TimBase.BlockTim = function (obj) /*bases:LZR.HTML.Base.Ctrl.TimBase*/ {
 	LZR.initSuper(this, obj);
 
-	// 最大年度
-	this.yearMax = 2100;	/*as:int*/
-
-	// 最小年度
-	this.yearMin = 1970;	/*as:int*/
-
 	// 格式
 	this.format = "yMdhmsf";	/*as:string*/
 
@@ -197,8 +191,7 @@ LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.addEvt = function (doeo/*as:LZR.HT
 		switch (this.format[i]) {
 			case "y":	// 年
 				p = {
-					min: this.yearMin,
-					max: this.yearMax,
+					inLimit: false,
 					step: 1,
 					num: v.doYear()
 				};

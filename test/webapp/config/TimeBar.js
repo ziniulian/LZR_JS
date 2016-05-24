@@ -19,6 +19,7 @@ function webapp () {
 				参数说明：
 					dom: document.getElementById("a"),	// 容器
 					// css: "scd",	// 被选中样式名
+					// noChg: false,	// 拖动时不触发事件
 					// tim: new Date(),	// 当前时间
 					// min: new Date(),	// 最小时间
 					// max: new Date(),	// 最大时间
@@ -79,16 +80,18 @@ function webapp () {
 			};
 
 			// 屏蔽拖动时触发事件
-			this.noChg = false;
-			this.ctrl.numCtrl.btnCtrl.evt.down.add(this.tools.ut.bind(this, function (d) {
-				this.noChg = true;
-			}));
-			this.ctrl.numCtrl.btnCtrl.evt.up.add(this.tools.ut.bind(this, function (d) {
-				if (this.noChg !== true) {
-					this.onChg(this.noChg);
-				}
+			if (obj.noChg === true) {
 				this.noChg = false;
-			}));
+				this.ctrl.numCtrl.btnCtrl.evt.down.add(this.tools.ut.bind(this, function (d) {
+					this.noChg = true;
+				}));
+				this.ctrl.numCtrl.btnCtrl.evt.up.add(this.tools.ut.bind(this, function (d) {
+					if (this.noChg !== true) {
+						this.onChg(this.noChg);
+					}
+					this.noChg = false;
+				}));
+			}
 		}
 	};
 }

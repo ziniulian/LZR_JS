@@ -2129,7 +2129,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_939DD4E2_AADE_4131_95DA_80D03671693B"/>
 								<UML:TaggedValue tag="date_created" value="2016-05-08 12:47:29"/>
-								<UML:TaggedValue tag="date_modified" value="2016-05-19 16:40:30"/>
+								<UML:TaggedValue tag="date_modified" value="2016-05-24 16:34:38"/>
 								<UML:TaggedValue tag="genfile" value="F:\GitLib\LZR_JS\src\LZR\JS\LZR\HTML\Base\Ctrl\TimBase\BlockTim.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -2142,56 +2142,10 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="278"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=1ad6;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=19f6;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
-								<UML:Attribute name="yearMax" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
-									<UML:Attribute.initialValue>
-										<UML:Expression body="2100"/>
-									</UML:Attribute.initialValue>
-									<UML:StructuralFeature.type>
-										<UML:Classifier xmi.idref="eaxmiid5"/>
-									</UML:StructuralFeature.type>
-									<UML:ModelElement.taggedValue>
-										<UML:TaggedValue tag="type" value="int"/>
-										<UML:TaggedValue tag="derived" value="0"/>
-										<UML:TaggedValue tag="containment" value="Not Specified"/>
-										<UML:TaggedValue tag="ordered" value="0"/>
-										<UML:TaggedValue tag="collection" value="false"/>
-										<UML:TaggedValue tag="position" value="0"/>
-										<UML:TaggedValue tag="lowerBound" value="1"/>
-										<UML:TaggedValue tag="upperBound" value="1"/>
-										<UML:TaggedValue tag="duplicates" value="0"/>
-										<UML:TaggedValue tag="ea_guid" value="{9C9CFEB7-8C35-4529-9655-D3A86CC0ECFC}"/>
-										<UML:TaggedValue tag="ea_localid" value="275"/>
-										<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
-										<UML:TaggedValue tag="style" value="&#26368;&#22823;&#24180;&#24230;"/>
-									</UML:ModelElement.taggedValue>
-								</UML:Attribute>
-								<UML:Attribute name="yearMin" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
-									<UML:Attribute.initialValue>
-										<UML:Expression body="1970"/>
-									</UML:Attribute.initialValue>
-									<UML:StructuralFeature.type>
-										<UML:Classifier xmi.idref="eaxmiid5"/>
-									</UML:StructuralFeature.type>
-									<UML:ModelElement.taggedValue>
-										<UML:TaggedValue tag="type" value="int"/>
-										<UML:TaggedValue tag="derived" value="0"/>
-										<UML:TaggedValue tag="containment" value="Not Specified"/>
-										<UML:TaggedValue tag="ordered" value="0"/>
-										<UML:TaggedValue tag="collection" value="false"/>
-										<UML:TaggedValue tag="position" value="1"/>
-										<UML:TaggedValue tag="lowerBound" value="1"/>
-										<UML:TaggedValue tag="upperBound" value="1"/>
-										<UML:TaggedValue tag="duplicates" value="0"/>
-										<UML:TaggedValue tag="ea_guid" value="{D793E2B4-3763-4951-8A69-A763E40B35EA}"/>
-										<UML:TaggedValue tag="ea_localid" value="276"/>
-										<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
-										<UML:TaggedValue tag="style" value="&#26368;&#23567;&#24180;&#24230;"/>
-									</UML:ModelElement.taggedValue>
-								</UML:Attribute>
 								<UML:Attribute name="format" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
 									<UML:Attribute.initialValue>
 										<UML:Expression body="&quot;yMdhmsf&quot;"/>
@@ -2206,7 +2160,7 @@
 										<UML:TaggedValue tag="length" value="0"/>
 										<UML:TaggedValue tag="ordered" value="0"/>
 										<UML:TaggedValue tag="collection" value="false"/>
-										<UML:TaggedValue tag="position" value="2"/>
+										<UML:TaggedValue tag="position" value="0"/>
 										<UML:TaggedValue tag="lowerBound" value="1"/>
 										<UML:TaggedValue tag="upperBound" value="1"/>
 										<UML:TaggedValue tag="duplicates" value="0"/>
@@ -2598,7 +2552,7 @@
 										<UML:TaggedValue tag="style" value="---- &#32473;&#20803;&#32032;&#28155;&#21152;&#20107;&#20214;&#38598;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_04A3F1B8_BD6A_477a_B073_80C99AAA6C15">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var d, v, p, i;&#xA;	// &#21019;&#24314;&#25968;&#25454;&#xA;	if (obj) {&#xA;		v = this.crtDat(doeo, &quot;hct_tim&quot;, obj);&#xA;	} else {&#xA;		v = this.crtDat(doeo, &quot;hct_tim&quot;, new this.clsTim(pro));&#xA;	}&#xA;&#xA;	// &#21019;&#24314;&#20803;&#32032;&#xA;	for (i = 0; i&lt;this.format.length; i++) {&#xA;		switch (this.format[i]) {&#xA;			case &quot;y&quot;:	// &#24180;&#xA;				p = {&#xA;					min: this.yearMin,&#xA;					max: this.yearMax,&#xA;					step: 1,&#xA;					num: v.doYear()&#xA;				};&#xA;				break;&#xA;			case &quot;M&quot;:	// &#26376;&#xA;				p = {&#xA;					min: 1,&#xA;					max: 12,&#xA;					step: 1,&#xA;					num: v.doMon()&#xA;				};&#xA;				break;&#xA;			case &quot;d&quot;:	// &#26085;&#xA;				p = {&#xA;					min: 1,&#xA;					max: 31,&#xA;					step: 1,&#xA;					num: v.doDay()&#xA;				};&#xA;				break;&#xA;			case &quot;h&quot;:	// &#26102;&#xA;				p = {&#xA;					min: 0,&#xA;					max: 23,&#xA;					step: 1,&#xA;					num: v.doHour()&#xA;				};&#xA;				break;&#xA;			case &quot;m&quot;:	// &#20998;&#xA;				p = {&#xA;					min: 0,&#xA;					max: 59,&#xA;					step: 1,&#xA;					num: v.doMut()&#xA;				};&#xA;				break;&#xA;			case &quot;s&quot;:	// &#31186;&#xA;				p = {&#xA;					min: 0,&#xA;					max: 59,&#xA;					step: 1,&#xA;					num: v.doSec()&#xA;				};&#xA;				break;&#xA;			case &quot;f&quot;:	// &#27627;&#31186;&#xA;				p = {&#xA;					min: 0,&#xA;					max: 999,&#xA;					step: 1,&#xA;					num: v.doMs()&#xA;				};&#xA;				break;&#xA;			default:&#xA;				p = null;&#xA;				break;&#xA;		}&#xA;		if (p) {&#xA;			d = this.crtDoe(doeo, &quot;hct_BlockTimDoe_&quot; + this.format[i], &quot;div&quot;, &quot;Lc_hct_BlockTimDoe&quot;);&#xA;			this.numCtrl.add(d, p);&#xA;			this.crtDat(d, &quot;hct_tim&quot;, v);&#xA;		}&#xA;	}&#xA;&#xA;	// &#21019;&#24314;&#20107;&#20214;&#65288;&#20026;&#20445;&#35777; onChg &#20107;&#20214;&#22312; hdAutoChg &#20043;&#21518;&#35302;&#21457;&#65292;&#23601;&#24517;&#39035;&#20351;&#29992; set &#20107;&#20214;&#65289;&#xA;	this.crtCb2Dat(doeo, doeo.dat.hct_tim.evt.set, &quot;hdAutoChg&quot;);&#xA;	this.crtCb2Dat(doeo, doeo.dat.hct_tim.evt.set, &quot;onChg&quot;);"/>
+												<UML:Comment name="var d, v, p, i;&#xA;	// &#21019;&#24314;&#25968;&#25454;&#xA;	if (obj) {&#xA;		v = this.crtDat(doeo, &quot;hct_tim&quot;, obj);&#xA;	} else {&#xA;		v = this.crtDat(doeo, &quot;hct_tim&quot;, new this.clsTim(pro));&#xA;	}&#xA;&#xA;	// &#21019;&#24314;&#20803;&#32032;&#xA;	for (i = 0; i&lt;this.format.length; i++) {&#xA;		switch (this.format[i]) {&#xA;			case &quot;y&quot;:	// &#24180;&#xA;				p = {&#xA;					inLimit: false,&#xA;					step: 1,&#xA;					num: v.doYear()&#xA;				};&#xA;				break;&#xA;			case &quot;M&quot;:	// &#26376;&#xA;				p = {&#xA;					min: 1,&#xA;					max: 12,&#xA;					step: 1,&#xA;					num: v.doMon()&#xA;				};&#xA;				break;&#xA;			case &quot;d&quot;:	// &#26085;&#xA;				p = {&#xA;					min: 1,&#xA;					max: 31,&#xA;					step: 1,&#xA;					num: v.doDay()&#xA;				};&#xA;				break;&#xA;			case &quot;h&quot;:	// &#26102;&#xA;				p = {&#xA;					min: 0,&#xA;					max: 23,&#xA;					step: 1,&#xA;					num: v.doHour()&#xA;				};&#xA;				break;&#xA;			case &quot;m&quot;:	// &#20998;&#xA;				p = {&#xA;					min: 0,&#xA;					max: 59,&#xA;					step: 1,&#xA;					num: v.doMut()&#xA;				};&#xA;				break;&#xA;			case &quot;s&quot;:	// &#31186;&#xA;				p = {&#xA;					min: 0,&#xA;					max: 59,&#xA;					step: 1,&#xA;					num: v.doSec()&#xA;				};&#xA;				break;&#xA;			case &quot;f&quot;:	// &#27627;&#31186;&#xA;				p = {&#xA;					min: 0,&#xA;					max: 999,&#xA;					step: 1,&#xA;					num: v.doMs()&#xA;				};&#xA;				break;&#xA;			default:&#xA;				p = null;&#xA;				break;&#xA;		}&#xA;		if (p) {&#xA;			d = this.crtDoe(doeo, &quot;hct_BlockTimDoe_&quot; + this.format[i], &quot;div&quot;, &quot;Lc_hct_BlockTimDoe&quot;);&#xA;			this.numCtrl.add(d, p);&#xA;			this.crtDat(d, &quot;hct_tim&quot;, v);&#xA;		}&#xA;	}&#xA;&#xA;	// &#21019;&#24314;&#20107;&#20214;&#65288;&#20026;&#20445;&#35777; onChg &#20107;&#20214;&#22312; hdAutoChg &#20043;&#21518;&#35302;&#21457;&#65292;&#23601;&#24517;&#39035;&#20351;&#29992; set &#20107;&#20214;&#65289;&#xA;	this.crtCb2Dat(doeo, doeo.dat.hct_tim.evt.set, &quot;hdAutoChg&quot;);&#xA;	this.crtCb2Dat(doeo, doeo.dat.hct_tim.evt.set, &quot;onChg&quot;);"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -2734,6 +2688,7 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="335"/>
 								<UML:TaggedValue tag="ea_targetID" value="278"/>
+								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+numCtrl"/>
 							</UML:ModelElement.taggedValue>
@@ -2789,6 +2744,7 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
@@ -2932,7 +2888,7 @@
 				<UML:TaggedValue tag="version" value="1.0"/>
 				<UML:TaggedValue tag="author" value="&#23376;&#29275;&#36830;"/>
 				<UML:TaggedValue tag="created_date" value="2016-05-11 11:01:15"/>
-				<UML:TaggedValue tag="modified_date" value="2016-05-11 16:58:44"/>
+				<UML:TaggedValue tag="modified_date" value="2016-05-24 14:41:51"/>
 				<UML:TaggedValue tag="package" value="EAPK_939DD4E2_AADE_4131_95DA_80D03671693B"/>
 				<UML:TaggedValue tag="type" value="Logical"/>
 				<UML:TaggedValue tag="swimlanes" value="locked=false;orientation=0;width=0;inbar=false;names=false;color=-1;bold=false;fcol=0;tcol=-1;ofCol=-1;hl=1;cls=0;"/>
@@ -2940,13 +2896,13 @@
 				<UML:TaggedValue tag="tpos" value="2"/>
 				<UML:TaggedValue tag="ea_localid" value="69"/>
 				<UML:TaggedValue tag="EAStyle" value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=0;PPgs.cy=0;DocSize.cx=827;DocSize.cy=1169;ShowDetails=0;Orientation=P;Zoom=141;ShowTags=0;OpParams=2;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=9;HideParents=0;UseAlias=1;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
-				<UML:TaggedValue tag="styleex" value="SaveTag=253D3A2C;ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ProfileData=;MDGDgm=;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;"/>
+				<UML:TaggedValue tag="styleex" value="SaveTag=47D6E0F7;ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ProfileData=;MDGDgm=;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;"/>
 				<UML:TaggedValue tag="$ea_hlinksclassified" value="{7D91B4BA-4440-41f9-A781-4897D605FD44}"/>
 			</UML:ModelElement.taggedValue>
 			<UML:Diagram.element>
 				<UML:DiagramElement geometry="Left=156;Top=526;Right=456;Bottom=723;" subject="EAID_D9ACF0AC_EBF3_4414_B1D4_826DD9BFDCAF" seqno="1" style="DUID=FE74A636;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
 				<UML:DiagramElement geometry="Left=125;Top=47;Right=483;Bottom=158;" subject="EAID_C066B6D4_3CE2_4651_8C42_D17DBD3CB5BF" seqno="2" style="DUID=D1551004;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
-				<UML:DiagramElement geometry="Left=155;Top=248;Right=455;Bottom=449;" subject="EAID_83C66015_30F8_4842_A577_3CCD9B6FDF20" seqno="3" style="DUID=A363270B;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=155;Top=248;Right=455;Bottom=433;" subject="EAID_83C66015_30F8_4842_A577_3CCD9B6FDF20" seqno="3" style="DUID=A363270B;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
 				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=CX=50:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_1D729F1D_8A72_49e0_909E_A708C70E7CF7" style="Mode=3;EOID=A363270B;SOID=FE74A636;Color=-1;LWidth=0;Hidden=0;"/>
 				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_A50DDBCB_444A_4fac_A391_5F28D615BAE2" style="Mode=3;EOID=D1551004;SOID=A363270B;Color=-1;LWidth=0;Hidden=0;"/>
 			</UML:Diagram.element>
