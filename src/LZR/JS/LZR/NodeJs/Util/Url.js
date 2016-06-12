@@ -88,7 +88,7 @@ LZR.NodeJs.Util.Url.prototype.getParam = function (req/*as:Object*/, rsp/*as:Obj
 		req.addListener("data", function (postDataChunk) {
 			postData += postDataChunk;
 		});
- 
+
 		// 所有数据包接收完毕
 		req.addListener("end", cb);
 	}

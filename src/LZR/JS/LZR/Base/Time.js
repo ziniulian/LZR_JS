@@ -40,7 +40,10 @@ LZR.Base.Time.prototype.hdObj_ = function (obj/*as:Object*/) {
 
 // 字符串转时间
 LZR.Base.Time.prototype.stringToDate = function (strDate/*as:string*/)/*as:Date*/ {
-	return eval( "new Date(" + strDate.replace( /\d+(?=-[^-]+$)/, function (a) { return parseInt(a, 10) - 1; } ).match(/\d+/g) + ")" );
+	var r = strDate.match(/\d+/g);
+	r[1]--;
+	// return eval( "new Date(" + strDate.replace( /\d+(?=-[^-]+$)/, function (a) { console.log (a); return parseInt(a, 10) - 1; } ).match(/\d+/g) + ")" );
+	return eval( "new Date(" + r + ")" );
 };
 
 // 时间转换为字符串
