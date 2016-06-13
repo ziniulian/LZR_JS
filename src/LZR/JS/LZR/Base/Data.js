@@ -253,3 +253,12 @@ LZR.Base.Data.prototype.changeRoot = function (obj/*as:Object*/, self/*as:LZR.Ba
 		this.subs[s].root.set (obj);
 	}
 };
+
+// 删除所有子元素
+LZR.Base.Data.prototype.delAll = function ()/*as:Array*/ {
+	var r = [];
+	for (var s in this.subs) {
+		r.push(this.del(s));
+	}
+	return r;
+};

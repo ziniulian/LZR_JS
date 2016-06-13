@@ -178,35 +178,6 @@ LZR.HTML.Base.Doe.prototype.delAtt = function (key/*as:string*/) {
 	this.doe.removeAttribute(key);
 };
 
-// 设置DOM元素的Styley样式
-LZR.HTML.Base.Doe.prototype.setStyle = function (key/*as:string*/, val/*as:string*/) {
-	if (this.adaptation) {
-		switch (this.adaptation) {
-			case "dojo":
-				if (typeof (val) === "number") {
-					val = val + "px";
-				}
-				break;
-		}
-	}
-	this.doe.style[this.calcStyleNam(key)] = val;
-};
-
-// 获取DOM元素的Styley样式
-LZR.HTML.Base.Doe.prototype.getStyle = function (key/*as:string*/)/*as:string*/ {
-	if ("\v" == "v") {
-		//简单判断ie6~8
-		key = this.calcStyleNam(key);
-		if(key === "backgroundPosition"){
-			//IE6~8不兼容backgroundPosition写法，识别backgroundPositionX/Y
-			return this.doe.currentStyle.backgroundPositionX + " " + this.doe.currentStyle.backgroundPositionY;
-		}
-		return this.doe.currentStyle[key];
-	}else{
-		return document.defaultView.getComputedStyle(this.doe, null).getPropertyValue(this.calcStyleNam(key, true));
-	}
-};
-
 // 处理样式名
 LZR.HTML.Base.Doe.prototype.calcStyleNam = function (key/*as:int*/, lower/*as:boolean*/)/*as:string*/ {
 	if (lower) {
@@ -299,6 +270,43 @@ LZR.HTML.Base.Doe.prototype.remove = function () {
 	}
 };
 
+// --------------------- 可用于工具的方法 --------------
+
+// 设置DOM元素的Styley样式
+LZR.HTML.Base.Doe.prototype.setStyle = function (key/*as:string*/, val/*as:string*/, doe/*as:Object*/) {
+	if (!doe) {
+		doe = this.doe;
+	}
+	if (this.adaptation) {
+		switch (this.adaptation) {
+			case "dojo":
+				if (typeof (val) === "number") {
+					val = val + "px";
+				}
+				break;
+		}
+	}
+	doe.style[this.calcStyleNam(key)] = val;
+};
+
+// 获取DOM元素的Styley样式
+LZR.HTML.Base.Doe.prototype.getStyle = function (key/*as:string*/, doe/*as:Object*/)/*as:string*/ {
+	if (!doe) {
+		doe = this.doe;
+	}
+	if ("\v" == "v") {
+		//简单判断ie6~8
+		key = this.calcStyleNam(key);
+		if(key === "backgroundPosition"){
+			//IE6~8不兼容backgroundPosition写法，识别backgroundPositionX/Y
+			return doe.currentStyle.backgroundPositionX + " " + doe.currentStyle.backgroundPositionY;
+		}
+		return doe.currentStyle[key];
+	}else{
+		return document.defaultView.getComputedStyle(doe, null).getPropertyValue(this.calcStyleNam(key, true));
+	}
+};
+
 // 计算位置
 LZR.HTML.Base.Doe.prototype.calcPosition = function (doe/*as:Object*/)/*as:Object*/ {
 	var d, box, b = false;
@@ -333,6 +341,70 @@ LZR.HTML.Base.Doe.prototype.calcPosition = function (doe/*as:Object*/)/*as:Objec
 		this.position = r;
 	}
 	return r;
+};
+
+// 在父元素中滚动条定位
+LZR.HTML.Base.Doe.prototype.matchParent = function (vertical/*as:string*/, horizontal/*as:string*/, padding/*as:int*/, doe/*as:Object*/) {
+	var p, t, c, d, s;
+	if (!doe) {
+		doe = this.doe;
+	}
+	if (!padding) {
+		padding = 0;
+	}
+	p = doe.parentNode;	// 父元素
+
+	if (p) {
+		t = this.getStyle("position", p);		// 定位类型
+
+		// 垂直调整
+		if (vertical) {
+			c = p.clientHeight;		// 父元素当前长度
+			d = doe.offsetHeight;		// 子元素当前长度
+			s = doe.offsetTop;		// 子元素相对于父元素的位置
+			if (t === "static") {
+				s -= p.offsetTop + p.clientTop;
+			}
+			switch (vertical) {
+				case "T":	// 靠上
+				case "t":
+					p.scrollTop = s - padding;
+					break;
+				case "C":	// 居中
+				case "c":
+					p.scrollTop = s + d/2 - c/2;
+					break;
+				case "B":	// 靠下
+				case "b":
+					p.scrollTop = s + d + padding - c;
+					break;
+			}
+		}
+
+		// 横向调整
+		if (horizontal) {
+			c = p.clientWidth;		// 父元素当前长度
+			d = doe.offsetWidth;		// 子元素当前长度
+			s = doe.offsetLeft;		// 子元素相对于父元素的位置
+			if (t === "static") {
+				s -= p.offsetLeft + p.clientLeft;
+			}
+			switch (horizontal) {
+				case "L":	// 靠左
+				case "l":
+					p.scrollLeft = s - padding;
+					break;
+				case "C":	// 居中
+				case "c":
+					p.scrollLeft = s + d/2 - c/2;
+					break;
+				case "R":	// 靠右
+				case "r":
+					p.scrollLeft = s + d + padding - c;
+					break;
+			}
+		}
+	}
 };
 
 // ---- 添加
