@@ -1,15 +1,15 @@
 /*************************************************
 作者：子牛连
-类名：DoePosition
+类名：DomPosition
 说明：元素位置
-创建日期：12-五月-2016 15:07:17
+创建日期：15-六月-2016 17:23:03
 版本号：1.0
 *************************************************/
 
 LZR.load([
-	"LZR.HTML.Base.Doe"
-], "LZR.HTML.Base.Doe.DoePosition");
-LZR.HTML.Base.Doe.DoePosition = function (obj) {
+	"LZR.HTML.Util"
+], "LZR.HTML.Util.DomPosition");
+LZR.HTML.Util.DomPosition = function (obj) {
 	// 上
 	this.top = 0;	/*as:double*/
 
@@ -28,13 +28,13 @@ LZR.HTML.Base.Doe.DoePosition = function (obj) {
 		this.init_(obj);
 	}
 };
-LZR.HTML.Base.Doe.DoePosition.prototype.className_ = "LZR.HTML.Base.Doe.DoePosition";
-LZR.HTML.Base.Doe.DoePosition.prototype.version_ = "1.0";
+LZR.HTML.Util.DomPosition.prototype.className_ = "LZR.HTML.Util.DomPosition";
+LZR.HTML.Util.DomPosition.prototype.version_ = "1.0";
 
-LZR.load(null, "LZR.HTML.Base.Doe.DoePosition");
+LZR.load(null, "LZR.HTML.Util.DomPosition");
 
 // 构造器
-LZR.HTML.Base.Doe.DoePosition.prototype.init_ = function (obj/*as:Object*/) {
+LZR.HTML.Util.DomPosition.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
 		this.hdObj_(obj);
@@ -42,6 +42,6 @@ LZR.HTML.Base.Doe.DoePosition.prototype.init_ = function (obj/*as:Object*/) {
 };
 
 // 对构造参数的特殊处理
-LZR.HTML.Base.Doe.DoePosition.prototype.hdObj_ = function (obj/*as:Object*/) {
+LZR.HTML.Util.DomPosition.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
