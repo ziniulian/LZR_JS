@@ -80,8 +80,8 @@ LZR.HTML.Util.Evt.prototype.getMousePosition = function (e/*as:Object*/)/*as:Obj
 		// IE 浏览器
 		var dm = this.utDt.getDocument(this.getEventTarg(e));
 		return {
-			x: window.event.clientX + dm.body.scrollLeft - dm.body.clientLeft,
-			y: window.event.clientY + dm.body.scrollTop - dm.body.clientTop
+			x: window.event.clientX + dm.documentElement.scrollLeft - dm.documentElement.clientLeft,
+			y: window.event.clientY + dm.documentElement.scrollTop - dm.documentElement.clientTop
 		};
 	}
 };
