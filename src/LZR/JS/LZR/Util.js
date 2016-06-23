@@ -36,7 +36,7 @@ LZR.Util.prototype.hdObj_ = function (obj/*as:Object*/) {
 
 // 闭包调用
 LZR.Util.prototype.bind = function (self/*as:Object*/, fun/*as:fun*/, args/*as:___*/)/*as:fun*/ {
-	var arg = Array.prototype.slice.call ( arguments, 2 );
+	var arg = Array.prototype.slice.call(arguments, 2);
 	return function () {
 		var i, args = [];
 		for ( i=0; i<arg.length; i++ ) {
@@ -70,7 +70,7 @@ LZR.Util.prototype.supCall = function (self/*as:Object*/, idx/*as:int*/, funam/*
 	}
 
 	var f = s[idx].prototype[funam];		// 父类函数
-	var n = f.length;	// 函数的形参个数
+	var n = f.length;		// 函数的形参个数
 
 	// 填充不完整的参数
 	while (arg.length < n) {

@@ -2,14 +2,15 @@
 作者：子牛连
 类名：DatMod
 说明：数据模型
-创建日期：26-三月-2016 16:20:02
+创建日期：17-六月-2016 14:29:36
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.Pro.Green.Airq.App.ReleaseSys",
 	"LZR.Pro.Gis.Area",
-	"LZR.Pro.Green.Airq.Fom.Aqi"
+	"LZR.Pro.Green.Airq.Fom.Aqi",
+	"LZR.HTML.Base.Doe"
 ], "LZR.Pro.Green.Airq.App.ReleaseSys.DatMod");
 LZR.Pro.Green.Airq.App.ReleaseSys.DatMod = function (obj) /*bases:LZR.Pro.Gis.Area*/ {
 	LZR.initSuper(this, obj);
@@ -20,20 +21,20 @@ LZR.Pro.Green.Airq.App.ReleaseSys.DatMod = function (obj) /*bases:LZR.Pro.Gis.Ar
 	// 城市图片
 	this.imgUrl = "";	/*as:string*/
 
-	// 地图小图标Doe
-	this.mapSmallDoe = null;	/*as:LZR.HTML.Base.Doe*/
-
-	// 地图大图标Doe
-	this.mapBigDoe = null;	/*as:LZR.HTML.Base.Doe*/
-
-	// 标牌元素
-	this.boardDoe = null;	/*as:LZR.HTML.Base.Doe*/
-
 	// 指数集合
 	this.aqis/*m*/ = {};	/*as:LZR.Pro.Green.Airq.Fom.Aqi*/
 
 	// 指数类
 	this.clsAqi/*m*/ = (LZR.Pro.Green.Airq.Fom.Aqi);	/*as:fun*/
+
+	// 标牌元素
+	this.boardDoe/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
+
+	// 地图小图标Doe
+	this.mapSmallDoe/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
+
+	// 地图大图标Doe
+	this.mapBigDoe/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
