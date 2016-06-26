@@ -128,6 +128,31 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.flush = function (doeo/*as:LZR.HTML
 
 // ---- 通过位置获取颜色
 LZR.HTML.Widget.Legend.BlockLegend.prototype.getClrByPosition = function (position/*as:double*/)/*as:LZR.Base.Clr*/ {
-	var i = Math.floor(position * this.viewLegend.count, 10);
-	return this.viewLegend.subs[i].dat.clr;
+	var i = Math.floor(position * this.viewLegend.count);
+	return this.viewLegend.subs[i + "_BlockLegend"].dat.clr;
+};
+
+// ---- 通过位置获取值
+LZR.HTML.Widget.Legend.BlockLegend.prototype.getValByPosition = function (position/*as:double*/)/*as:string*/ {
+	var fc, v, r="";
+	var d = Math.floor(position * this.viewLegend.count);
+	d = this.viewLegend.subs[d + "_BlockLegend"].dat;
+	fc = this.subs[(d.id.get() - 1)];
+
+	v = this.min + fc.position * (this.max - this.min);
+	if (this.digit !== null) {
+		v = this.utMath.formatFloat(v, this.digit);
+	}
+	r += v;
+	r += " - ";
+
+	v = this.min + d.position * (this.max - this.min);
+	if (this.digit !== null) {
+		v = this.utMath.formatFloat(v, this.digit);
+	}
+	r += v;
+	r += " ";
+	r += this.unit;
+
+	return r;
 };

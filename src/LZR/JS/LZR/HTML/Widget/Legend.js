@@ -55,6 +55,9 @@ LZR.HTML.Widget.Legend = function (obj) /*bases:LZR.Base.Data*/ {
 	// 外框样式
 	this.outCss = "Lc_hwg_Legend Lc_noselect";	/*as:string*/
 
+	// 拾色器样式
+	this.pickCss = "Lc_hwg_LegendPicker Lc_nosee";	/*as:string*/
+
 	// 视图元素
 	this.view/*m*/ = new LZR.HTML.Base.Doe({
 		hd_typ: "div",
@@ -89,7 +92,17 @@ LZR.HTML.Widget.Legend = function (obj) /*bases:LZR.Base.Data*/ {
 	this.viewPicker/*m*/ = new LZR.HTML.Base.Doe({
 		id: "LegendPicker",
 		hd_typ: "div",
-		hd_css: "Lc_full"
+		hd_css: this.pickCss,
+		chd_: {
+			clr: {
+				hd_typ: "div",
+				hd_css: "clr"
+			},
+			txt: {
+				hd_typ: "div",
+				hd_css: "txt"
+			}
+		}
 	});	/*as:LZR.HTML.Base.Doe*/
 
 	// 颜色类
@@ -118,6 +131,9 @@ LZR.load(null, "LZR.HTML.Widget.Legend");
 LZR.HTML.Widget.Legend.prototype.init_ = function (obj/*as:Object*/) {
 	this.view.add(this.viewLegend);
 	this.view.add(this.viewUnit);
+	this.view.add(this.viewPicker);
+	this.view.addEvt("mousemove", this.utLzr.bind(this, this.showPicker), "hwg_Legend_showPicker");
+	this.view.addEvt("mouseout", this.utLzr.bind(this, this.hidPicker), "hwg_Legend_hidPicker");
 
 	if (obj) {
 		LZR.setObj (this, obj);
@@ -131,17 +147,9 @@ LZR.HTML.Widget.Legend.prototype.hdObj_ = function (obj/*as:Object*/) {
 		this.hdClrs(obj.hd_clrs, obj.hd_alias);
 	}
 
-	if (obj.view) {
-		if (!this.view.add(this.viewLegend)) {
-			this.viewLegend = this.view.getById("Legend");
-		}
-		if (!this.view.add(this.viewUnit)) {
-			this.viewUnit = this.view.getById("LegendUnit");
-		}
-	} else {
-		this.view.chgCss(this.outCss);
-	}
+	this.view.chgCss(this.outCss);
 	this.viewUnit.chgCss(this.unitCss);
+	this.viewPicker.chgCss(this.pickCss);
 
 	// 调用父类的参数处理
 	this.utLzr.supCall (this, 0, "hdObj_", obj);
@@ -209,4 +217,22 @@ LZR.HTML.Widget.Legend.prototype.toQry = function (min/*as:double*/, max/*as:dou
 	r.typ = this.typ;
 	r.color = this.toClrStr(min, max);
 	return r;
+};
+
+// 隐藏拾色器
+LZR.HTML.Widget.Legend.prototype.hidPicker = function (evt/*as:Object*/) {
+	this.viewPicker.addCss("Lc_nosee");
+};
+
+// 显示拾色器
+LZR.HTML.Widget.Legend.prototype.showPicker = function (evt/*as:Object*/) {
+	var p = this.view.utEvt.getMousePosition(evt);
+	this.view.calcPosition();
+	p = (p.x - this.view.position.left) / this.view.position.width;
+
+	if (p>0 && p<1) {
+		this.viewPicker.getById("clr").setStyle("background-color", this.getClrByPosition(p).toCss());
+		this.viewPicker.getById("txt").doe.innerHTML = this.getValByPosition(p);
+		this.viewPicker.delCss("Lc_nosee");
+	}
 };
