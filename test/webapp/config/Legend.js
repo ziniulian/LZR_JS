@@ -12,7 +12,6 @@ function webapp () {
 			Lm: "LZR.HTML.Widget.Legend.LegendMgr"
 		},
 		fun: function (obj) {	// 类构造函数
-			var pro;
 			/*
 				参数说明：
 					// 图例初始化参数（图例值以百分比表示）
@@ -33,6 +32,7 @@ function webapp () {
 								// fcbCss: "",	// 首刻度边框样式
 								// unitCss: "",	// 单位样式
 								// outCss: "",	// 外框样式
+								// pickCss: "",	// 拾色器样式
 								color: {		// 色块为 <= 关系
 									"0": [255,255,255],
 									"10": [0,255,0],
@@ -70,7 +70,7 @@ function webapp () {
 					}
 
 				事件：
-					onChg: function (dom, dat) {}
+					onchange: function (dom, dat) {}
 
 				事件返回参数：
 					dom = 图例对象
@@ -87,9 +87,9 @@ function webapp () {
 			this.mgr = new this.tools.Lm (obj);
 
 			// 事件添加
-			this.onChg = function (dom, dat) {};
+			this.onchange = function (dom, dat) {};
 			this.mgr.evt.chg.add(this.tools.ut.bind(this, function (dom, dat) {
-				this.onChg (dom, dat);
+				this.onchange (dom, dat);
 			}));
 
 		}

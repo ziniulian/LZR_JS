@@ -64,8 +64,8 @@ LZR.Base.Val.RangeNum.prototype.hdObj_ = function (obj/*as:Object*/) {
 	if (obj.min) {
 		this.vcMin.set(obj.min, false);
 	}
-	if (obj.setp) {
-		this.vcStep.set(obj.setp, false);
+	if (obj.step) {
+		this.vcStep.set(obj.step, false);
 	}
 	if (obj.num) {
 		this.set(obj.num, false);
@@ -94,7 +94,7 @@ LZR.Base.Val.RangeNum.prototype.normalize = function (v/*as:double*/, noLimit/*a
 		v = this.checkLimit(v);
 	}
 	v -= min;
-	b = Math.floor(v/t);
+	b = Math.round(v/t);
 	v = b*t + min;
 	return v;
 };

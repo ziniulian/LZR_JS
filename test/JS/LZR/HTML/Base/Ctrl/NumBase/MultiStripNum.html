@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>多头条状数值增减控制器测试</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+
+			.a {
+				display: inline-block;
+				vertical-align: top;
+				width: 80%;
+				height: 50px;
+				margin: 60px 0 0 10%;
+				background-color: yellow;
+			}
+
+			.za {
+				display: inline-block;
+				vertical-align: top;
+				width: 50px;
+				height: 500px;
+				margin: 50px 0 0 10%;
+				background-color: yellow;
+			}
+
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.HTML.Base.Ctrl.NumBase.MultiStripNum"
+				]);
+				var de = LZR.HTML.Base.Doe;
+				var cls = LZR.HTML.Base.Ctrl.NumBase.MultiStripNum;
+
+				LZR.HTML.alog ("DOM参数创建元素");
+				var a = new de ({
+					hd_doe: document.getElementById("a")
+				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("创建横轴");
+				var c = new cls ();
+				c.add(a, {
+					rn: 0.05,
+					chd_: {
+						"0": {
+							min: 0,
+							max: 1,
+							step: 0.05,
+							num: 0.2
+						},
+						"1": {
+							min: 0,
+							max: 1,
+							step: 0.05,
+							num: 0.4
+						},
+						"2": {
+							min: 0,
+							max: 1,
+							step: 0.05,
+							num: 0.6
+						},
+						"3": {
+							min: 0,
+							max: 1,
+							step: 0.05,
+							num: 0.8
+						}
+					}
+				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("测试事件响应");
+				c.evt.chg.add (function (d, v, id, btn) {
+					console.log (d.doe);
+					console.log (btn.doe);
+					console.log (id);
+					console.log (v.subs[id].rn.get());
+				});
+				LZR.HTML.alog ("");
+
+			}
+		</script>
+	</head>
+
+	<body>
+		<!-- 横轴 -->
+		<div id = "a" class = "a">
+		</div>
+
+		<!-- 纵轴 -->
+		<div id = "za" class = "za">
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
+</html>

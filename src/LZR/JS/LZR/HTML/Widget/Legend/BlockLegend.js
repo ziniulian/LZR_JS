@@ -151,8 +151,8 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.getValByPosition = function (positi
 		v = this.utMath.formatFloat(v, this.digit);
 	}
 	r += v;
-	r += " ";
-	r += this.unit;
+	// r += " ";
+	// r += this.unit;
 
 	return r;
 };

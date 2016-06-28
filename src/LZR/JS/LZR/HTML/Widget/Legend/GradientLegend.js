@@ -15,6 +15,9 @@ LZR.load([
 LZR.HTML.Widget.Legend.GradientLegend = function (obj) /*bases:LZR.HTML.Widget.Legend.BlockLegend*/ {
 	LZR.initSuper(this, obj);
 
+	// 类型编号
+	this.typ = 0;	/*as:int*/
+
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
@@ -82,8 +85,8 @@ LZR.HTML.Widget.Legend.GradientLegend.prototype.getValByPosition = function (pos
 	if (this.digit !== null) {
 		r = this.utMath.formatFloat(r, this.digit);
 	}
-	r += " ";
-	r += this.unit;
+	// r += " ";
+	// r += this.unit;
 
 	return r;
 };

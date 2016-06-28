@@ -70,10 +70,9 @@ LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdObj_ = function (obj/*as:Object*
 };
 
 // 位置换算数值
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.position2Num = function (doeo/*as:LZR.HTML.Base.Doe*/, position/*as:double*/, reverse/*as:boolean*/)/*as:double*/ {
-	var v = doeo.dat.hct_num;
+LZR.HTML.Base.Ctrl.NumBase.StripNum.position2Num = function (doeo/*as:LZR.HTML.Base.Doe*/, position/*as:double*/, reverse/*as:boolean*/, v/*as:LZR.Base.Val.RangeNum*/, vertical/*as:boolean*/)/*as:double*/ {
 	var scale = v.vcMax.get() - v.vcMin.get();
-	if (this.vertical) {
+	if (vertical) {
 		scale = doeo.position.height / scale;
 	} else {
 		scale = doeo.position.width / scale;
@@ -84,6 +83,51 @@ LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.position2Num = function (doeo/*as:
 	} else {
 		return v.vcMin.get() + position / scale;
 	}
+};
+
+// 放置按钮
+LZR.HTML.Base.Ctrl.NumBase.StripNum.placeBtn = function (doeo/*as:LZR.HTML.Base.Doe*/, n/*as:LZR.Base.Val.RangeNum*/, d/*as:LZR.HTML.Base.Doe*/, hidBtn/*as:boolean*/, vertical/*as:boolean*/) {
+	var p, v = n.get();
+	if (hidBtn && (v>n.vcMax.get() || v<n.vcMin.get())) {
+		d.addCss("Lc_nosee");
+	} else {
+		d.delCss("Lc_nosee");
+		p = this.position2Num(doeo, v, true, n, vertical);
+		if (vertical) {
+			d.setStyle("top", p);
+		} else {
+			d.setStyle("left", p);
+		}
+	}
+};
+
+// 处理按钮拖动
+LZR.HTML.Base.Ctrl.NumBase.StripNum.hdBtnDrop = function (doeo/*as:LZR.HTML.Base.Doe*/, n/*as:LZR.Base.Val.RangeNum*/, pd/*as:LZR.HTML.Base.Doe*/, v/*as:LZR.HTML.Base.Ctrl.Mouse.MouseInfo*/, vertical/*as:boolean*/) {
+	var d;
+	var num = n.get();
+
+	if (vertical) {
+		d = this.position2Num(pd, v.lk.ey - v.lk.sy, false, n, vertical) - n.vcMin.get();
+	} else {
+		d = this.position2Num(pd, v.lk.ex - v.lk.sx, false, n, vertical) - n.vcMin.get();
+	}
+
+	d = this.position2Num(pd, n.set(num + d) - num + n.vcMin.get(), true, n, vertical);
+	if (vertical) {
+		v.lk.sy += d;
+	} else {
+		v.lk.sx += d;
+	}
+};
+
+// 位置换算数值
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.position2Num = function (doeo/*as:LZR.HTML.Base.Doe*/, position/*as:double*/, reverse/*as:boolean*/)/*as:double*/ {
+	return this.constructor.position2Num(doeo, position, reverse, doeo.dat.hct_num, this.vertical);
+};
+
+// 放置按钮
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.placeBtn = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	this.constructor.placeBtn(doeo, doeo.dat.hct_num, doeo.getById("hct_StripNumBtn"), this.enableDropBase, this.vertical);
 };
 
 // 计算范围
@@ -97,24 +141,6 @@ LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.calcRange = function (n/*as:Object
 	} else if (v<min) {
 		n.vcMin.set( n.normalize((v - d*multiple), true), false );
 		n.vcMax.set(n.vcMin.get() + d);
-	}
-};
-
-// 放置按钮
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.placeBtn = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	var n = doeo.dat.hct_num;
-	var v = n.get();
-	var d = doeo.getById("hct_StripNumBtn");
-	if (this.enableDropBase && (v>n.vcMax.get() || v<n.vcMin.get())) {
-		d.addCss("Lc_nosee");
-	} else {
-		d.delCss("Lc_nosee");
-		n = this.position2Num(doeo, v, true);
-		if (this.vertical) {
-			d.setStyle("top", n);
-		} else {
-			d.setStyle("left", n);
-		}
 	}
 };
 
@@ -160,24 +186,7 @@ LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBaseDrop = function (doeo/*as:LZ
 
 // 处理按钮拖动
 LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBtnDrop = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/) {
-	var d;
-	var v = doeo.dat.hct_mof;
-	var n = doeo.dat.hct_num;
-	var num = n.get();
-	var pd = doeo.dat.hct_StripNumBase;
-
-	if (this.vertical) {
-		d = this.position2Num(pd, v.lk.ey - v.lk.sy) - n.vcMin.get();
-	} else {
-		d = this.position2Num(pd, v.lk.ex - v.lk.sx) - n.vcMin.get();
-	}
-
-	d = this.position2Num(pd, n.set(num + d) - num + n.vcMin.get(), true);
-	if (this.vertical) {
-		v.lk.sy += d;
-	} else {
-		v.lk.sx += d;
-	}
+	this.constructor.hdBtnDrop(doeo, doeo.dat.hct_num, doeo.dat.hct_StripNumBase, doeo.dat.hct_mof, this.vertical);
 };
 
 // 处理数值变化
@@ -240,6 +249,7 @@ LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.addEvt = function (doeo/*as:LZR.HT
 	switch (doeo.getStyle("position")) {
 		case "absolute":
 		case "relative":
+		case "fixed":
 			break;
 		default:
 			doeo.setStyle("position", "relative");

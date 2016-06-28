@@ -261,14 +261,8 @@ LZR.HTML.Base.Doe.prototype.delAtt = function (key/*as:string*/) {
 
 // 设置DOM元素的Styley样式
 LZR.HTML.Base.Doe.prototype.setStyle = function (key/*as:string*/, val/*as:string*/) {
-	if (this.adaptation) {
-		switch (this.adaptation) {
-			case "dojo":
-				if (typeof (val) === "number") {
-					val = val + "px";
-				}
-				break;
-		}
+	if (typeof (val) === "number") {
+		val = val + "px";
 	}
 	this.utDt.setStyle(key, val, this.doe);
 };
