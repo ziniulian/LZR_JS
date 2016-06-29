@@ -57,7 +57,14 @@ LZR.HTML.Widget.Legend.GradientLegend.prototype.crtOneBlock = function (clr/*as:
 
 // ---- 通过位置获取颜色
 LZR.HTML.Widget.Legend.GradientLegend.prototype.getClrByPosition = function (position/*as:double*/)/*as:LZR.Base.Clr*/ {
-	var p = position * this.viewLegend.count;
+	var p;
+	if (position >= 1) {
+		p = this.viewLegend.count - 0.001;
+	} else if (position <= 0) {
+		p = 0;
+	} else {
+		p = position * this.viewLegend.count;
+	}
 	var i = Math.floor(p);
 	var d = this.viewLegend.subs[i + "_BlockLegend"].dat;
 	var fc = this.subs[(d.id.get() - 1)];
@@ -69,18 +76,9 @@ LZR.HTML.Widget.Legend.GradientLegend.prototype.getClrByPosition = function (pos
 	return r;
 };
 
-// ---- 通过位置获取值
+// ---- 通过位置获取值信息
 LZR.HTML.Widget.Legend.GradientLegend.prototype.getValByPosition = function (position/*as:double*/)/*as:string*/ {
-	var r;
-	var p = position * this.viewLegend.count;
-	var i = Math.floor(p);
-	var d = this.viewLegend.subs[i + "_BlockLegend"].dat;
-	var fc = this.subs[(d.id.get() - 1)];
-	var min = this.min + fc.position * (this.max - this.min);
-	var max = this.min + d.position * (this.max - this.min);
-
-	p = p-i;
-	r = min + p*(max - min);
+	var r = this.getValueByPosition(position);
 
 	if (this.digit !== null) {
 		r = this.utMath.formatFloat(r, this.digit);

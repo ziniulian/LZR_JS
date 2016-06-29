@@ -70,6 +70,7 @@ function webapp () {
 					}
 
 				事件：
+					noChg: true,	// 拖动是不触发事件
 					onchange: function (dom, dat) {}
 
 				事件返回参数：
@@ -89,9 +90,29 @@ function webapp () {
 			// 事件添加
 			this.onchange = function (dom, dat) {};
 			this.mgr.evt.chg.add(this.tools.ut.bind(this, function (dom, dat) {
-				this.onchange (dom, dat);
+				if (this.noChg) {
+					this.noChg = {
+						dom: dom,
+						dat: dat
+					};
+				} else {
+					this.onchange(dom, dat);
+				}
 			}));
 
+			// 屏蔽拖动时触发事件
+			if (obj.noChg === true) {
+				this.noChg = false;
+				this.mgr.markCtrl.btnCtrl.evt.down.add(this.tools.ut.bind(this, function (d) {
+					this.noChg = true;
+				}));
+				this.mgr.markCtrl.btnCtrl.evt.up.add(this.tools.ut.bind(this, function (d) {
+					if (this.noChg !== true) {
+						this.onchange(this.noChg.dom, this.noChg.dat);
+					}
+					this.noChg = false;
+				}));
+			}
 		}
 	};
 }

@@ -50,6 +50,12 @@ LZR.Base.Val.RangeDat.prototype.init_ = function (obj/*as:Object*/) {
 // 对构造参数的特殊处理
 LZR.Base.Val.RangeDat.prototype.hdObj_ = function (obj/*as:Object*/) {
 	if (this.rn.constructor === this.clsRn) {
+		if (obj.isNorm !== undefined) {
+			this.rn.isNorm = obj.isNorm;
+		}
+		if (obj.inLimit !== undefined) {
+			this.rn.inLimit = obj.inLimit;
+		}
 		this.rn.hdObj_(obj);
 	}
 

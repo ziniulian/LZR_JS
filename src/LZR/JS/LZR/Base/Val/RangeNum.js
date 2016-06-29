@@ -58,16 +58,16 @@ LZR.Base.Val.RangeNum.prototype.init_ = function (obj/*as:Object*/) {
 
 // 对构造参数的特殊处理
 LZR.Base.Val.RangeNum.prototype.hdObj_ = function (obj/*as:Object*/) {
-	if (obj.max) {
+	if (obj.max !== undefined) {
 		this.vcMax.set(obj.max, false);
 	}
-	if (obj.min) {
+	if (obj.min !== undefined) {
 		this.vcMin.set(obj.min, false);
 	}
-	if (obj.step) {
+	if (obj.step !== undefined) {
 		this.vcStep.set(obj.step, false);
 	}
-	if (obj.num) {
+	if (obj.num !== undefined) {
 		this.set(obj.num, false);
 	} else {
 		this.reset(false);

@@ -2,7 +2,7 @@
 作者：子牛连
 类名：LegendMgr
 说明：图例管理器
-创建日期：23-六月-2016 18:06:26
+创建日期：29-六月-2016 9:45:36
 版本号：1.0
 *************************************************/
 
@@ -12,14 +12,15 @@ LZR.loadAnnex({
 
 LZR.load([
 	"LZR.HTML.Widget.Legend",
-	"LZR.Base.Data",
 	"LZR.HTML.Base.Doe",
+	"LZR.Base.Data",
 	"LZR.HTML.Base.Ctrl.SglScd",
 	"LZR.Util",
 	"LZR.HTML.Widget.Legend.GradientLegend",
 	"LZR.HTML.Widget.Legend.BlockLegend",
 	"LZR.Base.CallBacks",
-	"LZR.Base.InfEvt"
+	"LZR.Base.InfEvt",
+	"LZR.HTML.Base.Ctrl.NumBase.MultiStripNum"
 ], "LZR.HTML.Widget.Legend.LegendMgr");
 LZR.HTML.Widget.Legend.LegendMgr = function (obj) /*bases:LZR.Base.Data*/ /*interfaces:LZR.Base.InfEvt*/ {
 	LZR.initSuper(this, obj);
@@ -57,6 +58,34 @@ LZR.HTML.Widget.Legend.LegendMgr = function (obj) /*bases:LZR.Base.Data*/ /*inte
 	// 图例变化
 	this.evt.chg/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
+	// 遮罩控制器
+	this.markCtrl/*m*/ = new LZR.HTML.Base.Ctrl.NumBase.MultiStripNum();	/*as:LZR.HTML.Base.Ctrl.NumBase.MultiStripNum*/
+
+	// 遮罩视图
+	this.viewMark/*m*/ = new LZR.HTML.Base.Doe({
+		id: "LegendMgrMark",
+		hd_typ: "div",
+		hd_css: "Lc_hwg_LegendMgrMark",
+		chd_: {
+			markLeft: {
+				hd_typ: "div",
+				hd_css: "Lc_hwg_LegendMgrMarkLeft"
+			},
+			markRight: {
+				hd_typ: "div",
+				hd_css: "Lc_hwg_LegendMgrMarkRight"
+			},
+			btnLeft: {
+				hd_typ: "div",
+				hd_css: "Lc_hwg_LegendMgrMarkBtn"
+			},
+			btnRight: {
+				hd_typ: "div",
+				hd_css: "Lc_hwg_LegendMgrMarkBtn"
+			}
+		}
+	});	/*as:LZR.HTML.Base.Doe*/
+
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
@@ -73,6 +102,8 @@ LZR.load(null, "LZR.HTML.Widget.Legend.LegendMgr");
 
 // 构造器
 LZR.HTML.Widget.Legend.LegendMgr.prototype.init_ = function (obj/*as:Object*/) {
+	this.view.add(this.viewMark);
+	this.markCtrl.evt.chg.add(this.utLzr.bind(this, this.hdMark));
 	this.ctrl.vcCur.evt.change.add(this.utLzr.bind(this, this.hdChg));
 
 	if (obj) {
@@ -143,18 +174,89 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.hdLegend = function (hd_legend/*as:Ob
 
 // 刷新
 LZR.HTML.Widget.Legend.LegendMgr.prototype.flush = function () {
-	for (var s in this.subs) {
+	var s;
+	for (s in this.subs) {
 		this.subs[s].initFlush();
 	}
 	s = this.subs[this.scd];
+
+	if (this.markCtrl.subs.length === 0) {
+		this.markCtrl.add(this.viewMark, {
+			rn: 0.1,
+			chd_: {
+				"0": {
+					min: 0,
+					max: 1,
+					step: 0.05,
+					num: 0,
+					isNorm: false
+				},
+				"1": {
+					min: 0,
+					max: 1,
+					step: 0.05,
+					num: 1,
+					isNorm: false
+				}
+			}
+		});
+		if (s) {
+			this.viewMark.getById("markLeft").doe.innerHTML = s.min;
+			this.viewMark.getById("markRight").doe.innerHTML = s.max;
+		}
+
+		// 修正按钮样式
+		this.viewMark.getById("hct_MultiStripNumBtn_0").add(this.viewMark.getById("btnLeft"));
+		this.viewMark.getById("hct_MultiStripNumBtn_1").add(this.viewMark.getById("btnRight"));
+	}
+
 	if (s) {
 		s.viewPre.dat.hct_scd.set(true);
 	}
+
+};
+
+// 处理遮罩变化
+LZR.HTML.Widget.Legend.LegendMgr.prototype.hdMark = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:LZR.Base.Val.RangeDat*/, id/*as:string*/, btn/*as:LZR.HTML.Base.Doe*/) {
+	var n = doeo.dat.hct_multiNum;
+	var d = this.ctrl.vcCur.get().dat;
+	var r = d.toQry();
+	var p = parseInt(btn.getStyle("left"), 10) / doeo.doe.clientWidth * 100;
+	var s;
+	r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), 2);
+	r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), 2);
+
+	// 调整遮罩层
+	switch (id) {
+		case "0":
+			this.viewMark.getById("markLeft").doe.innerHTML = r.min;
+			for (s in this.subs) {
+				this.subs[s].viewMarkLeft.setStyle("width", p + "%");
+			}
+			break;
+		case "1":
+			this.viewMark.getById("markRight").doe.innerHTML = r.max;
+			for (s in this.subs) {
+				this.subs[s].viewMarkRight.setStyle("width", (100 - p) + "%");
+			}
+			break;
+	}
+
+	this.onChg(d.view.doe, r);
 };
 
 // 处理图例变化
 LZR.HTML.Widget.Legend.LegendMgr.prototype.hdChg = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	this.onChg(doeo.dat.view.doe, doeo.dat.toQry());
+	var d = doeo.dat;
+	var n = this.viewMark.dat.hct_multiNum;
+	var r = d.toQry();
+	r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), 2);
+	r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), 2);
+
+	this.viewMark.getById("markLeft").doe.innerHTML = r.min;
+	this.viewMark.getById("markRight").doe.innerHTML = r.max;
+
+	this.onChg(d.view.doe, r);
 };
 
 // 图例变化事件

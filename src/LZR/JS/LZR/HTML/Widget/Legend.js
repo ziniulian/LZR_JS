@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Legend
 说明：图例
-创建日期：23-六月-2016 11:00:40
+创建日期：29-六月-2016 9:45:38
 版本号：1.0
 *************************************************/
 
@@ -17,7 +17,8 @@ LZR.load([
 	"LZR.Base.Clr",
 	"LZR.HTML.Widget.Legend.LegendClr",
 	"LZR.Base.Math",
-	"LZR.Base.Data"
+	"LZR.Base.Data",
+	"LZR.Util"
 ], "LZR.HTML.Widget.Legend");
 LZR.HTML.Widget.Legend = function (obj) /*bases:LZR.Base.Data*/ {
 	LZR.initSuper(this, obj);
@@ -58,34 +59,12 @@ LZR.HTML.Widget.Legend = function (obj) /*bases:LZR.Base.Data*/ {
 	// 拾色器样式
 	this.pickCss = "Lc_hwg_LegendPicker Lc_nosee";	/*as:string*/
 
-	// 视图元素
-	this.view/*m*/ = new LZR.HTML.Base.Doe({
-		hd_typ: "div",
-		dat: this,
-		hd_css: this.outCss
-	});	/*as:LZR.HTML.Base.Doe*/
-
 	// 图例视图
 	this.viewLegend/*m*/ = new LZR.HTML.Base.Doe({
 		id: "Legend",
 		dat: this,
 		hd_typ: "div",
 		hd_css: "Lc_full"
-	});	/*as:LZR.HTML.Base.Doe*/
-
-	// 预览视图
-	this.viewPre/*m*/ = new LZR.HTML.Base.Doe({
-		id: "LegendPreview",
-		dat: this,
-		hd_typ: "div",
-		hd_css: "Lc_full"
-	});	/*as:LZR.HTML.Base.Doe*/
-
-	// 单位视图
-	this.viewUnit/*m*/ = new LZR.HTML.Base.Doe({
-		id: "LegendUnit",
-		hd_typ: "div",
-		hd_css: this.unitCss
 	});	/*as:LZR.HTML.Base.Doe*/
 
 	// 拾色器
@@ -105,14 +84,50 @@ LZR.HTML.Widget.Legend = function (obj) /*bases:LZR.Base.Data*/ {
 		}
 	});	/*as:LZR.HTML.Base.Doe*/
 
+	// 单位视图
+	this.viewUnit/*m*/ = new LZR.HTML.Base.Doe({
+		id: "LegendUnit",
+		hd_typ: "div",
+		hd_css: this.unitCss
+	});	/*as:LZR.HTML.Base.Doe*/
+
+	// 视图元素
+	this.view/*m*/ = new LZR.HTML.Base.Doe({
+		hd_typ: "div",
+		dat: this,
+		hd_css: this.outCss
+	});	/*as:LZR.HTML.Base.Doe*/
+
 	// 颜色类
 	this.clsLegendClr/*m*/ = (LZR.HTML.Widget.Legend.LegendClr);	/*as:fun*/
 
 	// 数学工具
 	this.utMath/*m*/ = LZR.getSingleton(LZR.Base.Math);	/*as:LZR.Base.Math*/
 
+	// 预览视图
+	this.viewPre/*m*/ = new LZR.HTML.Base.Doe({
+		id: "LegendPreview",
+		dat: this,
+		hd_typ: "div",
+		hd_css: "Lc_full"
+	});	/*as:LZR.HTML.Base.Doe*/
+
 	// 通用工具
 	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
+
+	// 左遮罩视图
+	this.viewMarkLeft/*m*/ = new LZR.HTML.Base.Doe({
+		id: "MarkLeft",
+		hd_typ: "div",
+		hd_css: "Lc_hwg_LegendMarkLeft"
+	});	/*as:LZR.HTML.Base.Doe*/
+
+	// 右遮罩视图
+	this.viewMarkRight/*m*/ = new LZR.HTML.Base.Doe({
+		id: "MarkRight",
+		hd_typ: "div",
+		hd_css: "Lc_hwg_LegendMarkRight"
+	});	/*as:LZR.HTML.Base.Doe*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
@@ -132,6 +147,8 @@ LZR.HTML.Widget.Legend.prototype.init_ = function (obj/*as:Object*/) {
 	this.view.add(this.viewLegend);
 	this.view.add(this.viewUnit);
 	this.view.add(this.viewPicker);
+	this.view.add(this.viewMarkLeft);
+	this.view.add(this.viewMarkRight);
 	this.view.addEvt("mousemove", this.utLzr.bind(this, this.showPicker), "hwg_Legend_showPicker");
 	this.view.addEvt("mouseout", this.utLzr.bind(this, this.hidPicker), "hwg_Legend_hidPicker");
 
@@ -230,9 +247,7 @@ LZR.HTML.Widget.Legend.prototype.showPicker = function (evt/*as:Object*/) {
 	this.view.calcPosition();
 	p = (p.x - this.view.position.left) / this.view.position.width;
 
-	if (p>0 && p<1) {
-		this.viewPicker.getById("clr").setStyle("background-color", this.getClrByPosition(p).toCss());
-		this.viewPicker.getById("txt").doe.innerHTML = this.getValByPosition(p);
-		this.viewPicker.delCss("Lc_nosee");
-	}
+	this.viewPicker.getById("clr").setStyle("background-color", this.getClrByPosition(p).toCss());
+	this.viewPicker.getById("txt").doe.innerHTML = this.getValByPosition(p);
+	this.viewPicker.delCss("Lc_nosee");
 };

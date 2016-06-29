@@ -128,14 +128,27 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.flush = function (doeo/*as:LZR.HTML
 
 // ---- 通过位置获取颜色
 LZR.HTML.Widget.Legend.BlockLegend.prototype.getClrByPosition = function (position/*as:double*/)/*as:LZR.Base.Clr*/ {
-	var i = Math.floor(position * this.viewLegend.count);
+	var i;
+	if (position >= 1) {
+		i = this.viewLegend.count - 1;
+	} else if (position <= 0) {
+		i = 0;
+	} else {
+		i = Math.floor(position * this.viewLegend.count);
+	}
 	return this.viewLegend.subs[i + "_BlockLegend"].dat.clr;
 };
 
-// ---- 通过位置获取值
+// ---- 通过位置获取值信息
 LZR.HTML.Widget.Legend.BlockLegend.prototype.getValByPosition = function (position/*as:double*/)/*as:string*/ {
-	var fc, v, r="";
-	var d = Math.floor(position * this.viewLegend.count);
+	var fc, v, d, r="";
+	if (position >= 1) {
+		d = this.viewLegend.count - 1;
+	} else if (position <= 0) {
+		d = 0;
+	} else {
+		d = Math.floor(position * this.viewLegend.count);
+	}
 	d = this.viewLegend.subs[d + "_BlockLegend"].dat;
 	fc = this.subs[(d.id.get() - 1)];
 
@@ -155,4 +168,26 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.getValByPosition = function (positi
 	// r += this.unit;
 
 	return r;
+};
+
+// ---- 通过位置获取值
+LZR.HTML.Widget.Legend.BlockLegend.prototype.getValueByPosition = function (position/*as:double*/)/*as:string*/ {
+	if (position >= 1) {
+		return this.max;
+	} else if (position <= 0) {
+		return this.min;
+	} else {
+		var r;
+		var p = position * this.viewLegend.count;
+		var i = Math.floor(p);
+		var d = this.viewLegend.subs[i + "_BlockLegend"].dat;
+		var fc = this.subs[(d.id.get() - 1)];
+		var min = this.min + fc.position * (this.max - this.min);
+		var max = this.min + d.position * (this.max - this.min);
+
+		p = p-i;
+		r = min + p*(max - min);
+
+		return r;
+	}
 };
