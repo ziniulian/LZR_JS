@@ -65,7 +65,7 @@ LZR.HTML.Widget.Legend.LegendMgr = function (obj) /*bases:LZR.Base.Data*/ /*inte
 	this.viewMark/*m*/ = new LZR.HTML.Base.Doe({
 		id: "LegendMgrMark",
 		hd_typ: "div",
-		hd_css: "Lc_hwg_LegendMgrMark",
+		hd_css: "Lc_hwg_LegendMgrMark Lc_nosee",
 		chd_: {
 			markLeft: {
 				hd_typ: "div",
@@ -180,7 +180,18 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.flush = function () {
 	}
 	s = this.subs[this.scd];
 
+	if (s) {
+		this.viewMark.getById("markLeft").doe.innerHTML = s.min;
+		this.viewMark.getById("markRight").doe.innerHTML = s.max;
+		s.viewPre.dat.hct_scd.set(true);
+	}
+
+};
+
+// 启动控制
+LZR.HTML.Widget.Legend.LegendMgr.prototype.openCtrl = function () {
 	if (this.markCtrl.subs.length === 0) {
+		this.viewMark.delCss("Lc_nosee");
 		this.markCtrl.add(this.viewMark, {
 			rn: 0.1,
 			chd_: {
@@ -200,20 +211,21 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.flush = function () {
 				}
 			}
 		});
-		if (s) {
-			this.viewMark.getById("markLeft").doe.innerHTML = s.min;
-			this.viewMark.getById("markRight").doe.innerHTML = s.max;
-		}
-
-		// 修正按钮样式
 		this.viewMark.getById("hct_MultiStripNumBtn_0").add(this.viewMark.getById("btnLeft"));
 		this.viewMark.getById("hct_MultiStripNumBtn_1").add(this.viewMark.getById("btnRight"));
 	}
+};
 
-	if (s) {
-		s.viewPre.dat.hct_scd.set(true);
+// 获取查询参数
+LZR.HTML.Widget.Legend.LegendMgr.prototype.getQry = function ()/*as:string*/ {
+	var d = this.ctrl.vcCur.get().dat;
+	var r = d.toQry();
+	if (this.viewMark.dat) {
+		var n = this.viewMark.dat.hct_multiNum;
+		r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), 2);
+		r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), 2);
 	}
-
+	return r;
 };
 
 // 处理遮罩变化
@@ -248,14 +260,15 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.hdMark = function (doeo/*as:LZR.HTML.
 // 处理图例变化
 LZR.HTML.Widget.Legend.LegendMgr.prototype.hdChg = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	var d = doeo.dat;
-	var n = this.viewMark.dat.hct_multiNum;
 	var r = d.toQry();
-	r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), 2);
-	r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), 2);
+	if (this.viewMark.dat) {
+		var n = this.viewMark.dat.hct_multiNum;
+		r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), 2);
+		r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), 2);
 
-	this.viewMark.getById("markLeft").doe.innerHTML = r.min;
-	this.viewMark.getById("markRight").doe.innerHTML = r.max;
-
+		this.viewMark.getById("markLeft").doe.innerHTML = r.min;
+		this.viewMark.getById("markRight").doe.innerHTML = r.max;
+	}
 	this.onChg(d.view.doe, r);
 };
 
