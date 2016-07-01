@@ -41,6 +41,9 @@
 				LZR.HTML.alog ("创建一个图例");
 				var m = new lm({
 					scd: "a",
+					markGap: 0.2,
+					markStart: 0.3,
+					markEnd: 0.8,
 					hd_legend: {
 						min: 0,
 						max: 500,
@@ -79,7 +82,7 @@
 									"60": "重度",
 									"100": "严重"
 								},
-								typ: 0
+								typ: 1
 							},
 							c: {
 								fcbCss: "Lc_nosee",
@@ -103,7 +106,6 @@
 						}
 					}
 				});
-				m.view.place(document.getElementById("boso"));
 				LZR.HTML.alog ("");
 
 				LZR.HTML.alog ("添加事件");
@@ -116,7 +118,14 @@
 					console.log (dat);
 				});
 				m.flush();
-				m.openCtrl();
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("放置管理器");
+				m.view.place(document.getElementById("boso"));
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("重置遮罩器");
+				m.resizeMark();
 				LZR.HTML.alog ("");
 
 			}

@@ -36,6 +36,15 @@ LZR.HTML.Widget.Legend.LegendMgr = function (obj) /*bases:LZR.Base.Data*/ /*inte
 	// 初始被选中的图例
 	this.scd = "";	/*as:string*/
 
+	// 遮罩按钮间隔
+	this.markGap = 0.1;	/*as:int*/
+
+	// 遮罩按钮起始位置
+	this.markStart = 0;	/*as:int*/
+
+	// 遮罩按钮结束位置
+	this.markEnd = 1;	/*as:int*/
+
 	// 视图元素
 	this.view/*m*/ = new LZR.HTML.Base.Doe({
 		hd_typ: "div"
@@ -178,35 +187,24 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.flush = function () {
 	for (s in this.subs) {
 		this.subs[s].initFlush();
 	}
-	s = this.subs[this.scd];
 
-	if (s) {
-		this.viewMark.getById("markLeft").doe.innerHTML = s.min;
-		this.viewMark.getById("markRight").doe.innerHTML = s.max;
-		s.viewPre.dat.hct_scd.set(true);
-	}
-
-};
-
-// 启动控制
-LZR.HTML.Widget.Legend.LegendMgr.prototype.openCtrl = function () {
 	if (this.markCtrl.subs.length === 0) {
 		this.viewMark.delCss("Lc_nosee");
 		this.markCtrl.add(this.viewMark, {
-			rn: 0.1,
+			rn: this.markGap,
 			chd_: {
 				"0": {
 					min: 0,
 					max: 1,
-					step: 0.05,
-					num: 0,
+					step: 0.01,
+					num: this.markStart,
 					isNorm: false
 				},
 				"1": {
 					min: 0,
 					max: 1,
-					step: 0.05,
-					num: 1,
+					step: 0.01,
+					num: this.markEnd,
 					isNorm: false
 				}
 			}
@@ -214,6 +212,19 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.openCtrl = function () {
 		this.viewMark.getById("hct_MultiStripNumBtn_0").add(this.viewMark.getById("btnLeft"));
 		this.viewMark.getById("hct_MultiStripNumBtn_1").add(this.viewMark.getById("btnRight"));
 	}
+
+	s = this.subs[this.scd];
+	if (s) {
+		s.viewPre.dat.hct_scd.set(true);
+	}
+
+};
+
+// 重置遮罩按钮位置
+LZR.HTML.Widget.Legend.LegendMgr.prototype.resizeMark = function () {
+	this.viewMark.calcPosition();
+	this.markCtrl.placeBtn(this.viewMark.getById("hct_MultiStripNumBtn_0"));
+	this.markCtrl.placeBtn(this.viewMark.getById("hct_MultiStripNumBtn_1"));
 };
 
 // 获取查询参数
@@ -242,15 +253,11 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.hdMark = function (doeo/*as:LZR.HTML.
 	switch (id) {
 		case "0":
 			this.viewMark.getById("markLeft").doe.innerHTML = r.min;
-			for (s in this.subs) {
-				this.subs[s].viewMarkLeft.setStyle("width", p + "%");
-			}
+			d.viewMarkLeft.setStyle("width", p + "%");
 			break;
 		case "1":
 			this.viewMark.getById("markRight").doe.innerHTML = r.max;
-			for (s in this.subs) {
-				this.subs[s].viewMarkRight.setStyle("width", (100 - p) + "%");
-			}
+			d.viewMarkRight.setStyle("width", (100 - p) + "%");
 			break;
 	}
 
@@ -263,6 +270,9 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.hdChg = function (doeo/*as:LZR.HTML.B
 	var r = d.toQry();
 	if (this.viewMark.dat) {
 		var n = this.viewMark.dat.hct_multiNum;
+		d.viewMarkLeft.setStyle("width", n.subs[0].rn.get() * 100 + "%");
+		d.viewMarkRight.setStyle("width", (1 - n.subs[1].rn.get()) * 100 + "%");
+
 		r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), 2);
 		r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), 2);
 
