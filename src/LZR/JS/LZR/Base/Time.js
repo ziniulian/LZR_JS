@@ -130,7 +130,7 @@ LZR.Base.Time.prototype.normalize = function (date/*as:Date*/, hour/*as:int*/, c
 	} else if (clone) {
 		date = new Date(date.valueOf());
 	}
-	if (!hour) {
+	if (isNaN(hour)) {
 		hour = date.getHours();
 	}
 	date.setMinutes(0);
