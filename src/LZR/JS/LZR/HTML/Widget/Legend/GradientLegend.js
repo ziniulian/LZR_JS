@@ -55,6 +55,21 @@ LZR.HTML.Widget.Legend.GradientLegend.prototype.crtOneBlock = function (clr/*as:
 	return r;
 };
 
+// ---- 生成中部遮罩背景
+LZR.HTML.Widget.Legend.GradientLegend.prototype.crtMidBackground = function (clrs/*as:Array*/)/*as:string*/ {
+	var r = "linear-gradient(to right";
+	var c = clrs.length - 1;
+	var d = 100/(clrs.length - 1);
+	for (var i=0; i<clrs.length; i++) {
+		r += ", ";
+		r += clrs[i];
+		r += " ";
+		r += (i * d);
+		r += "%";
+	}
+	return r;
+};
+
 // ---- 通过位置获取颜色
 LZR.HTML.Widget.Legend.GradientLegend.prototype.getClrByPosition = function (position/*as:double*/)/*as:LZR.Base.Clr*/ {
 	var p;

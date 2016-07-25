@@ -115,6 +115,13 @@ LZR.HTML.Widget.Legend = function (obj) /*bases:LZR.Base.Data*/ {
 	// 通用工具
 	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
 
+	// 中遮罩视图
+	this.viewMarkMid/*m*/ = new LZR.HTML.Base.Doe({
+		id: "MarkMid",
+		hd_typ: "div",
+		hd_css: "Lc_hwg_LegendMarkMid Lc_nosee"
+	});	/*as:LZR.HTML.Base.Doe*/
+
 	// 左遮罩视图
 	this.viewMarkLeft/*m*/ = new LZR.HTML.Base.Doe({
 		id: "MarkLeft",
@@ -149,6 +156,7 @@ LZR.HTML.Widget.Legend.prototype.init_ = function (obj/*as:Object*/) {
 	this.view.add(this.viewPicker);
 	this.view.add(this.viewMarkLeft);
 	this.view.add(this.viewMarkRight);
+	this.view.add(this.viewMarkMid);
 	this.view.addEvt("mousemove", this.utLzr.bind(this, this.showPicker), "hwg_Legend_showPicker");
 	this.view.addEvt("mouseout", this.utLzr.bind(this, this.hidPicker), "hwg_Legend_hidPicker");
 

@@ -14,6 +14,7 @@ LZR.load([
 	"LZR.HTML.Widget.Legend",
 	"LZR.HTML.Base.Doe",
 	"LZR.Base.Data",
+	"LZR.HTML.Base.Ctrl.Scd",
 	"LZR.HTML.Base.Ctrl.SglScd",
 	"LZR.Util",
 	"LZR.HTML.Widget.Legend.GradientLegend",
@@ -67,6 +68,18 @@ LZR.HTML.Widget.Legend.LegendMgr = function (obj) /*bases:LZR.Base.Data*/ /*inte
 	// 图例变化
 	this.evt.chg/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
+	// 中部开关
+	this.viewMid/*m*/ = new LZR.HTML.Base.Doe({
+		id: "LegendMgrMid",
+		hd_typ: "div",
+		hd_css: "Lc_hwg_LegendMgrMid"
+	});	/*as:LZR.HTML.Base.Doe*/
+
+	// 中部控制器
+	this.midCtrl/*m*/ = new LZR.HTML.Base.Ctrl.Scd({
+		css: "Lc_hwg_LegendMgrMidScd"
+	});	/*as:LZR.HTML.Base.Ctrl.Scd*/
+
 	// 遮罩控制器
 	this.markCtrl/*m*/ = new LZR.HTML.Base.Ctrl.NumBase.MultiStripNum();	/*as:LZR.HTML.Base.Ctrl.NumBase.MultiStripNum*/
 
@@ -111,6 +124,11 @@ LZR.load(null, "LZR.HTML.Widget.Legend.LegendMgr");
 
 // 构造器
 LZR.HTML.Widget.Legend.LegendMgr.prototype.init_ = function (obj/*as:Object*/) {
+	// 中部控制器
+	this.view.add(this.viewMid);
+	this.midCtrl.add(this.viewMid);
+	this.viewMid.dat.hct_scd.evt.change.add(this.utLzr.bind(this, this.hdMidChg));
+
 	this.view.add(this.viewMark);
 	this.markCtrl.evt.chg.add(this.utLzr.bind(this, this.hdMark));
 	this.ctrl.vcCur.evt.change.add(this.utLzr.bind(this, this.hdChg));
@@ -233,9 +251,10 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.getQry = function ()/*as:string*/ {
 	var r = d.toQry();
 	if (this.viewMark.dat) {
 		var n = this.viewMark.dat.hct_multiNum;
-		r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), 2);
-		r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), 2);
+		r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), d.digit);
+		r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), d.digit);
 	}
+	this.calcMid(r);
 	return r;
 };
 
@@ -246,8 +265,8 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.hdMark = function (doeo/*as:LZR.HTML.
 	var r = d.toQry();
 	var p = parseInt(btn.getStyle("left"), 10) / doeo.doe.clientWidth * 100;
 	var s;
-	r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), 2);
-	r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), 2);
+	r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), d.digit);
+	r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), d.digit);
 
 	// 调整遮罩层
 	switch (id) {
@@ -261,6 +280,10 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.hdMark = function (doeo/*as:LZR.HTML.
 			break;
 	}
 
+	// 中部控制器修正
+	this.placeMid();
+	this.calcMid(r);
+
 	this.onChg(d.view.doe, r);
 };
 
@@ -268,18 +291,94 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.hdMark = function (doeo/*as:LZR.HTML.
 LZR.HTML.Widget.Legend.LegendMgr.prototype.hdChg = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	var d = doeo.dat;
 	var r = d.toQry();
-	if (this.viewMark.dat) {
-		var n = this.viewMark.dat.hct_multiNum;
-		d.viewMarkLeft.setStyle("width", n.subs[0].rn.get() * 100 + "%");
-		d.viewMarkRight.setStyle("width", (1 - n.subs[1].rn.get()) * 100 + "%");
 
-		r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), 2);
-		r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), 2);
+	if (this.viewMark.dat) {
+		var s;
+		var n = this.viewMark.dat.hct_multiNum;
+
+		// 色块滚动限制
+		switch (d.typ) {
+			case 1:
+				for (s in n.subs) {
+					n.subs[s].rn.vcStep.set(1/d.viewLegend.count, false);
+					n.subs[s].rn.isNorm = true;
+					n.subs[s].rn.reset(false);
+				}
+				break;
+			case 0:
+				for (s in n.subs) {
+					n.subs[s].rn.isNorm = false;
+				}
+				break;
+		}
+
+		var l = n.subs[0].rn.get() * 100;
+		var w = (1 - n.subs[1].rn.get()) * 100;
+		d.viewMarkLeft.setStyle("width", l + "%");
+		d.viewMarkRight.setStyle("width", w + "%");
+
+		r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), d.digit);
+		r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), d.digit);
 
 		this.viewMark.getById("markLeft").doe.innerHTML = r.min;
 		this.viewMark.getById("markRight").doe.innerHTML = r.max;
+
+		// 中部控制器修正
+		this.placeMid(l + "%", (100-w-l) + "%");
+		this.calcMid(r);
 	}
 	this.onChg(d.view.doe, r);
+};
+
+// 处理中部控制器变化
+LZR.HTML.Widget.Legend.LegendMgr.prototype.hdMidChg = function () {
+	this.hdChg(this.ctrl.vcCur.get());
+};
+
+// 放置中部遮罩
+LZR.HTML.Widget.Legend.LegendMgr.prototype.placeMid = function (left/*as:string*/, width/*as:string*/) {
+	var d = this.ctrl.vcCur.get().dat;
+
+	if (this.viewMid.dat.hct_scd.get()) {
+		if (!left) {
+			left = d.viewMarkLeft.doe.clientWidth;
+			width = d.viewLegend.doe.clientWidth - left - d.viewMarkRight.doe.clientWidth;
+			left += "px";
+			width += "px";
+		}
+
+		d.viewMarkMid.setStyle("left", left);
+		d.viewMarkMid.setStyle("width", width);
+		d.viewMarkMid.delCss("Lc_nosee");
+	} else {
+		d.viewMarkMid.addCss("Lc_nosee");
+	}
+};
+
+// 计算中部遮罩数据
+LZR.HTML.Widget.Legend.LegendMgr.prototype.calcMid = function (s/*as:Object*/)/*as:Object*/ {
+	if (this.viewMid.dat.hct_scd.get()) {
+		var i, j;
+		var d = s.max - s.min;
+		var a = s.color.split(";");
+		var aa = [];
+		for (i=0; i<a.length; i++) {
+			if (a[i].indexOf("-1") < 0) {
+				aa.push(a[i].split(","));
+			}
+		}
+		d /= (aa.length - 1);
+		s.color = "";
+		for (i=0; i<aa.length; i++) {
+			s.color += s.min + i*d;
+			for (j=1; j<aa[i].length; j++) {
+				s.color += ",";
+				s.color += aa[i][j];
+			}
+			s.color += ";";
+		}
+	}
+	return s;
 };
 
 // 图例变化事件
@@ -294,7 +393,17 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.add = function (sub/*as:LZR.Base.Data
 		if (this.preCss) {
 			sub.viewPre.chgCss(this.preCss);
 		}
-		this.view.add(sub.viewPre, sub.id.get());
+		var d = new this.view.constructor ({
+			hd_typ: "div"
+		});
+		var n = new this.view.constructor ({
+			hd_typ: "div",
+			hd_css: "Lc_hwg_LegendMgrNam"
+		});
+		n.doe.innerHTML = sub.id.get();
+		d.add(sub.viewPre, "pre");
+		d.add(n, "nam");
+		this.view.add(d, sub.id.get());
 		this.ctrl.add(sub.viewPre);
 	}
 	return r;

@@ -55,6 +55,27 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.crtOneBlock = function (clr/*as:LZR
 	return r;
 };
 
+// 生成中部遮罩背景
+LZR.HTML.Widget.Legend.BlockLegend.prototype.crtMidBackground = function (clrs/*as:Array*/)/*as:string*/ {
+	var r = "linear-gradient(to right";
+	var c = clrs.length - 1;
+	var d = 100/(clrs.length - 1);
+	for (var i=1; i<clrs.length; i++) {
+		r += ", ";
+		r += clrs[i];
+		r += " ";
+		r += ((i-1) * d);
+		r += "%";
+
+		r += ", ";
+		r += clrs[i];
+		r += " ";
+		r += (i * d);
+		r += "%";
+	}
+	return r;
+};
+
 // 生成刻度
 LZR.HTML.Widget.Legend.BlockLegend.prototype.crtCalibration = function (doeo/*as:LZR.HTML.Base.Doe*/, clr/*as:LZR.HTML.Widget.Legend.LegendClr*/, boderCss/*as:string*/, fontCss/*as:string*/) {
 	var cf, cb;
@@ -83,11 +104,14 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.crtCalibration = function (doeo/*as
 
 // ---- 初始化刷新
 LZR.HTML.Widget.Legend.BlockLegend.prototype.initFlush = function (doeo/*as:LZR.HTML.Base.Doe*/, isPreview/*as:boolean*/) {
+	var c = [];
 	for (var s in this.subs) {
 		if (this.subs[s].clr.r > -1) {
 			this.subs[s].clr.alpha = 1;
+			c.push(this.subs[s].clr.toCss());
 		}
 	}
+	this.viewMarkMid.setStyle("background", this.crtMidBackground(c));
 	this.flush(doeo, isPreview);
 };
 
@@ -150,6 +174,12 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.getValByPosition = function (positi
 		d = Math.floor(position * this.viewLegend.count);
 	}
 	d = this.viewLegend.subs[d + "_BlockLegend"].dat;
+
+	// 显示别名
+	if (d.alias) {
+		return d.alias;
+	}
+
 	fc = this.subs[(d.id.get() - 1)];
 
 	v = this.min + fc.position * (this.max - this.min);
