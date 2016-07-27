@@ -1,8 +1,8 @@
 /*************************************************
 作者：子牛连
 类名：ReleaseSys
-说明：公_发
-创建日期：25-三月-2016 15:03:25
+说明：公众发布系统
+创建日期：27-七月-2016 12:30:04
 版本号：1.0
 *************************************************/
 
@@ -28,8 +28,10 @@ LZR.Pro.Green.Airq.App.ReleaseSys.prototype.init_ = function (obj/*as:Object*/) 
 		this.hdObj_(obj);
 	}
 };
+LZR.Pro.Green.Airq.App.ReleaseSys.prototype.init_.lzrClass_ = LZR.Pro.Green.Airq.App.ReleaseSys;
 
 // 对构造参数的特殊处理
 LZR.Pro.Green.Airq.App.ReleaseSys.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.Pro.Green.Airq.App.ReleaseSys.prototype.hdObj_.lzrClass_ = LZR.Pro.Green.Airq.App.ReleaseSys;

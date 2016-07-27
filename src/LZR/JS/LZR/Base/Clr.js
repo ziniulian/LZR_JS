@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Clr
 说明：颜色
-创建日期：24-三月-2016 15:12:34
+创建日期：27-七月-2016 12:30:02
 版本号：1.0
 *************************************************/
 
@@ -44,31 +44,13 @@ LZR.Base.Clr.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.Base.Clr.prototype.init_.lzrClass_ = LZR.Base.Clr;
 
 // 对构造参数的特殊处理
 LZR.Base.Clr.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
-
-// 获取相反色
-LZR.Base.Clr.prototype.invert = function ()/*as:Object*/ {
-	return new this.constructor({
-		r: 255 - this.r,
-		g: 255 - this.g,
-		b: 255 - this.b,
-		alpha: this.alpha
-	});
-};
-
-// 返回 RGBA 字串格式
-LZR.Base.Clr.prototype.toRgba = function ()/*as:string*/ {
-	return "rgba(" + this.r + ", " + this.g + ", " + this.b + ", " + this.alpha + ")";
-};
-
-// 返回四色数组
-LZR.Base.Clr.prototype.toAry = function ()/*as:Array*/ {
-	return [this.r, this.g, this.b, (Math.floor(this.alpha * 255))];
-};
+LZR.Base.Clr.prototype.hdObj_.lzrClass_ = LZR.Base.Clr;
 
 // 返回#形式的颜色字串
 LZR.Base.Clr.prototype.toCss = function ()/*as:string*/ {
@@ -78,6 +60,13 @@ LZR.Base.Clr.prototype.toCss = function ()/*as:string*/ {
 	s += this.utStr.format(this.b.toString(16), 2, "0");
 	return s;
 };
+LZR.Base.Clr.prototype.toCss.lzrClass_ = LZR.Base.Clr;
+
+// 返回 RGBA 字串格式
+LZR.Base.Clr.prototype.toRgba = function ()/*as:string*/ {
+	return "rgba(" + this.r + ", " + this.g + ", " + this.b + ", " + this.alpha + ")";
+};
+LZR.Base.Clr.prototype.toRgba.lzrClass_ = LZR.Base.Clr;
 
 // 解析#形式的颜色字串
 LZR.Base.Clr.parseCss = function (clr/*as:string*/)/*as:Object*/ {
@@ -99,3 +88,21 @@ LZR.Base.Clr.parseCss = function (clr/*as:string*/)/*as:Object*/ {
 		return null;
 	}
 };
+LZR.Base.Clr.parseCss.lzrClass_ = LZR.Base.Clr;
+
+// 获取相反色
+LZR.Base.Clr.prototype.invert = function ()/*as:Object*/ {
+	return new this.constructor({
+		r: 255 - this.r,
+		g: 255 - this.g,
+		b: 255 - this.b,
+		alpha: this.alpha
+	});
+};
+LZR.Base.Clr.prototype.invert.lzrClass_ = LZR.Base.Clr;
+
+// 返回四色数组
+LZR.Base.Clr.prototype.toAry = function ()/*as:Array*/ {
+	return [this.r, this.g, this.b, (Math.floor(this.alpha * 255))];
+};
+LZR.Base.Clr.prototype.toAry.lzrClass_ = LZR.Base.Clr;

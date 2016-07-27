@@ -2,7 +2,7 @@
 作者：子牛连
 类名：EmFomLevel
 说明：污染物级别枚举
-创建日期：30-三月-2016 10:12:17
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
@@ -92,16 +92,19 @@ LZR.Pro.Green.Airq.Fom.EmFomLevel.v1/*m*/ = new LZR.Pro.Green.Airq.Fom.FomLevel(
 LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.hdObj_.lzrClass_ = LZR.Pro.Green.Airq.Fom.EmFomLevel;
 
 // 通过指数设置对应的级别
 LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.setByAqi = function (aqi/*as:int*/) {
 	this.set( this.getKeyByAqi(aqi) );
 };
+LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.setByAqi.lzrClass_ = LZR.Pro.Green.Airq.Fom.EmFomLevel;
 
 // 通过名称设置对应的级别
 LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.setByName = function (name/*as:string*/) {
 	this.set( this.getKeyByName(name) );
 };
+LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.setByName.lzrClass_ = LZR.Pro.Green.Airq.Fom.EmFomLevel;
 
 // 通过指数获取枚举名
 LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.getKeyByAqi = function (aqi/*as:int*/)/*as:string*/ {
@@ -120,6 +123,7 @@ LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.getKeyByAqi = function (aqi/*as:int*
 	}
 	return "emnull";
 };
+LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.getKeyByAqi.lzrClass_ = LZR.Pro.Green.Airq.Fom.EmFomLevel;
 
 // 通过名称获取枚举名
 LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.getKeyByName = function (name/*as:string*/)/*as:string*/ {
@@ -142,3 +146,4 @@ LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.getKeyByName = function (name/*as:st
 	}
 	return "emnull";
 };
+LZR.Pro.Green.Airq.Fom.EmFomLevel.prototype.getKeyByName.lzrClass_ = LZR.Pro.Green.Airq.Fom.EmFomLevel;

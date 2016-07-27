@@ -2,7 +2,7 @@
 作者：子牛连
 类名：DivScallSt
 说明：Div刻度的时间控制条
-创建日期：16-五月-2016 17:16:14
+创建日期：27-七月-2016 12:30:02
 版本号：1.0
 *************************************************/
 
@@ -12,10 +12,11 @@ LZR.loadAnnex({
 
 LZR.load([
 	"LZR.HTML.Base.Ctrl.TimBase",
-	"LZR.HTML.Base.Ctrl.SglScd",
+	"LZR.HTML.Base.Doe",
 	"LZR.HTML.Base.Ctrl.TimBase.StDivScall",
+	"LZR.HTML.Base.Ctrl.TimBase.StripTim",
 	"LZR.HTML.Base.Ctrl.TimBase.BlockTim",
-	"LZR.HTML.Base.Ctrl.TimBase.StripTim"
+	"LZR.HTML.Base.Ctrl.SglScd"
 ], "LZR.HTML.Base.Ctrl.TimBase.DivScallSt");
 LZR.HTML.Base.Ctrl.TimBase.DivScallSt = function (obj) /*bases:LZR.HTML.Base.Ctrl.TimBase.StripTim*/ {
 	LZR.initSuper(this, obj);
@@ -25,10 +26,10 @@ LZR.HTML.Base.Ctrl.TimBase.DivScallSt = function (obj) /*bases:LZR.HTML.Base.Ctr
 
 	// 刻度配置信息
 	this.config = [
-		{min: 72, max: 24},	// 时
-		{min: 24*60, max: 24*20},	// 日
-		{min: 24*1500, max: 24*300}	// 月
-	];	/*as:Array*/
+			{min: 72, max: 24},	// 时
+			{min: 24*60, max: 24*20},	// 日
+			{min: 24*1500, max: 24*300}	// 月
+		];	/*as:Array*/
 
 	// 刻度
 	this.scall/*m*/ = new LZR.HTML.Base.Ctrl.TimBase.StDivScall();	/*as:LZR.HTML.Base.Ctrl.TimBase.StDivScall*/
@@ -52,57 +53,13 @@ LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.HTML.Base.Ctrl.TimBase.DivScallSt");
 
-// 构造器
-LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.init_ = function (obj/*as:Object*/) {
-	// 调用父类方法
-	this.utLzr.supCall (this, 0, "init_", null);
-	this.scall.belongCtrl = this;
-
-	this.blockCtrl.format = "yMdh";
-	this.blockCtrl.hdFormatDigit(2);
-
-	if (obj) {
-		LZR.setObj (this, obj);
-		this.hdObj_(obj);
-	}
-};
-
 // 对构造参数的特殊处理
 LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.hdObj_ = function (obj/*as:Object*/) {
 	if (obj.hd_css) {
 		this.hdCss(obj.hd_css);
 	}
 };
-
-//  处理样式参数
-LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.hdCss = function (s/*as:Object*/) {
-	this.blockCtrl.hdCss(s);
-};
-
-// 切换刻度样式
-LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.statChg = function (doeo/*as:LZR.HTML.Base.Doe*/, cur/*as:LZR.HTML.Base.Doe*/) {
-	var c;
-	var n = doeo.dat.hct_num;
-	var v = n.get();
-	var s = n.vcStep.get();
-	switch (cur.id.get()) {
-		case "hct_StDivScall_scdDoe_h":
-			c = this.config[0];
-			doeo.dat.hct_StDivScall_stat = 0;
-			break;
-		case "hct_StDivScall_scdDoe_d":
-			c = this.config[1];
-			doeo.dat.hct_StDivScall_stat = 1;
-			break;
-		case "hct_StDivScall_scdDoe_M":
-			c = this.config[2];
-			doeo.dat.hct_StDivScall_stat = 2;
-			break;
-	}
-	n.vcMin.set(v - c.min * s, false);
-	n.vcMax.set(v + c.max * s);
-	this.numCtrl.placeBtn(doeo);
-};
+LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DivScallSt;
 
 // ---- 给元素添加事件集
 LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*as:Object*/, obj/*as:Object*/) {
@@ -160,6 +117,7 @@ LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.addEvt = function (doeo/*as:LZR.
 		d.dat.hct_scd.set(true);
 	}
 };
+LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DivScallSt;
 
 // ---- 移除元素的事件集
 LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
@@ -187,3 +145,51 @@ LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.delEvt = function (doeo/*as:LZR.
 	// 删除刻度样式数据
 	this.delDat(doeo, "hct_StDivScall_stat");
 };
+LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DivScallSt;
+
+// 构造器
+LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.init_ = function (obj/*as:Object*/) {
+	this.utLzr.supCall (this, 0, "init_", null);
+	this.scall.belongCtrl = this;
+
+	this.blockCtrl.format = "yMdh";
+	this.blockCtrl.hdFormatDigit(2);
+
+	if (obj) {
+		LZR.setObj (this, obj);
+		this.hdObj_(obj);
+	}
+};
+LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.init_.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DivScallSt;
+
+// 切换刻度样式
+LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.statChg = function (doeo/*as:LZR.HTML.Base.Doe*/, cur/*as:LZR.HTML.Base.Doe*/) {
+	var c;
+	var n = doeo.dat.hct_num;
+	var v = n.get();
+	var s = n.vcStep.get();
+	switch (cur.id.get()) {
+		case "hct_StDivScall_scdDoe_h":
+			c = this.config[0];
+			doeo.dat.hct_StDivScall_stat = 0;
+			break;
+		case "hct_StDivScall_scdDoe_d":
+			c = this.config[1];
+			doeo.dat.hct_StDivScall_stat = 1;
+			break;
+		case "hct_StDivScall_scdDoe_M":
+			c = this.config[2];
+			doeo.dat.hct_StDivScall_stat = 2;
+			break;
+	}
+	n.vcMin.set(v - c.min * s, false);
+	n.vcMax.set(v + c.max * s);
+	this.numCtrl.placeBtn(doeo);
+};
+LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.statChg.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DivScallSt;
+
+// 处理样式参数
+LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.hdCss = function (s/*as:Object*/) {
+	this.blockCtrl.hdCss(s);
+};
+LZR.HTML.Base.Ctrl.TimBase.DivScallSt.prototype.hdCss.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DivScallSt;

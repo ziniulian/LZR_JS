@@ -2,7 +2,7 @@
 作者：子牛连
 类名：EmAlarmLevel
 说明：预警级别枚举
-创建日期：28-三月-2016 15:07:32
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
@@ -49,3 +49,4 @@ LZR.Pro.Green.Airq.Alarm.EmAlarmLevel.emnull/*m*/ = new LZR.Pro.Green.Airq.Alarm
 LZR.Pro.Green.Airq.Alarm.EmAlarmLevel.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.Pro.Green.Airq.Alarm.EmAlarmLevel.prototype.hdObj_.lzrClass_ = LZR.Pro.Green.Airq.Alarm.EmAlarmLevel;

@@ -2,7 +2,7 @@
 作者：子牛连
 类名：SrcDat
 说明：源数据
-创建日期：04-五月-2016 11:40:15
+创建日期：27-七月-2016 12:30:04
 版本号：1.0
 *************************************************/
 
@@ -57,14 +57,17 @@ LZR.NodeJs.ProSrv.WindSrv.SrcDat.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.NodeJs.ProSrv.WindSrv.SrcDat.prototype.init_.lzrClass_ = LZR.NodeJs.ProSrv.WindSrv.SrcDat;
 
 // 对构造参数的特殊处理
 LZR.NodeJs.ProSrv.WindSrv.SrcDat.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.NodeJs.ProSrv.WindSrv.SrcDat.prototype.hdObj_.lzrClass_ = LZR.NodeJs.ProSrv.WindSrv.SrcDat;
 
 // 计算间隔
 LZR.NodeJs.ProSrv.WindSrv.SrcDat.prototype.calcStep = function (obj/*as:Object*/) {
 	obj.lonstep = (obj.lonmax - obj.lonmin) / (obj.cols - 1);
 	obj.latstep = (obj.latmax - obj.latmin) / (obj.rows - 1);
 };
+LZR.NodeJs.ProSrv.WindSrv.SrcDat.prototype.calcStep.lzrClass_ = LZR.NodeJs.ProSrv.WindSrv.SrcDat;

@@ -2,7 +2,7 @@
 作者：子牛连
 类名：LegendClr
 说明：图例的颜色
-创建日期：21-六月-2016 16:20:07
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
@@ -43,3 +43,4 @@ LZR.HTML.Widget.Legend.LegendClr.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.HTML.Widget.Legend.LegendClr.prototype.init_.lzrClass_ = LZR.HTML.Widget.Legend.LegendClr;

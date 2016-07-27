@@ -2,12 +2,13 @@
 作者：子牛连
 类名：Enum
 说明：通用枚举
-创建日期：23-三月-2016 10:42:36
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
 LZR.load([
-	"LZR.Base.Val"
+	"LZR.Base.Val",
+	"LZR.Util"
 ], "LZR.Base.Val.Enum");
 LZR.Base.Val.Enum = function (obj) /*bases:LZR.Base.Val*/ {
 	LZR.initSuper(this, obj);
@@ -38,16 +39,41 @@ LZR.Base.Val.Enum.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.Base.Val.Enum.prototype.init_.lzrClass_ = LZR.Base.Val.Enum;
 
 // 对构造参数的特殊处理
 LZR.Base.Val.Enum.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.Base.Val.Enum.prototype.hdObj_.lzrClass_ = LZR.Base.Val.Enum;
+
+// ---- 克隆
+LZR.Base.Val.Enum.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
+	return new this.constructor (this.key);
+};
+LZR.Base.Val.Enum.prototype.clone.lzrClass_ = LZR.Base.Val.Enum;
+
+// ---- 设置值
+LZR.Base.Val.Enum.prototype.set = function (key/*as:string*/)/*as:boolean*/ {
+	if (key && this.constructor[key]) {
+		this.key = key;
+		this.val = this.constructor[key];
+		return true;
+	} else if (!key && this.constructor.emnull) {
+		this.key = "emnull";
+		this.val = this.constructor.emnull;
+		return true;
+	} else {
+		return false;
+	}
+};
+LZR.Base.Val.Enum.prototype.set.lzrClass_ = LZR.Base.Val.Enum;
 
 // 获取枚举名
 LZR.Base.Val.Enum.prototype.getKey = function ()/*as:string*/ {
 	return this.key;
 };
+LZR.Base.Val.Enum.prototype.getKey.lzrClass_ = LZR.Base.Val.Enum;
 
 // 通过枚举值获取枚举名
 LZR.Base.Val.Enum.prototype.getKeyByVal = function (value/*as:Object*/)/*as:string*/ {
@@ -58,6 +84,7 @@ LZR.Base.Val.Enum.prototype.getKeyByVal = function (value/*as:Object*/)/*as:stri
 	}
 	return undefined;
 };
+LZR.Base.Val.Enum.prototype.getKeyByVal.lzrClass_ = LZR.Base.Val.Enum;
 
 // 获取所有枚举集合
 LZR.Base.Val.Enum.prototype.enums = function ()/*as:Object*/ {
@@ -74,23 +101,4 @@ LZR.Base.Val.Enum.prototype.enums = function ()/*as:Object*/ {
 	}
 	return ems;
 };
-
-// ---- 设置值
-LZR.Base.Val.Enum.prototype.set = function (key/*as:string*/)/*as:boolean*/ {
-	if (key && this.constructor[key]) {
-		this.key = key;
-		this.val = this.constructor[key];
-		return true;
-	} else if (!key && this.constructor.emnull) {
-		this.key = "emnull";
-		this.val = this.constructor.emnull;
-		return true;
-	} else {
-		return false;
-	}
-};
-
-// ---- 克隆
-LZR.Base.Val.Enum.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
-	return new this.constructor (this.key);
-};
+LZR.Base.Val.Enum.prototype.enums.lzrClass_ = LZR.Base.Val.Enum;

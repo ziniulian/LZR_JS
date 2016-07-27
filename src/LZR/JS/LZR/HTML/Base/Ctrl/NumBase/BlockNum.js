@@ -2,7 +2,7 @@
 作者：子牛连
 类名：BlockNum
 说明：块状数值增减控制器
-创建日期：10-五月-2016 13:27:57
+创建日期：27-七月-2016 12:30:02
 版本号：1.0
 *************************************************/
 
@@ -25,11 +25,11 @@ LZR.HTML.Base.Ctrl.NumBase.BlockNum = function (obj) /*bases:LZR.HTML.Base.Ctrl.
 	// 加
 	this.addBtnCtrl/*m*/ = new LZR.HTML.Base.Ctrl.Btn();	/*as:LZR.HTML.Base.Ctrl.Btn*/
 
-	// 减
-	this.subBtnCtrl/*m*/ = new LZR.HTML.Base.Ctrl.Btn();	/*as:LZR.HTML.Base.Ctrl.Btn*/
-
 	// 输入框
 	this.txtCtrl/*m*/ = new LZR.HTML.Base.Ctrl.Txt();	/*as:LZR.HTML.Base.Ctrl.Txt*/
+
+	// 减
+	this.subBtnCtrl/*m*/ = new LZR.HTML.Base.Ctrl.Btn();	/*as:LZR.HTML.Base.Ctrl.Btn*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
@@ -59,6 +59,7 @@ LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.init_ = function (obj/*as:Object*/
 		this.hdObj_(obj);
 	}
 };
+LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.init_.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.BlockNum;
 
 // 对构造参数的特殊处理
 LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.hdObj_ = function (obj/*as:Object*/) {
@@ -66,8 +67,9 @@ LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.hdObj_ = function (obj/*as:Object*
 		this.hdCss(obj.hd_css);
 	}
 };
+LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.BlockNum;
 
-//  处理样式参数
+// 处理样式参数
 LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.hdCss = function (s/*as:Object*/) {
 	if (typeof(s) === "string") {
 		this.addBtnCtrl.css = s;
@@ -77,16 +79,19 @@ LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.hdCss = function (s/*as:Object*/) 
 		this.subBtnCtrl.css = s.sub;
 	}
 };
+LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.hdCss.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.BlockNum;
 
 // 增加一个步距
 LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.addOne = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	doeo.dat.hct_num.add(1);
 };
+LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.addOne.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.BlockNum;
 
 // 减少一个步距
 LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.subOne = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	doeo.dat.hct_num.add(-1);
 };
+LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.subOne.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.BlockNum;
 
 // 处理文本框输入设置
 LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.hdTxtSet = function (doeo/*as:LZR.HTML.Base.Doe*/, txt/*as:string*/) {
@@ -96,14 +101,16 @@ LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.hdTxtSet = function (doeo/*as:LZR.
 	}
 	doeo.dat.hct_num.set(v);
 };
+LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.hdTxtSet.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.BlockNum;
 
-// 处理数值的变化
+// 处理数值设置
 LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.hdNumSet = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:double*/) {
 	var d = doeo.getById("hct_BlockNumTxtView");
 	this.txtCtrl.evt.chg.enableEvent = false;
 	d.dat.hct_txt.set(this.formatTxt(v));
 	this.txtCtrl.evt.chg.enableEvent = this.txtCtrl.evt.chg.autoEvent;
 };
+LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.hdNumSet.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.BlockNum;
 
 // 格式化输入框内容
 LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.formatTxt = function (v/*as:double*/)/*as:double*/ {
@@ -113,6 +120,7 @@ LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.formatTxt = function (v/*as:double
 		return v;
 	}
 };
+LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.formatTxt.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.BlockNum;
 
 // ---- 给元素添加事件集
 LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*as:Object*/, obj/*as:Object*/) {
@@ -146,6 +154,7 @@ LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.addEvt = function (doeo/*as:LZR.HT
 	this.crtCb2Dat(doeo, doeo.dat.hct_num.vcNum.evt.set, "hdNumSet");
 	this.crtCb2Dat(doeo, doeo.dat.hct_num.vcNum.evt.set, "onChg");
 };
+LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.BlockNum;
 
 // ---- 移除元素的事件集
 LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
@@ -173,3 +182,4 @@ LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.delEvt = function (doeo/*as:LZR.HT
 	// 删除数据
 	this.delDat(doeo, "hct_num");
 };
+LZR.HTML.Base.Ctrl.NumBase.BlockNum.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.BlockNum;

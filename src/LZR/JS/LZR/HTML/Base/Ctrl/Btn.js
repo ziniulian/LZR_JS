@@ -2,12 +2,13 @@
 作者：子牛连
 类名：Btn
 说明：按钮
-创建日期：18-三月-2016 10:57:17
+创建日期：27-七月-2016 12:30:02
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.HTML.Base.Ctrl",
+	"LZR.HTML.Base.Doe",
 	"LZR.Base.CallBacks",
 	"LZR.Base.Time"
 ], "LZR.HTML.Base.Ctrl.Btn");
@@ -38,8 +39,8 @@ LZR.HTML.Base.Ctrl.Btn = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	// 长按
 	this.evt.lclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
-	// 双击
-	this.evt.dbclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+	// 时间工具
+	this.utTim/*m*/ = LZR.getSingleton(LZR.Base.Time);	/*as:LZR.Base.Time*/
 
 	// 按下
 	this.evt.down/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
@@ -47,8 +48,8 @@ LZR.HTML.Base.Ctrl.Btn = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	// 抬起
 	this.evt.up/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
-	// 时间工具
-	this.utTim/*m*/ = LZR.getSingleton(LZR.Base.Time);	/*as:LZR.Base.Time*/
+	// 双击
+	this.evt.dbclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
@@ -72,11 +73,13 @@ LZR.HTML.Base.Ctrl.Btn.prototype.init_ = function (obj/*as:Object*/) {
 
 	this.setEventObj (this);
 };
+LZR.HTML.Base.Ctrl.Btn.prototype.init_.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
 // 对构造参数的特殊处理
 LZR.HTML.Base.Ctrl.Btn.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.HTML.Base.Ctrl.Btn.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
 // 处理按下事件
 LZR.HTML.Base.Ctrl.Btn.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
@@ -101,6 +104,7 @@ LZR.HTML.Base.Ctrl.Btn.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe*/
 		this.dbStat = 1;
 	}
 };
+LZR.HTML.Base.Ctrl.Btn.prototype.hdDown.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
 // 处理抬起事件
 LZR.HTML.Base.Ctrl.Btn.prototype.hdUp = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
@@ -132,37 +136,44 @@ LZR.HTML.Base.Ctrl.Btn.prototype.hdUp = function (doeo/*as:LZR.HTML.Base.Doe*/, 
 	}
 	this.dbStat = 0;
 };
+LZR.HTML.Base.Ctrl.Btn.prototype.hdUp.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
 // 处理移出事件
 LZR.HTML.Base.Ctrl.Btn.prototype.hdOut = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
 	doeo.delCss(this.css);
 	this.dbStat = 0;
 };
+LZR.HTML.Base.Ctrl.Btn.prototype.hdOut.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
 // 单击事件
 LZR.HTML.Base.Ctrl.Btn.prototype.onClick = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:boolean*/ {
 	return this.evt.click.execute (doeo);
 };
+LZR.HTML.Base.Ctrl.Btn.prototype.onClick.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
 // 长按事件
 LZR.HTML.Base.Ctrl.Btn.prototype.onLclick = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:boolean*/ {
 	return this.evt.lclick.execute (doeo);
 };
+LZR.HTML.Base.Ctrl.Btn.prototype.onLclick.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
 // 双击事件
 LZR.HTML.Base.Ctrl.Btn.prototype.onDbclick = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:boolean*/ {
 	return this.evt.dbclick.execute (doeo);
 };
+LZR.HTML.Base.Ctrl.Btn.prototype.onDbclick.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
 // 按下事件
 LZR.HTML.Base.Ctrl.Btn.prototype.onDown = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:boolean*/ {
 	return this.evt.down.execute (doeo);
 };
+LZR.HTML.Base.Ctrl.Btn.prototype.onDown.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
 // 抬起事件
 LZR.HTML.Base.Ctrl.Btn.prototype.onUp = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:boolean*/ {
 	return this.evt.up.execute (doeo);
 };
+LZR.HTML.Base.Ctrl.Btn.prototype.onUp.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
 // ---- 给元素添加事件集
 LZR.HTML.Base.Ctrl.Btn.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
@@ -170,6 +181,7 @@ LZR.HTML.Base.Ctrl.Btn.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/
 	doeo.addEvt ("mouseup",  this.utLzr.bind(this, this.hdUp, doeo), this.className_);
 	doeo.addEvt ("mouseout",  this.utLzr.bind(this, this.hdOut, doeo), this.className_);
 };
+LZR.HTML.Base.Ctrl.Btn.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
 // ---- 移除元素的事件集
 LZR.HTML.Base.Ctrl.Btn.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
@@ -177,3 +189,4 @@ LZR.HTML.Base.Ctrl.Btn.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/
 	doeo.delEvt ("mouseup", this.className_);
 	doeo.delEvt ("mouseout", this.className_);
 };
+LZR.HTML.Base.Ctrl.Btn.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;

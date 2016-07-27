@@ -2,7 +2,7 @@
 作者：子牛连
 类名：EmClr
 说明：常用颜色枚举
-创建日期：24-三月-2016 15:12:39
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
@@ -109,6 +109,7 @@ LZR.Base.EmClr.v3/*m*/ = new LZR.Base.Clr({
 LZR.Base.EmClr.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.Base.EmClr.prototype.hdObj_.lzrClass_ = LZR.Base.EmClr;
 
 // 灰度处理
 LZR.Base.EmClr.prototype.hdGray = function (grayKey/*as:string*/)/*as:Object*/ {
@@ -121,6 +122,7 @@ LZR.Base.EmClr.prototype.hdGray = function (grayKey/*as:string*/)/*as:Object*/ {
 	}
 	return this.constructor[grayKey];
 };
+LZR.Base.EmClr.prototype.hdGray.lzrClass_ = LZR.Base.EmClr;
 
 // ---- 设置值
 LZR.Base.EmClr.prototype.set = function (key/*as:string*/)/*as:boolean*/ {
@@ -143,3 +145,4 @@ LZR.Base.EmClr.prototype.set = function (key/*as:string*/)/*as:boolean*/ {
 		return false;
 	}
 };
+LZR.Base.EmClr.prototype.set.lzrClass_ = LZR.Base.EmClr;

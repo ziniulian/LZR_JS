@@ -2,7 +2,7 @@
 作者：子牛连
 类名：StDivScall
 说明：Div时间刻度
-创建日期：16-五月-2016 16:52:23
+创建日期：27-七月-2016 12:30:04
 版本号：1.0
 *************************************************/
 
@@ -37,171 +37,13 @@ LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.init_ = function (obj/*as:Object
 		this.hdObj_(obj);
 	}
 };
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.init_.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StDivScall;
 
 // 对构造参数的特殊处理
 LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
-
-// 显示时间
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.shouTim = function (doeo/*as:LZR.HTML.Base.Doe*/, txt/*as:string*/, usecss/*as:boolean*/) {
-	doeo.doe.innerHTML = txt;
-	if (usecss) {
-		doeo.addCss("Lc_hct_StDivScall_Big_hover");
-	} else {
-		doeo.delCss("Lc_hct_StDivScall_Big_hover");
-	}
-};
-
-// 生成容器
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.crtDoe = function (i/*as:int*/)/*as:LZR.HTML.Base.Doe*/ {
-	return new this.belongCtrl.clsDoe({
-		id: "up_" + i,
-		hd_typ: "div",
-		hd_css: "Lc_hct_StDivScall_Up",
-		chd_: {
-			big: {
-				hd_typ: "div",
-				hd_css: "Lc_hct_StDivScall_Big"
-			},
-			line: {
-				hd_typ: "div",
-				hd_css: "Lc_hct_StDivScall_Line"
-			},
-			point: {
-				hd_typ: "div",
-				hd_css: "Lc_hct_StDivScall_Point"
-			}
-		}
-	});
-};
-
-// 生成时间
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.crtTim = function (min/*as:double*/, stat/*as:int*/)/*as:Object*/ {
-	var r = new this.belongCtrl.clsTim({
-		hd_tim: min
-	});
-	switch(stat) {
-		case 1:		// 日
-			r.doHour(0, false);
-			if (r.vcBase.get() < min) {
-				r.add(24*3600*1000);
-			}
-			break;
-		case 2:		// 月
-			r.doDay(1, false);
-			r.doHour(0, false);
-			if (r.vcBase.get() < min) {
-				r.addMon(1);
-			}
-			break;
-	}
-	return r;
-};
-
-// 计算总数
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.calcCount = function (dt/*as:Object*/, max/*as:double*/, stat/*as:int*/)/*as:int*/ {
-	var d = {
-		d: 0,
-		t: 0
-	};
-	switch(stat) {
-		case 0:		// 时
-			d.d = Math.floor((max - dt.vcBase.get()) / (3600 * 1000));
-			d.t = d.d * 3600*1000 + dt.vcBase.get();
-			break;
-		case 1:		// 日
-			d.d = Math.floor((max - dt.vcBase.get()) / (24 * 3600 * 1000));
-			d.t = d.d * 24*3600*1000 + dt.vcBase.get();
-			break;
-		case 2:		// 月
-			d.t = new this.belongCtrl.clsTim({
-				hd_tim: max
-			});
-			d.t.doDay(1, false);
-			d.t.doHour(0, false);
-			d.d = (d.t.doYear() * 12) + (d.t.doMon() - 1) - (dt.doYear() * 12) - (dt.doMon() - 1);
-			d.t = d.t.vcBase.get();
-	}
-	return d;
-};
-
-// 计算小方块宽度
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.calcWidth = function (w/*as:double*/, d/*as:Object*/, dt/*as:Object*/, doeo/*as:LZR.HTML.Base.Doe*/, ctrl/*as:Object*/, stat/*as:int*/)/*as:int*/ {
-	switch(stat) {
-		case 0:		// 时
-		case 1:		// 日
-			return w;
-		case 2:		// 月
-			if (d.monow === undefined) {
-				d.monow = d.f;
-			} else {
-				d.monow = d.monnw;
-			}
-			dt.addMon(1);
-			d.monnw = ctrl.position2Num(doeo, dt.vcBase.get(), true);
-			return d.monnw - d.monow - 1;
-		default:
-			return 0;
-	}
-};
-
-// 获取判别节点
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getNode = function (dt/*as:Object*/, stat/*as:int*/)/*as:int*/ {
-	switch(stat) {
-		case 0:		// 时
-			return dt.doDay();
-		case 1:		// 日
-			return dt.doMon();
-		case 2:		// 月
-			return dt.doYear();
-		default:
-			return 0;
-	}
-};
-
-// 设置判别节点
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.setNode = function (dt/*as:Object*/, stat/*as:int*/) {
-	switch(stat) {
-		case 0:		// 时
-			dt.add(3600 * 1000);
-			break;
-		case 1:		// 日
-			dt.add(24 * 3600 * 1000);
-			break;
-		case 2:		// 月
-			// dt.addMon(1);
-			break;
-	}
-};
-
-// 获取提示内容
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getTxt = function (dt/*as:Object*/, stat/*as:int*/)/*as:string*/ {
-	switch(stat) {
-		case 0:		// 时
-			return dt.format("d日(M月)");
-		case 1:		// 日
-			return dt.format("M月(y年)");
-		case 2:		// 月
-			return dt.format("y年");
-		default:
-			return "";
-	}
-};
-
-// 获取经过的提示内容
-LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getHoverTxt = function (dt/*as:Object*/, stat/*as:int*/)/*as:string*/ {
-	switch(stat) {
-		case 0:		// 时
-			return dt.format("y-M-d hh时");
-		case 1:		// 日
-			return dt.format("y-M-d");
-		case 2:		// 月
-			return dt.format("y年M月");
-		default:
-			return "";
-	}
-};
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StDivScall;
 
 // ---- 划刻度
 LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.draw = function (doeo/*as:LZR.HTML.Base.Doe*/) {
@@ -284,3 +126,173 @@ LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.draw = function (doeo/*as:LZR.HT
 		up.add(w);
 	}
 };
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.draw.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StDivScall;
+
+// 获取经过的提示内容
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getHoverTxt = function (dt/*as:Object*/, stat/*as:int*/)/*as:string*/ {
+	switch(stat) {
+		case 0:		// 时
+			return dt.format("y-M-d hh时");
+		case 1:		// 日
+			return dt.format("y-M-d");
+		case 2:		// 月
+			return dt.format("y年M月");
+		default:
+			return "";
+	}
+};
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getHoverTxt.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StDivScall;
+
+// 获取提示内容
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getTxt = function (dt/*as:Object*/, stat/*as:int*/)/*as:string*/ {
+	switch(stat) {
+		case 0:		// 时
+			return dt.format("d日(M月)");
+		case 1:		// 日
+			return dt.format("M月(y年)");
+		case 2:		// 月
+			return dt.format("y年");
+		default:
+			return "";
+	}
+};
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getTxt.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StDivScall;
+
+// 设置判别节点
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.setNode = function (dt/*as:Object*/, stat/*as:int*/) {
+	switch(stat) {
+		case 0:		// 时
+			dt.add(3600 * 1000);
+			break;
+		case 1:		// 日
+			dt.add(24 * 3600 * 1000);
+			break;
+		case 2:		// 月
+			// dt.addMon(1);
+			break;
+	}
+};
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.setNode.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StDivScall;
+
+// 获取判别节点
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getNode = function (dt/*as:Object*/, stat/*as:int*/)/*as:int*/ {
+	switch(stat) {
+		case 0:		// 时
+			return dt.doDay();
+		case 1:		// 日
+			return dt.doMon();
+		case 2:		// 月
+			return dt.doYear();
+		default:
+			return 0;
+	}
+};
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.getNode.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StDivScall;
+
+// 计算小方块宽度
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.calcWidth = function (w/*as:double*/, d/*as:Object*/, dt/*as:Object*/, doeo/*as:LZR.HTML.Base.Doe*/, ctrl/*as:Object*/, stat/*as:int*/)/*as:int*/ {
+	switch(stat) {
+		case 0:		// 时
+		case 1:		// 日
+			return w;
+		case 2:		// 月
+			if (d.monow === undefined) {
+				d.monow = d.f;
+			} else {
+				d.monow = d.monnw;
+			}
+			dt.addMon(1);
+			d.monnw = ctrl.position2Num(doeo, dt.vcBase.get(), true);
+			return d.monnw - d.monow - 1;
+		default:
+			return 0;
+	}
+};
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.calcWidth.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StDivScall;
+
+// 计算总数
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.calcCount = function (dt/*as:Object*/, max/*as:double*/, stat/*as:int*/)/*as:int*/ {
+	var d = {
+		d: 0,
+		t: 0
+	};
+	switch(stat) {
+		case 0:		// 时
+			d.d = Math.floor((max - dt.vcBase.get()) / (3600 * 1000));
+			d.t = d.d * 3600*1000 + dt.vcBase.get();
+			break;
+		case 1:		// 日
+			d.d = Math.floor((max - dt.vcBase.get()) / (24 * 3600 * 1000));
+			d.t = d.d * 24*3600*1000 + dt.vcBase.get();
+			break;
+		case 2:		// 月
+			d.t = new this.belongCtrl.clsTim({
+				hd_tim: max
+			});
+			d.t.doDay(1, false);
+			d.t.doHour(0, false);
+			d.d = (d.t.doYear() * 12) + (d.t.doMon() - 1) - (dt.doYear() * 12) - (dt.doMon() - 1);
+			d.t = d.t.vcBase.get();
+	}
+	return d;
+};
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.calcCount.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StDivScall;
+
+// 生成时间
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.crtTim = function (min/*as:double*/, stat/*as:int*/)/*as:Object*/ {
+	var r = new this.belongCtrl.clsTim({
+		hd_tim: min
+	});
+	switch(stat) {
+		case 1:		// 日
+			r.doHour(0, false);
+			if (r.vcBase.get() < min) {
+				r.add(24*3600*1000);
+			}
+			break;
+		case 2:		// 月
+			r.doDay(1, false);
+			r.doHour(0, false);
+			if (r.vcBase.get() < min) {
+				r.addMon(1);
+			}
+			break;
+	}
+	return r;
+};
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.crtTim.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StDivScall;
+
+// 生成容器
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.crtDoe = function (i/*as:int*/)/*as:LZR.HTML.Base.Doe*/ {
+	return new this.belongCtrl.clsDoe({
+		id: "up_" + i,
+		hd_typ: "div",
+		hd_css: "Lc_hct_StDivScall_Up",
+		chd_: {
+			big: {
+				hd_typ: "div",
+				hd_css: "Lc_hct_StDivScall_Big"
+			},
+			line: {
+				hd_typ: "div",
+				hd_css: "Lc_hct_StDivScall_Line"
+			},
+			point: {
+				hd_typ: "div",
+				hd_css: "Lc_hct_StDivScall_Point"
+			}
+		}
+	});
+};
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.crtDoe.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StDivScall;
+
+// 显示时间
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.shouTim = function (doeo/*as:LZR.HTML.Base.Doe*/, txt/*as:string*/, usecss/*as:boolean*/) {
+	doeo.doe.innerHTML = txt;
+	if (usecss) {
+		doeo.addCss("Lc_hct_StDivScall_Big_hover");
+	} else {
+		doeo.delCss("Lc_hct_StDivScall_Big_hover");
+	}
+};
+LZR.HTML.Base.Ctrl.TimBase.StDivScall.prototype.shouTim.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StDivScall;

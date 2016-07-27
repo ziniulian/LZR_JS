@@ -2,7 +2,7 @@
 作者：子牛连
 类名：BlockTim
 说明：块状时间控制器
-创建日期：11-五月-2016 11:14:45
+创建日期：27-七月-2016 12:30:02
 版本号：1.0
 *************************************************/
 
@@ -50,6 +50,7 @@ LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.init_ = function (obj/*as:Object*/
 		this.hdObj_(obj);
 	}
 };
+LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.init_.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.BlockTim;
 
 // 对构造参数的特殊处理
 LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdObj_ = function (obj/*as:Object*/) {
@@ -60,121 +61,7 @@ LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdObj_ = function (obj/*as:Object*
 		this.hdFormatDigit(obj.hd_formatDigit);
 	}
 };
-
-//  处理样式参数
-LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdCss = function (s/*as:Object*/) {
-	this.numCtrl.hdCss(s);
-};
-
-//  处理位数参数
-LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdFormatDigit = function (v/*as:int*/) {
-	this.numCtrl.formatDigit = v;
-};
-
-// 增加一个时间
-LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.addOne = function (sign/*as:int*/, doeo/*as:LZR.HTML.Base.Doe*/) {
-	var d = doeo.parent.get();
-	var b = true;
-	while(b) {
-		b = false;
-		switch (d.id.get()) {
-			case "hct_BlockTimDoe_y":
-				d.dat.hct_tim.addMon(12 * sign);
-				break;
-			case "hct_BlockTimDoe_M":
-				d.dat.hct_tim.addMon(sign);
-				break;
-			case "hct_BlockTimDoe_d":
-				d.dat.hct_tim.add(24*3600*1000 * sign);
-				break;
-			case "hct_BlockTimDoe_h":
-				d.dat.hct_tim.add(3600*1000 * sign);
-				break;
-			case "hct_BlockTimDoe_m":
-				d.dat.hct_tim.add(60*1000 * sign);
-				break;
-			case "hct_BlockTimDoe_s":
-				d.dat.hct_tim.add(1000 * sign);
-				break;
-			case "hct_BlockTimDoe_f":
-				d.dat.hct_tim.add(sign);
-				break;
-			default:
-				d = d.parent.get();
-				if (d) {
-					b = true;
-				}
-				break;
-		}
-	}
-};
-
-// 处理时间设置
-LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdSetTim = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:double*/) {
-	switch (doeo.id.get()) {
-		case "hct_BlockTimDoe_y":
-			doeo.dat.hct_tim.doYear(v);
-			break;
-		case "hct_BlockTimDoe_M":
-			doeo.dat.hct_tim.doMon(v);
-			break;
-		case "hct_BlockTimDoe_d":
-			doeo.dat.hct_tim.doDay(v);
-			break;
-		case "hct_BlockTimDoe_h":
-			doeo.dat.hct_tim.doHour(v);
-			break;
-		case "hct_BlockTimDoe_m":
-			doeo.dat.hct_tim.doMut(v);
-			break;
-		case "hct_BlockTimDoe_s":
-			doeo.dat.hct_tim.doSec(v);
-			break;
-		case "hct_BlockTimDoe_f":
-			doeo.dat.hct_tim.doMs(v);
-			break;
-	}
-};
-
-// 处理时间的自动变化
-LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdAutoChg = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	var d, i, v;
-	for (i = 0; i<this.format.length; i++) {
-		switch (this.format[i]) {
-			case "y":	// 年
-				v = doeo.dat.hct_tim.doYear();
-				break;
-			case "M":	// 月
-				v = doeo.dat.hct_tim.doMon();
-				break;
-			case "d":	// 日
-				v = doeo.dat.hct_tim.doDay();
-				break;
-			case "h":	// 时
-				v = doeo.dat.hct_tim.doHour();
-				break;
-			case "m":	// 分
-				v = doeo.dat.hct_tim.doMut();
-				break;
-			case "s":	// 秒
-				v = doeo.dat.hct_tim.doSec();
-				break;
-			case "f":	// 毫秒
-				v = doeo.dat.hct_tim.doMs();
-				break;
-			default:
-				v = null;
-				break;
-		}
-		if (v !== null) {
-			d = doeo.getById("hct_BlockTimDoe_" + this.format[i]).dat.hct_num;
-			if (d.get() !== v) {
-				this.numCtrl.evt.chg.enableEvent = false;
-				d.set(v);
-			}
-		}
-	}
-};
+LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.BlockTim;
 
 // ---- 给元素添加事件集
 LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*as:Object*/, obj/*as:Object*/) {
@@ -259,6 +146,7 @@ LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.addEvt = function (doeo/*as:LZR.HT
 	this.crtCb2Dat(doeo, doeo.dat.hct_tim.evt.set, "hdAutoChg");
 	this.crtCb2Dat(doeo, doeo.dat.hct_tim.evt.set, "onChg");
 };
+LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.BlockTim;
 
 // ---- 移除元素的事件集
 LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
@@ -280,3 +168,124 @@ LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.delEvt = function (doeo/*as:LZR.HT
 	// 删除数据
 	this.delDat(doeo, "hct_tim");
 };
+LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.BlockTim;
+
+// 处理时间的自动变化
+LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdAutoChg = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	var d, i, v;
+	for (i = 0; i<this.format.length; i++) {
+		switch (this.format[i]) {
+			case "y":	// 年
+				v = doeo.dat.hct_tim.doYear();
+				break;
+			case "M":	// 月
+				v = doeo.dat.hct_tim.doMon();
+				break;
+			case "d":	// 日
+				v = doeo.dat.hct_tim.doDay();
+				break;
+			case "h":	// 时
+				v = doeo.dat.hct_tim.doHour();
+				break;
+			case "m":	// 分
+				v = doeo.dat.hct_tim.doMut();
+				break;
+			case "s":	// 秒
+				v = doeo.dat.hct_tim.doSec();
+				break;
+			case "f":	// 毫秒
+				v = doeo.dat.hct_tim.doMs();
+				break;
+			default:
+				v = null;
+				break;
+		}
+		if (v !== null) {
+			d = doeo.getById("hct_BlockTimDoe_" + this.format[i]).dat.hct_num;
+			if (d.get() !== v) {
+				this.numCtrl.evt.chg.enableEvent = false;
+				d.set(v);
+			}
+		}
+	}
+};
+LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdAutoChg.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.BlockTim;
+
+// 处理时间设置
+LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdSetTim = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:double*/) {
+	switch (doeo.id.get()) {
+		case "hct_BlockTimDoe_y":
+			doeo.dat.hct_tim.doYear(v);
+			break;
+		case "hct_BlockTimDoe_M":
+			doeo.dat.hct_tim.doMon(v);
+			break;
+		case "hct_BlockTimDoe_d":
+			doeo.dat.hct_tim.doDay(v);
+			break;
+		case "hct_BlockTimDoe_h":
+			doeo.dat.hct_tim.doHour(v);
+			break;
+		case "hct_BlockTimDoe_m":
+			doeo.dat.hct_tim.doMut(v);
+			break;
+		case "hct_BlockTimDoe_s":
+			doeo.dat.hct_tim.doSec(v);
+			break;
+		case "hct_BlockTimDoe_f":
+			doeo.dat.hct_tim.doMs(v);
+			break;
+	}
+};
+LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdSetTim.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.BlockTim;
+
+// 处理位数参数
+LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdFormatDigit = function (v/*as:int*/) {
+	this.numCtrl.formatDigit = v;
+};
+LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdFormatDigit.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.BlockTim;
+
+// 处理样式参数
+LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdCss = function (s/*as:Object*/) {
+	this.numCtrl.hdCss(s);
+};
+LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.hdCss.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.BlockTim;
+
+// 增加一个时间
+LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.addOne = function (sign/*as:int*/, doeo/*as:LZR.HTML.Base.Doe*/) {
+	var d = doeo.parent.get();
+	var b = true;
+	while(b) {
+		b = false;
+		switch (d.id.get()) {
+			case "hct_BlockTimDoe_y":
+				d.dat.hct_tim.addMon(12 * sign);
+				break;
+			case "hct_BlockTimDoe_M":
+				d.dat.hct_tim.addMon(sign);
+				break;
+			case "hct_BlockTimDoe_d":
+				d.dat.hct_tim.add(24*3600*1000 * sign);
+				break;
+			case "hct_BlockTimDoe_h":
+				d.dat.hct_tim.add(3600*1000 * sign);
+				break;
+			case "hct_BlockTimDoe_m":
+				d.dat.hct_tim.add(60*1000 * sign);
+				break;
+			case "hct_BlockTimDoe_s":
+				d.dat.hct_tim.add(1000 * sign);
+				break;
+			case "hct_BlockTimDoe_f":
+				d.dat.hct_tim.add(sign);
+				break;
+			default:
+				d = d.parent.get();
+				if (d) {
+					b = true;
+				}
+				break;
+		}
+	}
+};
+LZR.HTML.Base.Ctrl.TimBase.BlockTim.prototype.addOne.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.BlockTim;

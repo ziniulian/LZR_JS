@@ -2,16 +2,16 @@
 作者：子牛连
 类名：BaseMainSrv
 说明：未使用框架的最基础主服务
-创建日期：11-三月-2016 13:51:25
+创建日期：27-七月-2016 12:30:02
 版本号：1.0
 *************************************************/
 
 LZR.load([
-	"LZR.Util",
 	"LZR.NodeJs",
-	"LZR.NodeJs.InfHttpSrv",
 	"LZR.Base.Str",
-	"LZR.NodeJs.Util.Url"
+	"LZR.NodeJs.Util.Url",
+	"LZR.Util",
+	"LZR.NodeJs.InfHttpSrv"
 ], "LZR.NodeJs.BaseMainSrv");
 LZR.NodeJs.BaseMainSrv = function (obj) /*interfaces:LZR.NodeJs.InfHttpSrv*/ {
 	LZR.NodeJs.InfHttpSrv.call(this);
@@ -28,9 +28,6 @@ LZR.NodeJs.BaseMainSrv = function (obj) /*interfaces:LZR.NodeJs.InfHttpSrv*/ {
 	// 服务
 	this.srv = null;	/*as:Object*/
 
-	// 子服务集合
-	this.subs/*m*/ = {};	/*as:LZR.NodeJs.InfHttpSrv*/
-
 	// 字符串工具
 	this.utStr/*m*/ = LZR.getSingleton(LZR.Base.Str);	/*as:LZR.Base.Str*/
 
@@ -39,6 +36,9 @@ LZR.NodeJs.BaseMainSrv = function (obj) /*interfaces:LZR.NodeJs.InfHttpSrv*/ {
 
 	// 通用工具
 	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
+
+	// 子服务集合
+	this.subs/*m*/ = {};	/*as:LZR.NodeJs.InfHttpSrv*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
@@ -60,11 +60,13 @@ LZR.NodeJs.BaseMainSrv.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.NodeJs.BaseMainSrv.prototype.init_.lzrClass_ = LZR.NodeJs.BaseMainSrv;
 
 // 对构造参数的特殊处理
 LZR.NodeJs.BaseMainSrv.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.NodeJs.BaseMainSrv.prototype.hdObj_.lzrClass_ = LZR.NodeJs.BaseMainSrv;
 
 // 配置子服务
 LZR.NodeJs.BaseMainSrv.prototype.initSubs = function (config/*as:Object*/) {
@@ -114,6 +116,7 @@ LZR.NodeJs.BaseMainSrv.prototype.initSubs = function (config/*as:Object*/) {
 		}
 	}
 };
+LZR.NodeJs.BaseMainSrv.prototype.initSubs.lzrClass_ = LZR.NodeJs.BaseMainSrv;
 
 // 匹配子服务
 LZR.NodeJs.BaseMainSrv.prototype.matchSubs = function (uri/*as:string*/)/*as:Object*/ {
@@ -125,6 +128,7 @@ LZR.NodeJs.BaseMainSrv.prototype.matchSubs = function (uri/*as:string*/)/*as:Obj
 	}
 	return null;
 };
+LZR.NodeJs.BaseMainSrv.prototype.matchSubs.lzrClass_ = LZR.NodeJs.BaseMainSrv;
 
 // 启动服务
 LZR.NodeJs.BaseMainSrv.prototype.start = function (config/*as:Object*/) {
@@ -132,11 +136,13 @@ LZR.NodeJs.BaseMainSrv.prototype.start = function (config/*as:Object*/) {
 	this.srv.listen(this.port, this.ip);
 	console.log ("服务已运行：http://" + this.ip + ":" + this.port);
 };
+LZR.NodeJs.BaseMainSrv.prototype.start.lzrClass_ = LZR.NodeJs.BaseMainSrv;
 
 // 停止服务
 LZR.NodeJs.BaseMainSrv.prototype.stop = function () {
 	this.srv.close();
 };
+LZR.NodeJs.BaseMainSrv.prototype.stop.lzrClass_ = LZR.NodeJs.BaseMainSrv;
 
 // ---- 执行服务
 LZR.NodeJs.BaseMainSrv.prototype.execute = function (req/*as:Object*/, rsp/*as:Object*/, url/*as:string*/) {
@@ -155,3 +161,4 @@ LZR.NodeJs.BaseMainSrv.prototype.execute = function (req/*as:Object*/, rsp/*as:O
 		rsp.end();
 	}
 };
+LZR.NodeJs.BaseMainSrv.prototype.execute.lzrClass_ = LZR.NodeJs.BaseMainSrv;

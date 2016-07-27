@@ -2,7 +2,7 @@
 作者：子牛连
 类名：InfEvt
 说明：事件集接口
-创建日期：17-三月-2016 13:33:38
+创建日期：27-七月-2016 12:30:03
 版本号：1.1
 *************************************************/
 
@@ -14,7 +14,7 @@ LZR.Base.InfEvt = function (obj) {
 	this.evt = {};	/*as:Object*/
 };
 LZR.Base.InfEvt.prototype.className_ = "LZR.Base.InfEvt";
-LZR.Base.InfEvt.prototype.version_ = "1.0";
+LZR.Base.InfEvt.prototype.version_ = "1.1";
 
 LZR.load(null, "LZR.Base.InfEvt");
 
@@ -22,6 +22,7 @@ LZR.load(null, "LZR.Base.InfEvt");
 LZR.Base.InfEvt.prototype.setEventObj = function (obj/*as:Object*/) {
 	this.setEventObjRecursion(this.evt, obj);
 };
+LZR.Base.InfEvt.prototype.setEventObj.lzrClass_ = LZR.Base.InfEvt;
 
 // 递归设置调用对象
 LZR.Base.InfEvt.prototype.setEventObjRecursion = function (o/*as:Object*/, obj/*as:Object*/) {
@@ -33,3 +34,4 @@ LZR.Base.InfEvt.prototype.setEventObjRecursion = function (o/*as:Object*/, obj/*
 		}
 	}
 };
+LZR.Base.InfEvt.prototype.setEventObjRecursion.lzrClass_ = LZR.Base.InfEvt;

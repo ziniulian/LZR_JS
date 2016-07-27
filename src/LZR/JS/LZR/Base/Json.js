@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Json
 说明：
-创建日期：06-五月-2016 14:15:47
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
@@ -35,18 +35,22 @@ LZR.Base.Json.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
-
-// 对构造参数的特殊处理
-LZR.Base.Json.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
-};
+LZR.Base.Json.prototype.init_.lzrClass_ = LZR.Base.Json;
 
 // 将对象转换成 json 文本
 LZR.Base.Json.prototype.toJson = function (obj/*as:Object*/)/*as:string*/ {
 	return this.src.stringify(obj);
 };
+LZR.Base.Json.prototype.toJson.lzrClass_ = LZR.Base.Json;
 
 // 将字符串转换成对象
 LZR.Base.Json.prototype.toObj = function (json/*as:string*/)/*as:Object*/ {
 	return this.src.parse(json);
 };
+LZR.Base.Json.prototype.toObj.lzrClass_ = LZR.Base.Json;
+
+// 对构造参数的特殊处理
+LZR.Base.Json.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
+};
+LZR.Base.Json.prototype.hdObj_.lzrClass_ = LZR.Base.Json;

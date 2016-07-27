@@ -2,7 +2,7 @@
 作者：子牛连
 类名：BlockLegend
 说明：色块图例
-创建日期：21-六月-2016 14:21:12
+创建日期：27-七月-2016 12:30:02
 版本号：1.0
 *************************************************/
 
@@ -12,6 +12,8 @@ LZR.loadAnnex({
 
 LZR.load([
 	"LZR.HTML.Widget.Legend",
+	"LZR.HTML.Base.Doe",
+	"LZR.HTML.Widget.Legend.LegendClr",
 	"LZR.Base.Clr"
 ], "LZR.HTML.Widget.Legend.BlockLegend");
 LZR.HTML.Widget.Legend.BlockLegend = function (obj) /*bases:LZR.HTML.Widget.Legend*/ {
@@ -40,6 +42,7 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.init_ = function (obj/*as:Object*/)
 		this.hdObj_(obj);
 	}
 };
+LZR.HTML.Widget.Legend.BlockLegend.prototype.init_.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
 
 // 生成一个色块
 LZR.HTML.Widget.Legend.BlockLegend.prototype.crtOneBlock = function (clr/*as:LZR.HTML.Widget.Legend.LegendClr*/, mark/*as:boolean*/)/*as:LZR.HTML.Base.Doe*/ {
@@ -54,66 +57,7 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.crtOneBlock = function (clr/*as:LZR
 	r.setStyle("background-color", clr.clr.toCss());
 	return r;
 };
-
-// 生成中部遮罩背景
-LZR.HTML.Widget.Legend.BlockLegend.prototype.crtMidBackground = function (clrs/*as:Array*/)/*as:string*/ {
-	var r = "linear-gradient(to right";
-	var c = clrs.length - 1;
-	var d = 100/(clrs.length - 1);
-	for (var i=1; i<clrs.length; i++) {
-		r += ", ";
-		r += clrs[i];
-		r += " ";
-		r += ((i-1) * d);
-		r += "%";
-
-		r += ", ";
-		r += clrs[i];
-		r += " ";
-		r += (i * d);
-		r += "%";
-	}
-	return r;
-};
-
-// 生成刻度
-LZR.HTML.Widget.Legend.BlockLegend.prototype.crtCalibration = function (doeo/*as:LZR.HTML.Base.Doe*/, clr/*as:LZR.HTML.Widget.Legend.LegendClr*/, boderCss/*as:string*/, fontCss/*as:string*/) {
-	var cf, cb;
-	cf = new this.view.constructor({
-		hd_typ: "div",
-		hd_css: fontCss
-	});
-
-	if (clr.alias === "") {
-		cb = this.min + clr.position * (this.max - this.min);
-		if (this.digit !== null) {
-			cb = this.utMath.formatFloat(cb, this.digit);
-		}
-		cf.doe.innerHTML = cb;
-	} else if (clr.alias) {
-		cf.doe.innerHTML = clr.alias;
-	}
-	doeo.add(cf, fontCss);
-
-	cb = new this.view.constructor({
-		hd_typ: "div",
-		hd_css: boderCss
-	});
-	doeo.add(cb, boderCss);
-};
-
-// ---- 初始化刷新
-LZR.HTML.Widget.Legend.BlockLegend.prototype.initFlush = function (doeo/*as:LZR.HTML.Base.Doe*/, isPreview/*as:boolean*/) {
-	var c = [];
-	for (var s in this.subs) {
-		if (this.subs[s].clr.r > -1) {
-			this.subs[s].clr.alpha = 1;
-			c.push(this.subs[s].clr.toCss());
-		}
-	}
-	this.viewMarkMid.setStyle("background", this.crtMidBackground(c));
-	this.flush(doeo, isPreview);
-};
+LZR.HTML.Widget.Legend.BlockLegend.prototype.crtOneBlock.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
 
 // ---- 刷新
 LZR.HTML.Widget.Legend.BlockLegend.prototype.flush = function (doeo/*as:LZR.HTML.Base.Doe*/, isPreview/*as:boolean*/) {
@@ -149,6 +93,7 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.flush = function (doeo/*as:LZR.HTML
 		this.viewUnit.doe.innerHTML = this.unit;
 	}
 };
+LZR.HTML.Widget.Legend.BlockLegend.prototype.flush.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
 
 // ---- 通过位置获取颜色
 LZR.HTML.Widget.Legend.BlockLegend.prototype.getClrByPosition = function (position/*as:double*/)/*as:LZR.Base.Clr*/ {
@@ -162,6 +107,48 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.getClrByPosition = function (positi
 	}
 	return this.viewLegend.subs[i + "_BlockLegend"].dat.clr;
 };
+LZR.HTML.Widget.Legend.BlockLegend.prototype.getClrByPosition.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
+
+// 生成刻度
+LZR.HTML.Widget.Legend.BlockLegend.prototype.crtCalibration = function (doeo/*as:LZR.HTML.Base.Doe*/, clr/*as:LZR.HTML.Widget.Legend.LegendClr*/, boderCss/*as:string*/, fontCss/*as:string*/) {
+	var cf, cb;
+	cf = new this.view.constructor({
+		hd_typ: "div",
+		hd_css: fontCss
+	});
+
+	if (clr.alias === "") {
+		cb = this.min + clr.position * (this.max - this.min);
+		if (this.digit !== null) {
+			cb = this.utMath.formatFloat(cb, this.digit);
+		}
+		cf.doe.innerHTML = cb;
+	} else if (clr.alias) {
+		cf.doe.innerHTML = clr.alias;
+	}
+	doeo.add(cf, fontCss);
+
+	cb = new this.view.constructor({
+		hd_typ: "div",
+		hd_css: boderCss
+	});
+	doeo.add(cb, boderCss);
+};
+LZR.HTML.Widget.Legend.BlockLegend.prototype.crtCalibration.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
+
+// ---- 初始化刷新
+LZR.HTML.Widget.Legend.BlockLegend.prototype.initFlush = function (doeo/*as:LZR.HTML.Base.Doe*/, isPreview/*as:boolean*/) {
+	var c = [];
+	for (var s in this.subs) {
+		if (this.subs[s].clr.r > -1) {
+			this.subs[s].clr.alpha = 1;
+			c.push(this.subs[s].clr.toCss());
+		}
+	}
+	this.viewMarkMid.setStyle("background", this.crtMidBackground(c));
+	this.flush(doeo, isPreview);
+};
+LZR.HTML.Widget.Legend.BlockLegend.prototype.initFlush.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
 
 // ---- 通过位置获取值信息
 LZR.HTML.Widget.Legend.BlockLegend.prototype.getValByPosition = function (position/*as:double*/)/*as:string*/ {
@@ -199,6 +186,7 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.getValByPosition = function (positi
 
 	return r;
 };
+LZR.HTML.Widget.Legend.BlockLegend.prototype.getValByPosition.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
 
 // ---- 通过位置获取值
 LZR.HTML.Widget.Legend.BlockLegend.prototype.getValueByPosition = function (position/*as:double*/)/*as:string*/ {
@@ -221,3 +209,26 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.getValueByPosition = function (posi
 		return r;
 	}
 };
+LZR.HTML.Widget.Legend.BlockLegend.prototype.getValueByPosition.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
+
+// 生成中部遮罩背景
+LZR.HTML.Widget.Legend.BlockLegend.prototype.crtMidBackground = function (clrs/*as:Array*/)/*as:string*/ {
+	var r = "linear-gradient(to right";
+	var c = clrs.length - 1;
+	var d = 100/(clrs.length - 1);
+	for (var i=1; i<clrs.length; i++) {
+		r += ", ";
+		r += clrs[i];
+		r += " ";
+		r += ((i-1) * d);
+		r += "%";
+
+		r += ", ";
+		r += clrs[i];
+		r += " ";
+		r += (i * d);
+		r += "%";
+	}
+	return r;
+};
+LZR.HTML.Widget.Legend.BlockLegend.prototype.crtMidBackground.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;

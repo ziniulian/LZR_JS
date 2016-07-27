@@ -2,7 +2,7 @@
 作者：子牛连
 类名：EmAreaLevel
 说明：区域级别枚举
-创建日期：28-三月-2016 15:04:42
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
@@ -52,3 +52,4 @@ LZR.Pro.Gis.Area.EmAreaLevel.emnull/*m*/ = new LZR.Pro.Gis.Area.AreaLevel();	/*a
 LZR.Pro.Gis.Area.EmAreaLevel.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.Pro.Gis.Area.EmAreaLevel.prototype.hdObj_.lzrClass_ = LZR.Pro.Gis.Area.EmAreaLevel;

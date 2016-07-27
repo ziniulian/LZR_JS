@@ -2,7 +2,7 @@
 作者：子牛连
 类名：RangeDat
 说明：带范围的数据
-创建日期：27-六月-2016 15:13:29
+创建日期：27-七月-2016 12:30:04
 版本号：1.0
 *************************************************/
 
@@ -46,6 +46,7 @@ LZR.Base.Val.RangeDat.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.Base.Val.RangeDat.prototype.init_.lzrClass_ = LZR.Base.Val.RangeDat;
 
 // 对构造参数的特殊处理
 LZR.Base.Val.RangeDat.prototype.hdObj_ = function (obj/*as:Object*/) {
@@ -62,3 +63,4 @@ LZR.Base.Val.RangeDat.prototype.hdObj_ = function (obj/*as:Object*/) {
 	// 调用父类的参数处理
 	this.utLzr.supCall (this, 0, "hdObj_", obj);
 };
+LZR.Base.Val.RangeDat.prototype.hdObj_.lzrClass_ = LZR.Base.Val.RangeDat;

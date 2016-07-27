@@ -2,7 +2,7 @@
 作者：子牛连
 类名：DatMod
 说明：数据模型
-创建日期：17-六月-2016 14:29:36
+创建日期：27-七月-2016 12:30:02
 版本号：1.0
 *************************************************/
 
@@ -49,6 +49,17 @@ LZR.Pro.Green.Airq.App.ReleaseSys.DatMod.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.Pro.Green.Airq.App.ReleaseSys.DatMod");
 
+// 对构造参数的特殊处理
+LZR.Pro.Green.Airq.App.ReleaseSys.DatMod.prototype.hdObj_ = function (obj/*as:Object*/) {
+	if (obj.hd_aqis) {
+		this.hdAqis (obj.hd_aqis);
+	}
+
+	// 调用父类的参数处理（子数据的递归创建）
+	this.utLzr.supCall (this, 0, "hdObj_", obj);
+};
+LZR.Pro.Green.Airq.App.ReleaseSys.DatMod.prototype.hdObj_.lzrClass_ = LZR.Pro.Green.Airq.App.ReleaseSys.DatMod;
+
 // 构造器
 LZR.Pro.Green.Airq.App.ReleaseSys.DatMod.prototype.init_ = function (obj/*as:Object*/) {
 	this.hdAqis({
@@ -62,16 +73,7 @@ LZR.Pro.Green.Airq.App.ReleaseSys.DatMod.prototype.init_ = function (obj/*as:Obj
 		this.hdObj_(obj);
 	}
 };
-
-// 对构造参数的特殊处理
-LZR.Pro.Green.Airq.App.ReleaseSys.DatMod.prototype.hdObj_ = function (obj/*as:Object*/) {
-	if (obj.hd_aqis) {
-		this.hdAqis (obj.hd_aqis);
-	}
-
-	// 调用父类的参数处理（子数据的递归创建）
-	this.utLzr.supCall (this, 0, "hdObj_", obj);
-};
+LZR.Pro.Green.Airq.App.ReleaseSys.DatMod.prototype.init_.lzrClass_ = LZR.Pro.Green.Airq.App.ReleaseSys.DatMod;
 
 // 处理污染指数
 LZR.Pro.Green.Airq.App.ReleaseSys.DatMod.prototype.hdAqis = function (obj/*as:Object*/) {
@@ -79,3 +81,4 @@ LZR.Pro.Green.Airq.App.ReleaseSys.DatMod.prototype.hdAqis = function (obj/*as:Ob
 		this.aqis[s] = new this.clsAqi(obj[s]);
 	}
 };
+LZR.Pro.Green.Airq.App.ReleaseSys.DatMod.prototype.hdAqis.lzrClass_ = LZR.Pro.Green.Airq.App.ReleaseSys.DatMod;

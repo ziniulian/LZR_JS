@@ -2,7 +2,7 @@
 作者：子牛连
 类名：SampleProxySrv
 说明：简单的代理服务
-创建日期：27-四月-2016 18:08:16
+创建日期：27-七月-2016 12:30:04
 版本号：1.0
 *************************************************/
 
@@ -42,11 +42,13 @@ LZR.NodeJs.SampleProxySrv.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.NodeJs.SampleProxySrv.prototype.init_.lzrClass_ = LZR.NodeJs.SampleProxySrv;
 
 // 对构造参数的特殊处理
 LZR.NodeJs.SampleProxySrv.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.NodeJs.SampleProxySrv.prototype.hdObj_.lzrClass_ = LZR.NodeJs.SampleProxySrv;
 
 // ---- 执行服务
 LZR.NodeJs.SampleProxySrv.prototype.execute = function (req/*as:Object*/, rsp/*as:Object*/, url/*as:string*/) {
@@ -75,3 +77,4 @@ LZR.NodeJs.SampleProxySrv.prototype.execute = function (req/*as:Object*/, rsp/*a
 		rsp.end();
 	}
 };
+LZR.NodeJs.SampleProxySrv.prototype.execute.lzrClass_ = LZR.NodeJs.SampleProxySrv;

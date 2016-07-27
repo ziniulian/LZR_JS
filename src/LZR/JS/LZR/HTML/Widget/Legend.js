@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Legend
 说明：图例
-创建日期：29-六月-2016 9:45:38
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
@@ -119,7 +119,7 @@ LZR.HTML.Widget.Legend = function (obj) /*bases:LZR.Base.Data*/ {
 	this.viewMarkMid/*m*/ = new LZR.HTML.Base.Doe({
 		id: "MarkMid",
 		hd_typ: "div",
-		hd_css: "Lc_hwg_LegendMarkMid Lc_nosee"
+		hd_css: "Lc_hwg_LegendMarkMid  Lc_nosee"
 	});	/*as:LZR.HTML.Base.Doe*/
 
 	// 左遮罩视图
@@ -165,6 +165,7 @@ LZR.HTML.Widget.Legend.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.HTML.Widget.Legend.prototype.init_.lzrClass_ = LZR.HTML.Widget.Legend;
 
 // 对构造参数的特殊处理
 LZR.HTML.Widget.Legend.prototype.hdObj_ = function (obj/*as:Object*/) {
@@ -179,30 +180,54 @@ LZR.HTML.Widget.Legend.prototype.hdObj_ = function (obj/*as:Object*/) {
 	// 调用父类的参数处理
 	this.utLzr.supCall (this, 0, "hdObj_", obj);
 };
+LZR.HTML.Widget.Legend.prototype.hdObj_.lzrClass_ = LZR.HTML.Widget.Legend;
 
-// 处理颜色信息
-LZR.HTML.Widget.Legend.prototype.hdClrs = function (hd_clrs/*as:Object*/, hd_alias/*as:Object*/) {
-	var s, c, i=0, r=[];
-	for (s in hd_clrs) {
-// console.log(s);	// s为小数时会滞后
-		c = new this.clsLegendClr({
-			id: i.toString(),
-			alias: (!hd_alias || hd_alias[s]===undefined) ? "" : hd_alias[s],
-			position: s/100
-		});
-		if (hd_clrs[s] === 0) {
-			c.clr.r = -1;
-			c.clr.alpha = 0;
-		} else {
-			c.clr.r = hd_clrs[s][0];
-			c.clr.g = hd_clrs[s][1];
-			c.clr.b = hd_clrs[s][2];
-		}
-		this.add(c);
-		i++;
+// 刷新
+LZR.HTML.Widget.Legend.prototype.flush = function (doeo/*as:LZR.HTML.Base.Doe*/, isPreview/*as:boolean*/) {
+	
+};
+LZR.HTML.Widget.Legend.prototype.flush.lzrClass_ = LZR.HTML.Widget.Legend;
+
+// 返回查询参数
+LZR.HTML.Widget.Legend.prototype.toQry = function (min/*as:double*/, max/*as:double*/)/*as:string*/ {
+	var r = {};
+	if (isNaN(min)) {
+		min = this.min;
 	}
+	if (isNaN(max)) {
+		max = this.max;
+	}
+	r.min = min;
+	r.max = max;
+	r.typ = this.typ;
+	r.color = this.toClrStr(min, max);
 	return r;
 };
+LZR.HTML.Widget.Legend.prototype.toQry.lzrClass_ = LZR.HTML.Widget.Legend;
+
+// 显示拾色器
+LZR.HTML.Widget.Legend.prototype.showPicker = function (evt/*as:Object*/) {
+	var p = this.view.utEvt.getMousePosition(evt);
+	this.view.calcPosition();
+	p = (p.x - this.view.position.left) / this.view.position.width;
+
+	this.viewPicker.getById("clr").setStyle("background-color", this.getClrByPosition(p).toCss());
+	this.viewPicker.getById("txt").doe.innerHTML = this.getValByPosition(p);
+	this.viewPicker.delCss("Lc_nosee");
+};
+LZR.HTML.Widget.Legend.prototype.showPicker.lzrClass_ = LZR.HTML.Widget.Legend;
+
+// 隐藏拾色器
+LZR.HTML.Widget.Legend.prototype.hidPicker = function (evt/*as:Object*/) {
+	this.viewPicker.addCss("Lc_nosee");
+};
+LZR.HTML.Widget.Legend.prototype.hidPicker.lzrClass_ = LZR.HTML.Widget.Legend;
+
+// 通过位置获取颜色
+LZR.HTML.Widget.Legend.prototype.getClrByPosition = function (position/*as:double*/)/*as:LZR.Base.Clr*/ {
+	
+};
+LZR.HTML.Widget.Legend.prototype.getClrByPosition.lzrClass_ = LZR.HTML.Widget.Legend;
 
 // 返回字串颜色
 LZR.HTML.Widget.Legend.prototype.toClrStr = function (min/*as:double*/, max/*as:double*/)/*as:string*/ {
@@ -227,35 +252,47 @@ LZR.HTML.Widget.Legend.prototype.toClrStr = function (min/*as:double*/, max/*as:
 	}
 	return r;
 };
+LZR.HTML.Widget.Legend.prototype.toClrStr.lzrClass_ = LZR.HTML.Widget.Legend;
 
-// 返回查询参数
-LZR.HTML.Widget.Legend.prototype.toQry = function (min/*as:double*/, max/*as:double*/)/*as:string*/ {
-	var r = {};
-	if (isNaN(min)) {
-		min = this.min;
+// 处理颜色信息
+LZR.HTML.Widget.Legend.prototype.hdClrs = function (hd_clrs/*as:Object*/, hd_alias/*as:Object*/) {
+	var s, c, i=0, r=[];
+	for (s in hd_clrs) {
+// console.log(s);	// s为小数时会滞后
+		c = new this.clsLegendClr({
+			id: i.toString(),
+			alias: (!hd_alias || hd_alias[s]===undefined) ? "" : hd_alias[s],
+			position: s/100
+		});
+		if (hd_clrs[s] === 0) {
+			c.clr.r = -1;
+			c.clr.alpha = 0;
+		} else {
+			c.clr.r = hd_clrs[s][0];
+			c.clr.g = hd_clrs[s][1];
+			c.clr.b = hd_clrs[s][2];
+		}
+		this.add(c);
+		i++;
 	}
-	if (isNaN(max)) {
-		max = this.max;
-	}
-	r.min = min;
-	r.max = max;
-	r.typ = this.typ;
-	r.color = this.toClrStr(min, max);
 	return r;
 };
+LZR.HTML.Widget.Legend.prototype.hdClrs.lzrClass_ = LZR.HTML.Widget.Legend;
 
-// 隐藏拾色器
-LZR.HTML.Widget.Legend.prototype.hidPicker = function (evt/*as:Object*/) {
-	this.viewPicker.addCss("Lc_nosee");
+// 初始化刷新
+LZR.HTML.Widget.Legend.prototype.initFlush = function (doeo/*as:LZR.HTML.Base.Doe*/, isPreview/*as:boolean*/) {
+	
 };
+LZR.HTML.Widget.Legend.prototype.initFlush.lzrClass_ = LZR.HTML.Widget.Legend;
 
-// 显示拾色器
-LZR.HTML.Widget.Legend.prototype.showPicker = function (evt/*as:Object*/) {
-	var p = this.view.utEvt.getMousePosition(evt);
-	this.view.calcPosition();
-	p = (p.x - this.view.position.left) / this.view.position.width;
-
-	this.viewPicker.getById("clr").setStyle("background-color", this.getClrByPosition(p).toCss());
-	this.viewPicker.getById("txt").doe.innerHTML = this.getValByPosition(p);
-	this.viewPicker.delCss("Lc_nosee");
+// 通过位置获取值信息
+LZR.HTML.Widget.Legend.prototype.getValByPosition = function (position/*as:double*/)/*as:string*/ {
+	
 };
+LZR.HTML.Widget.Legend.prototype.getValByPosition.lzrClass_ = LZR.HTML.Widget.Legend;
+
+// 通过位置获取值
+LZR.HTML.Widget.Legend.prototype.getValueByPosition = function (position/*as:double*/)/*as:string*/ {
+	
+};
+LZR.HTML.Widget.Legend.prototype.getValueByPosition.lzrClass_ = LZR.HTML.Widget.Legend;

@@ -2,7 +2,7 @@
 作者：子牛连
 类名：LegendMgr
 说明：图例管理器
-创建日期：29-六月-2016 9:45:36
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
@@ -12,15 +12,16 @@ LZR.loadAnnex({
 
 LZR.load([
 	"LZR.HTML.Widget.Legend",
-	"LZR.HTML.Base.Doe",
 	"LZR.Base.Data",
-	"LZR.HTML.Base.Ctrl.Scd",
+	"LZR.HTML.Base.Doe",
+	"LZR.Base.Val.RangeDat",
 	"LZR.HTML.Base.Ctrl.SglScd",
 	"LZR.Util",
 	"LZR.HTML.Widget.Legend.GradientLegend",
 	"LZR.HTML.Widget.Legend.BlockLegend",
 	"LZR.Base.CallBacks",
 	"LZR.Base.InfEvt",
+	"LZR.HTML.Base.Ctrl.Scd",
 	"LZR.HTML.Base.Ctrl.NumBase.MultiStripNum"
 ], "LZR.HTML.Widget.Legend.LegendMgr");
 LZR.HTML.Widget.Legend.LegendMgr = function (obj) /*bases:LZR.Base.Data*/ /*interfaces:LZR.Base.InfEvt*/ {
@@ -122,36 +123,6 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.HTML.Widget.Legend.LegendMgr");
 
-// 构造器
-LZR.HTML.Widget.Legend.LegendMgr.prototype.init_ = function (obj/*as:Object*/) {
-	// 中部控制器
-	this.view.add(this.viewMid);
-	this.midCtrl.add(this.viewMid);
-	this.viewMid.dat.hct_scd.evt.change.add(this.utLzr.bind(this, this.hdMidChg));
-
-	this.view.add(this.viewMark);
-	this.markCtrl.evt.chg.add(this.utLzr.bind(this, this.hdMark));
-	this.ctrl.vcCur.evt.change.add(this.utLzr.bind(this, this.hdChg));
-
-	if (obj) {
-		LZR.setObj (this, obj);
-		this.hdObj_(obj);
-	}
-};
-
-// 对构造参数的特殊处理
-LZR.HTML.Widget.Legend.LegendMgr.prototype.hdObj_ = function (obj/*as:Object*/) {
-	if (obj.scdCss) {
-		this.ctrl.css = obj.scdCss;
-	}
-	if (obj.hd_legend) {
-		this.hdLegend(obj.hd_legend);
-	}
-
-	// 调用父类的参数处理
-	this.utLzr.supCall (this, 0, "hdObj_", obj);
-};
-
 // 处理图例集合
 LZR.HTML.Widget.Legend.LegendMgr.prototype.hdLegend = function (hd_legend/*as:Object*/) {
 	var s, t, p, pro = {};
@@ -198,6 +169,73 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.hdLegend = function (hd_legend/*as:Ob
 
 	this.utLzr.supCall (this, 0, "initSubs", pro);
 };
+LZR.HTML.Widget.Legend.LegendMgr.prototype.hdLegend.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
+
+// ---- 添加子数据
+LZR.HTML.Widget.Legend.LegendMgr.prototype.add = function (sub/*as:LZR.Base.Data*/, id/*as:string*/)/*as:boolean*/ {
+	var r = this.utLzr.supCall (this, 0, "add", sub, id);
+	if (r && sub.viewPre) {
+		if (this.preCss) {
+			sub.viewPre.chgCss(this.preCss);
+		}
+		var d = new this.view.constructor ({
+			hd_typ: "div"
+		});
+		var n = new this.view.constructor ({
+			hd_typ: "div",
+			hd_css: "Lc_hwg_LegendMgrNam"
+		});
+		n.doe.innerHTML = sub.id.get();
+		d.add(sub.viewPre, "pre");
+		d.add(n, "nam");
+		this.view.add(d, sub.id.get());
+		this.ctrl.add(sub.viewPre);
+	}
+	return r;
+};
+LZR.HTML.Widget.Legend.LegendMgr.prototype.add.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
+
+// 构造器
+LZR.HTML.Widget.Legend.LegendMgr.prototype.init_ = function (obj/*as:Object*/) {
+	this.view.add(this.viewMid);
+	this.midCtrl.add(this.viewMid);
+	this.viewMid.dat.hct_scd.evt.change.add(this.utLzr.bind(this, this.hdMidChg));
+
+	this.view.add(this.viewMark);
+	this.markCtrl.evt.chg.add(this.utLzr.bind(this, this.hdMark));
+	this.ctrl.vcCur.evt.change.add(this.utLzr.bind(this, this.hdChg));
+
+	if (obj) {
+		LZR.setObj (this, obj);
+		this.hdObj_(obj);
+	}
+};
+LZR.HTML.Widget.Legend.LegendMgr.prototype.init_.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
+
+// 对构造参数的特殊处理
+LZR.HTML.Widget.Legend.LegendMgr.prototype.hdObj_ = function (obj/*as:Object*/) {
+	if (obj.scdCss) {
+		this.ctrl.css = obj.scdCss;
+	}
+	if (obj.hd_legend) {
+		this.hdLegend(obj.hd_legend);
+	}
+
+	// 调用父类的参数处理
+	this.utLzr.supCall (this, 0, "hdObj_", obj);
+};
+LZR.HTML.Widget.Legend.LegendMgr.prototype.hdObj_.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
+
+// ---- 删除子数据
+LZR.HTML.Widget.Legend.LegendMgr.prototype.del = function (id/*as:string*/)/*as:Object*/ {
+	var r = this.utLzr.supCall (this, 0, "del", id);
+	if (r) {
+		this.view.del(r.viewPre);
+		this.ctrl.del(r.viewPre);
+	}
+	return r;
+};
+LZR.HTML.Widget.Legend.LegendMgr.prototype.del.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
 
 // 刷新
 LZR.HTML.Widget.Legend.LegendMgr.prototype.flush = function () {
@@ -235,57 +273,14 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.flush = function () {
 	if (s) {
 		s.viewPre.dat.hct_scd.set(true);
 	}
-
 };
+LZR.HTML.Widget.Legend.LegendMgr.prototype.flush.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
 
-// 重置遮罩按钮位置
-LZR.HTML.Widget.Legend.LegendMgr.prototype.resizeMark = function () {
-	this.viewMark.calcPosition();
-	this.markCtrl.placeBtn(this.viewMark.getById("hct_MultiStripNumBtn_0"));
-	this.markCtrl.placeBtn(this.viewMark.getById("hct_MultiStripNumBtn_1"));
+// 图例变化事件
+LZR.HTML.Widget.Legend.LegendMgr.prototype.onChg = function (doe/*as:Object*/, qryDat/*as:Object*/)/*as:boolean*/ {
+	return this.evt.chg.execute (doe, qryDat);
 };
-
-// 获取查询参数
-LZR.HTML.Widget.Legend.LegendMgr.prototype.getQry = function ()/*as:string*/ {
-	var d = this.ctrl.vcCur.get().dat;
-	var r = d.toQry();
-	if (this.viewMark.dat) {
-		var n = this.viewMark.dat.hct_multiNum;
-		r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), d.digit);
-		r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), d.digit);
-	}
-	this.calcMid(r);
-	return r;
-};
-
-// 处理遮罩变化
-LZR.HTML.Widget.Legend.LegendMgr.prototype.hdMark = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:LZR.Base.Val.RangeDat*/, id/*as:string*/, btn/*as:LZR.HTML.Base.Doe*/) {
-	var n = doeo.dat.hct_multiNum;
-	var d = this.ctrl.vcCur.get().dat;
-	var r = d.toQry();
-	var p = parseInt(btn.getStyle("left"), 10) / doeo.doe.clientWidth * 100;
-	var s;
-	r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), d.digit);
-	r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), d.digit);
-
-	// 调整遮罩层
-	switch (id) {
-		case "0":
-			this.viewMark.getById("markLeft").doe.innerHTML = r.min;
-			d.viewMarkLeft.setStyle("width", p + "%");
-			break;
-		case "1":
-			this.viewMark.getById("markRight").doe.innerHTML = r.max;
-			d.viewMarkRight.setStyle("width", (100 - p) + "%");
-			break;
-	}
-
-	// 中部控制器修正
-	this.placeMid();
-	this.calcMid(r);
-
-	this.onChg(d.view.doe, r);
-};
+LZR.HTML.Widget.Legend.LegendMgr.prototype.onChg.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
 
 // 处理图例变化
 LZR.HTML.Widget.Legend.LegendMgr.prototype.hdChg = function (doeo/*as:LZR.HTML.Base.Doe*/) {
@@ -329,31 +324,59 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.hdChg = function (doeo/*as:LZR.HTML.B
 	}
 	this.onChg(d.view.doe, r);
 };
+LZR.HTML.Widget.Legend.LegendMgr.prototype.hdChg.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
 
-// 处理中部控制器变化
-LZR.HTML.Widget.Legend.LegendMgr.prototype.hdMidChg = function () {
-	this.hdChg(this.ctrl.vcCur.get());
-};
-
-// 放置中部遮罩
-LZR.HTML.Widget.Legend.LegendMgr.prototype.placeMid = function (left/*as:string*/, width/*as:string*/) {
+// 处理遮罩变化
+LZR.HTML.Widget.Legend.LegendMgr.prototype.hdMark = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:LZR.Base.Val.RangeDat*/, id/*as:string*/, btn/*as:LZR.HTML.Base.Doe*/) {
+	var n = doeo.dat.hct_multiNum;
 	var d = this.ctrl.vcCur.get().dat;
+	var r = d.toQry();
+	var p = parseInt(btn.getStyle("left"), 10) / doeo.doe.clientWidth * 100;
+	var s;
+	r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), d.digit);
+	r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), d.digit);
 
-	if (this.viewMid.dat.hct_scd.get()) {
-		if (!left) {
-			left = d.viewMarkLeft.doe.clientWidth;
-			width = d.viewLegend.doe.clientWidth - left - d.viewMarkRight.doe.clientWidth;
-			left += "px";
-			width += "px";
-		}
-
-		d.viewMarkMid.setStyle("left", left);
-		d.viewMarkMid.setStyle("width", width);
-		d.viewMarkMid.delCss("Lc_nosee");
-	} else {
-		d.viewMarkMid.addCss("Lc_nosee");
+	// 调整遮罩层
+	switch (id) {
+		case "0":
+			this.viewMark.getById("markLeft").doe.innerHTML = r.min;
+			d.viewMarkLeft.setStyle("width", p + "%");
+			break;
+		case "1":
+			this.viewMark.getById("markRight").doe.innerHTML = r.max;
+			d.viewMarkRight.setStyle("width", (100 - p) + "%");
+			break;
 	}
+
+	// 中部控制器修正
+	this.placeMid();
+	this.calcMid(r);
+
+	this.onChg(d.view.doe, r);
 };
+LZR.HTML.Widget.Legend.LegendMgr.prototype.hdMark.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
+
+// 重置遮罩按钮位置
+LZR.HTML.Widget.Legend.LegendMgr.prototype.resizeMark = function () {
+	this.viewMark.calcPosition();
+	this.markCtrl.placeBtn(this.viewMark.getById("hct_MultiStripNumBtn_0"));
+	this.markCtrl.placeBtn(this.viewMark.getById("hct_MultiStripNumBtn_1"));
+};
+LZR.HTML.Widget.Legend.LegendMgr.prototype.resizeMark.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
+
+// 获取查询参数
+LZR.HTML.Widget.Legend.LegendMgr.prototype.getQry = function ()/*as:string*/ {
+	var d = this.ctrl.vcCur.get().dat;
+	var r = d.toQry();
+	if (this.viewMark.dat) {
+		var n = this.viewMark.dat.hct_multiNum;
+		r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), d.digit);
+		r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), d.digit);
+	}
+	this.calcMid(r);
+	return r;
+};
+LZR.HTML.Widget.Legend.LegendMgr.prototype.getQry.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
 
 // 计算中部遮罩数据
 LZR.HTML.Widget.Legend.LegendMgr.prototype.calcMid = function (s/*as:Object*/)/*as:Object*/ {
@@ -380,41 +403,31 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.calcMid = function (s/*as:Object*/)/*
 	}
 	return s;
 };
+LZR.HTML.Widget.Legend.LegendMgr.prototype.calcMid.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
 
-// 图例变化事件
-LZR.HTML.Widget.Legend.LegendMgr.prototype.onChg = function (doe/*as:Object*/, qryDat/*as:Object*/)/*as:boolean*/ {
-	return this.evt.chg.execute (doe, qryDat);
-};
+// 放置中部遮罩
+LZR.HTML.Widget.Legend.LegendMgr.prototype.placeMid = function (left/*as:string*/, width/*as:string*/) {
+	var d = this.ctrl.vcCur.get().dat;
 
-// ---- 添加子数据
-LZR.HTML.Widget.Legend.LegendMgr.prototype.add = function (sub/*as:LZR.Base.Data*/, id/*as:string*/)/*as:boolean*/ {
-	var r = this.utLzr.supCall (this, 0, "add", sub, id);
-	if (r && sub.viewPre) {
-		if (this.preCss) {
-			sub.viewPre.chgCss(this.preCss);
+	if (this.viewMid.dat.hct_scd.get()) {
+		if (!left) {
+			left = d.viewMarkLeft.doe.clientWidth;
+			width = d.viewLegend.doe.clientWidth - left - d.viewMarkRight.doe.clientWidth;
+			left += "px";
+			width += "px";
 		}
-		var d = new this.view.constructor ({
-			hd_typ: "div"
-		});
-		var n = new this.view.constructor ({
-			hd_typ: "div",
-			hd_css: "Lc_hwg_LegendMgrNam"
-		});
-		n.doe.innerHTML = sub.id.get();
-		d.add(sub.viewPre, "pre");
-		d.add(n, "nam");
-		this.view.add(d, sub.id.get());
-		this.ctrl.add(sub.viewPre);
-	}
-	return r;
-};
 
-// ---- 删除子数据
-LZR.HTML.Widget.Legend.LegendMgr.prototype.del = function (id/*as:string*/)/*as:Object*/ {
-	var r = this.utLzr.supCall (this, 0, "del", id);
-	if (r) {
-		this.view.del(r.viewPre);
-		this.ctrl.del(r.viewPre);
+		d.viewMarkMid.setStyle("left", left);
+		d.viewMarkMid.setStyle("width", width);
+		d.viewMarkMid.delCss("Lc_nosee");
+	} else {
+		d.viewMarkMid.addCss("Lc_nosee");
 	}
-	return r;
 };
+LZR.HTML.Widget.Legend.LegendMgr.prototype.placeMid.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
+
+// 处理中部控制器变化
+LZR.HTML.Widget.Legend.LegendMgr.prototype.hdMidChg = function () {
+	this.hdChg(this.ctrl.vcCur.get());
+};
+LZR.HTML.Widget.Legend.LegendMgr.prototype.hdMidChg.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;

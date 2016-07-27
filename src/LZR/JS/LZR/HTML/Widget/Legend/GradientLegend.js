@@ -2,12 +2,13 @@
 作者：子牛连
 类名：GradientLegend
 说明：渐变色图例
-创建日期：24-六月-2016 13:56:54
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.HTML.Widget.Legend",
+	"LZR.Base.Clr",
 	"LZR.HTML.Base.Doe",
 	"LZR.HTML.Widget.Legend.LegendClr",
 	"LZR.HTML.Widget.Legend.BlockLegend"
@@ -38,37 +39,21 @@ LZR.HTML.Widget.Legend.GradientLegend.prototype.init_ = function (obj/*as:Object
 		this.hdObj_(obj);
 	}
 };
+LZR.HTML.Widget.Legend.GradientLegend.prototype.init_.lzrClass_ = LZR.HTML.Widget.Legend.GradientLegend;
 
-// ---- 生成一个色块
-LZR.HTML.Widget.Legend.GradientLegend.prototype.crtOneBlock = function (clr/*as:LZR.HTML.Widget.Legend.LegendClr*/, mark/*as:boolean*/)/*as:LZR.HTML.Base.Doe*/ {
-	var fc = this.subs[clr.id.get() - 1];
-	var r = new this.view.constructor({
-		dat: clr,
-		hd_typ: "div",
-		hd_css: "Lc_hwg_BlockLegend"
-	});
-	if (mark && (clr.clr.alpha === 0)) {
-		r.addCss("Lc_hwg_BlockLegendHid");
+// ---- 通过位置获取值信息
+LZR.HTML.Widget.Legend.GradientLegend.prototype.getValByPosition = function (position/*as:double*/)/*as:string*/ {
+	var r = this.getValueByPosition(position);
+
+	if (this.digit !== null) {
+		r = this.utMath.formatFloat(r, this.digit);
 	}
+	// r += " ";
+	// r += this.unit;
 
-	r.setStyle("background", "linear-gradient(to right, " + fc.clr.toCss() + " 0%, " + clr.clr.toCss() + " 100%)");
 	return r;
 };
-
-// ---- 生成中部遮罩背景
-LZR.HTML.Widget.Legend.GradientLegend.prototype.crtMidBackground = function (clrs/*as:Array*/)/*as:string*/ {
-	var r = "linear-gradient(to right";
-	var c = clrs.length - 1;
-	var d = 100/(clrs.length - 1);
-	for (var i=0; i<clrs.length; i++) {
-		r += ", ";
-		r += clrs[i];
-		r += " ";
-		r += (i * d);
-		r += "%";
-	}
-	return r;
-};
+LZR.HTML.Widget.Legend.GradientLegend.prototype.getValByPosition.lzrClass_ = LZR.HTML.Widget.Legend.GradientLegend;
 
 // ---- 通过位置获取颜色
 LZR.HTML.Widget.Legend.GradientLegend.prototype.getClrByPosition = function (position/*as:double*/)/*as:LZR.Base.Clr*/ {
@@ -90,16 +75,37 @@ LZR.HTML.Widget.Legend.GradientLegend.prototype.getClrByPosition = function (pos
 	r.g = Math.floor(p * (d.clr.g - fc.clr.g) + fc.clr.g);
 	return r;
 };
+LZR.HTML.Widget.Legend.GradientLegend.prototype.getClrByPosition.lzrClass_ = LZR.HTML.Widget.Legend.GradientLegend;
 
-// ---- 通过位置获取值信息
-LZR.HTML.Widget.Legend.GradientLegend.prototype.getValByPosition = function (position/*as:double*/)/*as:string*/ {
-	var r = this.getValueByPosition(position);
-
-	if (this.digit !== null) {
-		r = this.utMath.formatFloat(r, this.digit);
+// ---- 生成一个色块
+LZR.HTML.Widget.Legend.GradientLegend.prototype.crtOneBlock = function (clr/*as:LZR.HTML.Widget.Legend.LegendClr*/, mark/*as:boolean*/)/*as:LZR.HTML.Base.Doe*/ {
+	var fc = this.subs[clr.id.get() - 1];
+	var r = new this.view.constructor({
+		dat: clr,
+		hd_typ: "div",
+		hd_css: "Lc_hwg_BlockLegend"
+	});
+	if (mark && (clr.clr.alpha === 0)) {
+		r.addCss("Lc_hwg_BlockLegendHid");
 	}
-	// r += " ";
-	// r += this.unit;
 
+	r.setStyle("background", "linear-gradient(to right, " + fc.clr.toCss() + " 0%, " + clr.clr.toCss() + " 100%)");
 	return r;
 };
+LZR.HTML.Widget.Legend.GradientLegend.prototype.crtOneBlock.lzrClass_ = LZR.HTML.Widget.Legend.GradientLegend;
+
+// ---- 生成中部遮罩背景
+LZR.HTML.Widget.Legend.GradientLegend.prototype.crtMidBackground = function (clrs/*as:Array*/)/*as:string*/ {
+	var r = "linear-gradient(to right";
+	var c = clrs.length - 1;
+	var d = 100/(clrs.length - 1);
+	for (var i=0; i<clrs.length; i++) {
+		r += ", ";
+		r += clrs[i];
+		r += " ";
+		r += (i * d);
+		r += "%";
+	}
+	return r;
+};
+LZR.HTML.Widget.Legend.GradientLegend.prototype.crtMidBackground.lzrClass_ = LZR.HTML.Widget.Legend.GradientLegend;

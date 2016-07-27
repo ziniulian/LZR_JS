@@ -2,7 +2,7 @@
 作者：子牛连
 类名：MouseKey
 说明：鼠标各键
-创建日期：12-五月-2016 15:22:13
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
@@ -49,8 +49,10 @@ LZR.HTML.Base.Ctrl.Mouse.MouseKey.prototype.init_ = function (obj/*as:Object*/) 
 		this.hdObj_(obj);
 	}
 };
+LZR.HTML.Base.Ctrl.Mouse.MouseKey.prototype.init_.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse.MouseKey;
 
 // 对构造参数的特殊处理
 LZR.HTML.Base.Ctrl.Mouse.MouseKey.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.HTML.Base.Ctrl.Mouse.MouseKey.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse.MouseKey;

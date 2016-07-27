@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Css
 说明：样式
-创建日期：12-五月-2016 15:09:09
+创建日期：27-七月-2016 12:30:02
 版本号：1.0
 *************************************************/
 
@@ -41,11 +41,13 @@ LZR.HTML.Base.Doe.Css.prototype.init_ = function (obj/*as:Object*/) {
 		// 不对 chd_ 做递归创建
 	}
 };
+LZR.HTML.Base.Doe.Css.prototype.init_.lzrClass_ = LZR.HTML.Base.Doe.Css;
 
 // 对构造参数的特殊处理
 LZR.HTML.Base.Doe.Css.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.HTML.Base.Doe.Css.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Doe.Css;
 
 // 刷新样式
 LZR.HTML.Base.Doe.Css.prototype.flush = function (doe/*as:Object*/) {
@@ -54,6 +56,7 @@ LZR.HTML.Base.Doe.Css.prototype.flush = function (doe/*as:Object*/) {
 		doe.className = s;
 	}
 };
+LZR.HTML.Base.Doe.Css.prototype.flush.lzrClass_ = LZR.HTML.Base.Doe.Css;
 
 // ---- 添加
 LZR.HTML.Base.Doe.Css.prototype.add = function (name/*as:string*/)/*as:boolean*/ {
@@ -84,6 +87,7 @@ LZR.HTML.Base.Doe.Css.prototype.add = function (name/*as:string*/)/*as:boolean*/
 	}
 	return this.utLzr.supCall (this, 0, "add", css);
 };
+LZR.HTML.Base.Doe.Css.prototype.add.lzrClass_ = LZR.HTML.Base.Doe.Css;
 
 // ---- 输出
 LZR.HTML.Base.Doe.Css.prototype.print = function ()/*as:string*/ {
@@ -96,6 +100,7 @@ LZR.HTML.Base.Doe.Css.prototype.print = function ()/*as:string*/ {
 	}
 	return r;
 };
+LZR.HTML.Base.Doe.Css.prototype.print.lzrClass_ = LZR.HTML.Base.Doe.Css;
 
 // 解析样式
 LZR.HTML.Base.Doe.Css.parse = function (doe/*as:Object*/)/*as:Css*/ {
@@ -114,6 +119,7 @@ LZR.HTML.Base.Doe.Css.parse = function (doe/*as:Object*/)/*as:Css*/ {
 	}
 	return r;
 };
+LZR.HTML.Base.Doe.Css.parse.lzrClass_ = LZR.HTML.Base.Doe.Css;
 
 // 添加样式
 LZR.HTML.Base.Doe.Css.addCss = function (doe/*as:Object*/, name/*as:string*/) {
@@ -121,6 +127,7 @@ LZR.HTML.Base.Doe.Css.addCss = function (doe/*as:Object*/, name/*as:string*/) {
 	r.add(name);
 	r.flush(doe);
 };
+LZR.HTML.Base.Doe.Css.addCss.lzrClass_ = LZR.HTML.Base.Doe.Css;
 
 // 删除样式
 LZR.HTML.Base.Doe.Css.delCss = function (doe/*as:Object*/, name/*as:string*/) {
@@ -128,3 +135,4 @@ LZR.HTML.Base.Doe.Css.delCss = function (doe/*as:Object*/, name/*as:string*/) {
 	r.del(name);
 	r.flush(doe);
 };
+LZR.HTML.Base.Doe.Css.delCss.lzrClass_ = LZR.HTML.Base.Doe.Css;

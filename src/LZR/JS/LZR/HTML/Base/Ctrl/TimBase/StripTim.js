@@ -2,7 +2,7 @@
 作者：子牛连
 类名：StripTim
 说明：条状时间控制器
-创建日期：16-五月-2016 16:43:40
+创建日期：27-七月-2016 12:30:04
 版本号：1.0
 *************************************************/
 
@@ -45,59 +45,13 @@ LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.init_ = function (obj/*as:Object*/
 		this.hdObj_(obj);
 	}
 };
+LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.init_.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StripTim;
 
 // 对构造参数的特殊处理
 LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
-
-// 处理数值变化
-LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.hdNumChg = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:double*/) {
-	doeo.dat.hct_tim.vcBase.set(v);
-};
-
-// 处理时间变化
-LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.hdTimChg = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:double*/) {
-	doeo.dat.hct_num.set(v);
-};
-
-// 处理范围变化
-LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.hdLimitChg = function (doeo/*as:LZR.HTML.Base.Doe*/, min/*as:double*/, max/*as:double*/) {
-	var m, n;
-	// 判断最大值
-	if (doeo.dat.hct_tim.dtMax) {
-		m = doeo.dat.hct_tim.dtMax.valueOf();
-		if (max > m) {
-			n = doeo.dat.hct_num;
-			if (n.get() > m) {
-				n.set(m, false);
-			}
-			n.vcMax.set(m, false);
-			n.vcMin.set(min + m - max, false);
-		}
-	}
-
-	// 判断最小值
-	if (doeo.dat.hct_tim.dtMin) {
-		m = doeo.dat.hct_tim.dtMin.valueOf();
-		if (min < m) {
-			n = doeo.dat.hct_num;
-			if (n.get() < m) {
-				n.set(m, false);
-			}
-			n.vcMin.set(m, false);
-			n.vcMax.set(m + max - min, false);
-		}
-	}
-	this.scall.draw(doeo);
-};
-
-// 调整
-LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.resize = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	doeo.calcPosition();
-	this.numCtrl.placeBtn(doeo);
-	this.scall.draw(doeo);
-};
+LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StripTim;
 
 // ---- 给元素添加事件集
 LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*as:Object*/, obj/*as:Object*/) {
@@ -139,6 +93,7 @@ LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.addEvt = function (doeo/*as:LZR.HT
 	this.numCtrl.placeBtn(doeo);
 	this.scall.draw(doeo);
 };
+LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StripTim;
 
 // ---- 移除元素的事件集
 LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
@@ -153,3 +108,56 @@ LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.delEvt = function (doeo/*as:LZR.HT
 	// 删除数据
 	this.delDat(doeo, "hct_tim");
 };
+LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StripTim;
+
+// 处理范围变化
+LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.hdLimitChg = function (doeo/*as:LZR.HTML.Base.Doe*/, min/*as:double*/, max/*as:double*/) {
+	var m, n;
+	// 判断最大值
+	if (doeo.dat.hct_tim.dtMax) {
+		m = doeo.dat.hct_tim.dtMax.valueOf();
+		if (max > m) {
+			n = doeo.dat.hct_num;
+			if (n.get() > m) {
+				n.set(m, false);
+			}
+			n.vcMax.set(m, false);
+			n.vcMin.set(min + m - max, false);
+		}
+	}
+
+	// 判断最小值
+	if (doeo.dat.hct_tim.dtMin) {
+		m = doeo.dat.hct_tim.dtMin.valueOf();
+		if (min < m) {
+			n = doeo.dat.hct_num;
+			if (n.get() < m) {
+				n.set(m, false);
+			}
+			n.vcMin.set(m, false);
+			n.vcMax.set(m + max - min, false);
+		}
+	}
+	this.scall.draw(doeo);
+};
+LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.hdLimitChg.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StripTim;
+
+// 处理数值变化
+LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.hdNumChg = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:double*/) {
+	doeo.dat.hct_tim.vcBase.set(v);
+};
+LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.hdNumChg.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StripTim;
+
+// 处理时间变化
+LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.hdTimChg = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:double*/) {
+	doeo.dat.hct_num.set(v);
+};
+LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.hdTimChg.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StripTim;
+
+// 调整
+LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.resize = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	doeo.calcPosition();
+	this.numCtrl.placeBtn(doeo);
+	this.scall.draw(doeo);
+};
+LZR.HTML.Base.Ctrl.TimBase.StripTim.prototype.resize.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.StripTim;

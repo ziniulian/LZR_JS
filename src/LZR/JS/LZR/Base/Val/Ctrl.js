@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Ctrl
 说明：值控制器
-创建日期：17-三月-2016 13:39:22
+创建日期：27-七月-2016 12:30:02
 版本号：1.1
 *************************************************/
 
@@ -45,7 +45,7 @@ LZR.Base.Val.Ctrl.prototype = LZR.clone (LZR.Base.InfEvt.prototype, LZR.Base.Val
 LZR.Base.Val.Ctrl.prototype = LZR.clone (LZR.Base.Val.prototype, LZR.Base.Val.Ctrl.prototype);
 LZR.Base.Val.Ctrl.prototype.super_ = [LZR.Base.Val];
 LZR.Base.Val.Ctrl.prototype.className_ = "LZR.Base.Val.Ctrl";
-LZR.Base.Val.Ctrl.prototype.version_ = "1.0";
+LZR.Base.Val.Ctrl.prototype.version_ = "1.1";
 
 LZR.load(null, "LZR.Base.Val.Ctrl");
 
@@ -56,26 +56,7 @@ LZR.Base.Val.Ctrl.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
-
-// 对构造参数的特殊处理
-LZR.Base.Val.Ctrl.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
-};
-
-// 设置值之前触发的事件
-LZR.Base.Val.Ctrl.prototype.beforeSet = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/, tmpVal/*as:Object*/)/*as:boolean*/ {
-	return this.evt.before.execute (val, self, old, tmpVal);
-};
-
-// 值变动后触发的事件
-LZR.Base.Val.Ctrl.prototype.onChange = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/, tmpVal/*as:Object*/)/*as:boolean*/ {
-	return this.evt.change.execute (val, self, old, tmpVal);
-};
-
-// 设置值后触发的事件
-LZR.Base.Val.Ctrl.prototype.onSet = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/, tmpVal/*as:Object*/)/*as:boolean*/ {
-	return this.evt.set.execute (val, self, old, tmpVal);
-};
+LZR.Base.Val.Ctrl.prototype.init_.lzrClass_ = LZR.Base.Val.Ctrl;
 
 // ---- 设置值
 LZR.Base.Val.Ctrl.prototype.set = function (obj/*as:Object*/, doEvent/*as:boolean*/)/*as:boolean*/ {
@@ -108,6 +89,31 @@ LZR.Base.Val.Ctrl.prototype.set = function (obj/*as:Object*/, doEvent/*as:boolea
 	}
 	return r;
 };
+LZR.Base.Val.Ctrl.prototype.set.lzrClass_ = LZR.Base.Val.Ctrl;
+
+// 设置值之前触发的事件
+LZR.Base.Val.Ctrl.prototype.beforeSet = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/, tmpVal/*as:Object*/)/*as:boolean*/ {
+	return this.evt.before.execute (val, self, old, tmpVal);
+};
+LZR.Base.Val.Ctrl.prototype.beforeSet.lzrClass_ = LZR.Base.Val.Ctrl;
+
+// 值变动后触发的事件
+LZR.Base.Val.Ctrl.prototype.onChange = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/, tmpVal/*as:Object*/)/*as:boolean*/ {
+	return this.evt.change.execute (val, self, old, tmpVal);
+};
+LZR.Base.Val.Ctrl.prototype.onChange.lzrClass_ = LZR.Base.Val.Ctrl;
+
+// 设置值后触发的事件
+LZR.Base.Val.Ctrl.prototype.onSet = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/, tmpVal/*as:Object*/)/*as:boolean*/ {
+	return this.evt.set.execute (val, self, old, tmpVal);
+};
+LZR.Base.Val.Ctrl.prototype.onSet.lzrClass_ = LZR.Base.Val.Ctrl;
+
+// 对构造参数的特殊处理
+LZR.Base.Val.Ctrl.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
+};
+LZR.Base.Val.Ctrl.prototype.hdObj_.lzrClass_ = LZR.Base.Val.Ctrl;
 
 // ---- 克隆
 LZR.Base.Val.Ctrl.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
@@ -126,3 +132,4 @@ LZR.Base.Val.Ctrl.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
 	}
 	r.setEventObj(r);
 };
+LZR.Base.Val.Ctrl.prototype.clone.lzrClass_ = LZR.Base.Val.Ctrl;

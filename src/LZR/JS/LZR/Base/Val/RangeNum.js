@@ -2,7 +2,7 @@
 作者：子牛连
 类名：RangeNum
 说明：带范围的数值
-创建日期：08-五月-2016 18:18:43
+创建日期：27-七月-2016 12:30:04
 版本号：1.0
 *************************************************/
 
@@ -44,6 +44,40 @@ LZR.Base.Val.RangeNum.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.Base.Val.RangeNum");
 
+// 增减n个步距
+LZR.Base.Val.RangeNum.prototype.add = function (n/*as:int*/)/*as:double*/ {
+	if (n !== 0) {
+		if (!n) {
+			n = 1;
+		}
+		this.set(this.vcStep.get() * n + this.vcNum.get());
+	}
+	return this.vcNum.get();
+};
+LZR.Base.Val.RangeNum.prototype.add.lzrClass_ = LZR.Base.Val.RangeNum;
+
+// 设置
+LZR.Base.Val.RangeNum.prototype.set = function (num/*as:double*/, doEvt/*as:boolean*/)/*as:double*/ {
+	this.vcNum.set (this.check(num), doEvt);
+	return this.vcNum.get();
+};
+LZR.Base.Val.RangeNum.prototype.set.lzrClass_ = LZR.Base.Val.RangeNum;
+
+// 圆整数据
+LZR.Base.Val.RangeNum.prototype.normalize = function (v/*as:double*/, noLimit/*as:boolean*/)/*as:double*/ {
+	var b;
+	var t = this.vcStep.get();
+	var min = this.vcMin.get();
+	if (!noLimit) {
+		v = this.checkLimit(v);
+	}
+	v -= min;
+	b = Math.round(v/t);
+	v = b*t + min;
+	return v;
+};
+LZR.Base.Val.RangeNum.prototype.normalize.lzrClass_ = LZR.Base.Val.RangeNum;
+
 // 构造器
 LZR.Base.Val.RangeNum.prototype.init_ = function (obj/*as:Object*/) {
 	this.vcMax.evt.change.add (this.utLzr.bind(this, this.reset), "RangeNum_reset");
@@ -55,6 +89,7 @@ LZR.Base.Val.RangeNum.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.Base.Val.RangeNum.prototype.init_.lzrClass_ = LZR.Base.Val.RangeNum;
 
 // 对构造参数的特殊处理
 LZR.Base.Val.RangeNum.prototype.hdObj_ = function (obj/*as:Object*/) {
@@ -73,31 +108,7 @@ LZR.Base.Val.RangeNum.prototype.hdObj_ = function (obj/*as:Object*/) {
 		this.reset(false);
 	}
 };
-
-// 增减n个步距
-LZR.Base.Val.RangeNum.prototype.add = function (n/*as:int*/)/*as:double*/ {
-	if (n !== 0) {
-		if (!n) {
-			n = 1;
-		}
-		this.set(this.vcStep.get() * n + this.vcNum.get());
-	}
-	return this.vcNum.get();
-};
-
-// 圆整数据
-LZR.Base.Val.RangeNum.prototype.normalize = function (v/*as:double*/, noLimit/*as:boolean*/)/*as:double*/ {
-	var b;
-	var t = this.vcStep.get();
-	var min = this.vcMin.get();
-	if (!noLimit) {
-		v = this.checkLimit(v);
-	}
-	v -= min;
-	b = Math.round(v/t);
-	v = b*t + min;
-	return v;
-};
+LZR.Base.Val.RangeNum.prototype.hdObj_.lzrClass_ = LZR.Base.Val.RangeNum;
 
 // 数据检查
 LZR.Base.Val.RangeNum.prototype.check = function (v/*as:double*/)/*as:double*/ {
@@ -108,6 +119,24 @@ LZR.Base.Val.RangeNum.prototype.check = function (v/*as:double*/)/*as:double*/ {
 	}
 	return v;
 };
+LZR.Base.Val.RangeNum.prototype.check.lzrClass_ = LZR.Base.Val.RangeNum;
+
+// 检查并重设数据
+LZR.Base.Val.RangeNum.prototype.reset = function (doEvt/*as:boolean*/)/*as:double*/ {
+	var n = this.vcNum.get();
+	var v = this.check(n);
+	if (v !== n) {
+		this.vcNum.set (v, doEvt);
+	}
+	return v;
+};
+LZR.Base.Val.RangeNum.prototype.reset.lzrClass_ = LZR.Base.Val.RangeNum;
+
+// 获取值
+LZR.Base.Val.RangeNum.prototype.get = function ()/*as:double*/ {
+	return this.vcNum.get();
+};
+LZR.Base.Val.RangeNum.prototype.get.lzrClass_ = LZR.Base.Val.RangeNum;
 
 // 检查数据界限
 LZR.Base.Val.RangeNum.prototype.checkLimit = function (v/*as:double*/)/*as:double*/ {
@@ -120,24 +149,4 @@ LZR.Base.Val.RangeNum.prototype.checkLimit = function (v/*as:double*/)/*as:doubl
 	}
 	return v;
 };
-
-// 设置
-LZR.Base.Val.RangeNum.prototype.set = function (num/*as:double*/, doEvt/*as:boolean*/)/*as:double*/ {
-	this.vcNum.set (this.check(num), doEvt);
-	return this.vcNum.get();
-};
-
-// 检查并重设数据
-LZR.Base.Val.RangeNum.prototype.reset = function (doEvt/*as:boolean*/)/*as:double*/ {
-	var n = this.vcNum.get();
-	var v = this.check(n);
-	if (v !== n) {
-		this.vcNum.set (v, doEvt);
-	}
-	return v;
-};
-
-// 获取值
-LZR.Base.Val.RangeNum.prototype.get = function ()/*as:double*/ {
-	return this.vcNum.get();
-};
+LZR.Base.Val.RangeNum.prototype.checkLimit.lzrClass_ = LZR.Base.Val.RangeNum;

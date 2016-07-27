@@ -2,7 +2,7 @@
 作者：子牛连
 类名：DomTool
 说明：元素工具
-创建日期：15-六月-2016 17:23:58
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
@@ -32,26 +32,31 @@ LZR.HTML.Util.DomTool.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.HTML.Util.DomTool.prototype.init_.lzrClass_ = LZR.HTML.Util.DomTool;
 
 // 对构造参数的特殊处理
 LZR.HTML.Util.DomTool.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.HTML.Util.DomTool.prototype.hdObj_.lzrClass_ = LZR.HTML.Util.DomTool;
 
 // 设置DOM元素属性
 LZR.HTML.Util.DomTool.prototype.setAtt = function (key/*as:string*/, val/*as:string*/, doe/*as:Object*/) {
 	doe.setAttribute(key, val);
 };
+LZR.HTML.Util.DomTool.prototype.setAtt.lzrClass_ = LZR.HTML.Util.DomTool;
 
 // 获取DOM元素属性
 LZR.HTML.Util.DomTool.prototype.getAtt = function (key/*as:string*/, doe/*as:Object*/)/*as:string*/ {
 	return doe.getAttribute(key);
 };
+LZR.HTML.Util.DomTool.prototype.getAtt.lzrClass_ = LZR.HTML.Util.DomTool;
 
 // 删除DOM元素属性
 LZR.HTML.Util.DomTool.prototype.delAtt = function (key/*as:string*/, doe/*as:Object*/) {
 	doe.removeAttribute(key);
 };
+LZR.HTML.Util.DomTool.prototype.delAtt.lzrClass_ = LZR.HTML.Util.DomTool;
 
 // 处理样式名
 LZR.HTML.Util.DomTool.prototype.calcStyleNam = function (key/*as:int*/, lower/*as:boolean*/)/*as:string*/ {
@@ -69,11 +74,13 @@ LZR.HTML.Util.DomTool.prototype.calcStyleNam = function (key/*as:int*/, lower/*a
 		});
 	}
 };
+LZR.HTML.Util.DomTool.prototype.calcStyleNam.lzrClass_ = LZR.HTML.Util.DomTool;
 
 // 设置DOM元素的Styley样式
 LZR.HTML.Util.DomTool.prototype.setStyle = function (key/*as:string*/, val/*as:string*/, doe/*as:Object*/) {
 	doe.style[this.calcStyleNam(key)] = val;
 };
+LZR.HTML.Util.DomTool.prototype.setStyle.lzrClass_ = LZR.HTML.Util.DomTool;
 
 // 获取DOM元素的Styley样式
 LZR.HTML.Util.DomTool.prototype.getStyle = function (key/*as:string*/, doe/*as:Object*/)/*as:string*/ {
@@ -89,6 +96,7 @@ LZR.HTML.Util.DomTool.prototype.getStyle = function (key/*as:string*/, doe/*as:O
 		return this.getDocument(doe).defaultView.getComputedStyle(doe, null).getPropertyValue(this.calcStyleNam(key, true));
 	}
 };
+LZR.HTML.Util.DomTool.prototype.getStyle.lzrClass_ = LZR.HTML.Util.DomTool;
 
 // 计算位置
 LZR.HTML.Util.DomTool.prototype.calcPosition = function (doe/*as:Object*/)/*as:Object*/ {
@@ -119,6 +127,7 @@ LZR.HTML.Util.DomTool.prototype.calcPosition = function (doe/*as:Object*/)/*as:O
 
 	return r;
 };
+LZR.HTML.Util.DomTool.prototype.calcPosition.lzrClass_ = LZR.HTML.Util.DomTool;
 
 // 在父元素中滚动条定位
 LZR.HTML.Util.DomTool.prototype.matchParent = function (vertical/*as:string*/, horizontal/*as:string*/, padding/*as:int*/, doe/*as:Object*/) {
@@ -180,8 +189,10 @@ LZR.HTML.Util.DomTool.prototype.matchParent = function (vertical/*as:string*/, h
 		}
 	}
 };
+LZR.HTML.Util.DomTool.prototype.matchParent.lzrClass_ = LZR.HTML.Util.DomTool;
 
 // 获取文档
 LZR.HTML.Util.DomTool.prototype.getDocument = function (doe/*as:Object*/)/*as:Object*/ {
 	return doe.ownerDocument || document;
 };
+LZR.HTML.Util.DomTool.prototype.getDocument.lzrClass_ = LZR.HTML.Util.DomTool;

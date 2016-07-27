@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Evt
 说明：事件
-创建日期：15-六月-2016 17:05:32
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
@@ -35,22 +35,26 @@ LZR.HTML.Util.Evt.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.HTML.Util.Evt.prototype.init_.lzrClass_ = LZR.HTML.Util.Evt;
 
 // 对构造参数的特殊处理
 LZR.HTML.Util.Evt.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.HTML.Util.Evt.prototype.hdObj_.lzrClass_ = LZR.HTML.Util.Evt;
 
 // 获取事件
 LZR.HTML.Util.Evt.prototype.getEvent = function (e/*as:Object*/)/*as:Object*/ {
 	return window.event || e;
 };
+LZR.HTML.Util.Evt.prototype.getEvent.lzrClass_ = LZR.HTML.Util.Evt;
 
 // 获取触发事件的DOM对象
 LZR.HTML.Util.Evt.prototype.getEventTarg = function (e/*as:Object*/)/*as:Object*/ {
 	e = this.getEvent(e);
 	return e.srcElement || e.target;
 };
+LZR.HTML.Util.Evt.prototype.getEventTarg.lzrClass_ = LZR.HTML.Util.Evt;
 
 // 阻止默认事件的执行
 LZR.HTML.Util.Evt.prototype.stopDefault = function (e/*as:Object*/) {
@@ -61,6 +65,7 @@ LZR.HTML.Util.Evt.prototype.stopDefault = function (e/*as:Object*/) {
 		window.event.returnValue = false;
 	}
 };
+LZR.HTML.Util.Evt.prototype.stopDefault.lzrClass_ = LZR.HTML.Util.Evt;
 
 // 阻止事件冒泡
 LZR.HTML.Util.Evt.prototype.stopBubble = function (e/*as:Object*/) {
@@ -71,6 +76,7 @@ LZR.HTML.Util.Evt.prototype.stopBubble = function (e/*as:Object*/) {
 		window.event.cancelBubble=true;
 	}
 };
+LZR.HTML.Util.Evt.prototype.stopBubble.lzrClass_ = LZR.HTML.Util.Evt;
 
 // 获取鼠标位置
 LZR.HTML.Util.Evt.prototype.getMousePosition = function (e/*as:Object*/)/*as:Object*/ {
@@ -85,6 +91,7 @@ LZR.HTML.Util.Evt.prototype.getMousePosition = function (e/*as:Object*/)/*as:Obj
 		};
 	}
 };
+LZR.HTML.Util.Evt.prototype.getMousePosition.lzrClass_ = LZR.HTML.Util.Evt;
 
 // 解析鼠标按键状态
 LZR.HTML.Util.Evt.prototype.parseMouseKey = function (evt/*as:Object*/)/*as:string*/ {
@@ -111,6 +118,7 @@ LZR.HTML.Util.Evt.prototype.parseMouseKey = function (evt/*as:Object*/)/*as:stri
 			return "";
 	}
 };
+LZR.HTML.Util.Evt.prototype.parseMouseKey.lzrClass_ = LZR.HTML.Util.Evt;
 
 // 添加一个DOM事件
 LZR.HTML.Util.Evt.prototype.addEvt = function (obj/*as:Object*/, eventName/*as:string*/, callback/*as:fun*/, useCapture/*as:boolean*/)/*as:fun*/ {
@@ -122,6 +130,7 @@ LZR.HTML.Util.Evt.prototype.addEvt = function (obj/*as:Object*/, eventName/*as:s
 	}
 	return callback;
 };
+LZR.HTML.Util.Evt.prototype.addEvt.lzrClass_ = LZR.HTML.Util.Evt;
 
 // 移除一个DOM事件
 LZR.HTML.Util.Evt.prototype.delEvt = function (obj/*as:Object*/, eventName/*as:string*/, callback/*as:fun*/, useCapture/*as:boolean*/) {
@@ -132,6 +141,7 @@ LZR.HTML.Util.Evt.prototype.delEvt = function (obj/*as:Object*/, eventName/*as:s
 		obj.detachEvent( "on"+eventName, callback);
 	}
 };
+LZR.HTML.Util.Evt.prototype.delEvt.lzrClass_ = LZR.HTML.Util.Evt;
 
 // 添加一个滚轮事件
 LZR.HTML.Util.Evt.prototype.addWheel = function (obj/*as:Object*/, callback/*as:fun*/, useCapture/*as:boolean*/)/*as:fun*/ {
@@ -168,6 +178,7 @@ LZR.HTML.Util.Evt.prototype.addWheel = function (obj/*as:Object*/, callback/*as:
 		callback(event);
 	}, useCapture);
 };
+LZR.HTML.Util.Evt.prototype.addWheel.lzrClass_ = LZR.HTML.Util.Evt;
 
 // 移除一个滚轮事件
 LZR.HTML.Util.Evt.prototype.delWheel = function (obj/*as:Object*/, callback/*as:fun*/, useCapture/*as:boolean*/) {
@@ -180,6 +191,7 @@ LZR.HTML.Util.Evt.prototype.delWheel = function (obj/*as:Object*/, callback/*as:
 
 	this.delEvt(obj, wheelType, callback, useCapture);
 };
+LZR.HTML.Util.Evt.prototype.delWheel.lzrClass_ = LZR.HTML.Util.Evt;
 
 // 触发事件
 LZR.HTML.Util.Evt.prototype.trigger = function (doe/*as:Object*/, evtNam/*as:string*/) {
@@ -196,3 +208,4 @@ LZR.HTML.Util.Evt.prototype.trigger = function (doe/*as:Object*/, evtNam/*as:str
 		doe.dispatchEvent(evt);
 	}
 };
+LZR.HTML.Util.Evt.prototype.trigger.lzrClass_ = LZR.HTML.Util.Evt;

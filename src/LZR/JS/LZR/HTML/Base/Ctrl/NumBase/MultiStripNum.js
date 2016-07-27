@@ -2,16 +2,16 @@
 作者：子牛连
 类名：MultiStripNum
 说明：多头条状数值控制器
-创建日期：27-六月-2016 15:14:55
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.HTML.Base.Ctrl.NumBase",
 	"LZR.HTML.Base.Doe",
+	"LZR.Base.Val.RangeDat",
 	"LZR.HTML.Base.Ctrl.Mouse",
-	"LZR.HTML.Base.Ctrl.NumBase.StripNum",
-	"LZR.Base.Val.RangeDat"
+	"LZR.HTML.Base.Ctrl.NumBase.StripNum"
 ], "LZR.HTML.Base.Ctrl.NumBase.MultiStripNum");
 LZR.HTML.Base.Ctrl.NumBase.MultiStripNum = function (obj) /*bases:LZR.HTML.Base.Ctrl.NumBase*/ {
 	LZR.initSuper(this, obj);
@@ -50,52 +50,13 @@ LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.init_ = function (obj/*as:Obj
 		this.hdObj_(obj);
 	}
 };
+LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.init_.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.MultiStripNum;
 
 // 对构造参数的特殊处理
 LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
-
-// 放置按钮
-LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.placeBtn = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	this.clsSnc.placeBtn(doeo.dat.hct_MultiStripNumBase, doeo.dat.hct_num.rn, doeo, false, this.vertical);
-};
-
-// 处理按钮拖动
-LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.hdBtnDrop = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/) {
-	this.clsSnc.hdBtnDrop(doeo, doeo.dat.hct_num.rn, doeo.dat.hct_MultiStripNumBase, doeo.dat.hct_mof, this.vertical);
-};
-
-// 数值预处理
-LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.hdNumBef = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:double*/, self/*as:Object*/, old/*as:double*/, tmp/*as:Object*/) {
-	var m;
-	var n = doeo.dat.hct_num;
-	var p = n.parent.get();
-	var i = parseInt(n.id.get(), 10);
-	n = n.rn;
-
-	if (i>0) {
-		m = n.check(p.subs[i-1].rn.get() + p.rn);
-		if (v < m) {
-			tmp.tmpVal = m;
-			return;
-		}
-	}
-
-	if (i<(p.count - 1)) {
-		m = n.check(p.subs[i+1].rn.get() - p.rn);
-		if (v > m) {
-			tmp.tmpVal = m;
-		}
-	}
-};
-
-// 处理数值变化
-LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.hdNumChg = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	var n = doeo.dat.hct_num;
-	this.placeBtn(doeo);
-	this.onChg (doeo.dat.hct_MultiStripNumBase, n.parent.get(), n.id.get(), doeo);
-};
+LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.MultiStripNum;
 
 // ---- 给元素添加事件集
 LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*as:Object*/, obj/*as:Object*/) {
@@ -144,6 +105,7 @@ LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.addEvt = function (doeo/*as:L
 		this.placeBtn(d);
 	}
 };
+LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.MultiStripNum;
 
 // ---- 移除元素的事件集
 LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
@@ -168,8 +130,55 @@ LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.delEvt = function (doeo/*as:L
 	// 删除数据
 	this.delDat(doeo, "hct_multiNum");
 };
+LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.MultiStripNum;
+
+// 放置按钮
+LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.placeBtn = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	this.clsSnc.placeBtn(doeo.dat.hct_MultiStripNumBase, doeo.dat.hct_num.rn, doeo, false, this.vertical);
+};
+LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.placeBtn.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.MultiStripNum;
+
+// 处理数值变化
+LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.hdNumChg = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	var n = doeo.dat.hct_num;
+	this.placeBtn(doeo);
+	this.onChg (doeo.dat.hct_MultiStripNumBase, n.parent.get(), n.id.get(), doeo);
+};
+LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.hdNumChg.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.MultiStripNum;
+
+// 处理按钮拖动
+LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.hdBtnDrop = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/) {
+	this.clsSnc.hdBtnDrop(doeo, doeo.dat.hct_num.rn, doeo.dat.hct_MultiStripNumBase, doeo.dat.hct_mof, this.vertical);
+};
+LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.hdBtnDrop.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.MultiStripNum;
+
+// 数值预处理
+LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.hdNumBef = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:double*/, self/*as:Object*/, old/*as:double*/, tmp/*as:Object*/) {
+	var m;
+	var n = doeo.dat.hct_num;
+	var p = n.parent.get();
+	var i = parseInt(n.id.get(), 10);
+	n = n.rn;
+
+	if (i>0) {
+		m = n.check(p.subs[i-1].rn.get() + p.rn);
+		if (v < m) {
+			tmp.tmpVal = m;
+			return;
+		}
+	}
+
+	if (i<(p.count - 1)) {
+		m = n.check(p.subs[i+1].rn.get() - p.rn);
+		if (v > m) {
+			tmp.tmpVal = m;
+		}
+	}
+};
+LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.hdNumBef.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.MultiStripNum;
 
 // ---- 值变化时触发的事件
 LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.onChg = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:LZR.Base.Val.RangeDat*/, id/*as:string*/, btnDoeo/*as:LZR.HTML.Base.Doe*/) {
 	this.evt.chg.execute (doeo, v, id, btnDoeo);
 };
+LZR.HTML.Base.Ctrl.NumBase.MultiStripNum.prototype.onChg.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.MultiStripNum;

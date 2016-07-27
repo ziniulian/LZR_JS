@@ -2,15 +2,14 @@
 作者：子牛连
 类名：EmFomTyp
 说明：污染物类型枚举
-创建日期：30-三月-2016 9:13:50
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.Pro.Green.Airq.Fom",
 	"LZR.Base.Val.Enum",
-	"LZR.Pro.Green.Airq.Fom.FomType",
-	"LZR.Util"
+	"LZR.Pro.Green.Airq.Fom.FomType"
 ], "LZR.Pro.Green.Airq.Fom.EmFomTyp");
 LZR.Pro.Green.Airq.Fom.EmFomTyp = function (obj) /*bases:LZR.Base.Val.Enum*/ {
 	LZR.initSuper(this, obj);
@@ -83,6 +82,7 @@ LZR.Pro.Green.Airq.Fom.EmFomTyp.emnull/*m*/ = new LZR.Pro.Green.Airq.Fom.FomType
 LZR.Pro.Green.Airq.Fom.EmFomTyp.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.Pro.Green.Airq.Fom.EmFomTyp.prototype.hdObj_.lzrClass_ = LZR.Pro.Green.Airq.Fom.EmFomTyp;
 
 // ---- 设置值
 LZR.Pro.Green.Airq.Fom.EmFomTyp.prototype.set = function (key/*as:string*/)/*as:boolean*/ {
@@ -94,3 +94,4 @@ LZR.Pro.Green.Airq.Fom.EmFomTyp.prototype.set = function (key/*as:string*/)/*as:
 	}
 	return  this.utLzr.supCall (this, 0, "set", key);
 };
+LZR.Pro.Green.Airq.Fom.EmFomTyp.prototype.set.lzrClass_ = LZR.Pro.Green.Airq.Fom.EmFomTyp;

@@ -2,12 +2,13 @@
 作者：子牛连
 类名：Data
 说明：数据
-创建日期：11-三月-2016 14:25:29
+创建日期：27-七月-2016 12:30:02
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.Base",
+	"LZR.Base.Data",
 	"LZR.Base.Val.Ctrl"
 ], "LZR.Base.Data");
 LZR.Base.Data = function (obj) {
@@ -55,54 +56,6 @@ LZR.Base.Data.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.Base.Data");
 
-// 构造器
-LZR.Base.Data.prototype.init_ = function (obj/*as:Object*/) {
-	this.root.set (this, false);
-	this.root.setEventObj (this);
-	this.root.evt.change.add(this.changeRoot);
-
-	this.id.setEventObj (this);
-	this.id.evt.change.add(this.changeId);
-
-	this.parent.setEventObj (this);
-	this.parent.evt.change.add(this.changeParent);
-
-	if (obj) {
-		LZR.setObj (this, obj);
-		this.hdObj_(obj);
-	}
-};
-
-// 对构造参数的特殊处理
-LZR.Base.Data.prototype.hdObj_ = function (obj/*as:Object*/) {
-	var note;	/*
-				参数说明： obj 里有两个不能属于该类属性的特殊字段 chd_ 和 cls_ 
-				chd_: {		// 该字段用于递归创建子数据
-					a: {
-						id: "a",
-						cls_: LZR.Base.Data		// 用于明确数据类型，若为空，则使用对象自己的构造函数。
-					}
-				}
-			*/
-	if (obj.chd_) {
-		// 子数据的递归创建
-		this.initSubs(obj.chd_);
-	}
-};
-
-// 递归创建子数组
-LZR.Base.Data.prototype.initSubs = function (config/*as:Object*/) {
-	for (var s in config) {
-		var o = config[s];
-		var c = o.cls_;
-		if (!c) {
-			// 获取对象的构造函数
-			c = this.constructor;
-		}
-		this.add( new c(o), s );
-	}
-};
-
 // 添加子数据
 LZR.Base.Data.prototype.add = function (sub/*as:Data*/, id/*as:string*/)/*as:boolean*/ {
 	if (!id) {
@@ -147,6 +100,71 @@ LZR.Base.Data.prototype.add = function (sub/*as:Data*/, id/*as:string*/)/*as:boo
 	sub.parent.set(this, false);
 	return true;
 };
+LZR.Base.Data.prototype.add.lzrClass_ = LZR.Base.Data;
+
+// 构造器
+LZR.Base.Data.prototype.init_ = function (obj/*as:Object*/) {
+	this.root.set (this, false);
+	this.root.setEventObj (this);
+	this.root.evt.change.add(this.changeRoot);
+
+	this.id.setEventObj (this);
+	this.id.evt.change.add(this.changeId);
+
+	this.parent.setEventObj (this);
+	this.parent.evt.change.add(this.changeParent);
+
+	if (obj) {
+		LZR.setObj (this, obj);
+		this.hdObj_(obj);
+	}
+};
+LZR.Base.Data.prototype.init_.lzrClass_ = LZR.Base.Data;
+
+// 父类变化时触发的事件
+LZR.Base.Data.prototype.changeParent = function (obj/*as:Object*/, self/*as:LZR.Base.Val.Ctrl*/, old/*as:Object*/) {
+	if (obj) {
+		self.set(old, false);
+		return obj.add (this);
+	} else if (old) {
+		// 新父类不正确时，将其从原父类中移除。
+		old.del(this);
+	}
+};
+LZR.Base.Data.prototype.changeParent.lzrClass_ = LZR.Base.Data;
+
+// 名称变化时触发的事件
+LZR.Base.Data.prototype.changeId = function (obj/*as:Object*/, self/*as:LZR.Base.Val.Ctrl*/, old/*as:Object*/) {
+	var p = this.parent.get();
+	if (p) {
+		if (!obj) {
+			// id 不正确时，将其从父类中移除。
+			p.del(old);
+		} else {
+			self.set(old, false);
+			return p.add (this, obj);
+		}
+	}
+};
+LZR.Base.Data.prototype.changeId.lzrClass_ = LZR.Base.Data;
+
+// 递归查询匹配ID的数据
+LZR.Base.Data.prototype.getById = function (id/*as:string*/)/*as:Object*/ {
+	if (id === this.id.get()) {
+		return this;
+	} else if (this.subs[id]) {
+		return this.subs[id];
+	} else {
+		for (var s in this.subs) {
+			var v = this.subs[s].getById(id);
+			if (v) {
+				return v;
+			}
+		}
+	}
+	return undefined;
+};
+LZR.Base.Data.prototype.getById.lzrClass_ = LZR.Base.Data;
 
 // 删除子数据
 LZR.Base.Data.prototype.del = function (id/*as:string*/)/*as:Object*/ {
@@ -192,23 +210,29 @@ LZR.Base.Data.prototype.del = function (id/*as:string*/)/*as:Object*/ {
 		return undefined;
 	}
 };
+LZR.Base.Data.prototype.del.lzrClass_ = LZR.Base.Data;
 
-// 递归查询匹配ID的数据
-LZR.Base.Data.prototype.getById = function (id/*as:string*/)/*as:Object*/ {
-	if (id === this.id.get()) {
-		return this;
-	} else if (this.subs[id]) {
-		return this.subs[id];
-	} else {
-		for (var s in this.subs) {
-			var v = this.subs[s].getById(id);
-			if (v) {
-				return v;
-			}
+// 递归创建子数组
+LZR.Base.Data.prototype.initSubs = function (config/*as:Object*/) {
+	for (var s in config) {
+		var o = config[s];
+		var c = o.cls_;
+		if (!c) {
+			// 获取对象的构造函数
+			c = this.constructor;
 		}
+		this.add( new c(o), s );
 	}
-	return undefined;
 };
+LZR.Base.Data.prototype.initSubs.lzrClass_ = LZR.Base.Data;
+
+// 根变化时触发的事件
+LZR.Base.Data.prototype.changeRoot = function (obj/*as:Object*/, self/*as:LZR.Base.Val.Ctrl*/, old/*as:Object*/) {
+	for (var s in this.subs) {
+		this.subs[s].root.set (obj);
+	}
+};
+LZR.Base.Data.prototype.changeRoot.lzrClass_ = LZR.Base.Data;
 
 // 结构输出
 LZR.Base.Data.prototype.print = function (indent/*as:string*/)/*as:string*/ {
@@ -224,6 +248,25 @@ LZR.Base.Data.prototype.print = function (indent/*as:string*/)/*as:string*/ {
 	}
 	return r;
 };
+LZR.Base.Data.prototype.print.lzrClass_ = LZR.Base.Data;
+
+// 对构造参数的特殊处理
+LZR.Base.Data.prototype.hdObj_ = function (obj/*as:Object*/) {
+	var note;	/*
+				参数说明： obj 里有两个不能属于该类属性的特殊字段 chd_ 和 cls_ 
+				chd_: {		// 该字段用于递归创建子数据
+					a: {
+						id: "a",
+						cls_: LZR.Base.Data		// 用于明确数据类型，若为空，则使用对象自己的构造函数。
+					}
+				}
+			*/
+	if (obj.chd_) {
+		// 子数据的递归创建
+		this.initSubs(obj.chd_);
+	}
+};
+LZR.Base.Data.prototype.hdObj_.lzrClass_ = LZR.Base.Data;
 
 // 克隆
 LZR.Base.Data.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
@@ -258,6 +301,7 @@ LZR.Base.Data.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
 	}
 	return r;
 };
+LZR.Base.Data.prototype.clone.lzrClass_ = LZR.Base.Data;
 
 // 处理克隆参数
 LZR.Base.Data.prototype.hdClonePro = function (name/*as:string*/, rt/*as:Object*/, dep/*as:boolean*/)/*as:Object*/ {
@@ -268,38 +312,7 @@ LZR.Base.Data.prototype.hdClonePro = function (name/*as:string*/, rt/*as:Object*
 	}
 	return rt;
 };
-
-// 父类变化时触发的事件
-LZR.Base.Data.prototype.changeParent = function (obj/*as:Object*/, self/*as:LZR.Base.Val.Ctrl*/, old/*as:Object*/) {
-	if (obj) {
-		self.set(old, false);
-		return obj.add (this);
-	} else if (old) {
-		// 新父类不正确时，将其从原父类中移除。
-		old.del(this);
-	}
-};
-
-// 名称变化时触发的事件
-LZR.Base.Data.prototype.changeId = function (obj/*as:Object*/, self/*as:LZR.Base.Val.Ctrl*/, old/*as:Object*/) {
-	var p = this.parent.get();
-	if (p) {
-		if (!obj) {
-			// id 不正确时，将其从父类中移除。
-			p.del(old);
-		} else {
-			self.set(old, false);
-			return p.add (this, obj);
-		}
-	}
-};
-
-// 根变化时触发的事件
-LZR.Base.Data.prototype.changeRoot = function (obj/*as:Object*/, self/*as:LZR.Base.Val.Ctrl*/, old/*as:Object*/) {
-	for (var s in this.subs) {
-		this.subs[s].root.set (obj);
-	}
-};
+LZR.Base.Data.prototype.hdClonePro.lzrClass_ = LZR.Base.Data;
 
 // 删除所有子元素
 LZR.Base.Data.prototype.delAll = function ()/*as:Array*/ {
@@ -309,3 +322,4 @@ LZR.Base.Data.prototype.delAll = function ()/*as:Array*/ {
 	}
 	return r;
 };
+LZR.Base.Data.prototype.delAll.lzrClass_ = LZR.Base.Data;

@@ -2,7 +2,7 @@
 作者：子牛连
 类名：H2c
 说明：Html2Canvas
-创建日期：06-五月-2016 14:11:39
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
@@ -54,11 +54,13 @@ LZR.HTML.Base.InfScrnshot.H2c.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.HTML.Base.InfScrnshot.H2c.prototype.init_.lzrClass_ = LZR.HTML.Base.InfScrnshot.H2c;
 
 // 对构造参数的特殊处理
 LZR.HTML.Base.InfScrnshot.H2c.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.HTML.Base.InfScrnshot.H2c.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.InfScrnshot.H2c;
 
 // ---- 截图
 LZR.HTML.Base.InfScrnshot.H2c.prototype.shot = function (doe/*as:Object*/) {
@@ -73,3 +75,4 @@ LZR.HTML.Base.InfScrnshot.H2c.prototype.shot = function (doe/*as:Object*/) {
 	}
 	this.h2c(doe, d);
 };
+LZR.HTML.Base.InfScrnshot.H2c.prototype.shot.lzrClass_ = LZR.HTML.Base.InfScrnshot.H2c;

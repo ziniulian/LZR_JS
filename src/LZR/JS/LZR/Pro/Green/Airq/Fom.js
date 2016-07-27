@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Fom
 说明：污染物
-创建日期：25-三月-2016 18:19:03
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
@@ -51,6 +51,7 @@ LZR.Pro.Green.Airq.Fom.prototype.init_ = function (obj/*as:Object*/) {
 		this.vcAqi.set("-");
 	}
 };
+LZR.Pro.Green.Airq.Fom.prototype.init_.lzrClass_ = LZR.Pro.Green.Airq.Fom;
 
 // 对构造参数的特殊处理
 LZR.Pro.Green.Airq.Fom.prototype.hdObj_ = function (obj/*as:Object*/) {
@@ -64,8 +65,10 @@ LZR.Pro.Green.Airq.Fom.prototype.hdObj_ = function (obj/*as:Object*/) {
 		this.vcAqi.set("-");
 	}
 };
+LZR.Pro.Green.Airq.Fom.prototype.hdObj_.lzrClass_ = LZR.Pro.Green.Airq.Fom;
 
 // 处理污染指数的变化
 LZR.Pro.Green.Airq.Fom.prototype.hdAqiChange = function (val/*as:Object*/, self/*as:Object*/, old/*as:Object*/)/*as:boolean*/ {
 	this.emLevel.setByAqi (val);
 };
+LZR.Pro.Green.Airq.Fom.prototype.hdAqiChange.lzrClass_ = LZR.Pro.Green.Airq.Fom;

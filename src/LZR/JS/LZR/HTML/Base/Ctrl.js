@@ -2,18 +2,19 @@
 作者：子牛连
 类名：Ctrl
 说明：Doe控制器
-创建日期：26-三月-2016 18:43:03
+创建日期：27-七月-2016 12:30:02
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.HTML.Base",
 	"LZR.HTML.Base.Doe",
+	"LZR.Base.CallBacks.CallBack",
 	"LZR.Base.InfEvt",
 	"LZR.Base.Ary",
+	"LZR.HTML.Util.Evt",
 	"LZR.Base.Str",
-	"LZR.Util",
-	"LZR.HTML.Util.Evt"
+	"LZR.Util"
 ], "LZR.HTML.Base.Ctrl");
 LZR.HTML.Base.Ctrl = function (obj) /*interfaces:LZR.Base.InfEvt*/ {
 	LZR.Base.InfEvt.call(this);
@@ -58,11 +59,13 @@ LZR.HTML.Base.Ctrl.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.HTML.Base.Ctrl.prototype.init_.lzrClass_ = LZR.HTML.Base.Ctrl;
 
 // 对构造参数的特殊处理
 LZR.HTML.Base.Ctrl.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.HTML.Base.Ctrl.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl;
 
 // 添加一个Doe元素
 LZR.HTML.Base.Ctrl.prototype.add = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*as:Object*/, obj/*as:Object*/) {
@@ -77,6 +80,7 @@ LZR.HTML.Base.Ctrl.prototype.add = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*
 	this.subs.push(doeo);
 	this.addEvt(doeo, pro, obj);
 };
+LZR.HTML.Base.Ctrl.prototype.add.lzrClass_ = LZR.HTML.Base.Ctrl;
 
 // 删除一个Doe元素
 LZR.HTML.Base.Ctrl.prototype.del = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:boolean*/ {
@@ -88,14 +92,34 @@ LZR.HTML.Base.Ctrl.prototype.del = function (doeo/*as:LZR.HTML.Base.Doe*/)/*as:b
 	}
 	return false;
 };
+LZR.HTML.Base.Ctrl.prototype.del.lzrClass_ = LZR.HTML.Base.Ctrl;
 
-// 前缀检查
-LZR.HTML.Base.Ctrl.prototype.checkPrefix = function (nam/*as:string*/)/*as:string*/ {
-	if (!this.utStr.startWith (nam, "hct_")) {
-		nam = "hct_" + nam;
-	}
-	return nam;
+// 给元素添加事件集
+LZR.HTML.Base.Ctrl.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*as:Object*/, obj/*as:Object*/) {
+	
 };
+LZR.HTML.Base.Ctrl.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl;
+
+// 移除元素的事件集
+LZR.HTML.Base.Ctrl.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	
+};
+LZR.HTML.Base.Ctrl.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl;
+
+// 在元素内创建数据
+LZR.HTML.Base.Ctrl.prototype.crtDat = function (doeo/*as:LZR.HTML.Base.Doe*/, key/*as:string*/, obj/*as:Object*/)/*as:Object*/ {
+	key = this.checkPrefix(key);
+
+	// var cls = this.clsNum;
+	if (!doeo.dat) {
+		doeo.dat = {};
+	}
+	if (!doeo.dat[key]) {
+		doeo.dat[key] = obj;
+	}
+	return doeo.dat[key];
+};
+LZR.HTML.Base.Ctrl.prototype.crtDat.lzrClass_ = LZR.HTML.Base.Ctrl;
 
 // 在元素内创建子元素
 LZR.HTML.Base.Ctrl.prototype.crtDoe = function (doeo/*as:LZR.HTML.Base.Doe*/, id/*as:string*/, typ/*as:string*/, css/*as:string*/)/*as:LZR.HTML.Base.Doe*/ {
@@ -115,20 +139,37 @@ LZR.HTML.Base.Ctrl.prototype.crtDoe = function (doeo/*as:LZR.HTML.Base.Doe*/, id
 	}
 	return d;
 };
+LZR.HTML.Base.Ctrl.prototype.crtDoe.lzrClass_ = LZR.HTML.Base.Ctrl;
 
-// 在元素内创建数据
-LZR.HTML.Base.Ctrl.prototype.crtDat = function (doeo/*as:LZR.HTML.Base.Doe*/, key/*as:string*/, obj/*as:Object*/)/*as:Object*/ {
-	key = this.checkPrefix(key);
-
-	// var cls = this.clsNum;
-	if (!doeo.dat) {
-		doeo.dat = {};
+// 为元素的数据创建回调
+LZR.HTML.Base.Ctrl.prototype.crtCb2Dat = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/, cbNam/*as:string*/, f/*as:fun*/) {
+	var enam = this.className_ + "_" + cbNam;
+	if (!doeo.ctrlCbs) {
+		doeo.ctrlCbs = {};	// 控制器相关的回调函数集合
 	}
-	if (!doeo.dat[key]) {
-		doeo.dat[key] = obj;
+	doeo.ctrlCbs[enam] =  enam + "_" + evt.id;
+	if (f) {
+		evt.add( f, doeo.ctrlCbs[enam] );
+	} else {
+		evt.add( this.utLzr.bind(this, this[cbNam], doeo), doeo.ctrlCbs[enam] );
 	}
-	return doeo.dat[key];
 };
+LZR.HTML.Base.Ctrl.prototype.crtCb2Dat.lzrClass_ = LZR.HTML.Base.Ctrl;
+
+// 删除元素数据的相关回调
+LZR.HTML.Base.Ctrl.prototype.delCb2Dat = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/, cbNam/*as:string*/)/*as:LZR.Base.CallBacks.CallBack*/ {
+	var enam = this.className_ + "_" + cbNam;
+	var r = evt.del(doeo.ctrlCbs[enam]);
+	LZR.del (doeo.ctrlCbs, enam);
+	return r;
+};
+LZR.HTML.Base.Ctrl.prototype.delCb2Dat.lzrClass_ = LZR.HTML.Base.Ctrl;
+
+// 获取元素数据的相关回调
+LZR.HTML.Base.Ctrl.prototype.getCb2Dat = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/, cbNam/*as:string*/)/*as:LZR.Base.CallBacks.CallBack*/ {
+	return evt.funs[ doeo.ctrlCbs[(this.className_ + "_" + cbNam)] ];
+};
+LZR.HTML.Base.Ctrl.prototype.getCb2Dat.lzrClass_ = LZR.HTML.Base.Ctrl;
 
 // 删除元素内数据
 LZR.HTML.Base.Ctrl.prototype.delDat = function (doeo/*as:LZR.HTML.Base.Doe*/, key/*as:string*/)/*as:boolean*/ {
@@ -159,30 +200,13 @@ LZR.HTML.Base.Ctrl.prototype.delDat = function (doeo/*as:LZR.HTML.Base.Doe*/, ke
 			return true;
 	}
 };
+LZR.HTML.Base.Ctrl.prototype.delDat.lzrClass_ = LZR.HTML.Base.Ctrl;
 
-// 为元素的数据创建回调
-LZR.HTML.Base.Ctrl.prototype.crtCb2Dat = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/, cbNam/*as:string*/, f/*as:fun*/) {
-	var enam = this.className_ + "_" + cbNam;
-	if (!doeo.ctrlCbs) {
-		doeo.ctrlCbs = {};	// 控制器相关的回调函数集合
+// 前缀检查
+LZR.HTML.Base.Ctrl.prototype.checkPrefix = function (nam/*as:string*/)/*as:string*/ {
+	if (!this.utStr.startWith (nam, "hct_")) {
+		nam = "hct_" + nam;
 	}
-	doeo.ctrlCbs[enam] =  enam + "_" + evt.id;
-	if (f) {
-		evt.add( f, doeo.ctrlCbs[enam] );
-	} else {
-		evt.add( this.utLzr.bind(this, this[cbNam], doeo), doeo.ctrlCbs[enam] );
-	}
+	return nam;
 };
-
-// 删除元素数据的相关回调
-LZR.HTML.Base.Ctrl.prototype.delCb2Dat = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/, cbNam/*as:string*/)/*as:LZR.Base.CallBacks.CallBack*/ {
-	var enam = this.className_ + "_" + cbNam;
-	var r = evt.del(doeo.ctrlCbs[enam]);
-	LZR.del (doeo.ctrlCbs, enam);
-	return r;
-};
-
-// 获取元素数据的相关回调
-LZR.HTML.Base.Ctrl.prototype.getCb2Dat = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/, cbNam/*as:string*/)/*as:LZR.Base.CallBacks.CallBack*/ {
-	return evt.funs[ doeo.ctrlCbs[(this.className_ + "_" + cbNam)] ];
-};
+LZR.HTML.Base.Ctrl.prototype.checkPrefix.lzrClass_ = LZR.HTML.Base.Ctrl;

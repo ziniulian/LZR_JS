@@ -2,15 +2,15 @@
 作者：子牛连
 类名：CallBacks
 说明：回调函数集合
-创建日期：11-三月-2016 14:27:33
+创建日期：27-七月-2016 12:30:02
 版本号：1.0
 *************************************************/
 
 LZR.load([
-	"LZR.Util",
 	"LZR.Base",
 	"LZR.Base.Str",
-	"LZR.Base.CallBacks.CallBack"
+	"LZR.Base.CallBacks.CallBack",
+	"LZR.Util"
 ], "LZR.Base.CallBacks");
 LZR.Base.CallBacks = function (obj) {
 	// 是否触发事件
@@ -48,20 +48,6 @@ LZR.Base.CallBacks.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.Base.CallBacks");
 
-// 构造器
-LZR.Base.CallBacks.prototype.init_ = function (obj/*as:Object*/) {
-	this.exe = this.utLzr.bind (this, this.execute);
-	if (obj) {
-		LZR.setObj (this, obj);
-		this.hdObj_(obj);
-	}
-};
-
-// 对构造参数的特殊处理
-LZR.Base.CallBacks.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
-};
-
 // 添加回调函数
 LZR.Base.CallBacks.prototype.add = function (fun/*as:fun*/, name/*as:LZR.Base.Str*/, self/*as:boolean*/)/*as:string*/ {
 	if (name === undefined || name === null) {
@@ -81,6 +67,7 @@ LZR.Base.CallBacks.prototype.add = function (fun/*as:fun*/, name/*as:LZR.Base.St
 	this.funs[name] = new LZR.Base.CallBacks.CallBack (o);
 	return name;
 };
+LZR.Base.CallBacks.prototype.add.lzrClass_ = LZR.Base.CallBacks;
 
 // 删除回调函数
 LZR.Base.CallBacks.prototype.del = function (name/*as:LZR.Base.Str*/)/*as:LZR.Base.CallBacks.CallBack*/ {
@@ -91,6 +78,7 @@ LZR.Base.CallBacks.prototype.del = function (name/*as:LZR.Base.Str*/)/*as:LZR.Ba
 	}
 	return r;
 };
+LZR.Base.CallBacks.prototype.del.lzrClass_ = LZR.Base.CallBacks;
 
 // 执行回调函数
 LZR.Base.CallBacks.prototype.execute = function ()/*as:boolean*/ {
@@ -129,3 +117,20 @@ LZR.Base.CallBacks.prototype.execute = function ()/*as:boolean*/ {
 	}
 	return b;
 };
+LZR.Base.CallBacks.prototype.execute.lzrClass_ = LZR.Base.CallBacks;
+
+// 构造器
+LZR.Base.CallBacks.prototype.init_ = function (obj/*as:Object*/) {
+	this.exe = this.utLzr.bind (this, this.execute);
+	if (obj) {
+		LZR.setObj (this, obj);
+		this.hdObj_(obj);
+	}
+};
+LZR.Base.CallBacks.prototype.init_.lzrClass_ = LZR.Base.CallBacks;
+
+// 对构造参数的特殊处理
+LZR.Base.CallBacks.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
+};
+LZR.Base.CallBacks.prototype.hdObj_.lzrClass_ = LZR.Base.CallBacks;
