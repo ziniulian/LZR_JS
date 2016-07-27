@@ -26,9 +26,9 @@ LZR.Base.InfEvt.prototype.setEventObj = function (obj/*as:Object*/) {
 // 递归设置调用对象
 LZR.Base.InfEvt.prototype.setEventObjRecursion = function (o/*as:Object*/, obj/*as:Object*/) {
 	for (var s in o) {
-		if (o.className_ === "LZR.Base.CallBacks") {
+		if (o[s].className_ === "LZR.Base.CallBacks") {
 			o[s].obj = obj;
-		} else {
+		} else if (typeof(o[s]) === "object") {
 			this.setEventObjRecursion(o[s], obj);
 		}
 	}

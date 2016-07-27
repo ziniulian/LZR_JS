@@ -20,6 +20,18 @@ LZR.Base.Data = function (obj) {
 	// 子元素个数
 	this.count = 0;	/*as:int*/
 
+	// 前一个同级元素
+	this.prev = null;	/*as:Object*/
+
+	// 后一个同级元素
+	this.next = null;	/*as:Object*/
+
+	// 第一个子元素
+	this.first = null;	/*as:Object*/
+
+	// 最后一个子元素
+	this.last = null;	/*as:Object*/
+
 	// 数据之名
 	this.id/*m*/ = new LZR.Base.Val.Ctrl();	/*as:LZR.Base.Val.Ctrl*/
 
@@ -118,6 +130,16 @@ LZR.Base.Data.prototype.add = function (sub/*as:Data*/, id/*as:string*/)/*as:boo
 		p.del (sub.id.get());
 	}
 
+	// 维护链表关系
+	if (this.last === null) {
+		this.first = sub;
+		this.last = sub;
+	} else {
+		this.last.next = sub;
+		sub.prev = this.last;
+		this.last = sub;
+	}
+
 	// 添加子元素
 	this.subs[id] = sub;
 	sub.root.set (this.root.get());	// 会触发root的change事件
@@ -138,6 +160,28 @@ LZR.Base.Data.prototype.del = function (id/*as:string*/)/*as:Object*/ {
 		// 如果存在对应 id 的子元素，则删除它
 		var sub = this.subs[id];
 		if (sub !== undefined) {
+
+			// 维护链表关系
+			if (sub.prev === null) {
+				if (sub.next === null) {
+					this.last = null;
+					this.first = null;
+				} else {
+					this.first = sub.next;
+					sub.next.prev = null;
+				}
+			} else {
+				if (sub.next === null) {
+					sub.prev.next = null;
+					this.last = sub.prev;
+				} else {
+					sub.prev.next = sub.next;
+					sub.next.prev = sub.prev;
+				}
+			}
+			sub.prev = null;
+			sub.next = null;
+
 			LZR.del(this.subs, id);
 			this.count --;
 			sub.root.set (sub);	// 会触发root的change事件
@@ -193,6 +237,10 @@ LZR.Base.Data.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
 				case "parent":
 				case "count":
 				case "subs":
+				case "prev":
+				case "next":
+				case "first":
+				case "last":
 					break;
 				case "id":
 					r.id = this.id.get();
@@ -202,8 +250,7 @@ LZR.Base.Data.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
 			}
 		}
 	}
-// var rrr = r;
-// console.log (rrr);
+// console.log (r);
 	r = new this.constructor(r);
 
 	for (s in this.subs) {

@@ -161,10 +161,13 @@ LZR.HTML.Base.Doe.prototype.delCss = function (name/*as:string*/)/*as:boolean*/ 
 
 // 替换CSS样式
 LZR.HTML.Base.Doe.prototype.chgCss = function (name/*as:string*/)/*as:boolean*/ {
-	for (var s in this.css.subs) {
-		this.css.del (s);
+	this.css.delAll();
+	if (name) {
+		return this.addCss(name);
+	} else {
+		this.css.flush(this.doe);
+		return true;
 	}
-	return this.addCss(name);
 };
 
 // 添加控制器
