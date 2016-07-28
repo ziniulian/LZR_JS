@@ -123,6 +123,37 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.HTML.Widget.Legend.LegendMgr");
 
+// 构造器
+LZR.HTML.Widget.Legend.LegendMgr.prototype.init_ = function (obj/*as:Object*/) {
+	this.view.add(this.viewMid);
+	this.midCtrl.add(this.viewMid);
+	this.viewMid.dat.hct_scd.evt.change.add(this.utLzr.bind(this, this.hdMidChg));
+
+	this.view.add(this.viewMark);
+	this.markCtrl.evt.chg.add(this.utLzr.bind(this, this.hdMark));
+	this.ctrl.vcCur.evt.change.add(this.utLzr.bind(this, this.hdChg));
+
+	if (obj) {
+		LZR.setObj (this, obj);
+		this.hdObj_(obj);
+	}
+};
+LZR.HTML.Widget.Legend.LegendMgr.prototype.init_.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
+
+// 对构造参数的特殊处理
+LZR.HTML.Widget.Legend.LegendMgr.prototype.hdObj_ = function (obj/*as:Object*/) {
+	if (obj.scdCss) {
+		this.ctrl.css = obj.scdCss;
+	}
+	if (obj.hd_legend) {
+		this.hdLegend(obj.hd_legend);
+	}
+
+	// 调用父类的参数处理
+	this.utLzr.supCall (this, 0, "hdObj_", obj);
+};
+LZR.HTML.Widget.Legend.LegendMgr.prototype.hdObj_.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
+
 // 处理图例集合
 LZR.HTML.Widget.Legend.LegendMgr.prototype.hdLegend = function (hd_legend/*as:Object*/) {
 	var s, t, p, pro = {};
@@ -170,72 +201,6 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.hdLegend = function (hd_legend/*as:Ob
 	this.utLzr.supCall (this, 0, "initSubs", pro);
 };
 LZR.HTML.Widget.Legend.LegendMgr.prototype.hdLegend.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
-
-// ---- 添加子数据
-LZR.HTML.Widget.Legend.LegendMgr.prototype.add = function (sub/*as:LZR.Base.Data*/, id/*as:string*/)/*as:boolean*/ {
-	var r = this.utLzr.supCall (this, 0, "add", sub, id);
-	if (r && sub.viewPre) {
-		if (this.preCss) {
-			sub.viewPre.chgCss(this.preCss);
-		}
-		var d = new this.view.constructor ({
-			hd_typ: "div"
-		});
-		var n = new this.view.constructor ({
-			hd_typ: "div",
-			hd_css: "Lc_hwg_LegendMgrNam"
-		});
-		n.doe.innerHTML = sub.id.get();
-		d.add(sub.viewPre, "pre");
-		d.add(n, "nam");
-		this.view.add(d, sub.id.get());
-		this.ctrl.add(sub.viewPre);
-	}
-	return r;
-};
-LZR.HTML.Widget.Legend.LegendMgr.prototype.add.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
-
-// 构造器
-LZR.HTML.Widget.Legend.LegendMgr.prototype.init_ = function (obj/*as:Object*/) {
-	this.view.add(this.viewMid);
-	this.midCtrl.add(this.viewMid);
-	this.viewMid.dat.hct_scd.evt.change.add(this.utLzr.bind(this, this.hdMidChg));
-
-	this.view.add(this.viewMark);
-	this.markCtrl.evt.chg.add(this.utLzr.bind(this, this.hdMark));
-	this.ctrl.vcCur.evt.change.add(this.utLzr.bind(this, this.hdChg));
-
-	if (obj) {
-		LZR.setObj (this, obj);
-		this.hdObj_(obj);
-	}
-};
-LZR.HTML.Widget.Legend.LegendMgr.prototype.init_.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
-
-// 对构造参数的特殊处理
-LZR.HTML.Widget.Legend.LegendMgr.prototype.hdObj_ = function (obj/*as:Object*/) {
-	if (obj.scdCss) {
-		this.ctrl.css = obj.scdCss;
-	}
-	if (obj.hd_legend) {
-		this.hdLegend(obj.hd_legend);
-	}
-
-	// 调用父类的参数处理
-	this.utLzr.supCall (this, 0, "hdObj_", obj);
-};
-LZR.HTML.Widget.Legend.LegendMgr.prototype.hdObj_.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
-
-// ---- 删除子数据
-LZR.HTML.Widget.Legend.LegendMgr.prototype.del = function (id/*as:string*/)/*as:Object*/ {
-	var r = this.utLzr.supCall (this, 0, "del", id);
-	if (r) {
-		this.view.del(r.viewPre);
-		this.ctrl.del(r.viewPre);
-	}
-	return r;
-};
-LZR.HTML.Widget.Legend.LegendMgr.prototype.del.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
 
 // 刷新
 LZR.HTML.Widget.Legend.LegendMgr.prototype.flush = function () {
@@ -431,3 +396,38 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.hdMidChg = function () {
 	this.hdChg(this.ctrl.vcCur.get());
 };
 LZR.HTML.Widget.Legend.LegendMgr.prototype.hdMidChg.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
+
+// ---- 添加子数据
+LZR.HTML.Widget.Legend.LegendMgr.prototype.add = function (sub/*as:LZR.Base.Data*/, id/*as:string*/)/*as:boolean*/ {
+	var r = this.utLzr.supCall (this, 0, "add", sub, id);
+	if (r && sub.viewPre) {
+		if (this.preCss) {
+			sub.viewPre.chgCss(this.preCss);
+		}
+		var d = new this.view.constructor ({
+			hd_typ: "div"
+		});
+		var n = new this.view.constructor ({
+			hd_typ: "div",
+			hd_css: "Lc_hwg_LegendMgrNam"
+		});
+		n.doe.innerHTML = sub.id.get();
+		d.add(sub.viewPre, "pre");
+		d.add(n, "nam");
+		this.view.add(d, sub.id.get());
+		this.ctrl.add(sub.viewPre);
+	}
+	return r;
+};
+LZR.HTML.Widget.Legend.LegendMgr.prototype.add.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
+
+// ---- 删除子数据
+LZR.HTML.Widget.Legend.LegendMgr.prototype.del = function (id/*as:string*/)/*as:Object*/ {
+	var r = this.utLzr.supCall (this, 0, "del", id);
+	if (r) {
+		this.view.del(r.viewPre);
+		this.ctrl.del(r.viewPre);
+	}
+	return r;
+};
+LZR.HTML.Widget.Legend.LegendMgr.prototype.del.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;

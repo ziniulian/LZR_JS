@@ -182,12 +182,6 @@ LZR.HTML.Widget.Legend.prototype.hdObj_ = function (obj/*as:Object*/) {
 };
 LZR.HTML.Widget.Legend.prototype.hdObj_.lzrClass_ = LZR.HTML.Widget.Legend;
 
-// 刷新
-LZR.HTML.Widget.Legend.prototype.flush = function (doeo/*as:LZR.HTML.Base.Doe*/, isPreview/*as:boolean*/) {
-	
-};
-LZR.HTML.Widget.Legend.prototype.flush.lzrClass_ = LZR.HTML.Widget.Legend;
-
 // 返回查询参数
 LZR.HTML.Widget.Legend.prototype.toQry = function (min/*as:double*/, max/*as:double*/)/*as:string*/ {
 	var r = {};
@@ -208,10 +202,24 @@ LZR.HTML.Widget.Legend.prototype.toQry.lzrClass_ = LZR.HTML.Widget.Legend;
 // 显示拾色器
 LZR.HTML.Widget.Legend.prototype.showPicker = function (evt/*as:Object*/) {
 	var p = this.view.utEvt.getMousePosition(evt);
+	var c = p;
 	this.view.calcPosition();
 	p = (p.x - this.view.position.left) / this.view.position.width;
 
-	this.viewPicker.getById("clr").setStyle("background-color", this.getClrByPosition(p).toCss());
+	// 处理中部遮罩的拾色器
+	if (this.parent.get() && this.parent.get().viewMid.dat.hct_scd.get()) {
+		this.viewMarkMid.calcPosition();
+		c = (c.x - this.viewMarkMid.position.left) / this.viewMarkMid.position.width;
+		if (c>0 && c<1) {
+			c = this.getClrByPosition(c).toCss();
+		} else {
+			c = "transparent";
+		}
+	} else {
+		c = this.getClrByPosition(p).toCss();
+	}
+
+	this.viewPicker.getById("clr").setStyle("background-color", c);
 	this.viewPicker.getById("txt").doe.innerHTML = this.getValByPosition(p);
 	this.viewPicker.delCss("Lc_nosee");
 };
@@ -222,12 +230,6 @@ LZR.HTML.Widget.Legend.prototype.hidPicker = function (evt/*as:Object*/) {
 	this.viewPicker.addCss("Lc_nosee");
 };
 LZR.HTML.Widget.Legend.prototype.hidPicker.lzrClass_ = LZR.HTML.Widget.Legend;
-
-// 通过位置获取颜色
-LZR.HTML.Widget.Legend.prototype.getClrByPosition = function (position/*as:double*/)/*as:LZR.Base.Clr*/ {
-	
-};
-LZR.HTML.Widget.Legend.prototype.getClrByPosition.lzrClass_ = LZR.HTML.Widget.Legend;
 
 // 返回字串颜色
 LZR.HTML.Widget.Legend.prototype.toClrStr = function (min/*as:double*/, max/*as:double*/)/*as:string*/ {
@@ -278,21 +280,3 @@ LZR.HTML.Widget.Legend.prototype.hdClrs = function (hd_clrs/*as:Object*/, hd_ali
 	return r;
 };
 LZR.HTML.Widget.Legend.prototype.hdClrs.lzrClass_ = LZR.HTML.Widget.Legend;
-
-// 初始化刷新
-LZR.HTML.Widget.Legend.prototype.initFlush = function (doeo/*as:LZR.HTML.Base.Doe*/, isPreview/*as:boolean*/) {
-	
-};
-LZR.HTML.Widget.Legend.prototype.initFlush.lzrClass_ = LZR.HTML.Widget.Legend;
-
-// 通过位置获取值信息
-LZR.HTML.Widget.Legend.prototype.getValByPosition = function (position/*as:double*/)/*as:string*/ {
-	
-};
-LZR.HTML.Widget.Legend.prototype.getValByPosition.lzrClass_ = LZR.HTML.Widget.Legend;
-
-// 通过位置获取值
-LZR.HTML.Widget.Legend.prototype.getValueByPosition = function (position/*as:double*/)/*as:string*/ {
-	
-};
-LZR.HTML.Widget.Legend.prototype.getValueByPosition.lzrClass_ = LZR.HTML.Widget.Legend;
