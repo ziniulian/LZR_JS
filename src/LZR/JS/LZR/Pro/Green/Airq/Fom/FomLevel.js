@@ -26,6 +26,9 @@ LZR.Pro.Green.Airq.Fom.FomLevel = function (obj) {
 	// 图片路径
 	this.imgUrl = "";	/*as:string*/
 
+	// 健康提示
+	this.healthTips = "";	/*as:string*/
+
 	// 颜色，初始化属性名：clr
 	this.emClr/*m*/ = new LZR.Base.EmClr();	/*as:LZR.Base.EmClr*/
 

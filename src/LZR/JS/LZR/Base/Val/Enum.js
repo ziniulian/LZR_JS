@@ -36,7 +36,7 @@ LZR.load(null, "LZR.Base.Val.Enum");
 LZR.Base.Val.Enum.prototype.init_ = function (obj/*as:Object*/) {
 	this.set(obj);
 	if (obj) {
-		this.hdObj_(obj);
+		// this.hdObj_(obj);
 	}
 };
 LZR.Base.Val.Enum.prototype.init_.lzrClass_ = LZR.Base.Val.Enum;
@@ -46,28 +46,6 @@ LZR.Base.Val.Enum.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
 LZR.Base.Val.Enum.prototype.hdObj_.lzrClass_ = LZR.Base.Val.Enum;
-
-// ---- 克隆
-LZR.Base.Val.Enum.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
-	return new this.constructor (this.key);
-};
-LZR.Base.Val.Enum.prototype.clone.lzrClass_ = LZR.Base.Val.Enum;
-
-// ---- 设置值
-LZR.Base.Val.Enum.prototype.set = function (key/*as:string*/)/*as:boolean*/ {
-	if (key && this.constructor[key]) {
-		this.key = key;
-		this.val = this.constructor[key];
-		return true;
-	} else if (!key && this.constructor.emnull) {
-		this.key = "emnull";
-		this.val = this.constructor.emnull;
-		return true;
-	} else {
-		return false;
-	}
-};
-LZR.Base.Val.Enum.prototype.set.lzrClass_ = LZR.Base.Val.Enum;
 
 // 获取枚举名
 LZR.Base.Val.Enum.prototype.getKey = function ()/*as:string*/ {
@@ -102,3 +80,41 @@ LZR.Base.Val.Enum.prototype.enums = function ()/*as:Object*/ {
 	return ems;
 };
 LZR.Base.Val.Enum.prototype.enums.lzrClass_ = LZR.Base.Val.Enum;
+
+// 通过枚举值获取枚举
+LZR.Base.Val.Enum.prototype.getByVal = function (value/*as:Object*/)/*as:Object*/ {
+	for (var s in this.constructor) {
+		if (value === this.constructor[s]) {
+			return this.constructor[s];
+		}
+	}
+
+	if (this.constructor.emnull) {
+		return this.constructor.emnull;
+	} else {
+		return undefined;
+	}
+};
+LZR.Base.Val.Enum.prototype.getByVal.lzrClass_ = LZR.Base.Val.Enum;
+
+// ---- 设置值
+LZR.Base.Val.Enum.prototype.set = function (key/*as:string*/)/*as:boolean*/ {
+	if (key && this.constructor[key]) {
+		this.key = key;
+		this.val = this.constructor[key];
+		return true;
+	} else if (!key && this.constructor.emnull) {
+		this.key = "emnull";
+		this.val = this.constructor.emnull;
+		return true;
+	} else {
+		return false;
+	}
+};
+LZR.Base.Val.Enum.prototype.set.lzrClass_ = LZR.Base.Val.Enum;
+
+// ---- 克隆
+LZR.Base.Val.Enum.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
+	return new this.constructor (this.key);
+};
+LZR.Base.Val.Enum.prototype.clone.lzrClass_ = LZR.Base.Val.Enum;
