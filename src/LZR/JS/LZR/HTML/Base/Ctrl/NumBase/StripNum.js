@@ -53,37 +53,26 @@ LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.HTML.Base.Ctrl.NumBase.StripNum");
 
-// 处理底图拖动
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBaseDrop = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/) {
-	if (this.enableDropBase) {
-		var d;
-		var v = doeo.dat.hct_mof;
-		var n = doeo.dat.hct_num;
-		var min = n.vcMin.get();
+// 构造器
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.init_ = function (obj/*as:Object*/) {
+	this.baseCtrl.enableMove = true;
+	this.baseCtrl.evt.lk.drop.add(this.utLzr.bind(this, this.hdBaseDrop), "StripNum_hdBaseDrop");
+	this.baseCtrl.evt.lk.click.add(this.utLzr.bind(this, this.hdBaseClick), "StripNum_hdBaseClick");
+	this.baseCtrl.evt.move.add(this.utLzr.bind(this, this.hdMove), "StripNum_hdMove");
+	this.btnCtrl.evt.lk.drop.add(this.utLzr.bind(this, this.hdBtnDrop), "StripNum_hdBtnDrop");
 
-		if (this.vertical) {
-			d = this.position2Num(doeo, v.lk.sy - v.lk.ey);
-		} else {
-			d = this.position2Num(doeo, v.lk.sx - v.lk.ex);
-		}
-
-		if (d < min) {
-			this.calcRange(n, d, 0);
-		} else if (d > min) {
-			this.calcRange(n, d - min + n.vcMax.get(), 0);
-		}
-
-		d = this.position2Num(doeo, min, true);
-		if (this.vertical) {
-			v.lk.sy += d;
-		} else {
-			v.lk.sx += d;
-		}
-
-		this.placeBtn(doeo);
+	if (obj) {
+		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
 };
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBaseDrop.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.init_.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
+
+// 对构造参数的特殊处理
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
+};
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
 
 // 位置换算数值
 LZR.HTML.Base.Ctrl.NumBase.StripNum.position2Num = function (doeo/*as:LZR.HTML.Base.Doe*/, position/*as:double*/, reverse/*as:boolean*/, v/*as:LZR.Base.Val.RangeNum*/, vertical/*as:boolean*/)/*as:double*/ {
@@ -118,6 +107,76 @@ LZR.HTML.Base.Ctrl.NumBase.StripNum.placeBtn = function (doeo/*as:LZR.HTML.Base.
 	}
 };
 LZR.HTML.Base.Ctrl.NumBase.StripNum.placeBtn.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
+
+// 处理按钮拖动
+LZR.HTML.Base.Ctrl.NumBase.StripNum.hdBtnDrop = function (doeo/*as:LZR.HTML.Base.Doe*/, n/*as:LZR.Base.Val.RangeNum*/, pd/*as:LZR.HTML.Base.Doe*/, v/*as:LZR.HTML.Base.Ctrl.Mouse.MouseInfo*/, vertical/*as:boolean*/) {
+	var d;
+	var num = n.get();
+
+	if (vertical) {
+		d = this.position2Num(pd, v.lk.ey - v.lk.sy, false, n, vertical) - n.vcMin.get();
+	} else {
+		d = this.position2Num(pd, v.lk.ex - v.lk.sx, false, n, vertical) - n.vcMin.get();
+	}
+
+	d = this.position2Num(pd, n.set(num + d) - num + n.vcMin.get(), true, n, vertical);
+	if (vertical) {
+		v.lk.sy += d;
+	} else {
+		v.lk.sx += d;
+	}
+};
+LZR.HTML.Base.Ctrl.NumBase.StripNum.hdBtnDrop.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
+
+// 位置换算数值
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.position2Num = function (doeo/*as:LZR.HTML.Base.Doe*/, position/*as:double*/, reverse/*as:boolean*/)/*as:double*/ {
+	return this.constructor.position2Num(doeo, position, reverse, doeo.dat.hct_num, this.vertical);
+};
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.position2Num.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
+
+// 放置按钮
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.placeBtn = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	this.constructor.placeBtn(doeo, doeo.dat.hct_num, doeo.getById("hct_StripNumBtn"), this.enableDropBase, this.vertical);
+};
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.placeBtn.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
+
+// 处理按钮拖动
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBtnDrop = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/) {
+	this.constructor.hdBtnDrop(doeo, doeo.dat.hct_num, doeo.dat.hct_StripNumBase, doeo.dat.hct_mof, this.vertical);
+};
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBtnDrop.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
+
+// 处理底图拖动
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBaseDrop = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/) {
+	if (this.enableDropBase) {
+		var d;
+		var v = doeo.dat.hct_mof;
+		var n = doeo.dat.hct_num;
+		var min = n.vcMin.get();
+
+		if (this.vertical) {
+			d = this.position2Num(doeo, v.lk.sy - v.lk.ey);
+		} else {
+			d = this.position2Num(doeo, v.lk.sx - v.lk.ex);
+		}
+
+		if (d < min) {
+			this.calcRange(n, d, 0);
+		} else if (d > min) {
+			this.calcRange(n, d - min + n.vcMax.get(), 0);
+		}
+
+		d = this.position2Num(doeo, min, true);
+		if (this.vertical) {
+			v.lk.sy += d;
+		} else {
+			v.lk.sx += d;
+		}
+
+		this.placeBtn(doeo);
+	}
+};
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBaseDrop.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
 
 // 计算范围
 LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.calcRange = function (n/*as:Object*/, v/*as:double*/, multiple/*as:double*/) {
@@ -165,47 +224,6 @@ LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdMove = function (doeo/*as:LZR.HT
 };
 LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdMove.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
 
-// 处理按钮拖动
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBtnDrop = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/) {
-	this.constructor.hdBtnDrop(doeo, doeo.dat.hct_num, doeo.dat.hct_StripNumBase, doeo.dat.hct_mof, this.vertical);
-};
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBtnDrop.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
-
-// 处理按钮拖动
-LZR.HTML.Base.Ctrl.NumBase.StripNum.hdBtnDrop = function (doeo/*as:LZR.HTML.Base.Doe*/, n/*as:LZR.Base.Val.RangeNum*/, pd/*as:LZR.HTML.Base.Doe*/, v/*as:LZR.HTML.Base.Ctrl.Mouse.MouseInfo*/, vertical/*as:boolean*/) {
-	var d;
-	var num = n.get();
-
-	if (vertical) {
-		d = this.position2Num(pd, v.lk.ey - v.lk.sy, false, n, vertical) - n.vcMin.get();
-	} else {
-		d = this.position2Num(pd, v.lk.ex - v.lk.sx, false, n, vertical) - n.vcMin.get();
-	}
-
-	d = this.position2Num(pd, n.set(num + d) - num + n.vcMin.get(), true, n, vertical);
-	if (vertical) {
-		v.lk.sy += d;
-	} else {
-		v.lk.sx += d;
-	}
-};
-LZR.HTML.Base.Ctrl.NumBase.StripNum.hdBtnDrop.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
-
-// 构造器
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.init_ = function (obj/*as:Object*/) {
-	this.baseCtrl.enableMove = true;
-	this.baseCtrl.evt.lk.drop.add(this.utLzr.bind(this, this.hdBaseDrop), "StripNum_hdBaseDrop");
-	this.baseCtrl.evt.lk.click.add(this.utLzr.bind(this, this.hdBaseClick), "StripNum_hdBaseClick");
-	this.baseCtrl.evt.move.add(this.utLzr.bind(this, this.hdMove), "StripNum_hdMove");
-	this.btnCtrl.evt.lk.drop.add(this.utLzr.bind(this, this.hdBtnDrop), "StripNum_hdBtnDrop");
-
-	if (obj) {
-		LZR.setObj (this, obj);
-		this.hdObj_(obj);
-	}
-};
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.init_.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
-
 // 处理数值变化
 LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdNumChg = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:double*/) {
 	if (this.enableDropBase) {
@@ -215,33 +233,15 @@ LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdNumChg = function (doeo/*as:LZR.
 };
 LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdNumChg.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
 
-// 位置换算数值
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.position2Num = function (doeo/*as:LZR.HTML.Base.Doe*/, position/*as:double*/, reverse/*as:boolean*/)/*as:double*/ {
-	return this.constructor.position2Num(doeo, position, reverse, doeo.dat.hct_num, this.vertical);
+// 处理底图点击
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBaseClick = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/) {
+	if (this.vertical) {
+		doeo.dat.hct_num.set(this.position2Num(doeo, y));
+	} else {
+		doeo.dat.hct_num.set(this.position2Num(doeo, x));
+	}
 };
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.position2Num.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
-
-// ---- 移除元素的事件集
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	var d;
-
-	// 按钮
-	d = doeo.getById("hct_StripNumBtn");
-	this.btnCtrl.del(d);
-	this.delDat(d, "hct_num");
-	this.delDat(d, "hct_StripNumBase");
-
-	// 删除事件
-	this.baseCtrl.del(doeo);
-	this.delCb2Dat(doeo, doeo.dat.hct_num.vcMin.evt.change, "hdLimitChg");
-	this.delCb2Dat(doeo, doeo.dat.hct_num.vcMax.evt.change, "hdLimitChg");
-	this.delCb2Dat(doeo, doeo.dat.hct_num.vcNum.evt.change, "hdNumChg");
-	this.delCb2Dat(doeo, doeo.dat.hct_num.vcNum.evt.change, "onChg");
-
-	// 删除数据
-	this.delDat(doeo, "hct_num");
-};
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBaseClick.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
 
 // ---- 给元素添加事件集
 LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*as:Object*/, obj/*as:Object*/) {
@@ -291,24 +291,24 @@ LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.addEvt = function (doeo/*as:LZR.HT
 };
 LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
 
-// 放置按钮
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.placeBtn = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	this.constructor.placeBtn(doeo, doeo.dat.hct_num, doeo.getById("hct_StripNumBtn"), this.enableDropBase, this.vertical);
-};
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.placeBtn.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
+// ---- 移除元素的事件集
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	var d;
 
-// 对构造参数的特殊处理
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
-};
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
+	// 按钮
+	d = doeo.getById("hct_StripNumBtn");
+	this.btnCtrl.del(d);
+	this.delDat(d, "hct_num");
+	this.delDat(d, "hct_StripNumBase");
 
-// 处理底图点击
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBaseClick = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/) {
-	if (this.vertical) {
-		doeo.dat.hct_num.set(this.position2Num(doeo, y));
-	} else {
-		doeo.dat.hct_num.set(this.position2Num(doeo, x));
-	}
+	// 删除事件
+	this.baseCtrl.del(doeo);
+	this.delCb2Dat(doeo, doeo.dat.hct_num.vcMin.evt.change, "hdLimitChg");
+	this.delCb2Dat(doeo, doeo.dat.hct_num.vcMax.evt.change, "hdLimitChg");
+	this.delCb2Dat(doeo, doeo.dat.hct_num.vcNum.evt.change, "hdNumChg");
+	this.delCb2Dat(doeo, doeo.dat.hct_num.vcNum.evt.change, "onChg");
+
+	// 删除数据
+	this.delDat(doeo, "hct_num");
 };
-LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.hdBaseClick.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;
+LZR.HTML.Base.Ctrl.NumBase.StripNum.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl.NumBase.StripNum;

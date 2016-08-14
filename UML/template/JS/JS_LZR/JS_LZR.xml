@@ -123,7 +123,7 @@ parse(<language>);
 <funStatement>							::= ["this."] <qualifiedName> "(" [skipBalanced("(", ")")] ")" ";";
 
 // 鍑芥暟缁戝畾绫昏鍙?
-<funBindStatement>						::= <qualifiedName> ["." "prototype" "."] <qualifiedName> "=" <qualifiedName> ";";
+<funBindStatement>						::= <qualifiedName> ["." "prototype" "." <qualifiedName>] "=" <qualifiedName> ";";
 
 // 鍙橀噺澹版槑
 <valStatement>							::= "var" <qualifiedName> "=" <lineStatement>;
@@ -261,10 +261,10 @@ parse(<language>);
 											<funStatement>;
 
 // 鏅€氭柟娉?
-<operationDeclaration>					::= node("METHOD", node("DECLARATION", <nameSpace> "prototype" "." <operationName> "=" "function" <operationParameters> [<typCmt>]) "{" [<operationBody>] "}" ";");
+<operationDeclaration>					::= node("METHOD", node("DECLARATION", <nameSpace> "prototype" "." <operationName> "=" "function" <operationParameters> [<typCmt>]) "{" [<operationBody>] "}" ";" [<funBindStatement>]);
 
 // 闈欐€佹柟娉?
-<operationDeclarationStatic>			::= node("METHOD", node("DECLARATION", <nameSpace> <operationName> "=" "function" <operationParameters> [<typCmt>] attributeEx("STATIC", "true")) "{" [<operationBody>] "}" ";");
+<operationDeclarationStatic>			::= node("METHOD", node("DECLARATION", <nameSpace> <operationName> "=" "function" <operationParameters> [<typCmt>] attributeEx("STATIC", "true")) "{" [<operationBody>] "}" ";" [<funBindStatement>]);
 
 <operationName>							::= attribute("NAME", <simpleName>);
 

@@ -101,85 +101,20 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.HTML.Base.Ctrl.Mouse");
 
-// ---- 给元素添加事件集
-LZR.HTML.Base.Ctrl.Mouse.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*as:Object*/, obj/*as:Object*/) {
-	var v;
-
-	// 创建数据
+// 构造器
+LZR.HTML.Base.Ctrl.Mouse.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
-		v = this.crtDat(doeo, "hct_mof", obj);
-	} else {
-		v = this.crtDat(doeo, "hct_mof", new this.clsMof(pro));
-	}
-	doeo.calcPosition();
-	v.STAT = this.utEvt.MouseStat;
-	v.docMoveFun = this.utLzr.bind(this, this.hdDocumentMove, doeo);
-	v.docUpFun = this.utLzr.bind(this, this.hdDocumentUp, doeo);
-	v.selfMoveFun = this.utLzr.bind(this, this.hdMove, doeo);
-
-	if (this.enableMove) {
-		doeo.addEvt ("mousemove", v.selfMoveFun, this.className_);
-	}
-	if (this.enableWheel) {
-		doeo.addEvt ("wheel", this.utLzr.bind(this, this.hdWheel, doeo), this.className_);
-	}
-	doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo), this.className_);
-};
-LZR.HTML.Base.Ctrl.Mouse.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
-
-// 左键单击事件
-LZR.HTML.Base.Ctrl.Mouse.prototype.onLeftClick = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/, bx/*as:double*/, by/*as:double*/) {
-	this.evt.lk.click.execute (doeo, x, y, bx, by);
-};
-LZR.HTML.Base.Ctrl.Mouse.prototype.onLeftClick.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
-
-// 滚轮事件
-LZR.HTML.Base.Ctrl.Mouse.prototype.onWheel = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:int*/, x/*as:double*/, y/*as:double*/, bx/*as:double*/, by/*as:double*/) {
-	this.evt.mid.wheel.execute (doeo, v, x, y, bx, by);
-};
-LZR.HTML.Base.Ctrl.Mouse.prototype.onWheel.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
-
-// 抬起事件
-LZR.HTML.Base.Ctrl.Mouse.prototype.onUp = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/)/*as:boolean*/ {
-	return this.evt.up.execute (doeo, evt);
-};
-LZR.HTML.Base.Ctrl.Mouse.prototype.onUp.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
-
-// 处理滚轮事件
-LZR.HTML.Base.Ctrl.Mouse.prototype.hdWheel = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
-	this.utEvt.stopDefault(evt);
-	this.utEvt.stopBubble(evt);
-
-	var p = this.utEvt.getMousePosition(evt);
-	var x = p.x - doeo.position.left;
-	var y = p.y - doeo.position.top;
-	var v = doeo.dat.hct_mof;
-
-	if (v.stat & v.STAT.mid) {
-		// 硬滚动
-		doeo.dat.hct_mof.dwVal += evt.delta;
-		this.onDownWheel(doeo, evt.delta, x, y, p.x, p.y);
-	} else {
-		// 普通滚动
-		doeo.dat.hct_mof.wheelVal += evt.delta;
-		this.onWheel(doeo, evt.delta, x, y, p.x, p.y);
+		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
 };
-LZR.HTML.Base.Ctrl.Mouse.prototype.hdWheel.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+LZR.HTML.Base.Ctrl.Mouse.prototype.init_.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
 
-// 处理移动事件
-LZR.HTML.Base.Ctrl.Mouse.prototype.hdMove = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
-	var v = doeo.dat.hct_mof;
-	// this.utEvt.stopDefault(evt);
-	// this.utEvt.stopBubble(evt);
-
-	var p = this.utEvt.getMousePosition(evt);
-	var x = p.x - doeo.position.left;
-	var y = p.y - doeo.position.top;
-
-	this.onMove(doeo, x, y, p.x, p.y);
+// 对构造参数的特殊处理
+LZR.HTML.Base.Ctrl.Mouse.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
 };
-LZR.HTML.Base.Ctrl.Mouse.prototype.hdMove.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+LZR.HTML.Base.Ctrl.Mouse.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
 
 // 处理按下事件
 LZR.HTML.Base.Ctrl.Mouse.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
@@ -236,70 +171,6 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe
 };
 LZR.HTML.Base.Ctrl.Mouse.prototype.hdDown.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
 
-// 对构造参数的特殊处理
-LZR.HTML.Base.Ctrl.Mouse.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
-};
-LZR.HTML.Base.Ctrl.Mouse.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
-
-// 构造器
-LZR.HTML.Base.Ctrl.Mouse.prototype.init_ = function (obj/*as:Object*/) {
-	if (obj) {
-		LZR.setObj (this, obj);
-		this.hdObj_(obj);
-	}
-};
-LZR.HTML.Base.Ctrl.Mouse.prototype.init_.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
-
-// 按下事件
-LZR.HTML.Base.Ctrl.Mouse.prototype.onDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/)/*as:boolean*/ {
-	return this.evt.down.execute (doeo, evt);
-};
-LZR.HTML.Base.Ctrl.Mouse.prototype.onDown.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
-
-// 处理全文档移动事件
-LZR.HTML.Base.Ctrl.Mouse.prototype.hdDocumentMove = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
-	this.utEvt.stopDefault(evt);
-	this.utEvt.stopBubble(evt);
-
-	var p = this.utEvt.getMousePosition(evt);
-	var x = p.x - doeo.position.left;
-	var y = p.y - doeo.position.top;
-	var v = doeo.dat.hct_mof;
-	var k;
-
-	k = "lk";
-	if (v.stat & v.STAT[k]) {
-		if (!(v[k].dbStat && (v[k].sx === p.x) && (v[k].sy === p.y))) {
-			v[k].dbStat = 0;
-			v[k].ex = p.x;
-			v[k].ey = p.y;
-			this.onLeftDrop(doeo, x, y, p.x, p.y);
-		}
-	}
-
-	k = "rk";
-	if (v.stat & v.STAT[k]) {
-		if (!(v[k].dbStat && (v[k].sx === p.x) && (v[k].sy === p.y))) {
-			v[k].dbStat = 0;
-			v[k].ex = p.x;
-			v[k].ey = p.y;
-			this.onRightDrop(doeo, x, y, p.x, p.y);
-		}
-	}
-
-	k = "mid";
-	if (v.stat & v.STAT[k]) {
-		if (!(v[k].dbStat && (v[k].sx === p.x) && (v[k].sy === p.y))) {
-			v[k].dbStat = 0;
-			v[k].ex = p.x;
-			v[k].ey = p.y;
-			this.onMidDrop(doeo, x, y, p.x, p.y);
-		}
-	}
-};
-LZR.HTML.Base.Ctrl.Mouse.prototype.hdDocumentMove.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
-
 // 处理全文档抬起事件
 LZR.HTML.Base.Ctrl.Mouse.prototype.hdDocumentUp = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
 	this.utEvt.stopDefault(evt);
@@ -323,7 +194,7 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.hdDocumentUp = function (doeo/*as:LZR.HTML.Ba
 			setTimeout(this.utLzr.bind(this, this.utEvt.delEvt, dm, "contextmenu", this.utEvt.stopDefault, false), 1);
 		}
 
-		if (this.onUp(doeo, evt)) {
+		if (this.onUp(doeo, evt, v[k])) {
 			if (v[k].dbStat === 1) {
 				var t = this.utTim.getTim() - v[k].tim;
 				var p = this.utEvt.getMousePosition(evt);
@@ -380,22 +251,114 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.hdDocumentUp = function (doeo/*as:LZR.HTML.Ba
 };
 LZR.HTML.Base.Ctrl.Mouse.prototype.hdDocumentUp.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
 
+// 处理全文档移动事件
+LZR.HTML.Base.Ctrl.Mouse.prototype.hdDocumentMove = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
+	this.utEvt.stopDefault(evt);
+	this.utEvt.stopBubble(evt);
+
+	var p = this.utEvt.getMousePosition(evt);
+	var x = p.x - doeo.position.left;
+	var y = p.y - doeo.position.top;
+	var v = doeo.dat.hct_mof;
+	var k;
+
+	k = "lk";
+	if (v.stat & v.STAT[k]) {
+		if (!(v[k].dbStat && (v[k].sx === p.x) && (v[k].sy === p.y))) {
+			v[k].dbStat = 0;
+			v[k].ex = p.x;
+			v[k].ey = p.y;
+			this.onLeftDrop(doeo, x, y, p.x, p.y);
+		}
+	}
+
+	k = "rk";
+	if (v.stat & v.STAT[k]) {
+		if (!(v[k].dbStat && (v[k].sx === p.x) && (v[k].sy === p.y))) {
+			v[k].dbStat = 0;
+			v[k].ex = p.x;
+			v[k].ey = p.y;
+			this.onRightDrop(doeo, x, y, p.x, p.y);
+		}
+	}
+
+	k = "mid";
+	if (v.stat & v.STAT[k]) {
+		if (!(v[k].dbStat && (v[k].sx === p.x) && (v[k].sy === p.y))) {
+			v[k].dbStat = 0;
+			v[k].ex = p.x;
+			v[k].ey = p.y;
+			this.onMidDrop(doeo, x, y, p.x, p.y);
+		}
+	}
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.hdDocumentMove.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
+// 处理移动事件
+LZR.HTML.Base.Ctrl.Mouse.prototype.hdMove = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
+	var v = doeo.dat.hct_mof;
+	// this.utEvt.stopDefault(evt);
+	// this.utEvt.stopBubble(evt);
+
+	var p = this.utEvt.getMousePosition(evt);
+	var x = p.x - doeo.position.left;
+	var y = p.y - doeo.position.top;
+
+	this.onMove(doeo, x, y, p.x, p.y);
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.hdMove.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
+// 处理滚轮事件
+LZR.HTML.Base.Ctrl.Mouse.prototype.hdWheel = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
+	this.utEvt.stopDefault(evt);
+	this.utEvt.stopBubble(evt);
+
+	var p = this.utEvt.getMousePosition(evt);
+	var x = p.x - doeo.position.left;
+	var y = p.y - doeo.position.top;
+	var v = doeo.dat.hct_mof;
+
+	if (v.stat & v.STAT.mid) {
+		// 硬滚动
+		doeo.dat.hct_mof.dwVal += evt.delta;
+		this.onDownWheel(doeo, evt.delta, x, y, p.x, p.y);
+	} else {
+		// 普通滚动
+		doeo.dat.hct_mof.wheelVal += evt.delta;
+		this.onWheel(doeo, evt.delta, x, y, p.x, p.y);
+	}
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.hdWheel.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
+// 按下事件
+LZR.HTML.Base.Ctrl.Mouse.prototype.onDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/)/*as:boolean*/ {
+	return this.evt.down.execute (doeo, evt);
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.onDown.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
+// 抬起事件
+LZR.HTML.Base.Ctrl.Mouse.prototype.onUp = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/, key/*as:Object*/)/*as:boolean*/ {
+	return this.evt.up.execute (doeo, evt, key);
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.onUp.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
+// 左键单击事件
+LZR.HTML.Base.Ctrl.Mouse.prototype.onLeftClick = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/, bx/*as:double*/, by/*as:double*/) {
+	this.evt.lk.click.execute (doeo, x, y, bx, by);
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.onLeftClick.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
+// 滚轮事件
+LZR.HTML.Base.Ctrl.Mouse.prototype.onWheel = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:int*/, x/*as:double*/, y/*as:double*/, bx/*as:double*/, by/*as:double*/) {
+	this.evt.mid.wheel.execute (doeo, v, x, y, bx, by);
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.onWheel.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
 // 左键双击事件
 LZR.HTML.Base.Ctrl.Mouse.prototype.onLeftDouble = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/, bx/*as:double*/, by/*as:double*/) {
 	this.evt.lk.dbclick.execute (doeo, x, y, bx, by);
 };
 LZR.HTML.Base.Ctrl.Mouse.prototype.onLeftDouble.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
-
-// ---- 移除元素的事件集
-LZR.HTML.Base.Ctrl.Mouse.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	doeo.delEvt ("mousemove", this.className_);
-	doeo.delEvt ("wheel", this.className_);
-	doeo.delEvt ("mousedown", this.className_);
-
-	// 删除数据
-	this.delDat(doeo, "hct_mof");
-};
-LZR.HTML.Base.Ctrl.Mouse.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
 
 // 左键长按事件
 LZR.HTML.Base.Ctrl.Mouse.prototype.onLeftLong = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/, bx/*as:double*/, by/*as:double*/) {
@@ -468,3 +431,40 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.onDownWheel = function (doeo/*as:LZR.HTML.Bas
 	this.evt.mid.dw.execute (doeo, v, x, y, bx, by);
 };
 LZR.HTML.Base.Ctrl.Mouse.prototype.onDownWheel.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
+// ---- 给元素添加事件集
+LZR.HTML.Base.Ctrl.Mouse.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*as:Object*/, obj/*as:Object*/) {
+	var v;
+
+	// 创建数据
+	if (obj) {
+		v = this.crtDat(doeo, "hct_mof", obj);
+	} else {
+		v = this.crtDat(doeo, "hct_mof", new this.clsMof(pro));
+	}
+	doeo.calcPosition();
+	v.STAT = this.utEvt.MouseStat;
+	v.docMoveFun = this.utLzr.bind(this, this.hdDocumentMove, doeo);
+	v.docUpFun = this.utLzr.bind(this, this.hdDocumentUp, doeo);
+	v.selfMoveFun = this.utLzr.bind(this, this.hdMove, doeo);
+
+	if (this.enableMove) {
+		doeo.addEvt ("mousemove", v.selfMoveFun, this.className_);
+	}
+	if (this.enableWheel) {
+		doeo.addEvt ("wheel", this.utLzr.bind(this, this.hdWheel, doeo), this.className_);
+	}
+	doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo), this.className_);
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
+// ---- 移除元素的事件集
+LZR.HTML.Base.Ctrl.Mouse.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	doeo.delEvt ("mousemove", this.className_);
+	doeo.delEvt ("wheel", this.className_);
+	doeo.delEvt ("mousedown", this.className_);
+
+	// 删除数据
+	this.delDat(doeo, "hct_mof");
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;

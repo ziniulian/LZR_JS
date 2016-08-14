@@ -121,7 +121,7 @@ parse(<language>);
 <funStatement>							::= ["this."] <qualifiedName> "(" [skipBalanced("(", ")")] ")" ";";
 
 // 函数绑定类语句
-<funBindStatement>						::= <qualifiedName> ["." "prototype" "."] <qualifiedName> "=" <qualifiedName> ";";
+<funBindStatement>						::= <qualifiedName> ["." "prototype" "." <qualifiedName>] "=" <qualifiedName> ";";
 
 // 变量声明
 <valStatement>							::= "var" <qualifiedName> "=" <lineStatement>;
@@ -259,10 +259,10 @@ parse(<language>);
 											<funStatement>;
 
 // 普通方法
-<operationDeclaration>					::= node("METHOD", node("DECLARATION", <nameSpace> "prototype" "." <operationName> "=" "function" <operationParameters> [<typCmt>]) "{" [<operationBody>] "}" ";");
+<operationDeclaration>					::= node("METHOD", node("DECLARATION", <nameSpace> "prototype" "." <operationName> "=" "function" <operationParameters> [<typCmt>]) "{" [<operationBody>] "}" ";" [<funBindStatement>]);
 
 // 静态方法
-<operationDeclarationStatic>			::= node("METHOD", node("DECLARATION", <nameSpace> <operationName> "=" "function" <operationParameters> [<typCmt>] attributeEx("STATIC", "true")) "{" [<operationBody>] "}" ";");
+<operationDeclarationStatic>			::= node("METHOD", node("DECLARATION", <nameSpace> <operationName> "=" "function" <operationParameters> [<typCmt>] attributeEx("STATIC", "true")) "{" [<operationBody>] "}" ";" [<funBindStatement>]);
 
 <operationName>							::= attribute("NAME", <simpleName>);
 
