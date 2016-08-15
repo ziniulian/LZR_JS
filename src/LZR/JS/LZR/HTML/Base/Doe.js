@@ -70,6 +70,158 @@ LZR.load(null, "LZR.HTML.Base.Doe");
 // 适配参数
 LZR.HTML.Base.Doe.prototype.adaptation = "";	/*as:string*/
 
+// 构造器
+LZR.HTML.Base.Doe.prototype.init_ = function (obj/*as:Object*/) {
+	if (obj) {
+		LZR.setObj (this, obj);
+		this.hdObj_(obj);
+	}
+};
+LZR.HTML.Base.Doe.prototype.init_.lzrClass_ = LZR.HTML.Base.Doe;
+
+// 对构造参数的特殊处理
+LZR.HTML.Base.Doe.prototype.hdObj_ = function (obj/*as:Object*/) {
+	if (obj.hd_typ) {
+		this.hdCss(obj.hd_css, false);
+		this.hdTyp (obj.hd_typ);
+	} else if (obj.hd_doe) {
+		this.hdDoe(obj.hd_doe);
+	}
+
+	// 调用父类的参数处理（子数据的递归创建）
+	this.utLzr.supCall (this, 0, "hdObj_", obj);
+};
+LZR.HTML.Base.Doe.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Doe;
+
+// 处理标记
+LZR.HTML.Base.Doe.prototype.hdTyp = function (hd_typ/*as:string*/, flushCss/*as:boolean*/) {
+	this.typ = hd_typ;
+	this.doe = document.createElement(hd_typ);
+	if (flushCss !== false) {
+		this.css.flush(this.doe);
+	}
+};
+LZR.HTML.Base.Doe.prototype.hdTyp.lzrClass_ = LZR.HTML.Base.Doe;
+
+// 处理样式
+LZR.HTML.Base.Doe.prototype.hdCss = function (hd_css/*as:string*/, flushCss/*as:boolean*/) {
+	if (typeof(hd_css) === "string") {
+		this.css = this.css.constructor.parse(hd_css);
+		if (flushCss !== false) {
+			this.css.flush(this.doe);
+		}
+	}
+};
+LZR.HTML.Base.Doe.prototype.hdCss.lzrClass_ = LZR.HTML.Base.Doe;
+
+// 处理DOM元素
+LZR.HTML.Base.Doe.prototype.hdDoe = function (hd_doe/*as:Object*/) {
+	if (hd_doe.tagName) {
+		this.doe = hd_doe;
+		this.typ = hd_doe.tagName;
+		this.css = this.css.constructor.parse(hd_doe);
+		this.initSubsByDom ();
+	}
+};
+LZR.HTML.Base.Doe.prototype.hdDoe.lzrClass_ = LZR.HTML.Base.Doe;
+
+// 用元素初始化时包含递归的子元素
+LZR.HTML.Base.Doe.prototype.initSubsByDom = function () {
+	var i, d, idd;
+	var ns = this.doe.childNodes;
+	for (i = 0; i<ns.length; i++) {
+		if (ns[i].tagName) {
+			idd = ns[i].getAttribute("idLzr");
+			if (!idd) {
+				idd = ns[i].id ? ns[i].id : ("doe_" + this.count.toString());
+			}
+			d = new this.constructor ({
+				id: idd,
+				hd_doe: ns[i]
+			});
+			this.utLzr.supCall (this, 0, "add", d);	// 不能用 this.add (d); 方法
+		}
+	}
+};
+LZR.HTML.Base.Doe.prototype.initSubsByDom.lzrClass_ = LZR.HTML.Base.Doe;
+
+// 添加CSS样式
+LZR.HTML.Base.Doe.prototype.addCss = function (name/*as:string*/)/*as:boolean*/ {
+	if (this.css.add(name)) {
+		this.css.flush(this.doe);
+		return true;
+	} else {
+		return false;
+	}
+};
+LZR.HTML.Base.Doe.prototype.addCss.lzrClass_ = LZR.HTML.Base.Doe;
+
+// 删除CSS样式
+LZR.HTML.Base.Doe.prototype.delCss = function (name/*as:string*/)/*as:boolean*/ {
+	if (this.css.del(name)) {
+		this.css.flush(this.doe);
+		return true;
+	} else {
+		return false;
+	}
+};
+LZR.HTML.Base.Doe.prototype.delCss.lzrClass_ = LZR.HTML.Base.Doe;
+
+// 替换CSS样式
+LZR.HTML.Base.Doe.prototype.chgCss = function (name/*as:string*/)/*as:boolean*/ {
+	this.css.delAll();
+	if (name) {
+		return this.addCss(name);
+	} else {
+		this.css.flush(this.doe);
+		return true;
+	}
+};
+LZR.HTML.Base.Doe.prototype.chgCss.lzrClass_ = LZR.HTML.Base.Doe;
+
+// 添加控制器
+LZR.HTML.Base.Doe.prototype.addCtrl = function (ctl/*as:LZR.HTML.Base.Ctrl*/) {
+	ctl.add(this);
+};
+LZR.HTML.Base.Doe.prototype.addCtrl.lzrClass_ = LZR.HTML.Base.Doe;
+
+// 删除控制器
+LZR.HTML.Base.Doe.prototype.delCtrl = function (ctl/*as:LZR.HTML.Base.Ctrl*/)/*as:boolean*/ {
+	return ctl.del(this);
+};
+LZR.HTML.Base.Doe.prototype.delCtrl.lzrClass_ = LZR.HTML.Base.Doe;
+
+// 创建事件
+LZR.HTML.Base.Doe.prototype.crtEvt = function (name/*as:string*/)/*as:Object*/ {
+	var e = this.evt[name];
+	if (!e) {
+		// 创建事件
+		e = new this.clsCb({
+			obj: this
+		});
+		this.evt[name] = e;
+		switch (name) {
+			case "wheel":
+				this.utEvt.addWheel (this.doe, e.exe, false);
+				break;
+			case "resize":
+				this.utEvt.addEvt (window, name, e.exe, false);
+				break;
+			default:
+				this.utEvt.addEvt (this.doe, name, e.exe, false);
+				break;
+		}
+	}
+	return e;
+};
+LZR.HTML.Base.Doe.prototype.crtEvt.lzrClass_ = LZR.HTML.Base.Doe;
+
+// 添加事件
+LZR.HTML.Base.Doe.prototype.addEvt = function (name/*as:string*/, fun/*as:fun*/, funam/*as:string*/) {
+	this.crtEvt(name).add(fun, funam);
+};
+LZR.HTML.Base.Doe.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Doe;
+
 // 删除事件
 LZR.HTML.Base.Doe.prototype.delEvt = function (name/*as:string*/, funam/*as:string*/) {
 	var e = this.evt[name];
@@ -103,11 +255,49 @@ LZR.HTML.Base.Doe.prototype.trigger = function (evtNam/*as:string*/) {
 };
 LZR.HTML.Base.Doe.prototype.trigger.lzrClass_ = LZR.HTML.Base.Doe;
 
+// 放入一个DOM元素中
+LZR.HTML.Base.Doe.prototype.place = function (doe/*as:Object*/) {
+	this.parent.set(null);
+	doe.appendChild(this.doe);
+};
+LZR.HTML.Base.Doe.prototype.place.lzrClass_ = LZR.HTML.Base.Doe;
+
+// 从DOM中移出
+LZR.HTML.Base.Doe.prototype.remove = function () {
+	this.parent.set(null);
+	var p = this.doe.parentNode;
+	if (p) {
+		p.removeChild(this.doe);
+	}
+};
+LZR.HTML.Base.Doe.prototype.remove.lzrClass_ = LZR.HTML.Base.Doe;
+
+// 设置DOM元素属性
+LZR.HTML.Base.Doe.prototype.setAtt = function (key/*as:string*/, val/*as:string*/) {
+	this.utDt.setAtt(key, val, this.doe);
+};
+LZR.HTML.Base.Doe.prototype.setAtt.lzrClass_ = LZR.HTML.Base.Doe;
+
 // 获取DOM元素属性
 LZR.HTML.Base.Doe.prototype.getAtt = function (key/*as:string*/)/*as:string*/ {
 	return this.utDt.getAtt(key, this.doe);
 };
 LZR.HTML.Base.Doe.prototype.getAtt.lzrClass_ = LZR.HTML.Base.Doe;
+
+// 删除DOM元素属性
+LZR.HTML.Base.Doe.prototype.delAtt = function (key/*as:string*/) {
+	this.utDt.delAtt(key, this.doe);
+};
+LZR.HTML.Base.Doe.prototype.delAtt.lzrClass_ = LZR.HTML.Base.Doe;
+
+// 设置DOM元素的Styley样式
+LZR.HTML.Base.Doe.prototype.setStyle = function (key/*as:string*/, val/*as:string*/) {
+	if (typeof (val) === "number") {
+		val = val + "px";
+	}
+	this.utDt.setStyle(key, val, this.doe);
+};
+LZR.HTML.Base.Doe.prototype.setStyle.lzrClass_ = LZR.HTML.Base.Doe;
 
 // 获取DOM元素的Styley样式
 LZR.HTML.Base.Doe.prototype.getStyle = function (key/*as:string*/)/*as:string*/ {
@@ -127,40 +317,32 @@ LZR.HTML.Base.Doe.prototype.matchParent = function (vertical/*as:string*/, horiz
 };
 LZR.HTML.Base.Doe.prototype.matchParent.lzrClass_ = LZR.HTML.Base.Doe;
 
-// 设置DOM元素的Styley样式
-LZR.HTML.Base.Doe.prototype.setStyle = function (key/*as:string*/, val/*as:string*/) {
-	if (typeof (val) === "number") {
-		val = val + "px";
+// 获取文档
+LZR.HTML.Base.Doe.prototype.getDocument = function ()/*as:Object*/ {
+	return this.utDt.getDocument(this.doe);
+};
+LZR.HTML.Base.Doe.prototype.getDocument.lzrClass_ = LZR.HTML.Base.Doe;
+
+// ---- 添加
+LZR.HTML.Base.Doe.prototype.add = function (sub/*as:LZR.Base.Data*/, id/*as:string*/)/*as:boolean*/ {
+	if (this.utLzr.supCall (this, 0, "add", sub, id)) {
+		this.doe.appendChild(sub.doe);
+		return true;
+	} else {
+		return false;
 	}
-	this.utDt.setStyle(key, val, this.doe);
 };
-LZR.HTML.Base.Doe.prototype.setStyle.lzrClass_ = LZR.HTML.Base.Doe;
+LZR.HTML.Base.Doe.prototype.add.lzrClass_ = LZR.HTML.Base.Doe;
 
-// 设置DOM元素属性
-LZR.HTML.Base.Doe.prototype.setAtt = function (key/*as:string*/, val/*as:string*/) {
-	this.utDt.setAtt(key, val, this.doe);
-};
-LZR.HTML.Base.Doe.prototype.setAtt.lzrClass_ = LZR.HTML.Base.Doe;
-
-// 删除DOM元素属性
-LZR.HTML.Base.Doe.prototype.delAtt = function (key/*as:string*/) {
-	this.utDt.delAtt(key, this.doe);
-};
-LZR.HTML.Base.Doe.prototype.delAtt.lzrClass_ = LZR.HTML.Base.Doe;
-
-// ---- 克隆
-LZR.HTML.Base.Doe.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
-	var r = this.utLzr.supCall (this, 0, "clone", dep);
-
-	// 追加控制器
-	if (this.ctrl) {
-		for (var s in this.ctrl) {
-			this.ctrl[s].add(r);
-		}
+// ---- 删除
+LZR.HTML.Base.Doe.prototype.del = function (id/*as:string*/)/*as:Object*/ {
+	var r = this.utLzr.supCall (this, 0, "del", id);
+	if (r) {
+		this.doe.removeChild(r.doe);
 	}
 	return r;
 };
-LZR.HTML.Base.Doe.prototype.clone.lzrClass_ = LZR.HTML.Base.Doe;
+LZR.HTML.Base.Doe.prototype.del.lzrClass_ = LZR.HTML.Base.Doe;
 
 // ---- 处理克隆参数
 LZR.HTML.Base.Doe.prototype.hdClonePro = function (name/*as:string*/, rt/*as:Object*/, dep/*as:boolean*/)/*as:Object*/ {
@@ -190,192 +372,16 @@ LZR.HTML.Base.Doe.prototype.hdClonePro = function (name/*as:string*/, rt/*as:Obj
 };
 LZR.HTML.Base.Doe.prototype.hdClonePro.lzrClass_ = LZR.HTML.Base.Doe;
 
-// ---- 删除
-LZR.HTML.Base.Doe.prototype.del = function (id/*as:string*/)/*as:Object*/ {
-	var r = this.utLzr.supCall (this, 0, "del", id);
-	if (r) {
-		this.doe.removeChild(r.doe);
+// ---- 克隆
+LZR.HTML.Base.Doe.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
+	var r = this.utLzr.supCall (this, 0, "clone", dep);
+
+	// 追加控制器
+	if (this.ctrl) {
+		for (var s in this.ctrl) {
+			this.ctrl[s].add(r);
+		}
 	}
 	return r;
 };
-LZR.HTML.Base.Doe.prototype.del.lzrClass_ = LZR.HTML.Base.Doe;
-
-// ---- 添加
-LZR.HTML.Base.Doe.prototype.add = function (sub/*as:LZR.Base.Data*/, id/*as:string*/)/*as:boolean*/ {
-	if (this.utLzr.supCall (this, 0, "add", sub, id)) {
-		this.doe.appendChild(sub.doe);
-		return true;
-	} else {
-		return false;
-	}
-};
-LZR.HTML.Base.Doe.prototype.add.lzrClass_ = LZR.HTML.Base.Doe;
-
-// 获取文档
-LZR.HTML.Base.Doe.prototype.getDocument = function ()/*as:Object*/ {
-	return this.utDt.getDocument(this.doe);
-};
-LZR.HTML.Base.Doe.prototype.getDocument.lzrClass_ = LZR.HTML.Base.Doe;
-
-// 放入一个DOM元素中
-LZR.HTML.Base.Doe.prototype.place = function (doe/*as:Object*/) {
-	this.parent.set(null);
-	doe.appendChild(this.doe);
-};
-LZR.HTML.Base.Doe.prototype.place.lzrClass_ = LZR.HTML.Base.Doe;
-
-// 构造器
-LZR.HTML.Base.Doe.prototype.init_ = function (obj/*as:Object*/) {
-	if (obj) {
-		LZR.setObj (this, obj);
-		this.hdObj_(obj);
-	}
-};
-LZR.HTML.Base.Doe.prototype.init_.lzrClass_ = LZR.HTML.Base.Doe;
-
-// 添加事件
-LZR.HTML.Base.Doe.prototype.addEvt = function (name/*as:string*/, fun/*as:fun*/, funam/*as:string*/) {
-	var e = this.evt[name];
-	if (!e) {
-		// 创建事件
-		e = new this.clsCb({
-			obj: this
-		});
-		this.evt[name] = e;
-		switch (name) {
-			case "wheel":
-				this.utEvt.addWheel (this.doe, e.exe, false);
-				break;
-			case "resize":
-				this.utEvt.addEvt (window, name, e.exe, false);
-				break;
-			default:
-				this.utEvt.addEvt (this.doe, name, e.exe, false);
-				break;
-		}
-	}
-	e.add(fun, funam);
-};
-LZR.HTML.Base.Doe.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Doe;
-
-// 删除控制器
-LZR.HTML.Base.Doe.prototype.delCtrl = function (ctl/*as:LZR.HTML.Base.Ctrl*/)/*as:boolean*/ {
-	return ctl.del(this);
-};
-LZR.HTML.Base.Doe.prototype.delCtrl.lzrClass_ = LZR.HTML.Base.Doe;
-
-// 添加控制器
-LZR.HTML.Base.Doe.prototype.addCtrl = function (ctl/*as:LZR.HTML.Base.Ctrl*/) {
-	ctl.add(this);
-};
-LZR.HTML.Base.Doe.prototype.addCtrl.lzrClass_ = LZR.HTML.Base.Doe;
-
-// 替换CSS样式
-LZR.HTML.Base.Doe.prototype.chgCss = function (name/*as:string*/)/*as:boolean*/ {
-	this.css.delAll();
-	if (name) {
-		return this.addCss(name);
-	} else {
-		this.css.flush(this.doe);
-		return true;
-	}
-};
-LZR.HTML.Base.Doe.prototype.chgCss.lzrClass_ = LZR.HTML.Base.Doe;
-
-// 删除CSS样式
-LZR.HTML.Base.Doe.prototype.delCss = function (name/*as:string*/)/*as:boolean*/ {
-	if (this.css.del(name)) {
-		this.css.flush(this.doe);
-		return true;
-	} else {
-		return false;
-	}
-};
-LZR.HTML.Base.Doe.prototype.delCss.lzrClass_ = LZR.HTML.Base.Doe;
-
-// 添加CSS样式
-LZR.HTML.Base.Doe.prototype.addCss = function (name/*as:string*/)/*as:boolean*/ {
-	if (this.css.add(name)) {
-		this.css.flush(this.doe);
-		return true;
-	} else {
-		return false;
-	}
-};
-LZR.HTML.Base.Doe.prototype.addCss.lzrClass_ = LZR.HTML.Base.Doe;
-
-// 用元素初始化时包含递归的子元素
-LZR.HTML.Base.Doe.prototype.initSubsByDom = function () {
-	var i, d, idd;
-	var ns = this.doe.childNodes;
-	for (i = 0; i<ns.length; i++) {
-		if (ns[i].tagName) {
-			idd = ns[i].getAttribute("idLzr");
-			if (!idd) {
-				idd = ns[i].id ? ns[i].id : ("doe_" + this.count.toString());
-			}
-			d = new this.constructor ({
-				id: idd,
-				hd_doe: ns[i]
-			});
-			this.utLzr.supCall (this, 0, "add", d);	// 不能用 this.add (d); 方法
-		}
-	}
-};
-LZR.HTML.Base.Doe.prototype.initSubsByDom.lzrClass_ = LZR.HTML.Base.Doe;
-
-// 处理DOM元素
-LZR.HTML.Base.Doe.prototype.hdDoe = function (hd_doe/*as:Object*/) {
-	if (hd_doe.tagName) {
-		this.doe = hd_doe;
-		this.typ = hd_doe.tagName;
-		this.css = this.css.constructor.parse(hd_doe);
-		this.initSubsByDom ();
-	}
-};
-LZR.HTML.Base.Doe.prototype.hdDoe.lzrClass_ = LZR.HTML.Base.Doe;
-
-// 处理样式
-LZR.HTML.Base.Doe.prototype.hdCss = function (hd_css/*as:string*/, flushCss/*as:boolean*/) {
-	if (typeof(hd_css) === "string") {
-		this.css = this.css.constructor.parse(hd_css);
-		if (flushCss !== false) {
-			this.css.flush(this.doe);
-		}
-	}
-};
-LZR.HTML.Base.Doe.prototype.hdCss.lzrClass_ = LZR.HTML.Base.Doe;
-
-// 处理标记
-LZR.HTML.Base.Doe.prototype.hdTyp = function (hd_typ/*as:string*/, flushCss/*as:boolean*/) {
-	this.typ = hd_typ;
-	this.doe = document.createElement(hd_typ);
-	if (flushCss !== false) {
-		this.css.flush(this.doe);
-	}
-};
-LZR.HTML.Base.Doe.prototype.hdTyp.lzrClass_ = LZR.HTML.Base.Doe;
-
-// 对构造参数的特殊处理
-LZR.HTML.Base.Doe.prototype.hdObj_ = function (obj/*as:Object*/) {
-	if (obj.hd_typ) {
-		this.hdCss(obj.hd_css, false);
-		this.hdTyp (obj.hd_typ);
-	} else if (obj.hd_doe) {
-		this.hdDoe(obj.hd_doe);
-	}
-
-	// 调用父类的参数处理（子数据的递归创建）
-	this.utLzr.supCall (this, 0, "hdObj_", obj);
-};
-LZR.HTML.Base.Doe.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Doe;
-
-// 从DOM中移出
-LZR.HTML.Base.Doe.prototype.remove = function () {
-	this.parent.set(null);
-	var p = this.doe.parentNode;
-	if (p) {
-		p.removeChild(this.doe);
-	}
-};
-LZR.HTML.Base.Doe.prototype.remove.lzrClass_ = LZR.HTML.Base.Doe;
+LZR.HTML.Base.Doe.prototype.clone.lzrClass_ = LZR.HTML.Base.Doe;

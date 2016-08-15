@@ -44,7 +44,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_DD10A3E5_C03D_4bfe_A7D9_C19C5B96B465"/>
 								<UML:TaggedValue tag="date_created" value="2016-08-05 15:44:50"/>
-								<UML:TaggedValue tag="date_modified" value="2016-08-12 17:11:43"/>
+								<UML:TaggedValue tag="date_modified" value="2016-08-15 18:45:35"/>
 								<UML:TaggedValue tag="genfile" value="F:\GitLib\LZR_JS\src\LZR\JS\LZR\HTML\Base\Ctrl\Thumbnails\ThumbnailsInfo.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -57,7 +57,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="407"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=1d5f;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=212d;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -270,14 +270,14 @@
 								</UML:Attribute>
 								<UML:Attribute name="fixedSize" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
 									<UML:Attribute.initialValue>
-										<UML:Expression body="false"/>
+										<UML:Expression body="&quot;&quot;"/>
 									</UML:Attribute.initialValue>
 									<UML:StructuralFeature.type>
-										<UML:Classifier xmi.idref="eaxmiid3"/>
+										<UML:Classifier xmi.idref="eaxmiid5"/>
 									</UML:StructuralFeature.type>
 									<UML:ModelElement.taggedValue>
-										<UML:TaggedValue tag="description" value="&#20026; true&#65292;&#20351;&#29992;&#22266;&#23450;&#22823;&#23567;&#24067;&#23616;&#12290;&#21453;&#20043;&#65292;&#20351;&#29992;&#22266;&#23450;&#20010;&#25968;&#24067;&#23616;&#12290;"/>
-										<UML:TaggedValue tag="type" value="boolean"/>
+										<UML:TaggedValue tag="description" value="&#20026;&#31354;&#65292;&#20351;&#29992;&#22266;&#23450;&#20010;&#25968;&#24067;&#23616;&#12290;&#33509;&#26377;&#20540;&#65292;&#21017;&#22270;&#22359;&#22823;&#23567;&#20351;&#29992;&#35813;&#22266;&#23450;&#20540;&#12290;"/>
+										<UML:TaggedValue tag="type" value="string"/>
 										<UML:TaggedValue tag="derived" value="0"/>
 										<UML:TaggedValue tag="containment" value="Not Specified"/>
 										<UML:TaggedValue tag="ordered" value="0"/>
@@ -289,7 +289,7 @@
 										<UML:TaggedValue tag="ea_guid" value="{D8A3B8DA-1213-480f-9F43-96A728C6E6AA}"/>
 										<UML:TaggedValue tag="ea_localid" value="379"/>
 										<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
-										<UML:TaggedValue tag="style" value="&#26159;&#21542;&#37319;&#29992;&#22266;&#23450;&#22823;&#23567;&#24067;&#23616;"/>
+										<UML:TaggedValue tag="style" value="&#22266;&#23450;&#22823;&#23567;&#24067;&#23616;"/>
 									</UML:ModelElement.taggedValue>
 								</UML:Attribute>
 								<UML:Attribute name="scrllAnimat" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
@@ -919,7 +919,7 @@
 										<UML:TaggedValue tag="style" value="&#37325;&#32622;&#22270;&#29255;&#26174;&#31034;&#20010;&#25968;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_53C6B1F0_79B0_4e9c_868B_86E786DE0088">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var d = doeo.getById(&quot;hct_ThumbnailsSlider&quot;);&#xA;	this.showNum = this.calcShowNumBySize(doeo);&#xA;	this.catchNum = this.normalzeShowNum();&#xA;	this.crtBlocks(d);&#xA;	d.setStyle(this.getImgDir(), (this.catchNum * 3 * this.size) + &quot;px&quot;);&#xA;	d.setStyle(this.getLayoutDir(), this.calcPosition() + &quot;px&quot;);"/>
+												<UML:Comment name="var d = doeo.getById(&quot;hct_ThumbnailsSlider&quot;);&#xA;&#xA;	// &#30830;&#23450; size &#22823;&#23567;&#xA;	var sd;&#xA;	if (d.count) {&#xA;		sd = d.subs[0];&#xA;	} else {&#xA;		sd = crtBlock(d);&#xA;		d.add(sd, &quot;sd_test&quot;);&#xA;	}&#xA;	sd.setStyle(this.getImgDir(), this.fixedSize);&#xA;	sd.calcPosition();&#xA;	this.size = sd.position[this.getImgDir()];&#xA;&#xA;	this.showNum = this.calcShowNumBySize(doeo);&#xA;	this.catchNum = this.normalzeShowNum();&#xA;	if (d.count !== 3*this.catchNum) {&#xA;		this.crtBlocks(d);&#xA;	}&#xA;	d.setStyle(this.getImgDir(), (this.catchNum * 3 * this.size) + &quot;px&quot;);&#xA;	d.setStyle(this.getLayoutDir(), this.calcPosition() + &quot;px&quot;);"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -968,7 +968,7 @@
 										<UML:TaggedValue tag="style" value="&#37325;&#32622;&#22270;&#29255;&#22823;&#23567;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_0B3845CC_8B42_4c89_9C63_9D662172F366">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var d = doeo.getById(&quot;hct_ThumbnailsSlider&quot;);&#xA;	this.size = this.calcSizeByShowNum(doeo);&#xA;	if (d.count === 3*this.catchNum) {&#xA;		d = d.first;&#xA;		while (d) {&#xA;			d.setStyle(this.getImgDir(), this.size + &quot;px&quot;);&#xA;			d = d.next;&#xA;		}&#xA;	} else {&#xA;		this.crtBlocks(d);&#xA;	}&#xA;	d.setStyle(this.getImgDir(), (this.catchNum * 3 * this.size) + &quot;px&quot;);&#xA;	d.setStyle(this.getLayoutDir(), this.calcPosition() + &quot;px&quot;);"/>
+												<UML:Comment name="var d = doeo.getById(&quot;hct_ThumbnailsSlider&quot;);&#xA;	var oldsize = this.size;&#xA;	this.size = this.calcSizeByShowNum(doeo);&#xA;	if (d.count === 3*this.catchNum) {&#xA;		if (this.size !== oldsize) {&#xA;			var sd = d.first;&#xA;			while (sd) {&#xA;				sd.setStyle(this.getImgDir(), this.size + &quot;px&quot;);&#xA;				sd = sd.next;&#xA;			}&#xA;		}&#xA;	} else {&#xA;		this.crtBlocks(d);&#xA;	}&#xA;	d.setStyle(this.getImgDir(), (this.catchNum * 3 * this.size) + &quot;px&quot;);&#xA;	d.setStyle(this.getLayoutDir(), this.calcPosition() + &quot;px&quot;);"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>

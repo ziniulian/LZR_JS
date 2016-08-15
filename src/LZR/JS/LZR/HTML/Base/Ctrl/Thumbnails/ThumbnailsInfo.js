@@ -40,8 +40,8 @@ LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo = function (obj) {
 	// 图片路径起始序号
 	this.imgsi = 0;	/*as:int*/
 
-	// 是否采用固定大小布局
-	this.fixedSize = false;	/*as:boolean*/
+	// 固定大小布局
+	this.fixedSize = "";	/*as:string*/
 
 	// 是否滚动时是否带动画效果
 	this.scrllAnimat = true;	/*as:boolean*/
@@ -212,9 +212,24 @@ LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.calcPosition.lzrClass_ = 
 // 重置图片显示个数
 LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.resizeShowNum = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	var d = doeo.getById("hct_ThumbnailsSlider");
+
+	// 确定 size 大小
+	var sd;
+	if (d.count) {
+		sd = d.subs[0];
+	} else {
+		sd = crtBlock(d);
+		d.add(sd, "sd_test");
+	}
+	sd.setStyle(this.getImgDir(), this.fixedSize);
+	sd.calcPosition();
+	this.size = sd.position[this.getImgDir()];
+
 	this.showNum = this.calcShowNumBySize(doeo);
 	this.catchNum = this.normalzeShowNum();
-	this.crtBlocks(d);
+	if (d.count !== 3*this.catchNum) {
+		this.crtBlocks(d);
+	}
 	d.setStyle(this.getImgDir(), (this.catchNum * 3 * this.size) + "px");
 	d.setStyle(this.getLayoutDir(), this.calcPosition() + "px");
 };
@@ -223,12 +238,15 @@ LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.resizeShowNum.lzrClass_ =
 // 重置图片大小
 LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.resizeSize = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	var d = doeo.getById("hct_ThumbnailsSlider");
+	var oldsize = this.size;
 	this.size = this.calcSizeByShowNum(doeo);
 	if (d.count === 3*this.catchNum) {
-		d = d.first;
-		while (d) {
-			d.setStyle(this.getImgDir(), this.size + "px");
-			d = d.next;
+		if (this.size !== oldsize) {
+			var sd = d.first;
+			while (sd) {
+				sd.setStyle(this.getImgDir(), this.size + "px");
+				sd = sd.next;
+			}
 		}
 	} else {
 		this.crtBlocks(d);

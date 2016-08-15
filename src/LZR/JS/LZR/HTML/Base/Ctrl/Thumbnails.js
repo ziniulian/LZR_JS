@@ -125,6 +125,7 @@ LZR.HTML.Base.Ctrl.Thumbnails.prototype.hdBaseWheel.lzrClass_ = LZR.HTML.Base.Ct
 // 重置
 LZR.HTML.Base.Ctrl.Thumbnails.prototype.resize = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	var t = doeo.dat.hct_tub;
+// console.log (document.body.clientHeight);
 	t.resize(doeo);
 	t.hdMinChg(doeo, this.onDraw_Self);
 };
@@ -144,7 +145,7 @@ LZR.HTML.Base.Ctrl.Thumbnails.prototype.addEvt = function (doeo/*as:LZR.HTML.Bas
 	d = doeo.getById("hct_ThumbnailsTemplate");
 	if (d) {
 		v.modDoe = d;
-		d.parent.set();
+		d.remove();
 	}
 
 	// 滑块
@@ -174,6 +175,7 @@ LZR.HTML.Base.Ctrl.Thumbnails.prototype.addEvt = function (doeo/*as:LZR.HTML.Bas
 	});
 	this.crtCb2Dat(doeo, doeo.dat.hct_tub.area.vcMin.evt.change, "hdMinChg", this.utLzr.bind(v, v.hdMinChg, doeo, this.onDraw_Self));
 	this.crtCb2Dat(doeo, doeo.dat.hct_tub.area.vcNum.evt.change, "hdScdChg", this.utLzr.bind(v, v.hdScdChg, doeo, this.onScd_Self));
+	this.crtCb2Dat(doeo, doeo.crtEvt("resize"), "resize");
 
 	// 初始化
 	this.resize(doeo);
@@ -192,6 +194,7 @@ LZR.HTML.Base.Ctrl.Thumbnails.prototype.delEvt = function (doeo/*as:LZR.HTML.Bas
 	this.baseCtrl.del(doeo);
 	this.delCb2Dat(doeo, doeo.dat.hct_tub.area.vcMin.evt.change, "hdMinChg");
 	this.delCb2Dat(doeo, doeo.dat.hct_tub.area.vcNum.evt.change, "hdScdChg");
+	this.delCb2Dat(doeo, doeo.crtEvt("resize"), "resize");
 
 	// 删除数据
 	this.delDat(doeo, "hct_tub");

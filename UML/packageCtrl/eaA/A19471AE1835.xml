@@ -1762,7 +1762,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_EB9DC82A_4CCB_4bcd_B973_A19471AE1835"/>
 								<UML:TaggedValue tag="date_created" value="2016-08-05 15:01:29"/>
-								<UML:TaggedValue tag="date_modified" value="2016-08-12 17:11:51"/>
+								<UML:TaggedValue tag="date_modified" value="2016-08-15 18:45:32"/>
 								<UML:TaggedValue tag="genfile" value="F:\GitLib\LZR_JS\src\LZR\JS\LZR\HTML\Base\Ctrl\Thumbnails.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -1775,7 +1775,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="405"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=1d61;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=212c;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -2385,7 +2385,7 @@
 										<UML:TaggedValue tag="style" value="&#37325;&#32622;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_7BCB1DCA_99CB_41ef_8BE3_5445D384005E">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var t = doeo.dat.hct_tub;&#xA;	t.resize(doeo);&#xA;	t.hdMinChg(doeo, this.onDraw_Self);"/>
+												<UML:Comment name="var t = doeo.dat.hct_tub;&#xA;// console.log (document.body.clientHeight);&#xA;	t.resize(doeo);&#xA;	t.hdMinChg(doeo, this.onDraw_Self);"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -2434,7 +2434,7 @@
 										<UML:TaggedValue tag="style" value="---- &#32473;&#20803;&#32032;&#28155;&#21152;&#20107;&#20214;&#38598;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_04A3F1B8_BD6A_477a_A6EC_17CF9E8BFACF">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var d, v, dr;&#xA;	// &#21019;&#24314;&#25968;&#25454;&#xA;	if (obj) {&#xA;		v = this.crtDat(doeo, &quot;hct_tub&quot;, obj);&#xA;	} else {&#xA;		v = this.crtDat(doeo, &quot;hct_tub&quot;, new this.clsTub(pro));&#xA;	}&#xA;&#xA;	// &#27169;&#29256;&#xA;	d = doeo.getById(&quot;hct_ThumbnailsTemplate&quot;);&#xA;	if (d) {&#xA;		v.modDoe = d;&#xA;		d.parent.set();&#xA;	}&#xA;&#xA;	// &#28369;&#22359;&#xA;	d = this.crtDoe(doeo, &quot;hct_ThumbnailsSlider&quot;, &quot;div&quot;, v.vertical?&quot;Lc_hct_ThumbnailsSliderV&quot;:undefined);&#xA;	this.crtDat(d, &quot;hct_tub&quot;, v);&#xA;&#xA;	// &#26679;&#24335;&#20462;&#27491;&#xA;	switch (doeo.getStyle(&quot;position&quot;)) {&#xA;		case &quot;absolute&quot;:&#xA;		case &quot;relative&quot;:&#xA;		case &quot;fixed&quot;:&#xA;			break;&#xA;		default:&#xA;			doeo.setStyle(&quot;position&quot;, &quot;relative&quot;);&#xA;			break;&#xA;	}&#xA;	if (doeo.getStyle(&quot;overflow&quot;) !== &quot;hidden&quot;) {&#xA;		doeo.setStyle(&quot;overflow&quot;, &quot;hidden&quot;);&#xA;	}&#xA;	if (d.getStyle(&quot;position&quot;) !== &quot;absolute&quot;) {&#xA;		d.setStyle(&quot;position&quot;, &quot;absolute&quot;);&#xA;	}&#xA;&#xA;	// &#20107;&#20214;&#28155;&#21152;&#xA;	this.baseCtrl.add(doeo, {&#xA;		enableStat: 1&#xA;	});&#xA;	this.crtCb2Dat(doeo, doeo.dat.hct_tub.area.vcMin.evt.change, &quot;hdMinChg&quot;, this.utLzr.bind(v, v.hdMinChg, doeo, this.onDraw_Self));&#xA;	this.crtCb2Dat(doeo, doeo.dat.hct_tub.area.vcNum.evt.change, &quot;hdScdChg&quot;, this.utLzr.bind(v, v.hdScdChg, doeo, this.onScd_Self));&#xA;&#xA;	// &#21021;&#22987;&#21270;&#xA;	this.resize(doeo);"/>
+												<UML:Comment name="var d, v, dr;&#xA;	// &#21019;&#24314;&#25968;&#25454;&#xA;	if (obj) {&#xA;		v = this.crtDat(doeo, &quot;hct_tub&quot;, obj);&#xA;	} else {&#xA;		v = this.crtDat(doeo, &quot;hct_tub&quot;, new this.clsTub(pro));&#xA;	}&#xA;&#xA;	// &#27169;&#29256;&#xA;	d = doeo.getById(&quot;hct_ThumbnailsTemplate&quot;);&#xA;	if (d) {&#xA;		v.modDoe = d;&#xA;		d.remove();&#xA;	}&#xA;&#xA;	// &#28369;&#22359;&#xA;	d = this.crtDoe(doeo, &quot;hct_ThumbnailsSlider&quot;, &quot;div&quot;, v.vertical?&quot;Lc_hct_ThumbnailsSliderV&quot;:undefined);&#xA;	this.crtDat(d, &quot;hct_tub&quot;, v);&#xA;&#xA;	// &#26679;&#24335;&#20462;&#27491;&#xA;	switch (doeo.getStyle(&quot;position&quot;)) {&#xA;		case &quot;absolute&quot;:&#xA;		case &quot;relative&quot;:&#xA;		case &quot;fixed&quot;:&#xA;			break;&#xA;		default:&#xA;			doeo.setStyle(&quot;position&quot;, &quot;relative&quot;);&#xA;			break;&#xA;	}&#xA;	if (doeo.getStyle(&quot;overflow&quot;) !== &quot;hidden&quot;) {&#xA;		doeo.setStyle(&quot;overflow&quot;, &quot;hidden&quot;);&#xA;	}&#xA;	if (d.getStyle(&quot;position&quot;) !== &quot;absolute&quot;) {&#xA;		d.setStyle(&quot;position&quot;, &quot;absolute&quot;);&#xA;	}&#xA;&#xA;	// &#20107;&#20214;&#28155;&#21152;&#xA;	this.baseCtrl.add(doeo, {&#xA;		enableStat: 1&#xA;	});&#xA;	this.crtCb2Dat(doeo, doeo.dat.hct_tub.area.vcMin.evt.change, &quot;hdMinChg&quot;, this.utLzr.bind(v, v.hdMinChg, doeo, this.onDraw_Self));&#xA;	this.crtCb2Dat(doeo, doeo.dat.hct_tub.area.vcNum.evt.change, &quot;hdScdChg&quot;, this.utLzr.bind(v, v.hdScdChg, doeo, this.onScd_Self));&#xA;	this.crtCb2Dat(doeo, doeo.crtEvt(&quot;resize&quot;), &quot;resize&quot;);&#xA;&#xA;	// &#21021;&#22987;&#21270;&#xA;	this.resize(doeo);"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -2513,7 +2513,7 @@
 										<UML:TaggedValue tag="style" value="---- &#31227;&#38500;&#20803;&#32032;&#30340;&#20107;&#20214;&#38598;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_F0FC4368_2304_469a_820D_7368F6A3D03A">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var d;&#xA;&#xA;	// &#21024;&#38500;&#28369;&#22359;&#xA;	d = doeo.getById(&quot;hct_ThumbnailsSlider&quot;);&#xA;	this.delDat(d, &quot;hct_tub&quot;);&#xA;&#xA;	// &#21024;&#38500;&#20107;&#20214;&#xA;	this.baseCtrl.del(doeo);&#xA;	this.delCb2Dat(doeo, doeo.dat.hct_tub.area.vcMin.evt.change, &quot;hdMinChg&quot;);&#xA;	this.delCb2Dat(doeo, doeo.dat.hct_tub.area.vcNum.evt.change, &quot;hdScdChg&quot;);&#xA;&#xA;	// &#21024;&#38500;&#25968;&#25454;&#xA;	this.delDat(doeo, &quot;hct_tub&quot;);"/>
+												<UML:Comment name="var d;&#xA;&#xA;	// &#21024;&#38500;&#28369;&#22359;&#xA;	d = doeo.getById(&quot;hct_ThumbnailsSlider&quot;);&#xA;	this.delDat(d, &quot;hct_tub&quot;);&#xA;&#xA;	// &#21024;&#38500;&#20107;&#20214;&#xA;	this.baseCtrl.del(doeo);&#xA;	this.delCb2Dat(doeo, doeo.dat.hct_tub.area.vcMin.evt.change, &quot;hdMinChg&quot;);&#xA;	this.delCb2Dat(doeo, doeo.dat.hct_tub.area.vcNum.evt.change, &quot;hdScdChg&quot;);&#xA;	this.delCb2Dat(doeo, doeo.crtEvt(&quot;resize&quot;), &quot;resize&quot;);&#xA;&#xA;	// &#21024;&#38500;&#25968;&#25454;&#xA;	this.delDat(doeo, &quot;hct_tub&quot;);"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -8536,7 +8536,7 @@
 								<UML:TaggedValue tag="logxml" value="FALSE"/>
 								<UML:TaggedValue tag="batchsave" value="0"/>
 								<UML:TaggedValue tag="batchload" value="0"/>
-								<UML:TaggedValue tag="packageFlags" value="Recurse=0;VCCFG=LZR_JS;CheckedOutTo=Administrator;"/>
+								<UML:TaggedValue tag="packageFlags" value="Recurse=0;VCCFG=LZR_JS;"/>
 								<UML:TaggedValue tag="savedasstub" value="true"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="status" value="Proposed"/>
@@ -8586,7 +8586,7 @@
 								<UML:TaggedValue tag="logxml" value="FALSE"/>
 								<UML:TaggedValue tag="batchsave" value="0"/>
 								<UML:TaggedValue tag="batchload" value="0"/>
-								<UML:TaggedValue tag="packageFlags" value="Recurse=0;VCCFG=LZR_JS;CheckedOutTo=Administrator;"/>
+								<UML:TaggedValue tag="packageFlags" value="Recurse=0;VCCFG=LZR_JS;"/>
 								<UML:TaggedValue tag="savedasstub" value="true"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="status" value="Proposed"/>
@@ -8613,7 +8613,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="batchsave" value="0"/>
 								<UML:TaggedValue tag="batchload" value="0"/>
-								<UML:TaggedValue tag="packageFlags" value="Recurse=0;VCCFG=LZR_JS;CheckedOutTo=Administrator;"/>
+								<UML:TaggedValue tag="packageFlags" value="Recurse=0;VCCFG=LZR_JS;"/>
 								<UML:TaggedValue tag="savedasstub" value="true"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="status" value="Proposed"/>
