@@ -212,13 +212,14 @@ LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.calcPosition.lzrClass_ = 
 // 重置图片显示个数
 LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.resizeShowNum = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	var d = doeo.getById("hct_ThumbnailsSlider");
+	var oldsize = this.size;
+	var sd;
 
 	// 确定 size 大小
-	var sd;
 	if (d.count) {
-		sd = d.subs[0];
+		sd = d.first;
 	} else {
-		sd = crtBlock(d);
+		sd = this.crtBlock(d);
 		d.add(sd, "sd_test");
 	}
 	sd.setStyle(this.getImgDir(), this.fixedSize);
@@ -227,7 +228,16 @@ LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.resizeShowNum = function 
 
 	this.showNum = this.calcShowNumBySize(doeo);
 	this.catchNum = this.normalzeShowNum();
-	if (d.count !== 3*this.catchNum) {
+
+	if (d.count === 3*this.catchNum) {
+		if (this.size !== oldsize) {
+			sd = d.first;
+			while (sd) {
+				sd.setStyle(this.getImgDir(), this.size + "px");
+				sd = sd.next;
+			}
+		}
+	} else {
 		this.crtBlocks(d);
 	}
 	d.setStyle(this.getImgDir(), (this.catchNum * 3 * this.size) + "px");
@@ -239,10 +249,12 @@ LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.resizeShowNum.lzrClass_ =
 LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.resizeSize = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	var d = doeo.getById("hct_ThumbnailsSlider");
 	var oldsize = this.size;
+	var sd;
 	this.size = this.calcSizeByShowNum(doeo);
+
 	if (d.count === 3*this.catchNum) {
 		if (this.size !== oldsize) {
-			var sd = d.first;
+			sd = d.first;
 			while (sd) {
 				sd.setStyle(this.getImgDir(), this.size + "px");
 				sd = sd.next;
@@ -382,6 +394,6 @@ LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.hdScdChg = function (doeo
 	this.area.vcMin.set(o);
 
 	// 触发回调函数
-	cb (doeo, this.getImg(i), doeo.getById("c" + (v-o)), v, old);
+	cb (doeo, this.getImg(v), doeo.getById("c" + (v-o)), v, old);
 };
 LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.hdScdChg.lzrClass_ = LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo;

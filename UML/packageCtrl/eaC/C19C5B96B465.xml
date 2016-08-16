@@ -44,7 +44,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_DD10A3E5_C03D_4bfe_A7D9_C19C5B96B465"/>
 								<UML:TaggedValue tag="date_created" value="2016-08-05 15:44:50"/>
-								<UML:TaggedValue tag="date_modified" value="2016-08-15 18:45:35"/>
+								<UML:TaggedValue tag="date_modified" value="2016-08-16 15:37:28"/>
 								<UML:TaggedValue tag="genfile" value="F:\GitLib\LZR_JS\src\LZR\JS\LZR\HTML\Base\Ctrl\Thumbnails\ThumbnailsInfo.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -57,7 +57,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="407"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=212d;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=1637;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -919,7 +919,7 @@
 										<UML:TaggedValue tag="style" value="&#37325;&#32622;&#22270;&#29255;&#26174;&#31034;&#20010;&#25968;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_53C6B1F0_79B0_4e9c_868B_86E786DE0088">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var d = doeo.getById(&quot;hct_ThumbnailsSlider&quot;);&#xA;&#xA;	// &#30830;&#23450; size &#22823;&#23567;&#xA;	var sd;&#xA;	if (d.count) {&#xA;		sd = d.subs[0];&#xA;	} else {&#xA;		sd = crtBlock(d);&#xA;		d.add(sd, &quot;sd_test&quot;);&#xA;	}&#xA;	sd.setStyle(this.getImgDir(), this.fixedSize);&#xA;	sd.calcPosition();&#xA;	this.size = sd.position[this.getImgDir()];&#xA;&#xA;	this.showNum = this.calcShowNumBySize(doeo);&#xA;	this.catchNum = this.normalzeShowNum();&#xA;	if (d.count !== 3*this.catchNum) {&#xA;		this.crtBlocks(d);&#xA;	}&#xA;	d.setStyle(this.getImgDir(), (this.catchNum * 3 * this.size) + &quot;px&quot;);&#xA;	d.setStyle(this.getLayoutDir(), this.calcPosition() + &quot;px&quot;);"/>
+												<UML:Comment name="var d = doeo.getById(&quot;hct_ThumbnailsSlider&quot;);&#xA;	var oldsize = this.size;&#xA;	var sd;&#xA;&#xA;	// &#30830;&#23450; size &#22823;&#23567;&#xA;	if (d.count) {&#xA;		sd = d.first;&#xA;	} else {&#xA;		sd = this.crtBlock(d);&#xA;		d.add(sd, &quot;sd_test&quot;);&#xA;	}&#xA;	sd.setStyle(this.getImgDir(), this.fixedSize);&#xA;	sd.calcPosition();&#xA;	this.size = sd.position[this.getImgDir()];&#xA;&#xA;	this.showNum = this.calcShowNumBySize(doeo);&#xA;	this.catchNum = this.normalzeShowNum();&#xA;&#xA;	if (d.count === 3*this.catchNum) {&#xA;		if (this.size !== oldsize) {&#xA;			sd = d.first;&#xA;			while (sd) {&#xA;				sd.setStyle(this.getImgDir(), this.size + &quot;px&quot;);&#xA;				sd = sd.next;&#xA;			}&#xA;		}&#xA;	} else {&#xA;		this.crtBlocks(d);&#xA;	}&#xA;	d.setStyle(this.getImgDir(), (this.catchNum * 3 * this.size) + &quot;px&quot;);&#xA;	d.setStyle(this.getLayoutDir(), this.calcPosition() + &quot;px&quot;);"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -968,7 +968,7 @@
 										<UML:TaggedValue tag="style" value="&#37325;&#32622;&#22270;&#29255;&#22823;&#23567;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_0B3845CC_8B42_4c89_9C63_9D662172F366">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var d = doeo.getById(&quot;hct_ThumbnailsSlider&quot;);&#xA;	var oldsize = this.size;&#xA;	this.size = this.calcSizeByShowNum(doeo);&#xA;	if (d.count === 3*this.catchNum) {&#xA;		if (this.size !== oldsize) {&#xA;			var sd = d.first;&#xA;			while (sd) {&#xA;				sd.setStyle(this.getImgDir(), this.size + &quot;px&quot;);&#xA;				sd = sd.next;&#xA;			}&#xA;		}&#xA;	} else {&#xA;		this.crtBlocks(d);&#xA;	}&#xA;	d.setStyle(this.getImgDir(), (this.catchNum * 3 * this.size) + &quot;px&quot;);&#xA;	d.setStyle(this.getLayoutDir(), this.calcPosition() + &quot;px&quot;);"/>
+												<UML:Comment name="var d = doeo.getById(&quot;hct_ThumbnailsSlider&quot;);&#xA;	var oldsize = this.size;&#xA;	var sd;&#xA;	this.size = this.calcSizeByShowNum(doeo);&#xA;&#xA;	if (d.count === 3*this.catchNum) {&#xA;		if (this.size !== oldsize) {&#xA;			sd = d.first;&#xA;			while (sd) {&#xA;				sd.setStyle(this.getImgDir(), this.size + &quot;px&quot;);&#xA;				sd = sd.next;&#xA;			}&#xA;		}&#xA;	} else {&#xA;		this.crtBlocks(d);&#xA;	}&#xA;	d.setStyle(this.getImgDir(), (this.catchNum * 3 * this.size) + &quot;px&quot;);&#xA;	d.setStyle(this.getLayoutDir(), this.calcPosition() + &quot;px&quot;);"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -1363,7 +1363,7 @@
 										<UML:TaggedValue tag="style" value="&#22788;&#29702;&#36873;&#20013;&#20540;&#21464;&#21270;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_9F0F2280_1C86_473e_A3F0_1EA5C285B4E2">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var i = Math.floor(this.area.vcMin.get());&#xA;	var o;&#xA;&#xA;	// &#21024;&#38500;&#21407;&#26469;&#30340;&#34987;&#36873;&#20013;&#26679;&#24335;&#xA;	o = old - i;&#xA;	if (o &gt;= -this.catchNum) {&#xA;		if (o&lt;0) {&#xA;			o = &quot;p&quot; + (o + this.catchNum);&#xA;		} else if (o&lt;this.catchNum) {&#xA;			o = &quot;c&quot; + o;&#xA;		} else if (o&lt;2*this.catchNum) {&#xA;			o = &quot;n&quot; + (o - this.catchNum);&#xA;		} else {&#xA;			o = false;&#xA;		}&#xA;		if (o) {&#xA;			doeo.getById(o).delCss(this.scdCss);&#xA;		}&#xA;	}&#xA;&#xA;	// &#28155;&#21152;&#26032;&#30340;&#34987;&#36873;&#20013;&#26679;&#24335;&#xA;	o = v - i;&#xA;	if (o &gt;= -this.catchNum) {&#xA;		if (o&lt;0) {&#xA;			o = &quot;p&quot; + (o + this.catchNum);&#xA;		} else if (o&lt;this.catchNum) {&#xA;			o = &quot;c&quot; + o;&#xA;		} else if (o&lt;2*this.catchNum) {&#xA;			o = &quot;n&quot; + (o - this.catchNum);&#xA;		} else {&#xA;			o = false;&#xA;		}&#xA;		if (o) {&#xA;			doeo.getById(o).addCss(this.scdCss);&#xA;		}&#xA;	}&#xA;&#xA;	// &#37325;&#35774; min &#20301;&#32622;&#xA;/*&#xA;		// &#35299;&#20915; showNum &#23567;&#20110; 1  &#30340;&#38382;&#39064; &#65288;showNum &#23567;&#20110; 1 &#26412;&#36523;&#23601;&#26377;&#38382;&#39064;&#65289;&#xA;		if (this.showNum &gt; 2) {&#xA;			o = v - Math.floor((this.showNum - 1)/2);&#xA;		} else {&#xA;			o = v;&#xA;		}&#xA;*/&#xA;	o = v - Math.floor((this.showNum - 1)/2);&#xA;	this.area.vcMin.set(o);&#xA;&#xA;	// &#35302;&#21457;&#22238;&#35843;&#20989;&#25968;&#xA;	cb (doeo, this.getImg(i), doeo.getById(&quot;c&quot; + (v-o)), v, old);"/>
+												<UML:Comment name="var i = Math.floor(this.area.vcMin.get());&#xA;	var o;&#xA;&#xA;	// &#21024;&#38500;&#21407;&#26469;&#30340;&#34987;&#36873;&#20013;&#26679;&#24335;&#xA;	o = old - i;&#xA;	if (o &gt;= -this.catchNum) {&#xA;		if (o&lt;0) {&#xA;			o = &quot;p&quot; + (o + this.catchNum);&#xA;		} else if (o&lt;this.catchNum) {&#xA;			o = &quot;c&quot; + o;&#xA;		} else if (o&lt;2*this.catchNum) {&#xA;			o = &quot;n&quot; + (o - this.catchNum);&#xA;		} else {&#xA;			o = false;&#xA;		}&#xA;		if (o) {&#xA;			doeo.getById(o).delCss(this.scdCss);&#xA;		}&#xA;	}&#xA;&#xA;	// &#28155;&#21152;&#26032;&#30340;&#34987;&#36873;&#20013;&#26679;&#24335;&#xA;	o = v - i;&#xA;	if (o &gt;= -this.catchNum) {&#xA;		if (o&lt;0) {&#xA;			o = &quot;p&quot; + (o + this.catchNum);&#xA;		} else if (o&lt;this.catchNum) {&#xA;			o = &quot;c&quot; + o;&#xA;		} else if (o&lt;2*this.catchNum) {&#xA;			o = &quot;n&quot; + (o - this.catchNum);&#xA;		} else {&#xA;			o = false;&#xA;		}&#xA;		if (o) {&#xA;			doeo.getById(o).addCss(this.scdCss);&#xA;		}&#xA;	}&#xA;&#xA;	// &#37325;&#35774; min &#20301;&#32622;&#xA;/*&#xA;		// &#35299;&#20915; showNum &#23567;&#20110; 1  &#30340;&#38382;&#39064; &#65288;showNum &#23567;&#20110; 1 &#26412;&#36523;&#23601;&#26377;&#38382;&#39064;&#65289;&#xA;		if (this.showNum &gt; 2) {&#xA;			o = v - Math.floor((this.showNum - 1)/2);&#xA;		} else {&#xA;			o = v;&#xA;		}&#xA;*/&#xA;	o = v - Math.floor((this.showNum - 1)/2);&#xA;	this.area.vcMin.set(o);&#xA;&#xA;	// &#35302;&#21457;&#22238;&#35843;&#20989;&#25968;&#xA;	cb (doeo, this.getImg(v), doeo.getById(&quot;c&quot; + (v-o)), v, old);"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
