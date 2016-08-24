@@ -118,7 +118,7 @@ LZR.HTML.Base.Ctrl.Thumbnails.prototype.hdBaseClick.lzrClass_ = LZR.HTML.Base.Ct
 // 处理底图滚动
 LZR.HTML.Base.Ctrl.Thumbnails.prototype.hdBaseWheel = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:int*/) {
 	var t = doeo.dat.hct_tub;
-	t.area.vcMin.set(t.area.vcMin.get() - v * t.showNum);
+	t.area.vcMin.set(t.area.vcMin.get() - v * t.showNum * t.scrllScale);
 };
 LZR.HTML.Base.Ctrl.Thumbnails.prototype.hdBaseWheel.lzrClass_ = LZR.HTML.Base.Ctrl.Thumbnails;
 

@@ -46,6 +46,9 @@ LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo = function (obj) {
 	// 是否滚动时是否带动画效果
 	this.scrllAnimat = true;	/*as:boolean*/
 
+	// 滚动系数
+	this.scrllScale = 0.5;	/*as:double*/
+
 	// 被选中时的样式
 	this.scdCss = "Lc_hct_ThumbnailsBlockScd";	/*as:string*/
 
@@ -208,6 +211,21 @@ LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.calcPosition = function (
 	return this.position.set((min - this.catchNum - mm) * this.size, false);
 };
 LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.calcPosition.lzrClass_ = LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo;
+
+// 计算min的位置
+LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.calcMin = function ()/*as:double*/ {
+	var r;
+/*
+	// 解决 showNum 小于 1  的问题 （showNum 小于 1 本身就有问题）
+	if (this.showNum > 2) {
+		r = this.area.get() - Math.floor((this.showNum - 1)/2);
+	} else {
+		r = this.area.get();
+	}
+*/
+	return this.area.get() - Math.floor((this.showNum - 1)/2);
+};
+LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.calcMin.lzrClass_ = LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo;
 
 // 重置图片显示个数
 LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.resizeShowNum = function (doeo/*as:LZR.HTML.Base.Doe*/) {
@@ -382,16 +400,7 @@ LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo.prototype.hdScdChg = function (doeo
 	}
 
 	// 重设 min 位置
-/*
-		// 解决 showNum 小于 1  的问题 （showNum 小于 1 本身就有问题）
-		if (this.showNum > 2) {
-			o = v - Math.floor((this.showNum - 1)/2);
-		} else {
-			o = v;
-		}
-*/
-	o = v - Math.floor((this.showNum - 1)/2);
-	this.area.vcMin.set(o);
+	this.area.vcMin.set(this.calcMin());
 
 	// 触发回调函数
 	cb (doeo, this.getImg(v), doeo.getById("c" + (v-o)), v, old);
