@@ -2,17 +2,21 @@
 作者：子牛连
 类名：DayTim
 说明：日刻度时间控制器
-创建日期：29-八月-2016 14:22:24
+创建日期：01-九月-2016 16:30:13
 版本号：1.0
 *************************************************/
+
+LZR.loadAnnex({
+	css_0: "/Lib/css/HTML/normal.css"
+});
 
 LZR.load([
 	"LZR.HTML.Base.Ctrl.TimBase",
 	"LZR.HTML.Base.Doe",
-	"LZR.HTML.Base.Ctrl",
 	"LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo",
 	"LZR.HTML.Base.Ctrl.Scd",
 	"LZR.HTML.Base.Ctrl.Btn",
+	"LZR.HTML.Base.Ctrl",
 	"LZR.Base.CallBacks",
 	"LZR.HTML.Base.Ctrl.NumBase.StripNum"
 ], "LZR.HTML.Base.Ctrl.TimBase.DayTim");
@@ -29,7 +33,9 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ 
 	this.ctrlPlay/*m*/ = new LZR.HTML.Base.Ctrl.Scd();	/*as:LZR.HTML.Base.Ctrl.Scd*/
 
 	// 按钮控制器
-	this.ctrlBtn/*m*/ = new LZR.HTML.Base.Ctrl.Btn();	/*as:LZR.HTML.Base.Ctrl.Btn*/
+	this.ctrlBtn/*m*/ = new LZR.HTML.Base.Ctrl.Btn({
+		dbTim: 0
+	});	/*as:LZR.HTML.Base.Ctrl.Btn*/
 
 	// 时间变化
 	this.evt.chg/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
@@ -54,6 +60,7 @@ LZR.load(null, "LZR.HTML.Base.Ctrl.TimBase.DayTim");
 LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.init_ = function (obj/*as:Object*/) {
 	this.ctrlStrip.enableDropBase = false;
 	this.ctrlStrip.evt.chg.add(this.utLzr.bind(this, this.hdStrip), "DayTim_hdStrip");
+	this.ctrlStrip.evt.move.add(this.utLzr.bind(this, this.hdMoveShow), "DayTim_hdMoveShow");
 	this.ctrlBtn.evt.click.add(this.utLzr.bind(this, this.hdClick), "DayTim_hdClick");
 
 	if (obj) {
@@ -82,6 +89,21 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.hdStrip = function (doeo/*as:LZR.HTM
 	doeo.dat.hct_tim.hdHourChg(doeo, v);
 };
 LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.hdStrip.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim;
+
+// 处理经过提示事件
+LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.hdMoveShow = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:double*/, x/*as:double*/) {
+	var d = doeo.getById("hct_DayTimHourBarMs");
+	d.setStyle("left", x);
+	d.doe.innerHTML = v;
+	d.delCss("Lc_nosee");
+};
+LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.hdMoveShow.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim;
+
+// 隐藏经过提示
+LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.hidMoveShow = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	doeo.getById("hct_DayTimHourBarMs").addCss("Lc_nosee");
+};
+LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.hidMoveShow.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim;
 
 // 处理点击事件
 LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.hdClick = function (doeo/*as:LZR.HTML.Base.Doe*/) {
@@ -133,17 +155,6 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.addEvt = function (doeo/*as:LZR.HTML
 		d.remove();
 	}
 
-	// 滚动条
-	d = this.crtDoe(doeo, "hct_DayTimHourBar", "div");
-	this.crtDat(d, "hct_tim", v);
-	// 事件添加
-	this.ctrlStrip.add(d, {
-		min: 0,
-		max: 23,
-		num: v.tim.doHour(),
-		step: 1
-	});
-
 	// 上一帧
 	d = this.crtDoe(doeo, "hct_DayTimPlayPrev", "div");
 	this.crtDat(d, "hct_tim", v);
@@ -162,10 +173,23 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.addEvt = function (doeo/*as:LZR.HTML
 	this.ctrlPlay.add(d);
 	this.crtCb2Dat(doeo, d.dat.hct_scd.evt.change, "hdPlay");
 
+	// 滚动条
+	d = this.crtDoe(doeo, "hct_DayTimHourBar", "div");
+	this.crtDat(d, "hct_tim", v);
+	// 事件添加
+	this.ctrlStrip.add(d, {
+		min: 0,
+		max: 23,
+		num: v.tim.doHour(),
+		step: 1
+	});
+	this.crtCb2Dat(doeo, d.dat.hct_num.vcStep.evt.change, "hdStepChg", this.utLzr.bind(v, v.hdStepChg, doeo));
+
 	// 其它事件添加
 	this.crtCb2Dat(doeo, v.tim.evt.change, "hdTimChg", this.utLzr.bind(v, v.hdTimChg, doeo));
 	this.crtCb2Dat(doeo, v.tim.evt.change, "onChg");
 	this.crtCb2Dat(doeo, doeo.crtEvt("resize"), "resize");
+	this.crtCb2Dat(doeo, d.crtEvt("mouseout"), "hidMoveShow");
 
 	// 初始化
 	v.setTimArea(doeo);
@@ -176,12 +200,6 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctr
 LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	var d;
 	var v = doeo.dat.hct_tim;
-
-	// 滚动条
-	d = this.crtDoe(doeo, "hct_DayTimHourBar", "div");
-	this.delDat(d, "hct_tim");
-	// 删除事件
-	this.ctrlStrip.del(d);
 
 	// 上一帧
 	d = this.crtDoe(doeo, "hct_DayTimPlayPrev", "div");
@@ -201,10 +219,18 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.delEvt = function (doeo/*as:LZR.HTML
 	this.delCb2Dat(doeo, d.dat.hct_scd.evt.change, "hdPlay");
 	this.ctrlPlay.del(d);
 
+	// 滚动条
+	d = this.crtDoe(doeo, "hct_DayTimHourBar", "div");
+	this.delDat(d, "hct_tim");
+	// 删除事件
+	this.delCb2Dat(doeo, d.dat.hct_num.vcStep.evt.change, "hdStepChg");
+	this.ctrlStrip.del(d);
+
 	// 删除事件
 	this.delCb2Dat(doeo, v.tim.evt.change, "hdTimChg", this.utLzr.bind(v, v.hdTimChg));
 	this.delCb2Dat(doeo, v.tim.evt.change, "onChg");
 	this.delCb2Dat(doeo, doeo.crtEvt("resize"), "resize");
+	this.delCb2Dat(doeo, d.crtEvt("mouseout"), "hidMoveShow");
 
 	// 删除数据
 	this.delDat(doeo, "hct_tim");

@@ -12,7 +12,8 @@ function webapp () {
 			"LZR.HTML.Base.Ctrl.Thumbnails",
 			"LZR.HTML.Base.Ctrl.SglScd",
 			"LZR.HTML.Base.Ctrl.NumBase.StripNum",
-			"LZR.Base.Val.Tim"
+			"LZR.Base.Val.Tim",
+			"LZR.Base.Str"
 		],
 		tools: {
 			Scd: "LZR.HTML.Base.Ctrl.SglScd",
@@ -24,12 +25,16 @@ function webapp () {
 			Tim: "LZR.Base.Val.Tim",
 			bind: "LZR.getSingleton(LZR.Util).bind",
 			// ajx: "new LZR.HTML.Base.Ajax()",
-			utJson: "LZR.getSingleton(LZR.Base.Json)"
+			utJson: "LZR.getSingleton(LZR.Base.Json)",
+			utStr: "LZR.getSingleton(LZR.Base.Str)"
 		},
 		fun: function (obj) {
 			/*---------------- 属性 ---------------*/
 			// 不执行查询
 			this.nodo = false;
+
+			// 时间筛选
+			this.timFilt = "08";
 
 			//服务器地址
 			this.wsServer = "ws://192.168.1.130:8901";
@@ -88,6 +93,7 @@ function webapp () {
 				};
 
 				// 添加事件
+/*
 				r.view.addEvt ("resize", function(e) {
 					var d = r.subView.img;
 					d.setStyle("width", "100%");
@@ -96,6 +102,7 @@ function webapp () {
 					r.subView.imgOut.calcPosition();
 					r.dat.set(1);
 				});
+*/
 				r.dat.vcNum.evt.change.add(function (v) {
 					var d = r.subView.img;
 					d.setStyle("width", v * d.position.width);
@@ -216,11 +223,8 @@ function webapp () {
 					hd_doe: document.getElementById(scrllID)
 				});
 
-				// 添加事件
-				r.view.addEvt("resize", this.tools.bind(this, function(e) {
-					this.scrll.dat.vcMax.set (this.tub.dat.count - this.tub.dat.showNum, false);
-					this.scrll.view.calcPosition();
-				}));
+				// 添加重置事件
+				r.view.addEvt("resize", this.tools.bind(this, this.resize));
 
 				// 控制器
 				r.ctrl = new this.tools.Spn ({
@@ -258,12 +262,14 @@ function webapp () {
 					date: r.view.getById("date"),
 					time: r.view.getById("time"),
 					area: r.view.getById("area"),
+					tim: r.view.getById("tim"),
 					fom: r.view.getById("fom")
 				};
 
 				// 控制器
 				r.ctrl = {
 					area: new this.tools.Scd({css: scdCss}),
+					tim: new this.tools.Scd({css: scdCss}),
 					fom: new this.tools.Scd({css: scdCss})
 				};
 
@@ -281,12 +287,14 @@ function webapp () {
 				d.add(-24 * 3600 *1000);
 				r.subView.date.doe.value = d.format("yyyy-MM-dd");
 				this.scd("area", "d01");
+				this.scd("tim", "08");
 				this.scd("fom", "00");
 
 				// 添加事件
 				r.subView.date.addEvt("change", this.tools.bind(this, this.chgDate));
 				r.subView.time.addEvt("change", this.tools.bind(this, this.chgTime));
 				r.ctrl.area.vcCur.evt.change.add(this.tools.bind(this, this.chgArea));
+				r.ctrl.tim.vcCur.evt.change.add(this.tools.bind(this, this.chgTim));
 				r.ctrl.fom.vcCur.evt.change.add(this.tools.bind(this, this.chgFom));
 
 				return r;
@@ -308,7 +316,14 @@ function webapp () {
 
 			// 处理区域变化
 			this.chgArea = function () {
-				var d = this.getCdt();	// 查询条件
+				if (!this.nodo) {
+					this.getDat();
+				}
+			};
+
+			// 处理时间筛选变化
+			this.chgTim = function (d) {
+				this.timFilt = d.id.get();
 				if (!this.nodo) {
 					this.getDat();
 				}
@@ -371,6 +386,7 @@ function webapp () {
 				var d = this.getCdt();	// 查询条件
 				var sql = this.crtSQL(d);
 				var r={
+					ic: 0,
 					count: 0,
 					dat: []
 				};
@@ -401,12 +417,15 @@ function webapp () {
 					var data = this.tools.utJson.toObj(evt.data);
 					switch (data.state) {
 						case "0":
-							data.URL = this.httpServer + data.URL;
-							data.picTime = this.normalizeTim(data.picTime);
-							r.dat.push(data);
-							if (r.dat.length === r.count) {
+							r.ic ++;
+							if (this.timFilt === "all" || (data.picTime.length>8 && this.tools.utStr.endWith(data.picTime, this.timFilt))) {
+								data.picTime = this.normalizeTim(data.picTime);
+								data.URL = this.httpServer + data.URL;
+								r.dat.push(data);
+							}
+							if (r.ic === r.count) {
 								this.chgDat(r.dat);
-								if (r.count < this.tub.dat.area.get()) {
+								if (r.dat.length < this.tub.dat.area.get()) {
 									this.tub.dat.area.set(0);
 								}
 								this.tub.dat.area.vcMin.set(this.tub.dat.calcMin());
@@ -513,6 +532,24 @@ function webapp () {
 				r += (num * 24 + 4);
 				r += "}}";
 				return r;
+			};
+
+			// 重置
+			this.resize = function (cdt) {
+				// 大图
+				var d = this.bigImg.subView.img;
+				d.setStyle("width", "100%");
+				d.setStyle("height", "100%");
+				d.calcPosition();
+				this.bigImg.subView.imgOut.calcPosition();
+				this.bigImg.dat.set(1);
+
+				// 缩略图
+				this.tub.ctrl.resize(this.tub.view);
+
+				// 滚动条
+				this.scrll.dat.vcMax.set (this.tub.dat.count - this.tub.dat.showNum, false);
+				this.scrll.view.calcPosition();
 			};
 
 			/*---------------- 接口 ---------------*/

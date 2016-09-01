@@ -28,6 +28,12 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo = function (obj) {
 	// 最小日模块值
 	this.minDay = 0;	/*as:double*/
 
+	// 是否循环播放
+	this.playLoop = true;	/*as:boolean*/
+
+	// 播放间距
+	this.playStep = 1;	/*as:int*/
+
 	// 计算用时间
 	this.timCalc/*m*/ = new LZR.Base.Val.Tim();	/*as:LZR.Base.Val.Tim*/
 
@@ -104,7 +110,7 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.setTimArea = function (do
 	this.timCalc.vcBase.set(this.tim.dtMin.valueOf());
 	this.timCalc.set(null, null, null, 0, 0, 0, 0);
 	this.minDay = this.timCalc.vcBase.get();
-	this.count = Math.ceil( (this.tim.dtMax.valueOf() - this.minDay) / (24 * 3600 * 1000) );
+	this.count = Math.floor( (this.tim.dtMax.valueOf() - this.minDay) / (24 * 3600 * 1000) ) + 1;
 	if (this.count < 1) {
 		this.count = 1;
 	}
@@ -194,11 +200,7 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.play = function () {
 		this.playing = true;
 	}
 
-	if (this.tim.dt < this.tim.dtMax) {
-		this.tim.add(3600 * 1000);
-	} else {
-		this.tim.vcBase.set(this.tim.dtMin.valueOf());
-	}
+	this.next();
 
 	if (this.playSpeed) {
 		this.playing = setTimeout(this.play_Self, this.playSpeed);
@@ -217,13 +219,21 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.stop.lzrClass_ = LZR.HTML
 
 // 下一帧
 LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.next = function () {
-	this.tim.add(3600 * 1000);
+	if (this.tim.dt < this.tim.dtMax) {
+		this.tim.add(3600 * 1000 * this.playStep);
+	} else if (this.playLoop) {
+		this.tim.vcBase.set(this.tim.dtMin.valueOf());
+	}
 };
 LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.next.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo;
 
 // 上一帧
 LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.prev = function () {
-	this.tim.add(-3600 * 1000);
+	if (this.tim.dt > this.tim.dtMin) {
+		this.tim.add(-3600 * 1000 * this.playStep);
+	} else if (this.playLoop) {
+		this.tim.vcBase.set(this.tim.dtMax.valueOf());
+	}
 };
 LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.prev.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo;
 
@@ -266,5 +276,20 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.hdHourChg = function (doe
 	doeo.getById("hct_DayTimHourTxt").doe.innerHTML = val + "时";
 	doeo.getById("hct_DayTimHourCover").setStyle("width", doeo.getById("hct_StripNumBtn").getStyle("left"));
 	this.tim.doHour(val);
+	if (this.tim.doHour() !== val) {
+		doeo.dat.hct_num.set(this.tim.doHour());
+	}
 };
 LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.hdHourChg.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo;
+
+// 处理播放间距变化
+LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.hdStepChg = function (doeo/*as:LZR.HTML.Base.Doe*/, val/*as:double*/) {
+	this.playStep = val;
+	if (val === 24) {
+		doeo.getById("hct_DayTimHourBarOut").addCss("Lc_nosee");
+		this.tim.doHour(0);
+	} else {
+		doeo.getById("hct_DayTimHourBarOut").delCss("Lc_nosee");
+	}
+};
+LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.hdStepChg.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo;

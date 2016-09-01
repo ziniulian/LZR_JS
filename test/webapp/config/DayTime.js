@@ -113,6 +113,18 @@ function webapp () {
 				this.ctrl.resize(this.doe);
 			};
 
+			// 日均/小时模式
+			this.setTyp = function(m) {
+				switch (m) {
+					case "D":
+						this.doe.getById("hct_DayTimHourBar").dat.hct_num.vcStep.set(24);
+						break;
+					case "H":
+						this.doe.getById("hct_DayTimHourBar").dat.hct_num.vcStep.set(1);
+						break;
+				}
+			};
+
 		}
 	};
 }

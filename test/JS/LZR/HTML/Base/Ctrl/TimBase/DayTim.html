@@ -91,6 +91,19 @@
 				background-color: red;
 			}
 
+			.boso .bar .moveshow {
+				position: absolute;
+				width: 50px;
+				height: 30px;
+				top: 110%;
+				left: 0;
+				color: #FFF;
+				font-size: 15px;
+				line-height: 30px;
+				text-align: center;
+				background-color: red;
+			}
+
 			.boso .pb {
 				float: left;
 				width: 100px;
@@ -131,10 +144,22 @@
 
 				LZR.HTML.alog ("添加元素");
 				ctrl.add(d, {
-					hd_min: "2016-8-27",
-					hd_max: "2016-9-2 23",
+					hd_min: "2016-8-27 9",
+					hd_max: "2016-9-2 18",
 					hd_tim: "2016-8-30 15"
 				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("限制循环播放");
+				d.dat.hct_tim.playLoop = false;
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("日均模式");
+				d.getById("hct_DayTimHourBar").dat.hct_num.vcStep.set(24);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("小时模式");
+				d.getById("hct_DayTimHourBar").dat.hct_num.vcStep.set(1);
 				LZR.HTML.alog ("");
 
 			}
@@ -149,11 +174,14 @@
 					<div idLzr="day" class = "day">23</div>
 				</div>
 			</div>
-			<div idLzr="hct_DayTimHourBar" class = "bar">
-				<div idLzr = "hct_StripNumBtn" class = "sb">
-					<div idLzr="hct_DayTimHourTxt" class = "txt"></div>
+			<div idLzr="hct_DayTimHourBarOut">
+				<div idLzr="hct_DayTimHourBar" class = "bar">
+					<div idLzr = "hct_StripNumBtn" class = "sb">
+						<div idLzr="hct_DayTimHourTxt" class = "txt"></div>
+					</div>
+					<div idLzr="hct_DayTimHourCover" class = "cover"></div>
+					<div idLzr="hct_DayTimHourBarMs" class = "moveshow Lc_nosee"></div>
 				</div>
-				<div idLzr="hct_DayTimHourCover" class = "cover"></div>
 			</div>
 			<div>
 				<div idLzr="hct_DayTimPlayPrev" class = "pb"><<</div>

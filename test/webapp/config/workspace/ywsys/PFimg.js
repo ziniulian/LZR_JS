@@ -88,6 +88,7 @@ function webapp () {
 				};
 
 				// 添加事件
+/*
 				r.view.addEvt ("resize", function(e) {
 					var d = r.subView.img;
 					d.setStyle("width", "100%");
@@ -96,6 +97,7 @@ function webapp () {
 					r.subView.imgOut.calcPosition();
 					r.dat.set(1);
 				});
+*/
 				r.dat.vcNum.evt.change.add(function (v) {
 					var d = r.subView.img;
 					d.setStyle("width", v * d.position.width);
@@ -217,10 +219,7 @@ function webapp () {
 				});
 
 				// 添加事件
-				r.view.addEvt("resize", this.tools.bind(this, function(e) {
-					this.scrll.dat.vcMax.set (this.tub.dat.count - this.tub.dat.showNum, false);
-					this.scrll.view.calcPosition();
-				}));
+				r.view.addEvt("resize", this.tools.bind(this, this.resize));
 
 				// 控制器
 				r.ctrl = new this.tools.Spn ({
@@ -284,8 +283,8 @@ function webapp () {
 				d = new this.tools.Tim();
 				d.add(-24 * 3600 *1000);
 				r.subView.date.doe.value = d.format("yyyy-MM-dd");
-				this.scd("ttyp", "hour");
-				this.scd("area", "d01");
+				this.scd("ttyp", "day");
+				this.scd("area", "d02");
 				this.scd("mod", "NAQPMS");
 				this.scd("fom", "pm25");
 
@@ -557,17 +556,18 @@ function webapp () {
 					d01: {
 						NAQPMS: true,
 						CMAQ: true,
-						CAMx: true,
 						WRF: true
 					},
 					d02: {
 						NAQPMS: true,
 						CMAQ: true,
+						CAMx: true,
 						WRF: true
 					},
 					d03: {
 						NAQPMS: true,
 						CMAQ: true,
+						CAMx: true,
 						WRF: true
 					}
 				};
@@ -718,6 +718,24 @@ function webapp () {
 				r += (num * 24 + 4);
 				r += "}}";
 				return r;
+			};
+
+			// 重置
+			this.resize = function (cdt) {
+				// 大图
+				var d = this.bigImg.subView.img;
+				d.setStyle("width", "100%");
+				d.setStyle("height", "100%");
+				d.calcPosition();
+				this.bigImg.subView.imgOut.calcPosition();
+				this.bigImg.dat.set(1);
+
+				// 缩略图
+				this.tub.ctrl.resize(this.tub.view);
+
+				// 滚动条
+				this.scrll.dat.vcMax.set (this.tub.dat.count - this.tub.dat.showNum, false);
+				this.scrll.view.calcPosition();
 			};
 
 			/*---------------- 接口 ---------------*/
