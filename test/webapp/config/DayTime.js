@@ -125,6 +125,11 @@ function webapp () {
 				}
 			};
 
+			// 设置时间范围
+			this.setArea = function (min, max, cur) {
+				this.dat.setTimArea(this.doe, min, max, cur);
+			};
+
 		}
 	};
 }

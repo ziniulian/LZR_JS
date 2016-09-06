@@ -70,10 +70,24 @@ LZR.HTML.Widget.Legend.LegendMgr = function (obj) /*bases:LZR.Base.Data*/ /*inte
 	this.evt.chg/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
 	// 中部开关
-	this.viewMid/*m*/ = new LZR.HTML.Base.Doe({
+	this.viewMidOut/*m*/ = new LZR.HTML.Base.Doe({
 		id: "LegendMgrMid",
 		hd_typ: "div",
-		hd_css: "Lc_hwg_LegendMgrMid"
+		hd_css: "Lc_hwg_LegendMgrMidOut",
+		chd_: {
+			title: {
+				hd_typ: "div",
+				hd_css: "Lc_hwg_LegendMgrMidTitle"
+			},
+			btn: {
+				hd_typ: "div",
+				hd_css: "Lc_hwg_LegendMgrMid"
+			},
+			btnam: {
+				hd_typ: "div",
+				hd_css: "Lc_hwg_LegendMgrMidBtnam"
+			}
+		}
 	});	/*as:LZR.HTML.Base.Doe*/
 
 	// 中部控制器
@@ -125,7 +139,10 @@ LZR.load(null, "LZR.HTML.Widget.Legend.LegendMgr");
 
 // 构造器
 LZR.HTML.Widget.Legend.LegendMgr.prototype.init_ = function (obj/*as:Object*/) {
-	this.view.add(this.viewMid);
+	this.view.add(this.viewMidOut);
+	this.viewMidOut.getById("title").doe.innerHTML = "值域 ： ";
+	this.viewMidOut.getById("btnam").doe.innerHTML = "压缩：";
+	this.viewMid = this.viewMidOut.getById("btn");
 	this.midCtrl.add(this.viewMid);
 	this.viewMid.dat.hct_scd.evt.change.add(this.utLzr.bind(this, this.hdMidChg));
 
@@ -285,7 +302,7 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.hdChg = function (doeo/*as:LZR.HTML.B
 
 		// 中部控制器修正
 		this.placeMid(l + "%", (100-w-l) + "%");
-		this.calcMid(r);
+		this.calcMid(r, d);
 	}
 	this.onChg(d.view.doe, r);
 };
@@ -315,7 +332,7 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.hdMark = function (doeo/*as:LZR.HTML.
 
 	// 中部控制器修正
 	this.placeMid();
-	this.calcMid(r);
+	this.calcMid(r, d);
 
 	this.onChg(d.view.doe, r);
 };
@@ -338,16 +355,15 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.getQry = function ()/*as:string*/ {
 		r.min = d.utMath.formatFloat(d.getValueByPosition (n.subs[0].rn.get()), d.digit);
 		r.max = d.utMath.formatFloat(d.getValueByPosition (n.subs[1].rn.get()), d.digit);
 	}
-	this.calcMid(r);
+	this.calcMid(r, d);
 	return r;
 };
 LZR.HTML.Widget.Legend.LegendMgr.prototype.getQry.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
 
 // 计算中部遮罩数据
-LZR.HTML.Widget.Legend.LegendMgr.prototype.calcMid = function (s/*as:Object*/)/*as:Object*/ {
+LZR.HTML.Widget.Legend.LegendMgr.prototype.calcMid = function (s/*as:Object*/, dat/*as:Object*/)/*as:Object*/ {
 	if (this.viewMid.dat.hct_scd.get()) {
-		var i, j;
-		var d = s.max - s.min;
+		var i, j, d, min;
 		var a = s.color.split(";");
 		var aa = [];
 		for (i=0; i<a.length; i++) {
@@ -355,10 +371,19 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.calcMid = function (s/*as:Object*/)/*
 				aa.push(a[i].split(","));
 			}
 		}
-		d /= (aa.length - 1);
+
+		d = parseFloat(dat.view.getStyle("width"));
+		min = parseFloat(dat.viewMarkMid.getStyle("left")) / d;
+		d = (parseFloat(dat.viewMarkMid.getStyle("width")) / d) / (aa.length - 1);
 		s.color = "";
 		for (i=0; i<aa.length; i++) {
-			s.color += s.min + i*d;
+			if (i === 0) {
+				s.color += s.min;
+			} else if (i === (aa.length - 1)) {
+				s.color += s.max;
+			} else {
+				s.color += dat.getValueByPosition (min + i*d);
+			}
 			for (j=1; j<aa[i].length; j++) {
 				s.color += ",";
 				s.color += aa[i][j];

@@ -41,42 +41,6 @@ LZR.HTML.Widget.Legend.GradientLegend.prototype.init_ = function (obj/*as:Object
 };
 LZR.HTML.Widget.Legend.GradientLegend.prototype.init_.lzrClass_ = LZR.HTML.Widget.Legend.GradientLegend;
 
-// ---- 通过位置获取值信息
-LZR.HTML.Widget.Legend.GradientLegend.prototype.getValByPosition = function (position/*as:double*/)/*as:string*/ {
-	var r = this.getValueByPosition(position);
-
-	if (this.digit !== null) {
-		r = this.utMath.formatFloat(r, this.digit);
-	}
-	// r += " ";
-	// r += this.unit;
-
-	return r;
-};
-LZR.HTML.Widget.Legend.GradientLegend.prototype.getValByPosition.lzrClass_ = LZR.HTML.Widget.Legend.GradientLegend;
-
-// ---- 通过位置获取颜色
-LZR.HTML.Widget.Legend.GradientLegend.prototype.getClrByPosition = function (position/*as:double*/)/*as:LZR.Base.Clr*/ {
-	var p;
-	if (position >= 1) {
-		p = this.viewLegend.count - 0.001;
-	} else if (position <= 0) {
-		p = 0;
-	} else {
-		p = position * this.viewLegend.count;
-	}
-	var i = Math.floor(p);
-	var d = this.viewLegend.subs[i + "_BlockLegend"].dat;
-	var fc = this.subs[(d.id.get() - 1)];
-	var r = new d.clr.constructor();
-	p = p-i;
-	r.r = Math.floor(p * (d.clr.r - fc.clr.r) + fc.clr.r);
-	r.b = Math.floor(p * (d.clr.b - fc.clr.b) + fc.clr.b);
-	r.g = Math.floor(p * (d.clr.g - fc.clr.g) + fc.clr.g);
-	return r;
-};
-LZR.HTML.Widget.Legend.GradientLegend.prototype.getClrByPosition.lzrClass_ = LZR.HTML.Widget.Legend.GradientLegend;
-
 // ---- 生成一个色块
 LZR.HTML.Widget.Legend.GradientLegend.prototype.crtOneBlock = function (clr/*as:LZR.HTML.Widget.Legend.LegendClr*/, mark/*as:boolean*/)/*as:LZR.HTML.Base.Doe*/ {
 	var fc = this.subs[clr.id.get() - 1];
@@ -106,6 +70,43 @@ LZR.HTML.Widget.Legend.GradientLegend.prototype.crtMidBackground = function (clr
 		r += (i * d);
 		r += "%";
 	}
+	r += ")";
 	return r;
 };
 LZR.HTML.Widget.Legend.GradientLegend.prototype.crtMidBackground.lzrClass_ = LZR.HTML.Widget.Legend.GradientLegend;
+
+// ---- 通过位置获取颜色
+LZR.HTML.Widget.Legend.GradientLegend.prototype.getClrByPosition = function (position/*as:double*/)/*as:LZR.Base.Clr*/ {
+	var p;
+	if (position >= 1) {
+		p = this.viewLegend.count - 0.001;
+	} else if (position <= 0) {
+		p = 0;
+	} else {
+		p = position * this.viewLegend.count;
+	}
+	var i = Math.floor(p);
+	var d = this.viewLegend.subs[i + "_BlockLegend"].dat;
+	var fc = this.subs[(d.id.get() - 1)];
+	var r = new d.clr.constructor();
+	p = p-i;
+	r.r = Math.floor(p * (d.clr.r - fc.clr.r) + fc.clr.r);
+	r.b = Math.floor(p * (d.clr.b - fc.clr.b) + fc.clr.b);
+	r.g = Math.floor(p * (d.clr.g - fc.clr.g) + fc.clr.g);
+	return r;
+};
+LZR.HTML.Widget.Legend.GradientLegend.prototype.getClrByPosition.lzrClass_ = LZR.HTML.Widget.Legend.GradientLegend;
+
+// ---- 通过位置获取值信息
+LZR.HTML.Widget.Legend.GradientLegend.prototype.getValByPosition = function (position/*as:double*/)/*as:string*/ {
+	var r = this.getValueByPosition(position);
+
+	if (this.digit !== null) {
+		r = this.utMath.formatFloat(r, this.digit);
+	}
+	// r += " ";
+	// r += this.unit;
+
+	return r;
+};
+LZR.HTML.Widget.Legend.GradientLegend.prototype.getValByPosition.lzrClass_ = LZR.HTML.Widget.Legend.GradientLegend;

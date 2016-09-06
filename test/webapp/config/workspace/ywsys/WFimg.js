@@ -288,7 +288,7 @@ function webapp () {
 				r.subView.date.doe.value = d.format("yyyy-MM-dd");
 				this.scd("area", "d01");
 				this.scd("tim", "08");
-				this.scd("fom", "00");
+				this.scd("fom", "05");
 
 				// 添加事件
 				r.subView.date.addEvt("change", this.tools.bind(this, this.chgDate));

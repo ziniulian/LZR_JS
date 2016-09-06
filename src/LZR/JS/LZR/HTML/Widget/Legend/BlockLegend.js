@@ -59,6 +59,70 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.crtOneBlock = function (clr/*as:LZR
 };
 LZR.HTML.Widget.Legend.BlockLegend.prototype.crtOneBlock.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
 
+// 生成刻度
+LZR.HTML.Widget.Legend.BlockLegend.prototype.crtCalibration = function (doeo/*as:LZR.HTML.Base.Doe*/, clr/*as:LZR.HTML.Widget.Legend.LegendClr*/, boderCss/*as:string*/, fontCss/*as:string*/) {
+	var cf, cb;
+	cf = new this.view.constructor({
+		hd_typ: "div",
+		hd_css: fontCss
+	});
+
+	if (clr.alias === "") {
+		cb = this.min + clr.position * (this.max - this.min);
+		if (this.digit !== null) {
+			cb = this.utMath.formatFloat(cb, this.digit);
+		}
+		cf.doe.innerHTML = cb;
+	} else if (clr.alias) {
+		cf.doe.innerHTML = clr.alias;
+	}
+	doeo.add(cf, fontCss);
+
+	cb = new this.view.constructor({
+		hd_typ: "div",
+		hd_css: boderCss
+	});
+	doeo.add(cb, boderCss);
+};
+LZR.HTML.Widget.Legend.BlockLegend.prototype.crtCalibration.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
+
+// 生成中部遮罩背景
+LZR.HTML.Widget.Legend.BlockLegend.prototype.crtMidBackground = function (clrs/*as:Array*/)/*as:string*/ {
+	var r = "linear-gradient(to right";
+	var c = clrs.length - 1;
+	var d = 100/(clrs.length - 1);
+	for (var i=1; i<clrs.length; i++) {
+		r += ", ";
+		r += clrs[i];
+		r += " ";
+		r += ((i-1) * d);
+		r += "%";
+
+		r += ", ";
+		r += clrs[i];
+		r += " ";
+		r += (i * d);
+		r += "%";
+	}
+	r += ")";
+	return r;
+};
+LZR.HTML.Widget.Legend.BlockLegend.prototype.crtMidBackground.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
+
+// ---- 初始化刷新
+LZR.HTML.Widget.Legend.BlockLegend.prototype.initFlush = function (doeo/*as:LZR.HTML.Base.Doe*/, isPreview/*as:boolean*/) {
+	var c = [];
+	for (var s in this.subs) {
+		if (this.subs[s].clr.r > -1) {
+			this.subs[s].clr.alpha = 1;
+			c.push(this.subs[s].clr.toCss());
+		}
+	}
+	this.viewMarkMid.setStyle("background", this.crtMidBackground(c));
+	this.flush(doeo, isPreview);
+};
+LZR.HTML.Widget.Legend.BlockLegend.prototype.initFlush.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
+
 // ---- 刷新
 LZR.HTML.Widget.Legend.BlockLegend.prototype.flush = function (doeo/*as:LZR.HTML.Base.Doe*/, isPreview/*as:boolean*/) {
 	if (doeo) {
@@ -95,6 +159,29 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.flush = function (doeo/*as:LZR.HTML
 };
 LZR.HTML.Widget.Legend.BlockLegend.prototype.flush.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
 
+// ---- 通过位置获取值
+LZR.HTML.Widget.Legend.BlockLegend.prototype.getValueByPosition = function (position/*as:double*/)/*as:string*/ {
+	if (position >= 1) {
+		return this.max;
+	} else if (position <= 0) {
+		return this.min;
+	} else {
+		var r;
+		var p = position * this.viewLegend.count;
+		var i = Math.floor(p);
+		var d = this.viewLegend.subs[i + "_BlockLegend"].dat;
+		var fc = this.subs[(d.id.get() - 1)];
+		var min = this.min + fc.position * (this.max - this.min);
+		var max = this.min + d.position * (this.max - this.min);
+
+		p = p-i;
+		r = min + p*(max - min);
+
+		return r;
+	}
+};
+LZR.HTML.Widget.Legend.BlockLegend.prototype.getValueByPosition.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
+
 // ---- 通过位置获取颜色
 LZR.HTML.Widget.Legend.BlockLegend.prototype.getClrByPosition = function (position/*as:double*/)/*as:LZR.Base.Clr*/ {
 	var i;
@@ -108,47 +195,6 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.getClrByPosition = function (positi
 	return this.viewLegend.subs[i + "_BlockLegend"].dat.clr;
 };
 LZR.HTML.Widget.Legend.BlockLegend.prototype.getClrByPosition.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
-
-// 生成刻度
-LZR.HTML.Widget.Legend.BlockLegend.prototype.crtCalibration = function (doeo/*as:LZR.HTML.Base.Doe*/, clr/*as:LZR.HTML.Widget.Legend.LegendClr*/, boderCss/*as:string*/, fontCss/*as:string*/) {
-	var cf, cb;
-	cf = new this.view.constructor({
-		hd_typ: "div",
-		hd_css: fontCss
-	});
-
-	if (clr.alias === "") {
-		cb = this.min + clr.position * (this.max - this.min);
-		if (this.digit !== null) {
-			cb = this.utMath.formatFloat(cb, this.digit);
-		}
-		cf.doe.innerHTML = cb;
-	} else if (clr.alias) {
-		cf.doe.innerHTML = clr.alias;
-	}
-	doeo.add(cf, fontCss);
-
-	cb = new this.view.constructor({
-		hd_typ: "div",
-		hd_css: boderCss
-	});
-	doeo.add(cb, boderCss);
-};
-LZR.HTML.Widget.Legend.BlockLegend.prototype.crtCalibration.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
-
-// ---- 初始化刷新
-LZR.HTML.Widget.Legend.BlockLegend.prototype.initFlush = function (doeo/*as:LZR.HTML.Base.Doe*/, isPreview/*as:boolean*/) {
-	var c = [];
-	for (var s in this.subs) {
-		if (this.subs[s].clr.r > -1) {
-			this.subs[s].clr.alpha = 1;
-			c.push(this.subs[s].clr.toCss());
-		}
-	}
-	this.viewMarkMid.setStyle("background", this.crtMidBackground(c));
-	this.flush(doeo, isPreview);
-};
-LZR.HTML.Widget.Legend.BlockLegend.prototype.initFlush.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
 
 // ---- 通过位置获取值信息
 LZR.HTML.Widget.Legend.BlockLegend.prototype.getValByPosition = function (position/*as:double*/)/*as:string*/ {
@@ -187,48 +233,3 @@ LZR.HTML.Widget.Legend.BlockLegend.prototype.getValByPosition = function (positi
 	return r;
 };
 LZR.HTML.Widget.Legend.BlockLegend.prototype.getValByPosition.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
-
-// ---- 通过位置获取值
-LZR.HTML.Widget.Legend.BlockLegend.prototype.getValueByPosition = function (position/*as:double*/)/*as:string*/ {
-	if (position >= 1) {
-		return this.max;
-	} else if (position <= 0) {
-		return this.min;
-	} else {
-		var r;
-		var p = position * this.viewLegend.count;
-		var i = Math.floor(p);
-		var d = this.viewLegend.subs[i + "_BlockLegend"].dat;
-		var fc = this.subs[(d.id.get() - 1)];
-		var min = this.min + fc.position * (this.max - this.min);
-		var max = this.min + d.position * (this.max - this.min);
-
-		p = p-i;
-		r = min + p*(max - min);
-
-		return r;
-	}
-};
-LZR.HTML.Widget.Legend.BlockLegend.prototype.getValueByPosition.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
-
-// 生成中部遮罩背景
-LZR.HTML.Widget.Legend.BlockLegend.prototype.crtMidBackground = function (clrs/*as:Array*/)/*as:string*/ {
-	var r = "linear-gradient(to right";
-	var c = clrs.length - 1;
-	var d = 100/(clrs.length - 1);
-	for (var i=1; i<clrs.length; i++) {
-		r += ", ";
-		r += clrs[i];
-		r += " ";
-		r += ((i-1) * d);
-		r += "%";
-
-		r += ", ";
-		r += clrs[i];
-		r += " ";
-		r += (i * d);
-		r += "%";
-	}
-	return r;
-};
-LZR.HTML.Widget.Legend.BlockLegend.prototype.crtMidBackground.lzrClass_ = LZR.HTML.Widget.Legend.BlockLegend;
