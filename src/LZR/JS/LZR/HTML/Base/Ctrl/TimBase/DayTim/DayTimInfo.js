@@ -165,29 +165,36 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.crtDay.lzrClass_ = LZR.HT
 
 // 填充日模块方法
 LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.fillDay = function (doeo/*as:LZR.HTML.Base.Doe*/, y/*as:int*/, m/*as:int*/, d/*as:int*/, w/*as:int*/, dt/*as:Date*/) {
-	var v = doeo.getById("week").doe;
+	var v = doeo.getById("week");
 	doeo.getById("day").doe.innerHTML = d;
 	switch (w) {
 		case 0:
-			v.innerHTML = "日";
+			v.doe.innerHTML = "日";
+			v.addCss("weekend");
 			break;
 		case 1:
-			v.innerHTML = "一";
+			v.doe.innerHTML = "一";
+			v.delCss("weekend");
 			break;
 		case 2:
-			v.innerHTML = "二";
+			v.doe.innerHTML = "二";
+			v.delCss("weekend");
 			break;
 		case 3:
-			v.innerHTML = "三";
+			v.doe.innerHTML = "三";
+			v.delCss("weekend");
 			break;
 		case 4:
-			v.innerHTML = "四";
+			v.doe.innerHTML = "四";
+			v.delCss("weekend");
 			break;
 		case 5:
-			v.innerHTML = "五";
+			v.doe.innerHTML = "五";
+			v.delCss("weekend");
 			break;
 		case 6:
-			v.innerHTML = "六";
+			v.doe.innerHTML = "六";
+			v.addCss("weekend");
 			break;
 	}
 

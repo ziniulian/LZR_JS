@@ -44,7 +44,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_12E1393C_FBB2_432a_8CDD_B72E5AA0A442"/>
 								<UML:TaggedValue tag="date_created" value="2016-08-29 09:33:26"/>
-								<UML:TaggedValue tag="date_modified" value="2016-09-01 18:34:49"/>
+								<UML:TaggedValue tag="date_modified" value="2016-09-07 13:42:10"/>
 								<UML:TaggedValue tag="genfile" value="F:\GitLib\LZR_JS\src\LZR\JS\LZR\HTML\Base\Ctrl\TimBase\DayTim\DayTimInfo.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -57,7 +57,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="412"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=21cc;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=1038;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -525,7 +525,7 @@
 										<UML:TaggedValue tag="style" value="&#22635;&#20805;&#26085;&#27169;&#22359;&#26041;&#27861;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_A0082DDF_4996_47c1_8B40_14AF383E7A00">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var v = doeo.getById(&quot;week&quot;).doe;&#xA;	doeo.getById(&quot;day&quot;).doe.innerHTML = d;&#xA;	switch (w) {&#xA;		case 0:&#xA;			v.innerHTML = &quot;&#26085;&quot;;&#xA;			break;&#xA;		case 1:&#xA;			v.innerHTML = &quot;&#19968;&quot;;&#xA;			break;&#xA;		case 2:&#xA;			v.innerHTML = &quot;&#20108;&quot;;&#xA;			break;&#xA;		case 3:&#xA;			v.innerHTML = &quot;&#19977;&quot;;&#xA;			break;&#xA;		case 4:&#xA;			v.innerHTML = &quot;&#22235;&quot;;&#xA;			break;&#xA;		case 5:&#xA;			v.innerHTML = &quot;&#20116;&quot;;&#xA;			break;&#xA;		case 6:&#xA;			v.innerHTML = &quot;&#20845;&quot;;&#xA;			break;&#xA;	}"/>
+												<UML:Comment name="var v = doeo.getById(&quot;week&quot;);&#xA;	doeo.getById(&quot;day&quot;).doe.innerHTML = d;&#xA;	switch (w) {&#xA;		case 0:&#xA;			v.doe.innerHTML = &quot;&#26085;&quot;;&#xA;			v.addCss(&quot;weekend&quot;);&#xA;			break;&#xA;		case 1:&#xA;			v.doe.innerHTML = &quot;&#19968;&quot;;&#xA;			v.delCss(&quot;weekend&quot;);&#xA;			break;&#xA;		case 2:&#xA;			v.doe.innerHTML = &quot;&#20108;&quot;;&#xA;			v.delCss(&quot;weekend&quot;);&#xA;			break;&#xA;		case 3:&#xA;			v.doe.innerHTML = &quot;&#19977;&quot;;&#xA;			v.delCss(&quot;weekend&quot;);&#xA;			break;&#xA;		case 4:&#xA;			v.doe.innerHTML = &quot;&#22235;&quot;;&#xA;			v.delCss(&quot;weekend&quot;);&#xA;			break;&#xA;		case 5:&#xA;			v.doe.innerHTML = &quot;&#20116;&quot;;&#xA;			v.delCss(&quot;weekend&quot;);&#xA;			break;&#xA;		case 6:&#xA;			v.doe.innerHTML = &quot;&#20845;&quot;;&#xA;			v.addCss(&quot;weekend&quot;);&#xA;			break;&#xA;	}"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
