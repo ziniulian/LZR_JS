@@ -302,7 +302,7 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.hdChg = function (doeo/*as:LZR.HTML.B
 
 		// 中部控制器修正
 		this.placeMid(l + "%", (100-w-l) + "%");
-		this.calcMid(r, d);
+		this.calcMid(r, d, l/100, (100-w-l)/100);
 	}
 	this.onChg(d.view.doe, r);
 };
@@ -361,9 +361,9 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.getQry = function ()/*as:string*/ {
 LZR.HTML.Widget.Legend.LegendMgr.prototype.getQry.lzrClass_ = LZR.HTML.Widget.Legend.LegendMgr;
 
 // 计算中部遮罩数据
-LZR.HTML.Widget.Legend.LegendMgr.prototype.calcMid = function (s/*as:Object*/, dat/*as:Object*/)/*as:Object*/ {
+LZR.HTML.Widget.Legend.LegendMgr.prototype.calcMid = function (s/*as:Object*/, dat/*as:Object*/, min/*as:double*/, d/*as:double*/)/*as:Object*/ {
 	if (this.viewMid.dat.hct_scd.get()) {
-		var i, j, d, min;
+		var i, j;
 		var a = s.color.split(";");
 		var aa = [];
 		for (i=0; i<a.length; i++) {
@@ -372,9 +372,12 @@ LZR.HTML.Widget.Legend.LegendMgr.prototype.calcMid = function (s/*as:Object*/, d
 			}
 		}
 
-		d = parseFloat(dat.view.getStyle("width"));
-		min = parseFloat(dat.viewMarkMid.getStyle("left")) / d;
-		d = (parseFloat(dat.viewMarkMid.getStyle("width")) / d) / (aa.length - 1);
+		if (isNaN(min)) {
+			d = parseFloat(dat.view.getStyle("width"));
+			min = parseFloat(dat.viewMarkMid.getStyle("left")) / d;
+			d = (parseFloat(dat.viewMarkMid.getStyle("width")) / d);
+		}
+		d /= (aa.length - 1);
 		s.color = "";
 		for (i=0; i<aa.length; i++) {
 			if (i === 0) {
