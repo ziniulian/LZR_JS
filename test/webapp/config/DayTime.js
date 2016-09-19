@@ -130,6 +130,18 @@ function webapp () {
 				this.dat.setTimArea(this.doe, min, max, cur);
 			};
 
+			// 设置播放工具是否可见
+			this.setPlayBarVisible = function (visible) {
+				var d = this.doe.getById("hct_DayTimPlayBar");
+				if (d) {
+					if (visible) {
+						d.delCss("Lc_nosee");
+					} else {
+						d.addCss("Lc_nosee");
+					}
+				}
+			};
+
 		}
 	};
 }

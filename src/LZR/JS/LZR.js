@@ -469,7 +469,7 @@ LZR.getClassName = function (obj/*as:Object*/)/*as:string*/ {
 
 	// Dom类型
 	var c = Object.prototype.toString.apply ( obj );
-	c = c.substring( 8, c.length-1 );
+	c = c.substring( 8, c.length - 1 );
 
 	// 其它类型
 	if ( c == "Object" ) {
@@ -493,3 +493,18 @@ LZR.del = function (obj/*as:Object*/, proName/*as:string*/) {
 	delete obj[proName];
 };
 LZR.del.lzrClass_ = LZR;
+
+// 获取nodejs的模块路径
+LZR.getNodejsModelPath = function (path/*as:string*/, fileNam/*as:string*/)/*as:string*/ {
+	var p = require.resolve(path + fileNam);
+	var i = p.indexOf(fileNam);
+	if (i > 0) {
+		i--;
+		return (p.substr(0, i));
+	} else if (i === 0) {
+		return p;
+	} else {
+		return undefined;
+	}
+};
+LZR.getNodejsModelPath.lzrClass_ = LZR;
