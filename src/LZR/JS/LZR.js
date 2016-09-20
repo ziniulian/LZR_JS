@@ -34,6 +34,9 @@ LZR.spAjax = null;	/*as:Object*/
 // 延后加载内容
 LZR.afterLoad = {};	/*as:Object*/
 
+// 外部库加载信息
+LZR.annexs = {};	/*as:Object*/
+
 // 构造器
 LZR.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
@@ -263,17 +266,13 @@ LZR.load.lzrClass_ = LZR;
 
 // 加载外部库
 LZR.loadAnnex = function (obj/*as:Object*/) {
-	var a, s;
+	var a, s, n;
 	a = [];
 	for (s in obj) {
-		if (s[3] === "_" && s[2] === "s" && s[1] === "s" && s[0] === "c") {
-			a.push(obj[s]);
-		} else {
-			try {
-				eval(s);
-			} catch (e) {
-				a.push(obj[s]);
-			}
+		n = obj[s];
+		if (!this.annexs[n]) {
+			this.annexs[n] = true;
+			a.push(n);
 		}
 	}
 	if (a.length > 0) {
