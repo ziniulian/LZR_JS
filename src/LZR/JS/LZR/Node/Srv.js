@@ -18,7 +18,7 @@ LZR.Node.Srv = function (obj) {
 	this.port = 80;	/*as:string*/
 
 	// IP号
-	this.ip = undefined;	/*as:string*/
+	this.ip = null;	/*as:string*/
 
 	// 服务对象
 	this.so = this.ep();	/*as:Object*/
