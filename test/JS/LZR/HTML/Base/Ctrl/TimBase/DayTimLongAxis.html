@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>日期时间控制器测试</title>
+		<title>日刻度长轴时间控制器测试</title>
 		<meta charset="utf-8" />
 		<script src="/myLib/LZR.js"></script>
 
@@ -24,6 +24,7 @@
 			}
 
 			.boso .tmp {
+				position: relative;
 				display: inline-block;
 				vertical-align: middle;
 				width: 20%;
@@ -36,7 +37,6 @@
 				line-height: 20px;
 				text-align: center;
 				color: #000;
-				background-color: yellow;
 			}
 
 			.boso .tmp .weekend {
@@ -45,23 +45,26 @@
 
 			.boso .tmp .day {
 				width: 100%;
-				height: 20px;
-				font-size: 12px;
-				line-height: 20px;
-				text-align: center;
-				color: #000;
+				height: 5px;
+			}
+
+			.boso .tmp .line {
+				position: absolute;
+				width: 1px;
+				height: 100%;
+				top: 0;
+				left: 0;
+				background: red;
 			}
 
 			.boso .out .scd .day {
-				color: #FFF;
 				background-color: red;
 			}
 
 			.boso .bar {
 				position: relative;
-				width: 80%;
+				width: 100%;
 				height: 15px;
-				margin: 50px auto;
 				background-color: yellow;
 			}
 
@@ -109,9 +112,10 @@
 			}
 
 			.boso .pb {
-				float: left;
-				width: 100px;
-				margin: 0 20px;
+				display: inline-block;
+				vertical-align: top;
+				width: 5%;
+				margin: 0 2%;
 				line-height: 1.5;
 				text-align: center;
 				background-color: yellow;
@@ -121,16 +125,22 @@
 				background-color: red;
 			}
 
+			.boso .barout {
+				display: inline-block;
+				vertical-align: middle;
+				width: 72%;
+			}
+
 		</style>
 
 		<script>
 			function init() {
 				LZR.curPath = "/myLib";
 				LZR.load([
-					"LZR.HTML.Base.Ctrl.TimBase.DayTim"
+					"LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimLongAxis"
 				]);
 				var de = LZR.HTML.Base.Doe;
-				var Cls = LZR.HTML.Base.Ctrl.TimBase.DayTim;
+				var Cls = LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimLongAxis;
 				var d, ctrl;
 
 				LZR.HTML.alog ("创建对象");
@@ -159,11 +169,15 @@
 				LZR.HTML.alog ("");
 
 				LZR.HTML.alog ("日均模式");
-				d.getById("hct_DayTimHourBar").dat.hct_num.vcStep.set(24);
+				d.getById("hct_DayTimHourBar").dat.hct_num.vcStep.set(24 * 3600 * 1000);
 				LZR.HTML.alog ("");
 
 				LZR.HTML.alog ("小时模式");
-				d.getById("hct_DayTimHourBar").dat.hct_num.vcStep.set(1);
+				d.getById("hct_DayTimHourBar").dat.hct_num.vcStep.set(1 * 3600 * 1000);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("范围设置");
+				d.dat.hct_tim.setTimArea(d, "2016-8-24 19", "2016-8-26 6", "2016-8-25 9");
 				LZR.HTML.alog ("");
 
 			}
@@ -172,27 +186,28 @@
 
 	<body class="body" onload="init()">
 		<div id = "boso" class = "boso">
-			<div idLzr="hct_DayTimDayOut" class = "out">
-				<div idLzr="hct_DayTimDayTemplate" class = "tmp">
-					<div idLzr="week" class = "week">日</div>
-					<div idLzr="day" class = "day">23</div>
-				</div>
-			</div>
-			<div idLzr="hct_DayTimHourBarOut">
-				<div idLzr="hct_DayTimHourBar" class = "bar">
-					<div idLzr = "hct_StripNumBtn" class = "sb">
-						<div idLzr="hct_DayTimHourTxt" class = "txt"></div>
+			<div idLzr="hct_DayTimPlayPrev" class = "pb"><<</div>
+			<div idLzr="hct_DayTimPlayBtn" class = "pb">O</div>
+			<div idLzr="hct_DayTimPlayNext" class = "pb">>></div>
+			<div class = "barout">
+				<div idLzr="hct_DayTimHourBarOut">
+					<div idLzr="hct_DayTimHourBar" class = "bar">
+						<div idLzr = "hct_StripNumBtn" class = "sb">
+							<div idLzr="hct_DayTimHourTxt" class = "txt"></div>
+						</div>
+						<div idLzr="hct_DayTimHourCover" class = "cover"></div>
+						<div idLzr="hct_DayTimHourBarMs" class = "moveshow Lc_nosee">
+							<div idLzr="txt"></div>
+						</div>
 					</div>
-					<div idLzr="hct_DayTimHourCover" class = "cover"></div>
-					<div idLzr="hct_DayTimHourBarMs" class = "moveshow Lc_nosee">
-						<div idLzr="txt"></div>
+				</div>
+				<div idLzr="hct_DayTimDayOut" class = "out">
+					<div idLzr="hct_DayTimDayTemplate" class = "tmp">
+						<div idLzr="week" class = "week">日</div>
+						<div idLzr="day" class = "day"></div>
+						<div idLzr="line" class = "line"></div>
 					</div>
 				</div>
-			</div>
-			<div>
-				<div idLzr="hct_DayTimPlayPrev" class = "pb"><<</div>
-				<div idLzr="hct_DayTimPlayBtn" class = "pb">O</div>
-				<div idLzr="hct_DayTimPlayNext" class = "pb">>></div>
 			</div>
 		</div>
 	</body>

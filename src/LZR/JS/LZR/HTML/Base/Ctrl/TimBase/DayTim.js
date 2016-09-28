@@ -94,7 +94,7 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.hdStrip.lzrClass_ = LZR.HTML.Base.Ct
 LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.hdMoveShow = function (doeo/*as:LZR.HTML.Base.Doe*/, v/*as:double*/, x/*as:double*/) {
 	var d = doeo.getById("hct_DayTimHourBarMs");
 	d.setStyle("left", x);
-	d.doe.innerHTML = v;
+	d.getById("txt").doe.innerHTML = v;
 	d.delCss("Lc_nosee");
 };
 LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.hdMoveShow.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim;
@@ -137,6 +137,17 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.resize = function (doeo/*as:LZR.HTML
 };
 LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.resize.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim;
 
+// 生成滚动条控制器参数
+LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.crtProForCtrlStrip = function (val/*as:Object*/)/*as:Object*/ {
+	return {
+		min: 0,
+		max: 23,
+		num: val.tim.doHour(),
+		step: 1
+	};
+};
+LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.crtProForCtrlStrip.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim;
+
 // ---- 给元素添加事件集
 LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*as:Object*/, obj/*as:Object*/) {
 	var d, v;
@@ -177,12 +188,7 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.addEvt = function (doeo/*as:LZR.HTML
 	d = this.crtDoe(doeo, "hct_DayTimHourBar", "div");
 	this.crtDat(d, "hct_tim", v);
 	// 事件添加
-	this.ctrlStrip.add(d, {
-		min: 0,
-		max: 23,
-		num: v.tim.doHour(),
-		step: 1
-	});
+	this.ctrlStrip.add(d, this.crtProForCtrlStrip(v));
 	this.crtCb2Dat(doeo, d.dat.hct_num.vcStep.evt.change, "hdStepChg", this.utLzr.bind(v, v.hdStepChg, doeo));
 
 	// 其它事件添加

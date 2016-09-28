@@ -715,7 +715,7 @@ function webapp () {
 				r += cdt.date.replace(/-/g, "");
 				r += cdt.time.substr(0, 2);
 				r += "\",\"periodStart\":4,\"periodEnd\":";
-				r += (num * 24 + 4);
+				r += (num * 24 + 3);
 				r += "}}";
 				return r;
 			};

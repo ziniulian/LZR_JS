@@ -95,18 +95,8 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.hdObj_ = function (obj/*a
 };
 LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo;
 
-// 设置时间范围
-LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.setTimArea = function (doeo/*as:LZR.HTML.Base.Doe*/, min/*as:Object*/, max/*as:Object*/, cur/*as:Object*/) {
-	var c;
-	var bc = this.tim.vcBase.get();
-
-	// 计算日模块最小值及个数
-	if (min) {
-		this.tim.dtMin = this.tim.hdTim(min);
-	}
-	if (max) {
-		this.tim.dtMax = this.tim.hdTim(max);
-	}
+// 计算日模块最小值及个数
+LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.calcCount = function () {
 	this.timCalc.vcBase.set(this.tim.dtMin.valueOf());
 	this.timCalc.set(null, null, null, 0, 0, 0, 0);
 	this.minDay = this.timCalc.vcBase.get();
@@ -115,6 +105,23 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.setTimArea = function (do
 		this.count = 1;
 	}
 // console.log (this.count);
+};
+LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.calcCount.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo;
+
+// 设置时间范围
+LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.setTimArea = function (doeo/*as:LZR.HTML.Base.Doe*/, min/*as:Object*/, max/*as:Object*/, cur/*as:Object*/) {
+	var c;
+	var bc = this.tim.vcBase.get();
+
+	if (min) {
+		this.tim.dtMin = this.tim.hdTim(min);
+	}
+	if (max) {
+		this.tim.dtMax = this.tim.hdTim(max);
+	}
+
+	// 计算日模块最小值及个数
+	this.calcCount ();
 
 	// 生成日模块
 	this.crtDays(doeo);
@@ -152,12 +159,18 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.crtDays.lzrClass_ = LZR.H
 
 // 生成单个日模块
 LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.crtDay = function (index/*as:int*/)/*as:LZR.HTML.Base.Doe*/ {
-	var d;
+	var d, dl;
 	if (this.dayMod) {
 		d = this.dayMod.clone();
 		this.timCalc.vcBase.set(this.minDay + index * 24 * 3600 * 1000);
 		this.fillDay(d, this.timCalc.doYear(), this.timCalc.doMon(), this.timCalc.doDay(), this.timCalc.dt.getDay(), this.timCalc.dt);
 		d.setStyle("width", 100/this.count + "%");
+	}
+	if (index === 0) {
+		dl = d.getById("line");
+		if (dl) {
+			dl.addCss("Lc_nosee");
+		}
 	}
 	return d;
 };
