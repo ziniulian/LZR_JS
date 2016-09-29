@@ -115,6 +115,9 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.hdClick = function (doeo/*as:LZR.HTM
 			doeo.dat.hct_tim.next();
 			break;
 	}
+
+	// 停止播放
+	doeo.root.get().getById("hct_DayTimPlayBtn").dat.hct_scd.set(false);
 };
 LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.hdClick.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim;
 

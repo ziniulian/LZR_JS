@@ -71,6 +71,10 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimLongAxisInfo.prototype.setTimArea = func
 	c.dat.hct_num.vcMin.set(this.minDay);
 	c.dat.hct_num.vcMax.set(this.maxDay);
 
+	// 遮挡不可选的时间部位
+	c = doeo.getById("hct_DayTimHourMark");
+	c.setStyle("width", ( (this.tim.dtMin - this.minDay) / (this.maxDay - this.minDay) * 100 ) + "%");
+
 	// 选项初始化
 	if (cur) {
 		c = this.tim.hdTim(cur).valueOf();

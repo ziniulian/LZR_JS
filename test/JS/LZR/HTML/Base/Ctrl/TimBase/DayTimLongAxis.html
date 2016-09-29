@@ -131,6 +131,18 @@
 				width: 72%;
 			}
 
+			.boso .hbout {
+				position: relative;
+			}
+
+			.boso .hbout .mark {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 100%;
+				background-color: #CCC;
+			}
+
 		</style>
 
 		<script>
@@ -190,7 +202,7 @@
 			<div idLzr="hct_DayTimPlayBtn" class = "pb">O</div>
 			<div idLzr="hct_DayTimPlayNext" class = "pb">>></div>
 			<div class = "barout">
-				<div idLzr="hct_DayTimHourBarOut">
+				<div idLzr="hct_DayTimHourBarOut" class = "hbout">
 					<div idLzr="hct_DayTimHourBar" class = "bar">
 						<div idLzr = "hct_StripNumBtn" class = "sb">
 							<div idLzr="hct_DayTimHourTxt" class = "txt"></div>
@@ -200,6 +212,7 @@
 							<div idLzr="txt"></div>
 						</div>
 					</div>
+					<div idLzr="hct_DayTimHourMark" class = "mark"></div>
 				</div>
 				<div idLzr="hct_DayTimDayOut" class = "out">
 					<div idLzr="hct_DayTimDayTemplate" class = "tmp">
