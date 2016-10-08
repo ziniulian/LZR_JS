@@ -2,7 +2,7 @@
 作者：子牛连
 类名：File
 说明：文件处理工具
-创建日期：17-二月-2016 10:20:18
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
@@ -13,8 +13,8 @@ LZR.NodeJs.Util.File = function (obj) {
 	// Nodejs的文件模块
 	this.fs = LZR.getSingleton (null, null, "fs");	/*as:Object*/
 
-	if (obj && obj.super_) {
-		this.init_();
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
@@ -23,13 +23,6 @@ LZR.NodeJs.Util.File.prototype.className_ = "LZR.NodeJs.Util.File";
 LZR.NodeJs.Util.File.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.NodeJs.Util.File");
-
-// 构造器
-LZR.NodeJs.Util.File.prototype.init_ = function (obj/*as:Object*/) {
-	if (obj) {
-		LZR.setObj (this, obj);
-	}
-};
 
 // 判断路径是否存在
 LZR.NodeJs.Util.File.prototype.exists = function (path/*as:string*/, callback/*as:fun*/) {
@@ -57,8 +50,25 @@ LZR.NodeJs.Util.File.prototype.exists = function (path/*as:string*/, callback/*a
 		}
 	});
 };
+LZR.NodeJs.Util.File.prototype.exists.lzrClass_ = LZR.NodeJs.Util.File;
 
 // 读取文件内容
 LZR.NodeJs.Util.File.prototype.readFile = function (filename/*as:string*/, options/*as:string*/, callback/*as:fun*/) {
 	this.fs.readFile (filename, options, callback);
 };
+LZR.NodeJs.Util.File.prototype.readFile.lzrClass_ = LZR.NodeJs.Util.File;
+
+// 构造器
+LZR.NodeJs.Util.File.prototype.init_ = function (obj/*as:Object*/) {
+	if (obj) {
+		LZR.setObj (this, obj);
+		this.hdObj_(obj);
+	}
+};
+LZR.NodeJs.Util.File.prototype.init_.lzrClass_ = LZR.NodeJs.Util.File;
+
+// 对构造参数的特殊处理
+LZR.NodeJs.Util.File.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
+};
+LZR.NodeJs.Util.File.prototype.hdObj_.lzrClass_ = LZR.NodeJs.Util.File;

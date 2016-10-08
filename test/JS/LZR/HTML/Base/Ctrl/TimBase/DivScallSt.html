@@ -1,0 +1,78 @@
+<html>
+	<head>
+		<title>Div刻度的时间控制条测试</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+			.a {
+				margin: 20px 0 0 20px;
+			}
+			.scd {
+				border-radius: 15px;
+			}
+			.add {
+				border: 5px solid #0FF;
+			}
+			.sub {
+				border: 5px solid #F0F;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.Base.Time",
+					"LZR.HTML.Base.Ctrl.TimBase.DivScallSt"
+				]);
+				var de = LZR.HTML.Base.Doe;
+				var cls = LZR.HTML.Base.Ctrl.TimBase.DivScallSt;
+				var utTim = LZR.getSingleton(LZR.Base.Time);
+
+				LZR.HTML.alog ("DOM参数创建元素");
+				var a = new de ({
+					hd_doe: document.getElementById("a")
+				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("创建时间轴");
+				var c = new cls ({
+					scdCss: "scd",
+					// hd_css: "scd"
+					hd_css: {
+						add: "add",
+						sub: "sub"
+					}
+				});
+				c.add(a, {
+					hd_tim: utTim.normalize(),
+					// dtMax: new Date("2020/1/1"),
+					// dtMax: new Date("2016/5/21"),
+					// dtMin: new Date("2016/5/11")
+				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("测试事件响应");
+				c.evt.chg.add(function(d, v) {
+					console.log (v);
+				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("重算元素位置");
+				LZR.HTML.alog ("");
+				a.subs["hct_StDivScall_stripDoe"].calcPosition();
+
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+		<div id = "a" class = "a"></div>
+	</body>
+</html>

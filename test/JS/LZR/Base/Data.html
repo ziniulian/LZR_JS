@@ -1,0 +1,217 @@
+<html>
+	<head>
+		<title>数据类测试</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			.body {
+				padding: 0;
+				margin: 0;
+			}
+		</style>
+
+		<script>
+			// 变量输出
+			function print(a) {
+				var s, v;
+				LZR.HTML.alog ("\t变量	名称	父名	根名	子数");
+				for (var i=0; i<a.length; i++) {
+					s = "\t"
+					s += String.fromCharCode(97 + i);
+					s += "\t";
+					s += a[i].id.get();
+					s += "\t";
+					v = a[i].parent.get();
+					s += v ? v.id.get() : v;
+					s += "\t";
+					v = a[i].root.get();
+					s += v ? v.id.get() : v;
+					s += "\t";
+					s += a[i].count;
+					LZR.HTML.alog (s);
+				}
+				LZR.HTML.alog ("");
+			}
+
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.Base.Data",
+					"LZR.HTML"
+				]);
+				var DT = LZR.Base.Data;
+
+				LZR.HTML.alog ("初始创建对象：");
+				var a = new DT ({id: "a"});
+				var b = new DT ({id: "b"});
+				var c = new DT ({id: "c"});
+				var d = new DT ({id: "d"});
+				var e = new DT ({id: "e"});
+				var ary = [a, b, c, d, e];
+				console.log (ary);
+				print(ary);
+
+				LZR.HTML.alog ("测试基本添加功能：");
+				b.add(c);
+				print(ary);
+
+				a.add(b);
+				print(ary);
+				
+				d.add(e);
+				print(ary);
+
+				LZR.HTML.alog ("测试结构输出：");
+				b.add(d);
+				LZR.HTML.alog (a.print());
+				print(ary);
+
+				LZR.HTML.alog ("测试改名添加功能：");
+				LZR.HTML.alog (a.add(d, "x"));
+				print(ary);
+
+				LZR.HTML.alog ("测试改名功能（父类内部改名）：");
+				LZR.HTML.alog (d.id.set("d"));
+				print(ary);
+
+				LZR.HTML.alog ("测试改名功能（父类内部重名改名，失败）：");
+				LZR.HTML.alog (d.id.set("b"));
+				LZR.HTML.alog ("d.id = " + d.id.get());
+				print(ary);
+
+				LZR.HTML.alog ("测试改名功能（父类内部空值改名，被踢出父类）：");
+				// d.id.set(558);		// true
+				// d.id.set("");		// false
+				LZR.HTML.alog (d.id.set(null));
+				print(ary);
+
+				LZR.HTML.alog ("测试 空id 添加失败：");
+				LZR.HTML.alog (a.add(d));
+				print(ary);
+
+				LZR.HTML.alog ("测试 重名 添加失败：");
+				LZR.HTML.alog (a.add(d, "b"));
+				print(ary);
+
+				LZR.HTML.alog ("测试 空值、不重名 添加成功：");
+				LZR.HTML.alog (a.add(d, "d"));
+				print(ary);
+
+				LZR.HTML.alog ("测试改父类功能：（父类内改）");
+				LZR.HTML.alog (d.parent.set(c));
+				print(ary);
+
+				LZR.HTML.alog ("测试改父类功能：（父类内空值改，被踢出父类）");
+				LZR.HTML.alog (d.parent.set(null));
+				print(ary);
+
+				LZR.HTML.alog ("测试改名功能（无父类改名）：");
+				LZR.HTML.alog (d.id.set("b"));
+				print(ary);
+
+				LZR.HTML.alog ("测试改父类功能：（重名改，失败）");
+				LZR.HTML.alog (d.parent.set(a));
+				print(ary);
+
+				LZR.HTML.alog ("测试改父类功能：（无父类改）");
+				d.id.set("d");	// 恢复原名
+				LZR.HTML.alog (d.parent.set(c));
+				print(ary);
+
+				LZR.HTML.alog ("测试改根功能：");
+				LZR.HTML.alog (c.root.set(b));
+				print(ary);
+
+				LZR.HTML.alog ("测试 ID 匹配：");
+				print([ a.getById("d") ]);
+
+				LZR.HTML.alog ("测试初始化子数据：");
+				var t = new DT ({
+					id: "top",
+					chd_: {
+						a: {
+							cls_: DT
+						},
+						b: {
+							cls_: DT,
+							view: "top.b.view",
+							ctrl: "top.b.ctrl",
+							chd_: {
+								b1: {},
+								b2: {},
+								b3: {
+									view: "top.b3.view",
+									ctrl: "top.b3.ctrl"
+								},
+								b4: {},
+								b5: {}
+							}
+						},
+						c: {
+							view: "top.c.view"
+						},
+						d: {
+							ctrl: "top.d.ctrl"
+						},
+						e: {},
+						f: {
+							chd_: {
+								f1: {},
+								f2: {
+									chd_: {
+										f2_1: {
+											cls_: DT,
+											chd_: {
+												ff1: {},
+												ff2: {},
+												ff3: {}
+											}
+										},
+										f2_2: {},
+										f2_3: {
+											chd_: {
+												f231: {
+													view: "top.f231.view",
+													ctrl: "top.f231.ctrl"
+												},
+												f232: {
+													view: "top.f232.view",
+													ctrl: "top.f232.ctrl"
+												},
+												f233: {}
+											}
+										},
+										f2_4: {}
+									}
+								},
+								f3: {},
+								f4: {},
+								f5: {}
+							}
+						},
+						g: {},
+						h: {
+							chd_: {
+								h1: {},
+								h2: {
+									cls_: DT
+								},
+								h3: {
+									cls_: DT
+								},
+								h4: {},
+								h5: {}
+							}
+						}
+					}
+				});
+				LZR.HTML.alog (t.print());
+				console.log (t);
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+	</body>
+</html>

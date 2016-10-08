@@ -1,0 +1,136 @@
+<html>
+	<head>
+		<title>颜色枚举测试</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			.body {
+				padding: 0;
+				margin: 0;
+			}
+			.cd {
+				position: absolute;
+				right: 200px;
+				top: 50px;
+				width: 180px;
+				height: 180px;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.Base.EmClr",
+					"LZR.HTML"
+				]);
+				var EC = LZR.Base.EmClr;
+				var c, d, e;
+
+				LZR.HTML.alog ("初始化枚举：");
+				c = new EC("aqua");
+				cd.style.backgroundColor = c.get().toCss();
+				alert(cd.style.backgroundColor);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("枚举 set ：");
+				c.set("yellow");
+				cd.style.backgroundColor = c.get().toCss();
+				alert(cd.style.backgroundColor);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("枚举比对：");
+				d = new EC("yellow");
+				LZR.HTML.alog ("c === d : " + (c === d));
+				LZR.HTML.alog ("c.get() === d.get() : " + (c.get() === d.get()));
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("单字灰度测试：");
+				c.set("grayc");
+				LZR.HTML.alog (parseInt("cc", 16));
+				cd.style.backgroundColor = c.get().toCss();
+				alert(cd.style.backgroundColor);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("双字灰度测试：");
+				c.set("gray5c");
+				LZR.HTML.alog (parseInt("5c", 16));
+				cd.style.backgroundColor = c.get().toCss();
+				alert(cd.style.backgroundColor);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("无字灰度测试：");
+				c.set("gray");
+				cd.style.backgroundColor = c.get().toCss();
+				alert(cd.style.backgroundColor);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("灰度色比对：");
+				d.set("black");
+				LZR.HTML.alog ("black :");
+				LZR.HTML.alog ("c === d : " + (c === d));
+				LZR.HTML.alog ("c.get() === d.get() : " + (c.get() === d.get()));
+				d.set("gray");
+				LZR.HTML.alog ("gray :");
+				LZR.HTML.alog ("c === d : " + (c === d));
+				LZR.HTML.alog ("c.get() === d.get() : " + (c.get() === d.get()));
+				c.set("gray5c");
+				d.set("gray5c");
+				LZR.HTML.alog ("gray5c :");
+				LZR.HTML.alog ("c === d : " + (c === d));
+				LZR.HTML.alog ("c.get() === d.get() : " + (c.get() === d.get()));
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("透明色测试：");
+				c = new EC();
+				LZR.HTML.alog ("c.key = " + c.getKey());
+				d.set(null);
+				LZR.HTML.alog ("d.key = " + d.getKey());
+				e = new EC("no");
+				LZR.HTML.alog ("e.key = " + e.getKey());
+				LZR.HTML.alog ("c === d : " + (c === d));
+				LZR.HTML.alog ("c === e : " + (c === e));
+				LZR.HTML.alog ("c.get() === d.get() : " + (c.get() === d.get()));
+				LZR.HTML.alog ("c.get() === e.get() : " + (c.get() === e.get()));
+				cd.style.backgroundColor = c.get().toRgba();
+				alert(cd.style.backgroundColor);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("克隆比对：");
+				c.set("v5");
+				d = LZR.clone(c, true);
+				e = c;
+				LZR.HTML.alog ("c === d : " + (c === d));
+				LZR.HTML.alog ("c === e : " + (c === e));
+				LZR.HTML.alog ("c.get() === d.get() : " + (c.get() === d.get()));
+				LZR.HTML.alog ("c.get() === e.get() : " + (c.get() === e.get()));
+				cd.style.backgroundColor = c.get().toRgba();
+				alert(cd.style.backgroundColor);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("展示所有颜色：");
+				d = c.enums();
+				for (e in d) {
+					LZR.HTML.alog (e + " :\t\t" + d[e].r + ",\t" + d[e].g + ",\t" + d[e].b + ",\t" + d[e].alpha);
+				}
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("通过枚举值获得枚举名：");
+				d = new LZR.Base.Clr({
+					r: 255
+				});
+				e = new EC("red").get();
+				LZR.HTML.alog (c.getKeyByVal(d));
+				LZR.HTML.alog (c.getKeyByVal(e));
+				cd.style.backgroundColor = d.toRgba();
+				LZR.HTML.alog ("");
+
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+		<div class="cd" id = "cd"></div>
+	</body>
+</html>

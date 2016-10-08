@@ -1,0 +1,77 @@
+<html>
+	<head>
+		<title>文本控制器测试</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			.body {
+				padding: 0;
+				margin: 0;
+			}
+			.txt {
+				width: 90%;
+				height: 50px;
+				margin: 10px;
+				padding: 15px;
+				line-height: 50px;
+				font-family: "微软雅黑";
+				font-size: 30px;
+				background-color: yellow;
+			}
+			.memo {
+				height: 200px;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.HTML.Base.Ctrl.Txt"
+				]);
+				var de = LZR.HTML.Base.Doe;
+				var Cls = LZR.HTML.Base.Ctrl.Txt;
+				var H = LZR.HTML;
+				var a, b, c, st, txt;
+
+				LZR.HTML.alog ("创建对象");
+				var a = new de ({
+					hd_doe: document.getElementById("a")
+				});
+				var b = new de ({
+					hd_doe: document.getElementById("b")
+				});
+				var c = new de ({
+					hd_doe: document.getElementById("c")
+				});
+				var st = new Cls ({});
+				var txt = new Cls ({
+					single: false
+				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("添加事件");
+				var f = function (d, t) {
+					console.log (t);
+				}
+				st.evt.chg.add (f);
+				txt.evt.chg.add (f);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("添加元素");
+				st.add (a);
+				st.add (b, "Hello World!");
+				txt.add (c);
+				LZR.HTML.alog ("");
+
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+		<div id = "a", class = "txt"></div>
+		<div id = "b", class = "txt"></div>
+		<div id = "c", class = "txt memo"></div>
+	</body>
+</html>

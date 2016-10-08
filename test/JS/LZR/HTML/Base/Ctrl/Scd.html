@@ -1,0 +1,132 @@
+<html>
+	<head>
+		<title>选择器测试</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			.body {
+				padding: 0;
+				margin: 0;
+			}
+			.a {
+				width: 50px;
+				height: 50px;
+				margin: 10px;
+				background-color: red;
+			}
+			.b {
+				width: 50px;
+				height: 50px;
+				margin: 10px;
+				background-color: yellow;
+			}
+			.c {
+				width: 50px;
+				height: 50px;
+				margin: 10px;
+				background-color: blue;
+			}
+			.d {
+				width: 50px;
+				height: 50px;
+				margin: 10px;
+				background-color: green;
+			}
+			.e {
+				width: 50px;
+				height: 50px;
+				margin: 10px;
+				background-color: fuchsia;
+			}
+			.f {
+				width: 50px;
+				height: 50px;
+				margin: 10px;
+				background-color: aqua;
+			}
+			.scd {
+				border: 6px solid black;
+				border-radius: 12px;
+			}
+			.scd2 {
+				border: 6px solid red;
+			}
+			.out {
+				position: absolute;
+				right: 200px;
+				top: 50px;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.HTML.Base.Ctrl.Scd"
+				]);
+				var de = LZR.HTML.Base.Doe;
+				var sd = LZR.HTML.Base.Ctrl.Scd;
+
+				LZR.HTML.alog ("DOM参数创建元素");
+				var doms = new de ({
+					hd_doe: btns
+				});
+				LZR.HTML.alog (doms.print());
+				LZR.HTML.alog ("");
+console.log (doms);
+
+				LZR.HTML.alog ("创建选择器");
+				var c = new sd ();
+				c.css = "scd";
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("添加事件测试");
+				var s;
+				for (s in doms.subs) {
+					doms.subs[s].addCtrl(c);
+				}
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("创建新选择器");
+				var c2 = new sd ();
+				c2.css = "scd2";
+				c2.add(doms.getById("c"));
+				doms.getById("f").addCtrl(c2);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("删除选择器");
+				c.del(doms.getById("a"));
+				console.log (doms.getById("f").delCtrl(c));
+				doms.getById("f").delCtrl(c2);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("有控制器元素的克隆测试");
+				var cn = LZR.clone(doms);
+				cn.delCss("out");
+				cn.place(document.body);
+				LZR.HTML.alog ("");
+console.log (cn);
+
+				LZR.HTML.alog ("克隆后的事件增删测试");
+				cn.getById("f").addCtrl(c2);
+				doms.getById("d").delCtrl(c);
+				doms.getById("a").addCtrl(c);
+				doms.getById("f").addCtrl(c);
+				LZR.HTML.alog ("");
+
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+		<center id = "btns" class = "out">
+			<div id = "a", class = "a"></div>
+			<div id = "b", class = "b"></div>
+			<div id = "c", class = "c"></div>
+			<div id = "d", class = "d"></div>
+			<div id = "e", class = "e"></div>
+			<div id = "f", class = "f"></div>
+		</center>
+	</body>
+</html>

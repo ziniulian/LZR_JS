@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Math
 说明：数学
-创建日期：16-二月-2016 15:28:31
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
@@ -10,8 +10,8 @@ LZR.load([
 	"LZR.Base"
 ], "LZR.Base.Math");
 LZR.Base.Math = function (obj) {
-	if (obj && obj.super_) {
-		this.init_();
+	if (obj && obj.lzrGeneralization_) {
+		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
 		this.init_(obj);
 	}
@@ -25,11 +25,20 @@ LZR.load(null, "LZR.Base.Math");
 LZR.Base.Math.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
+		this.hdObj_(obj);
 	}
 };
+LZR.Base.Math.prototype.init_.lzrClass_ = LZR.Base.Math;
 
 // 消除小数的精度误差
 LZR.Base.Math.prototype.formatFloat = function (f/*as:double*/, digit/*as:int*/)/*as:double*/ {
 	var m = Math.pow(10, digit);
 	return parseInt(f * m, 10) / m;
 };
+LZR.Base.Math.prototype.formatFloat.lzrClass_ = LZR.Base.Math;
+
+// 对构造参数的特殊处理
+LZR.Base.Math.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
+};
+LZR.Base.Math.prototype.hdObj_.lzrClass_ = LZR.Base.Math;

@@ -1,0 +1,107 @@
+<html>
+	<head>
+		<title>元素事件测试</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			.body {
+				padding: 0;
+				margin: 0;
+			}
+			.a {
+				width: 98%;
+				height: 150px;
+				padding: 1%;
+				background-color: red;
+			}
+			.b {
+				width: 98%;
+				height: 150px;
+				padding: 1%;
+				background-color: yellow;
+			}
+			.c {
+				width: 98%;
+				height: 150px;
+				padding: 1%;
+				background-color: blue;
+			}
+			.d {
+				width: 98%;
+				height: 150px;
+				padding: 1%;
+				background-color: green;
+			}
+			.e {
+				width: 98%;
+				height: 150px;
+				padding: 1%;
+				background-color: fuchsia;
+			}
+			.f {
+				width: 98%;
+				height: 150px;
+				padding: 1%;
+				background-color: aqua;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.HTML.Base.Doe"
+				]);
+				var de = LZR.HTML.Base.Doe;
+
+				LZR.HTML.alog ("DOM参数创建元素");
+				var doms = new de ({
+					hd_doe: a_a
+				});
+				LZR.HTML.alog (doms.print());
+				LZR.HTML.alog ("");
+
+				var hello = function (e) {
+					alert("Hello!");
+				};
+
+console.log (doms);
+
+				LZR.HTML.alog ("添加click事件");
+				doms.addEvt ("click", hello, "sayHello");
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("添加click事件");
+				doms.getById("d").addEvt ("click", function(){alert("DDD!")}, "sayDDD");
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("删除click事件");
+				doms.delEvt ("click", "sayHello");
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("添加滚轮事件");
+				doms.addEvt ("wheel", hello, "sayHello");
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("添加缩放事件");
+				doms.addEvt ("resize", hello, "sayHello");
+				LZR.HTML.alog ("");
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+		<div id = "a_a" class="a">
+			<div class="b">
+				<div class = "c">
+					<div id = "d">
+						<div class = "e">
+							<div class = f></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

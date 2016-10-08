@@ -2,7 +2,7 @@
 	<head>
 		<title>LZR</title>
 		<meta charset="utf-8" />
-		<script src="../../src/LZR/JS/LZR.js"></script>
+		<script src="/myLib/LZR.js"></script>
 
 		<style type="text/css">
 			.body {
@@ -13,17 +13,23 @@
 
 		<script>
 			function init() {
-				LZR.curPath = "../../src/LZR/JS";
+				LZR.curPath = "/myLib";
 
 				// 加载测试
 				LZR.load([
 					"/Lib/Util/JSON.js",
 					"/Lib/ol3/ol.js",
+					"LZR.HTML",
 					"LZR.Base.Json",
-					"LZR.Base.ValCtrl"
+					"LZR.Base.Val.Ctrl"
 				]);
 
-				// 克隆测试
+				LZR.HTML.alog ("测试获取类型");
+				var d = new LZR.Base.Val.Ctrl (5);
+				LZR.HTML.alog (LZR.getClassName(d));
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("普通克隆测试");
 				var a = {
 					a1: 8,
 					a2: [6],
@@ -51,6 +57,7 @@
 				b.a4[1].d1 = 101;
 				console.log (a);
 				console.log (b);
+				LZR.HTML.alog ("");
 			}
 		</script>
 	</head>

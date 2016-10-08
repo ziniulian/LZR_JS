@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Temp</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				background-color: #BBB;
+			}
+
+			.boso .lg {
+				position: fixed;
+				right: 100px;
+				top: 30px;
+				width: 500px;
+				height: 25px;
+				font-size: 0;
+				border: 1px solid #000;
+			}
+
+			.boso .prev {
+				width: 200px;
+				height: 100px;
+			}
+
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.HTML.Widget.Legend.LegendMgr"
+				]);
+				var bl = LZR.HTML.Widget.Legend.BlockLegend;
+				var lm = LZR.HTML.Widget.Legend.LegendMgr;
+
+				LZR.HTML.alog ("创建一个图例");
+				var m = new lm({
+					scd: "a",
+					markGap: 0.2,
+					markStart: 0.3,
+					markEnd: 0.8,
+					hd_legend: {
+						min: 0,
+						max: 500,
+						digit: 1,
+						// unit: "ug/m<sup>3<sup>",
+						subs: {
+							a: {
+								color: {
+									"0": [255,255,255],
+									"10": [0,255,0],
+									"20": [255,255,0],
+									"30": [255,100,0],
+									"40": [255,0,0],
+									"60": [255,0,255],
+									"100": [0,0,255]
+								},
+								typ: 0
+							},
+							b: {
+								cfCss: "Lc_hwg_LegendCalibrationMidTopFont",
+								color: {
+									"0": [255,255,255],
+									"10": [0,255,0],
+									"20": [255,255,0],
+									"30": [255,100,0],
+									"40": [255,0,0],
+									"60": [255,0,255],
+									"100": [0,0,255]
+								},
+								chart: {	
+									"0": null,
+									"10": "优",
+									"20": "良",
+									"30": "轻度",
+									"40": "中度",
+									"60": "重度",
+									"100": "严重"
+								},
+								typ: 1
+							},
+							c: {
+								fcbCss: "Lc_nosee",
+								cbCss: "Lc_nosee",
+								fcfCss: "Lc_nosee",
+								cfCss: "Lc_hwg_LegendCalibrationMidFont",
+								color: {
+									"0": [255,0,0],
+									"10": [255,0,0],
+									"20": [255,255,0],
+									"30": [0,0,255]
+								},
+								chart: {	
+									"0": null,
+									"10": "红",
+									"20": "黄",
+									"30": "蓝"
+								},
+								typ: 0
+							},
+							d: {
+								fcbCss: "Lc_nosee",
+								cbCss: "Lc_nosee",
+								fcfCss: "Lc_nosee",
+								cfCss: "Lc_hwg_LegendCalibrationMidTopFont",
+								color: {
+									"0": [255,0,0],
+									"10": [255,0,0]
+								},
+								chart: {	
+									"0": null,
+									"10": "a"
+								},
+								typ: 1
+							}
+						}
+					}
+				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("添加事件");
+				m.evt.chg.add (function(doe, dat) {
+					var dom = document.getElementById("lg");
+					while (dom.firstChild) {
+						dom.removeChild(dom.firstChild);
+					}
+					dom.appendChild(doe);
+					console.log (dat);
+				});
+				m.flush();
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("放置管理器");
+				m.view.place(document.getElementById("boso"));
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("重置遮罩器");
+				m.resizeMark();
+				LZR.HTML.alog ("");
+
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="boso" class="boso">
+			<div id="lg" class="lg"></div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
+</html>

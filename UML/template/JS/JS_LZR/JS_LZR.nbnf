@@ -2,6 +2,8 @@
 // 版本：V1.0
 // 日期：2015-11-30
 
+// 注：忽略了链接属性
+
 // Processing instructions
 caseInsensitive();
 
@@ -21,7 +23,6 @@ parse(<language>);
 											token(<NUMBER>) |
 											token("\"") token(<STRING_BODY>) token("\"") |
 											token(keywords()) |
-											token("m_") |
 											token(<IDENTIFIER>);
 
 // 空格
@@ -119,6 +120,9 @@ parse(<language>);
 // 函数调用语句
 <funStatement>							::= ["this."] <qualifiedName> "(" [skipBalanced("(", ")")] ")" ";";
 
+// 函数绑定类语句
+<funBindStatement>						::= <qualifiedName> ["." "prototype" "." <qualifiedName>] "=" <qualifiedName> ";";
+
 // 变量声明
 <valStatement>							::= "var" <qualifiedName> "=" <lineStatement>;
 
@@ -148,7 +152,7 @@ parse(<language>);
 
 
 // 属性声明 ------------------------
-<attributePart>							::= <attributeLinkDeclaration> |
+<attributePart>							::= <attributeLinkNone> |
 											<attributeDeclaration> |
 											<ctrlStatement> |
 											<funStatement> |
@@ -232,7 +236,13 @@ parse(<language>);
 											// <attr_hasType> attributeEx("LOWBOUND", "0") attributeEx("HIGHBOUND", "*");
 
 // 忽略链接属性
-<attributeLinkNone>						::= "this." <simpleName> <LINKCOMMENT> skip(";") ";" [<TYPECOMMENT> [<qualifiedName>] "*/"];
+<attributeLinkNone>						::= "this." <qualifiedName> <LINKCOMMENT> skip(";") ";" [<TYPECOMMENT> [<qualifiedName>] "*/"];
+
+// 忽略公有静态链接属性
+<attributeLinkPubStcNone>				::= <qualifiedName> <LINKCOMMENT> skip(";") ";" [<TYPECOMMENT> [<qualifiedName>] "*/"];
+
+// 忽略私有静态链接属性
+<attributeLinkPrvStcNone>				::= <nameSpace> "prototype" "." <qualifiedName> <LINKCOMMENT> skip(";") ";" [<TYPECOMMENT> [<qualifiedName>] "*/"];
 
 // 方法声明 ------------------------
 <operationPart>							::= <operationDeclaration> |
@@ -241,15 +251,18 @@ parse(<language>);
 											<classNameAttribute> |
 											<superAttribute> |
 											<parentAttribute> |
+											<attributeLinkPubStcNone> |
+											<attributeLinkPrvStcNone> |
 											<attributeDeclarationPrvStc> |
 											<attributeDeclarationPubStc> |
+											<funBindStatement> |
 											<funStatement>;
 
 // 普通方法
-<operationDeclaration>					::= node("METHOD", node("DECLARATION", <nameSpace> "prototype" "." <operationName> "=" "function" <operationParameters> [<typCmt>]) "{" [<operationBody>] "}" ";");
+<operationDeclaration>					::= node("METHOD", node("DECLARATION", <nameSpace> "prototype" "." <operationName> "=" "function" <operationParameters> [<typCmt>]) "{" [<operationBody>] "}" ";" [<funBindStatement>]);
 
 // 静态方法
-<operationDeclarationStatic>			::= node("METHOD", node("DECLARATION", <nameSpace> <operationName> "=" "function" <operationParameters> [<typCmt>] attributeEx("STATIC", "true")) "{" [<operationBody>] "}" ";");
+<operationDeclarationStatic>			::= node("METHOD", node("DECLARATION", <nameSpace> <operationName> "=" "function" <operationParameters> [<typCmt>] attributeEx("STATIC", "true")) "{" [<operationBody>] "}" ";" [<funBindStatement>]);
 
 <operationName>							::= attribute("NAME", <simpleName>);
 

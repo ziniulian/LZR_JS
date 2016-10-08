@@ -1,0 +1,191 @@
+<html>
+	<head>
+		<title>元素测试</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			.body {
+				padding: 0;
+				margin: 0;
+			}
+			.a {
+				width: 98%;
+				height: 150px;
+				padding: 1%;
+				background-color: red;
+			}
+			.b {
+				width: 98%;
+				height: 150px;
+				padding: 1%;
+				background-color: yellow;
+			}
+			.c {
+				width: 98%;
+				height: 150px;
+				padding: 1%;
+				background-color: blue;
+			}
+			.d {
+				width: 98%;
+				height: 150px;
+				padding: 1%;
+				background-color: green;
+			}
+			.e {
+				width: 98%;
+				height: 150px;
+				padding: 1%;
+				background-color: fuchsia;
+			}
+			.f {
+				width: 98%;
+				height: 150px;
+				padding: 1%;
+				background-color: aqua;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.HTML.Base.Doe"
+				]);
+				var de = LZR.HTML.Base.Doe;
+
+				LZR.HTML.log ("");
+				LZR.HTML.alog ("DOM参数创建元素");
+				var doms = new de ({
+					hd_doe: a_a
+				});
+				LZR.HTML.alog (doms.print());
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.log ("");
+				LZR.HTML.alog ("测试删除样式");
+				LZR.HTML.alog (doms.delCss("aa"));
+				LZR.HTML.alog (doms.delCss("a"));
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.log ("");
+				LZR.HTML.alog ("测试添加样式");
+				LZR.HTML.alog (doms.getById("d").addCss("d"));
+				alert();
+				LZR.HTML.alog (doms.addCss("a"));
+				LZR.HTML.alog (doms.addCss("a"));
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.log ("");
+				LZR.HTML.alog ("测试克隆（暂不测试 数据、事件、控制器）");
+				doms.css.getById("a").add("ttt");
+				LZR.HTML.alog ("原样式： " + doms.css.count + " --> " + doms.css.print());
+				var cds = LZR.clone(doms);
+				cds.id.set("clone");
+				LZR.HTML.alog ("新样式： " + cds.css.count + " --> " + cds.css.print());
+				LZR.HTML.alog (cds.print());
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.log ("");
+				LZR.HTML.alog ("测试元素放置");
+				cds.place(document.body);
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.log ("");
+				LZR.HTML.alog ("测试删除元素");
+				var d = doms.getById("d").del("doe_0");
+				LZR.HTML.alog (doms.print());
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.log ("");
+				LZR.HTML.alog ("测试添加元素");
+				LZR.HTML.alog (cds.add(d));
+				LZR.HTML.alog (cds.add(d, "kk"));
+				LZR.HTML.alog (cds.print());
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.log ("");
+				LZR.HTML.alog ("测试父类修改");
+				cds.getById("d").parent.set(d);
+				LZR.HTML.alog (cds.print());
+				alert();
+				LZR.HTML.log ("");
+				d.getById("d").del("doe_0").parent.set(doms.getById("d"));
+				LZR.HTML.alog (doms.print());
+				LZR.HTML.alog (cds.print());
+				alert();
+				LZR.HTML.log ("");
+				cds.getById("d").parent.set(cds);
+				LZR.HTML.alog (cds.print());
+				alert();
+				LZR.HTML.log ("");
+				d.parent.set(cds.getById("d"));
+				LZR.HTML.alog (cds.print());
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.log ("");
+				LZR.HTML.alog ("递归参数创建 typ 元素");
+				var typ = new de ({
+					id: "typ",
+					hd_typ: "div",
+					hd_css: "c",
+					chd_: {
+						a: {
+							hd_typ: "div",
+							hd_css: "a",
+							chd_: {
+								d: {
+									hd_typ: "div",
+									hd_css: "d",
+									chd_: {
+										f: {
+											hd_typ: "div",
+											hd_css: "f"
+										}
+									}
+								}
+							}
+						},
+						b: {
+							hd_typ: "div",
+							hd_css: "b"
+						},
+						c: {
+							hd_typ: "div",
+							hd_css: "c"
+						}
+					}
+				});
+				typ.place(document.body);
+				LZR.HTML.alog (typ.print());
+				LZR.HTML.alog ("");
+
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+		<div id = "a_a" class="a">
+			<div class="b">
+				<div class = "c">
+					<div id = "d">
+						<div class = "e">
+							<div class = f>
+								<div id = "hh" idLzr="hhh"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
