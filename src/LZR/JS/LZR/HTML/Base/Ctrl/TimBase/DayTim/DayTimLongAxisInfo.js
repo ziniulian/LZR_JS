@@ -75,6 +75,10 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimLongAxisInfo.prototype.setTimArea = func
 	c = doeo.getById("hct_DayTimHourMark");
 	c.setStyle("width", ( (this.tim.dtMin - this.minDay) / (this.maxDay - this.minDay) * 100 ) + "%");
 
+	// 遮挡右边不可选的时间部位
+	c = doeo.getById("hct_DayTimHourMarkRight");
+	c.setStyle("width", ( (this.maxDay - this.tim.dtMax) / (this.maxDay - this.minDay) * 100 ) + "%");
+
 	// 选项初始化
 	if (cur) {
 		c = this.tim.hdTim(cur).valueOf();
@@ -167,3 +171,9 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimLongAxisInfo.prototype.hdStepChg = funct
 	this.ctrlScd.utLzr.supCall(this, 0, "hdStepChg", doeo, val/3600/1000);
 };
 LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimLongAxisInfo.prototype.hdStepChg.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimLongAxisInfo;
+
+// ---- 自动停止播放
+LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimLongAxisInfo.autoStop = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	doeo.root.get().getById("hct_DayTimPlayBtn").dat.hct_scd.set(false);
+};
+LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimLongAxisInfo.autoStop.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimLongAxisInfo;
