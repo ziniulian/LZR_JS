@@ -101,14 +101,25 @@ LZR.Node.Router.prototype.setCbs = function (nam/*as:string*/, matching/*as:stri
 	var c = this.getCbs(nam, matching, proNam);
 	if (fun.className_ === this.className_) {
 		this.ro[matching](nam, fun.ro);
-	} else if (c && LZR.getClassName(fun) === "function") {
-		r = new this.clsCb();
-		c.push(r);
-		r.add(fun);
-		if (matching === "param") {
-			this.ro[matching](proNam, r.exe);
-		} else {
-			this.ro[matching](nam, r.exe);
+	} else if (c) {
+		switch (LZR.getClassName(fun)) {
+			case "function":
+				r = new this.clsCb();
+				r.add(fun);
+				break;
+			default:
+				if (fun.exe) {
+					r = fun;
+				}
+				break;
+		}
+		if (r) {
+			c.push(r);
+			if (matching === "param") {
+				this.ro[matching](proNam, r.exe);
+			} else {
+				this.ro[matching](nam, r.exe);
+			}
 		}
 	}
 	return r;
