@@ -2,7 +2,7 @@
 	<head>
 		<title>单选器测试</title>
 		<meta charset="utf-8" />
-		<script src="../../../../../../src/LZR/JS/LZR.js"></script>
+		<script src="/myLib/LZR.js"></script>
 
 		<style type="text/css">
 			.body {
@@ -61,7 +61,7 @@
 
 		<script>
 			function init() {
-				LZR.curPath = "../../../../../../src/LZR/JS";
+				LZR.curPath = "/myLib";
 				LZR.load([
 					"LZR.HTML.Base.Ctrl.SglScd"
 				]);
@@ -70,7 +70,7 @@
 
 				LZR.HTML.alog ("DOM参数创建元素");
 				var doms = new de ({
-					doe: btns
+					hd_doe: btns
 				});
 				LZR.HTML.alog (doms.print());
 				LZR.HTML.alog ("");

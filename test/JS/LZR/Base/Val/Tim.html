@@ -1,0 +1,168 @@
+<html>
+	<head>
+		<title>时间测试</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.Base.Val.Tim",
+					"LZR.HTML"
+				]);
+				var T = LZR.Base.Val.Tim;
+				var H = LZR.HTML;
+				var t;
+
+				H.alog ("测试时间输出：");
+				t = new T();
+				H.alog (t.format("y/M/d h:m:s:f"));
+				H.alog (t.format("yyyy-MMM-ddd hhh:mmm:ssss:fffff"));
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff , yyyy 年 M 月 d 日 ： fffff 毫秒"));
+				H.alog ("");
+
+				H.alog ("测试时间创建（日期字符）：");
+				t = new T({
+					hd_tim: "2010-5-8 9:15"
+				});
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				H.alog ("");
+
+				H.alog ("测试时间创建（数字）：");
+				t = new T({
+					hd_tim: 5500
+				});
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				H.alog ("");
+
+				H.alog ("测试时间创建（基础值）：");
+				t = new T({
+					base: 5555
+				});
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				H.alog ("");
+
+				H.alog ("测试时间创建（日期对象）：");
+				t = new T({
+					hd_tim: new Date ("2012/2/29")
+				});
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				H.alog ("");
+
+				H.alog ("添加事件：");
+				t.evt.change.add (function(v, s, o) {
+					H.alog("\t------- 事件 --------- S");
+					H.alog("\t---- " + v + " ： " + new Date(v).toString());
+					H.alog("\t---- " + o + " ： " + new Date(o).toString());
+					H.alog("\t------- 事件 --------- E");
+				})
+				H.alog ("");
+
+				H.alog ("测试月增减：");
+				t.addMon(-48);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				t.addMon(48);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				t.addMon(12);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				t.addMon(-12);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				H.alog ("");
+
+				H.alog ("测试日设置：");
+				t.doDay(32);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				t.doDay(31);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				t.doDay(3);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				H.alog ("");
+
+				H.alog ("测试月设置：");
+				// t.doMon(3);
+				// t.doDay(31);
+				t.set(null, 3, 31);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				t.doMon(5);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				t.doMon(6);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				t.doMon(5);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				t.doMon(2);
+				t.doDay(29);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				H.alog ("");
+
+				H.alog ("测试年设置：");
+				t.doYear(2016);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				t.doYear(2015);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				// t.doYear(2012);
+				t.set(2012);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				H.alog ("");
+
+				H.alog ("测试时分秒设置：");
+				t.doHour(1);
+				t.doMut(15);
+				t.doSec(59);
+				t.doMs(135);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				t.doHour(0);
+				t.evt.change.enableEvent = false;
+				t.doMut(0);
+				t.evt.change.enableEvent = false;
+				t.doSec(0);
+				t.doMs(0);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				t.set(null, null, null, 22, 58, 58, 999, false);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				H.alog ("");
+
+				H.alog ("测试时间增减：");
+				t.add(1);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff") + " \t加一毫秒");
+
+				t.add(1000);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff") + " \t加一秒");
+
+				t.add(60 * 1000);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff") + " \t加一分钟");
+
+				t.add(3600 * 1000);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff") + " \t加一小时");
+
+				t.add(24 * 3600 * 1000);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff") + " \t加一天");
+
+				t.add(-1 * 24 * 3600 * 1000);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff") + " \t减一天");
+				H.alog ("");
+
+				H.alog ("测试日期参数修改时间：");
+				t.setByDate("1985-6-17");
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				t.setByDate(1);
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				t.setByDate(new Date());
+				H.alog (t.format("yyyy-MM-dd hh:mm:ss:fff"));
+				H.alog ("");
+
+			}
+		</script>
+	</head>
+
+	<body onload="init()">
+	</body>
+</html>

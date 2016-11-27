@@ -1,24 +1,39 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Temp</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
 		<meta charset="utf-8" />
-		<script src="../../src/LZR/JS/LZR.js"></script>
+		<script src="/myLib/LZR.js"></script>
 
 		<style type="text/css">
-			.body {
+			html, body {
 				padding: 0;
 				margin: 0;
+				height: 100%;
 			}
 		</style>
 
 		<script>
 			function init() {
-				LZR.curPath = "../../LZR/src/JS";
-				alert(LZR);
+				LZR.load([
+					"LZR.HTML"
+				]);
+
+				LZR.HTML.alog ("test ：");
+				LZR.HTML.alog ("");
+
 			}
 		</script>
 	</head>
 
-	<body class="body" onload="init()">
+	<body>
+		<div class="boso">
+			
+		</div>
 	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
 </html>

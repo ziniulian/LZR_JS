@@ -2,13 +2,14 @@
 作者：子牛连
 类名：Area
 说明：区域
-创建日期：24-三月-2016 13:45:46
+创建日期：27-七月-2016 12:30:02
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.Pro.Gis",
 	"LZR.Pro.Gis.Area.EmAreaLevel",
+	"LZR.Util",
 	"LZR.Base.Data"
 ], "LZR.Pro.Gis.Area");
 LZR.Pro.Gis.Area = function (obj) /*bases:LZR.Base.Data*/ {
@@ -46,6 +47,7 @@ LZR.Pro.Gis.Area.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.Pro.Gis.Area.prototype.init_.lzrClass_ = LZR.Pro.Gis.Area;
 
 // 对构造参数的特殊处理
 LZR.Pro.Gis.Area.prototype.hdObj_ = function (obj/*as:Object*/) {
@@ -56,3 +58,4 @@ LZR.Pro.Gis.Area.prototype.hdObj_ = function (obj/*as:Object*/) {
 	// 调用父类的参数处理（子数据的递归创建）
 	this.utLzr.supCall (this, 0, "hdObj_", obj);
 };
+LZR.Pro.Gis.Area.prototype.hdObj_.lzrClass_ = LZR.Pro.Gis.Area;

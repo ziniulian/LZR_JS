@@ -2,7 +2,7 @@
 	<head>
 		<title>元素测试</title>
 		<meta charset="utf-8" />
-		<script src="../../../../../src/LZR/JS/LZR.js"></script>
+		<script src="/myLib/LZR.js"></script>
 
 		<style type="text/css">
 			.body {
@@ -49,7 +49,7 @@
 
 		<script>
 			function init() {
-				LZR.curPath = "../../../../../src/LZR/JS";
+				LZR.curPath = "/myLib";
 				LZR.load([
 					"LZR.HTML.Base.Doe"
 				]);
@@ -58,7 +58,7 @@
 				LZR.HTML.log ("");
 				LZR.HTML.alog ("DOM参数创建元素");
 				var doms = new de ({
-					doe: a_a
+					hd_doe: a_a
 				});
 				LZR.HTML.alog (doms.print());
 				LZR.HTML.alog ("");
@@ -99,7 +99,7 @@
 
 				LZR.HTML.log ("");
 				LZR.HTML.alog ("测试删除元素");
-				var d = doms.getById("d").del("0");
+				var d = doms.getById("d").del("doe_0");
 				LZR.HTML.alog (doms.print());
 				LZR.HTML.alog ("");
 				alert();
@@ -118,7 +118,7 @@
 				LZR.HTML.alog (cds.print());
 				alert();
 				LZR.HTML.log ("");
-				d.getById("d").del("0").parent.set(doms.getById("d"));
+				d.getById("d").del("doe_0").parent.set(doms.getById("d"));
 				LZR.HTML.alog (doms.print());
 				LZR.HTML.alog (cds.print());
 				alert();
@@ -136,38 +136,39 @@
 				LZR.HTML.alog ("递归参数创建 typ 元素");
 				var typ = new de ({
 					id: "typ",
-					typ: "div",
-					css: "c",
+					hd_typ: "div",
+					hd_css: "c",
 					chd_: {
 						a: {
-							typ: "div",
-							css: "a",
+							hd_typ: "div",
+							hd_css: "a",
 							chd_: {
 								d: {
-									typ: "div",
-									css: "d",
+									hd_typ: "div",
+									hd_css: "d",
 									chd_: {
 										f: {
-											typ: "div",
-											css: "f"
+											hd_typ: "div",
+											hd_css: "f"
 										}
 									}
 								}
 							}
 						},
 						b: {
-							typ: "div",
-							css: "b"
+							hd_typ: "div",
+							hd_css: "b"
 						},
 						c: {
-							typ: "div",
-							css: "c"
+							hd_typ: "div",
+							hd_css: "c"
 						}
 					}
 				});
 				typ.place(document.body);
 				LZR.HTML.alog (typ.print());
 				LZR.HTML.alog ("");
+
 			}
 		</script>
 	</head>
@@ -178,7 +179,9 @@
 				<div class = "c">
 					<div id = "d">
 						<div class = "e">
-							<div class = f></div>
+							<div class = f>
+								<div id = "hh" idLzr="hhh"></div>
+							</div>
 						</div>
 					</div>
 				</div>

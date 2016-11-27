@@ -2,16 +2,17 @@
 作者：子牛连
 类名：SampleWebFileSrv
 说明：简单的Web文件服务
-创建日期：11-三月-2016 13:50:08
+创建日期：27-七月-2016 12:30:04
 版本号：1.0
 *************************************************/
 
 LZR.load([
-	"LZR.Util",
 	"LZR.NodeJs",
 	"LZR.NodeJs.Util.Url",
+	"LZR.Util",
+	"LZR.NodeJs.Util.File",
 	"LZR.NodeJs.InfHttpSrv",
-	"LZR.NodeJs.Util.File"
+	"LZR.Base.Str"
 ], "LZR.NodeJs.SampleWebFileSrv");
 LZR.NodeJs.SampleWebFileSrv = function (obj) /*interfaces:LZR.NodeJs.InfHttpSrv*/ {
 	LZR.NodeJs.InfHttpSrv.call(this);
@@ -28,11 +29,11 @@ LZR.NodeJs.SampleWebFileSrv = function (obj) /*interfaces:LZR.NodeJs.InfHttpSrv*
 	// URL工具
 	this.utUrl/*m*/ = LZR.getSingleton(LZR.NodeJs.Util.Url);	/*as:LZR.NodeJs.Util.Url*/
 
-	// 文件处理工具
-	this.utFile/*m*/ = LZR.getSingleton(LZR.NodeJs.Util.File);	/*as:LZR.NodeJs.Util.File*/
-
 	// 通用工具
 	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
+
+	// 文件处理工具
+	this.utFile/*m*/ = LZR.getSingleton(LZR.NodeJs.Util.File);	/*as:LZR.NodeJs.Util.File*/
 
 	// 字符串工具
 	this.utStr/*m*/ = LZR.getSingleton(LZR.Base.Str);	/*as:LZR.Base.Str*/
@@ -56,11 +57,13 @@ LZR.NodeJs.SampleWebFileSrv.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.NodeJs.SampleWebFileSrv.prototype.init_.lzrClass_ = LZR.NodeJs.SampleWebFileSrv;
 
 // 对构造参数的特殊处理
 LZR.NodeJs.SampleWebFileSrv.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.NodeJs.SampleWebFileSrv.prototype.hdObj_.lzrClass_ = LZR.NodeJs.SampleWebFileSrv;
 
 // 返回Web文件请求
 LZR.NodeJs.SampleWebFileSrv.prototype.loadFile = function (filename/*as:string*/, rsp/*as:Object*/) {
@@ -97,6 +100,7 @@ LZR.NodeJs.SampleWebFileSrv.prototype.loadFile = function (filename/*as:string*/
 		}
 	}));
 };
+LZR.NodeJs.SampleWebFileSrv.prototype.loadFile.lzrClass_ = LZR.NodeJs.SampleWebFileSrv;
 
 // ---- 执行服务
 LZR.NodeJs.SampleWebFileSrv.prototype.execute = function (req/*as:Object*/, rsp/*as:Object*/, url/*as:string*/) {
@@ -109,3 +113,4 @@ LZR.NodeJs.SampleWebFileSrv.prototype.execute = function (req/*as:Object*/, rsp/
 // console.log (filename);
 	this.loadFile(filename, rsp);
 };
+LZR.NodeJs.SampleWebFileSrv.prototype.execute.lzrClass_ = LZR.NodeJs.SampleWebFileSrv;

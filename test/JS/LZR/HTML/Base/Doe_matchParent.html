@@ -1,0 +1,177 @@
+<html>
+	<head>
+		<title>Temp</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+			}
+
+			.boso {
+				position: absolute;
+				top: 0;
+				left: 120px;
+				margin: 10px;
+				width: 700px;
+				height: 500px;
+				overflow: auto;
+				font-size: 0;
+				white-space: nowrap;
+				border: 20px solid #000;
+			}
+
+			.sub {
+				display: inline-block;
+				width: 200px;
+				height: 200px;
+				margin: 5px;
+				background-color: yellow;
+			}
+
+			#scd {
+				background-color: red;
+			}
+
+			#s2 {
+				background-color: green;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.HTML.Base.Doe"
+				]);
+				var de = LZR.HTML.Base.Doe;
+
+				LZR.HTML.log ("");
+				LZR.HTML.alog ("DOM参数创建元素");
+				var doms = new de ({
+					hd_doe: document.getElementById("boso")
+				});
+				LZR.HTML.alog ("");
+
+				var d = doms.getById("scd");
+				LZR.HTML.alog ("左上");
+				d.matchParent("T", "L", 1);
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.alog ("左中");
+				d.matchParent("C", "L");
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.alog ("左下");
+				d.matchParent("B", "L");
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.alog ("右上");
+				d.matchParent("T", "R", 1);
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.alog ("右中");
+				d.matchParent("c", "R");
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.alog ("右下");
+				d.matchParent("b", "r");
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.alog ("中上");
+				d.matchParent("t", "c", 1);
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.alog ("正中");
+				d.matchParent("C", "c");
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.alog ("中下");
+				d.matchParent("B", "C");
+				LZR.HTML.alog ("");
+				alert();
+
+				d = doms.getById("s2");
+				LZR.HTML.alog ("正中");
+				d.matchParent("C", "C");
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.alog ("右下");
+				d.matchParent("b", "r");
+				LZR.HTML.alog ("");
+				alert();
+
+				LZR.HTML.alog ("删除全部子元素测试");
+				LZR.HTML.alog (doms.count);
+				console.log (doms.delAll());
+				LZR.HTML.alog (doms.count);
+				LZR.HTML.alog ("");
+			}
+		</script>
+	</head>
+
+	<body onload="init()">
+		<div id="boso" class="boso">
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div><br>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div><br>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div><br>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub" id="scd"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div><br>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div><br>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub" id="s2"></div>
+			<div class="sub"></div><br>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+			<div class="sub"></div>
+		</div>
+	</body>
+</html>

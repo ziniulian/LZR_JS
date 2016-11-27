@@ -2,7 +2,7 @@
 	<head>
 		<title>选择器测试</title>
 		<meta charset="utf-8" />
-		<script src="../../../../../../src/LZR/JS/LZR.js"></script>
+		<script src="/myLib/LZR.js"></script>
 
 		<style type="text/css">
 			.body {
@@ -61,7 +61,7 @@
 
 		<script>
 			function init() {
-				LZR.curPath = "../../../../../../src/LZR/JS";
+				LZR.curPath = "/myLib";
 				LZR.load([
 					"LZR.HTML.Base.Ctrl.Scd"
 				]);
@@ -70,7 +70,7 @@
 
 				LZR.HTML.alog ("DOM参数创建元素");
 				var doms = new de ({
-					doe: btns
+					hd_doe: btns
 				});
 				LZR.HTML.alog (doms.print());
 				LZR.HTML.alog ("");
@@ -97,7 +97,7 @@ console.log (doms);
 
 				LZR.HTML.alog ("删除选择器");
 				c.del(doms.getById("a"));
-				doms.getById("f").delCtrl(c);
+				console.log (doms.getById("f").delCtrl(c));
 				doms.getById("f").delCtrl(c2);
 				LZR.HTML.alog ("");
 
@@ -112,6 +112,7 @@ console.log (cn);
 				cn.getById("f").addCtrl(c2);
 				doms.getById("d").delCtrl(c);
 				doms.getById("a").addCtrl(c);
+				doms.getById("f").addCtrl(c);
 				LZR.HTML.alog ("");
 
 			}

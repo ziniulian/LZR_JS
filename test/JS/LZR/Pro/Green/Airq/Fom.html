@@ -2,7 +2,7 @@
 	<head>
 		<title>污染物测试</title>
 		<meta charset="utf-8" />
-		<script src="../../../../../../src/LZR/JS/LZR.js"></script>
+		<script src="/myLib/LZR.js"></script>
 
 		<style type="text/css">
 			.body {
@@ -25,13 +25,14 @@
 					f.emTyp.get().unit + ", " +
 					f.vcAqi.get() + ", " +
 					f.emLevel.get().name + ", " +
+					f.emLevel.get().healthTips + ", " +
 					f.emLevel.get().emClr.getKey() + ", " +
 					f.emLevel.get().emClr.get().toCss()
 				);
 			}
 
 			function init() {
-				LZR.curPath = "../../../../../../src/LZR/JS";
+				LZR.curPath = "/myLib";
 				LZR.load([
 					"LZR.Pro.Green.Airq.Fom",
 					"LZR.HTML"
@@ -52,7 +53,12 @@
 				LZR.HTML.alog ("");
 
 				LZR.HTML.alog ("修改污染类型：");
-				f.emTyp.set("pm25");
+				f.emTyp.set("no2");
+				print(f);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("修改污染类型：");
+				f.emTyp.set("PM2.5");
 				print(f);
 				LZR.HTML.alog ("");
 

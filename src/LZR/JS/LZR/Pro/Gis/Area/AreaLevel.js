@@ -2,7 +2,7 @@
 作者：子牛连
 类名：AreaLevel
 说明：区域级别
-创建日期：24-三月-2016 16:14:44
+创建日期：27-七月-2016 12:30:02
 版本号：1.0
 *************************************************/
 
@@ -34,8 +34,10 @@ LZR.Pro.Gis.Area.AreaLevel.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.Pro.Gis.Area.AreaLevel.prototype.init_.lzrClass_ = LZR.Pro.Gis.Area.AreaLevel;
 
 // 对构造参数的特殊处理
 LZR.Pro.Gis.Area.AreaLevel.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.Pro.Gis.Area.AreaLevel.prototype.hdObj_.lzrClass_ = LZR.Pro.Gis.Area.AreaLevel;

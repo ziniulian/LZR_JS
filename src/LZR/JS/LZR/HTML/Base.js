@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Base
 说明：基础
-创建日期：11-三月-2016 13:58:41
+创建日期：27-七月-2016 12:30:02
 版本号：1.0
 *************************************************/
 
@@ -28,8 +28,10 @@ LZR.HTML.Base.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.HTML.Base.prototype.init_.lzrClass_ = LZR.HTML.Base;
 
 // 对构造参数的特殊处理
 LZR.HTML.Base.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.HTML.Base.prototype.hdObj_.lzrClass_ = LZR.HTML.Base;

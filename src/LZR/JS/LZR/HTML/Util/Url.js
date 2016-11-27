@@ -2,7 +2,7 @@
 作者：子牛连
 类名：Url
 说明：URL
-创建日期：11-三月-2016 14:02:27
+创建日期：27-七月-2016 12:30:04
 版本号：1.0
 *************************************************/
 
@@ -28,11 +28,13 @@ LZR.HTML.Util.Url.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.HTML.Util.Url.prototype.init_.lzrClass_ = LZR.HTML.Util.Url;
 
 // 对构造参数的特殊处理
 LZR.HTML.Util.Url.prototype.hdObj_ = function (obj/*as:Object*/) {
 	
 };
+LZR.HTML.Util.Url.prototype.hdObj_.lzrClass_ = LZR.HTML.Util.Url;
 
 // 相对路径转换为绝对路径
 LZR.HTML.Util.Url.prototype.toAbsURL = function (url/*as:string*/)/*as:string*/ {
@@ -49,6 +51,7 @@ LZR.HTML.Util.Url.prototype.toAbsURL = function (url/*as:string*/)/*as:string*/ 
 		return div.firstChild.href;
 	}
 };
+LZR.HTML.Util.Url.prototype.toAbsURL.lzrClass_ = LZR.HTML.Util.Url;
 
 // 获取 URL 参数
 LZR.HTML.Util.Url.prototype.getRequest = function ()/*as:Object*/ {
@@ -63,3 +66,4 @@ LZR.HTML.Util.Url.prototype.getRequest = function ()/*as:Object*/ {
 	}
 	return theRequest;
 };
+LZR.HTML.Util.Url.prototype.getRequest.lzrClass_ = LZR.HTML.Util.Url;

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>鼠标控制器测试</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				/*height: 100%;*/
+			}
+			.out {
+				position: absolute;
+				top: 20px;
+				right: 50px;
+				width: 500px;
+				padding: 30px;
+				background-color: red;
+			}
+			.sub {
+				width: 300px;
+				height: 500px;
+				margin-bottom: 20px;
+				padding: 50px;
+				background-color: yellow;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.HTML.Base.Ctrl.Mouse"
+				]);
+				var de = LZR.HTML.Base.Doe;
+				var Cls = LZR.HTML.Base.Ctrl.Mouse;
+				var H = LZR.HTML;
+				var c, d;
+
+				H.alog ("创建对象 ：");
+				c = new Cls({
+					dbTim: 150,
+					longTim: 500,
+					enableMove: true,
+					enableWheel: true
+				});
+				d = new de ({
+					hd_doe: document.getElementById("out")
+				});
+				H.alog ("");
+
+				H.alog ("添加事件 ：");
+				// 左键
+				c.evt.lk.click.add(function(d, x, y){
+					console.log ("left click : " + x + " , " + y + " ||||| " + d.id.get());
+				})
+				c.evt.lk.lclick.add(function(d, x, y){
+					console.log ("left long : " + x + " , " + y + " ||||| " + d.id.get());
+				})
+				c.evt.lk.dbclick.add(function(d, x, y){
+					console.log ("left double : " + x + " , " + y + " ||||| " + d.id.get());
+				})
+				c.evt.lk.drop.add(function(d, x, y){
+					console.log ("left drop : " + x + " , " + y + " ||||| " + d.id.get());
+				})
+
+				// 右键
+				c.evt.rk.click.add(function(d, x, y){
+					console.log ("right click : " + x + " , " + y + " ||||| " + d.id.get());
+				})
+				c.evt.rk.lclick.add(function(d, x, y){
+					console.log ("right long : " + x + " , " + y + " ||||| " + d.id.get());
+				})
+				c.evt.rk.dbclick.add(function(d, x, y){
+					console.log ("right double : " + x + " , " + y + " ||||| " + d.id.get());
+				})
+				c.evt.rk.drop.add(function(d, x, y){
+					console.log ("right drop : " + x + " , " + y + " ||||| " + d.id.get());
+				})
+
+				// 中键
+				c.evt.mid.click.add(function(d, x, y){
+					console.log ("mid click : " + x + " , " + y + " ||||| " + d.id.get());
+				})
+				c.evt.mid.lclick.add(function(d, x, y){
+					console.log ("mid long : " + x + " , " + y + " ||||| " + d.id.get());
+				})
+				c.evt.mid.dbclick.add(function(d, x, y){
+					console.log ("mid double : " + x + " , " + y + " ||||| " + d.id.get());
+				})
+				c.evt.mid.drop.add(function(d, x, y){
+					console.log ("mid drop : " + x + " , " + y + " ||||| " + d.id.get());
+				})
+
+				// 滚轮
+				c.evt.mid.wheel.add(function(d, v, x, y){
+					console.log ("mid wheel : " + v + " ------- " + x + " , " + y + " ||||| " + d.id.get());
+				})
+				c.evt.mid.dw.add(function(d, v, x, y){
+					console.log ("mid down wheel : " + v + " ------- " + x + " , " + y + " ||||| " + d.id.get());
+				})
+
+				// 移动
+				c.evt.move.add(function(d, x, y){
+					console.log ("move : " + x + " , " + y + " ||||| " + d.id.get());
+				})
+				H.alog ("");
+
+				H.alog ("加入控制器 ：");
+				c.add(d.subs["doe_0"], {enableStat: 1});
+				c.add(d.subs["doe_1"], {enableStat: 7});
+				H.alog ("");
+
+				H.alog ("元素样式获取测试 ：");
+				H.alog (d.getStyle("background-color"));
+				H.alog (d.getStyle("backgroundColor"));
+				H.alog ("");
+
+				H.alog ("元素样式修改测试 ：");
+				d.setStyle("background-color", "#0FF");
+				d.setStyle("backgroundColor", "#F00");
+				H.alog ("");
+
+			}
+		</script>
+	</head>
+
+	<body onload="init()">
+		<div id="out" class="out">
+			<div class="sub"></div>
+			<div class="sub"></div>
+		</div>
+	</body>
+</html>

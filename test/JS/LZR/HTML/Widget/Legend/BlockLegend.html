@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Temp</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+
+			.boso .lg {
+				position: fixed;
+				right: 100px;
+				top: 30px;
+				width: 500px;
+				height: 25px;
+				font-size: 0;
+				border: 1px solid #000;
+			}
+
+			.boso .prev {
+				width: 200px;
+				height: 100px;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.HTML.Widget.Legend.BlockLegend"
+				]);
+				var bl = LZR.HTML.Widget.Legend.BlockLegend;
+
+				LZR.HTML.alog ("创建一个图例");
+				var b = new bl ({
+					min: 10,
+					max: 200,
+					digit: 1,
+					unit: "mg/m<sup>3<sup>",
+					outCss: "lg Lc_noselect",
+					hd_clrs: {
+						"0": [0,0,0],
+						"10": [0,255,0],
+						"20": [255,255,0],
+						"30": [255,150,0],
+						"40": [255,0,0],
+						"50": 0,
+						"60": [255,0,255],
+						"100": [0,0,255]
+					},
+					hd_alias: {
+						"0": "头",
+						"30": null,
+						"60": "中",
+						"100": "尾"
+					}
+				});
+				b.view.place(document.getElementById("boso"));
+				b.flush();
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("输出查询参数");
+				LZR.HTML.alog (JSON.stringify(b.toQry()));
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("隐藏一个图例");
+				b.subs[3].clr.alpha = 0;
+				b.flush();
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("输出查询参数");
+				LZR.HTML.alog (JSON.stringify(b.toQry()));
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("显示预览图");
+				b.viewPre.place(document.getElementById("prev"));
+				LZR.HTML.alog ("");
+
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="boso" class="boso">
+			<div id="prev" class="prev"></div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
+</html>

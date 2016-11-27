@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>元素样式测试</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+
+			.a {
+				width: 50px;
+				height: 50px;
+			}
+
+			.b {
+				background-color: yellow;
+			}
+
+			.c {
+				background-color: red;
+			}
+
+			.f {
+				position: fixed;
+				right: 20px;
+				top: 20px;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.HTML.Base.Doe"
+				]);
+				var de = LZR.HTML.Base.Doe;
+
+				LZR.HTML.log ("");
+				LZR.HTML.alog ("DOM参数创建元素");
+				var a = new de ({
+					hd_typ: "div"
+				});
+				a.place(document.body);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("添加样式");
+				a.addCss("a b f");
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("删除样式");
+				a.delCss("f");
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("替换样式（样式全清）");
+				a.chgCss();
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("替换样式");
+				a.chgCss("a c f");
+				LZR.HTML.alog ("");
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="boso">
+			
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
+</html>

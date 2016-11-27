@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Temp</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.load([
+					"LZR.Pro.Green.Airq.App.ReleaseSys.DatMod",
+					"LZR.HTML"
+				]);
+
+				LZR.HTML.alog ("创建对象 ：");
+				var a = new LZR.Pro.Green.Airq.App.ReleaseSys.DatMod ({});
+				LZR.HTML.alog ("");
+
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="boso">
+			
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
+</html>

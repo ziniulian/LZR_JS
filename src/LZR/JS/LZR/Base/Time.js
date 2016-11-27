@@ -1,8 +1,8 @@
 /*************************************************
 作者：子牛连
 类名：Time
-说明：时间
-创建日期：11-三月-2016 14:23:26
+说明：时间工具
+创建日期：27-七月-2016 12:30:04
 版本号：1.0
 *************************************************/
 
@@ -32,16 +32,16 @@ LZR.Base.Time.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
-
-// 对构造参数的特殊处理
-LZR.Base.Time.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
-};
+LZR.Base.Time.prototype.init_.lzrClass_ = LZR.Base.Time;
 
 // 字符串转时间
-LZR.Base.Time.prototype.stringToDate = function (date/*as:string*/)/*as:Date*/ {
-	return eval( "new Date(" + strDate.replace( /\d+(?=-[^-]+$)/, function (a) { return parseInt(a, 10) - 1; } ).match(/\d+/g) + ")" );
+LZR.Base.Time.prototype.stringToDate = function (strDate/*as:string*/)/*as:Date*/ {
+	var r = strDate.match(/\d+/g);
+	r[1]--;
+	// return eval( "new Date(" + strDate.replace( /\d+(?=-[^-]+$)/, function (a) { console.log (a); return parseInt(a, 10) - 1; } ).match(/\d+/g) + ")" );
+	return eval( "new Date(" + r + ")" );
 };
+LZR.Base.Time.prototype.stringToDate.lzrClass_ = LZR.Base.Time;
 
 // 时间转换为字符串
 LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)/*as:string*/ {
@@ -78,6 +78,31 @@ LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)
 			s += date.getDate();
 			s += "日";
 			break;
+		case "weekChn":
+			switch (date.getDay()) {
+				case 0:
+					s = "周日";
+					break;
+				case 1:
+					s = "周一";
+					break;
+				case 2:
+					s = "周二";
+					break;
+				case 3:
+					s = "周三";
+					break;
+				case 4:
+					s = "周四";
+					break;
+				case 5:
+					s = "周五";
+					break;
+				case 6:
+					s = "周六";
+					break;
+			}
+			break;
 		default:
 			s = date.getFullYear();
 			s += "-";
@@ -94,6 +119,7 @@ LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)
 	}
 	return s;
 };
+LZR.Base.Time.prototype.format.lzrClass_ = LZR.Base.Time;
 
 // 时间圆整
 LZR.Base.Time.prototype.normalize = function (date/*as:Date*/, hour/*as:int*/, clone/*as:boolean*/)/*as:Date*/ {
@@ -102,7 +128,7 @@ LZR.Base.Time.prototype.normalize = function (date/*as:Date*/, hour/*as:int*/, c
 	} else if (clone) {
 		date = new Date(date.valueOf());
 	}
-	if (!hour) {
+	if (isNaN(hour)) {
 		hour = date.getHours();
 	}
 	date.setMinutes(0);
@@ -111,6 +137,7 @@ LZR.Base.Time.prototype.normalize = function (date/*as:Date*/, hour/*as:int*/, c
 	date.setHours(hour);
 	return date;
 };
+LZR.Base.Time.prototype.normalize.lzrClass_ = LZR.Base.Time;
 
 // 时间加N个小时的时间
 LZR.Base.Time.prototype.addHour = function (n/*as:int*/, date/*as:Date*/, clone/*as:boolean*/)/*as:Date*/ {
@@ -122,6 +149,7 @@ LZR.Base.Time.prototype.addHour = function (n/*as:int*/, date/*as:Date*/, clone/
 	date.setTime(date.valueOf() + n * 3600 * 1000);
 	return date;
 };
+LZR.Base.Time.prototype.addHour.lzrClass_ = LZR.Base.Time;
 
 // 复制一个时间
 LZR.Base.Time.prototype.clone = function (date/*as:Date*/)/*as:Date*/ {
@@ -130,13 +158,22 @@ LZR.Base.Time.prototype.clone = function (date/*as:Date*/)/*as:Date*/ {
 	}
 	return new Date(date.valueOf());
 };
+LZR.Base.Time.prototype.clone.lzrClass_ = LZR.Base.Time;
+
+// 对构造参数的特殊处理
+LZR.Base.Time.prototype.hdObj_ = function (obj/*as:Object*/) {
+	
+};
+LZR.Base.Time.prototype.hdObj_.lzrClass_ = LZR.Base.Time;
 
 // 获取当前时间
 LZR.Base.Time.prototype.getDate = function ()/*as:Date*/ {
 	return new Date();
 };
+LZR.Base.Time.prototype.getDate.lzrClass_ = LZR.Base.Time;
 
 // 获取当前时间值
 LZR.Base.Time.prototype.getTim = function ()/*as:int*/ {
 	return this.getDate().getTime();
 };
+LZR.Base.Time.prototype.getTim.lzrClass_ = LZR.Base.Time;

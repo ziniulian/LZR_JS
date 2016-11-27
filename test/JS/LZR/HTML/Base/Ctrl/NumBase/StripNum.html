@@ -1,0 +1,144 @@
+<html>
+	<head>
+		<title>条状数值增减控制器测试</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+			.a {
+				display: inline-block;
+				vertical-align: top;
+				width: 80%;
+				height: 50px;
+				margin: 60px 0 0 10%;
+				background-color: yellow;
+			}
+			.b {
+				position: absolute;
+				width: 70px;
+				height: 50px;
+				top: -55px;
+				left: -35px;
+				font-size: 30px;
+				line-height: 50px;
+				color: #EEE;
+				text-align: center;
+				background-color: green;
+			}
+			.c {
+				position: absolute;
+				width: 1px;
+				height: 100%;
+				background-color: red;
+			}
+
+			.za {
+				display: inline-block;
+				vertical-align: top;
+				width: 50px;
+				height: 500px;
+				margin: 50px 0 0 10%;
+				background-color: yellow;
+			}
+			.zb {
+				position: absolute;
+				width: 70px;
+				height: 50px;
+				top: -25px;
+				left: 55px;
+				font-size: 30px;
+				line-height: 50px;
+				color: #EEE;
+				text-align: center;
+				background-color: blue;
+			}
+			.zc {
+				position: absolute;
+				width: 100%;
+				height: 1px;
+				background-color: red;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.HTML.Base.Ctrl.NumBase.StripNum"
+				]);
+				var de = LZR.HTML.Base.Doe;
+				var cls = LZR.HTML.Base.Ctrl.NumBase.StripNum;
+
+				LZR.HTML.alog ("DOM参数创建元素");
+				var a = new de ({
+					hd_doe: document.getElementById("a")
+				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("创建横轴");
+				var c = new cls ({
+					// enableDropBase: false
+				});
+				c.add(a);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("测试事件响应");
+				c.evt.chg.add(function(d, v) {
+					b.innerHTML = v;
+				});
+				c.evt.limit.add(function(d, min, max) {
+					console.log (min + " ~ " + max);
+				});
+				c.evt.move.add(function(d, v, x, y) {
+					console.log ("move : " + v + " , " + x + " , " + y);
+				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("纵轴测试");
+				var za = new de ({
+					hd_doe: document.getElementById("za")
+				});
+				var z = new cls ({
+					vertical: true,
+					enableDropBase: false
+				});
+				z.add(za, {
+					min: 50,
+					max: 80,
+					num: 60
+				});
+				z.evt.chg.add(function(d, v) {
+					zb.innerHTML = v;
+				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("重算元素位置");
+				LZR.HTML.alog ("");
+				a.calcPosition();
+				za.calcPosition();
+
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+		<!-- 横轴 -->
+		<div id = "a" class = "a">
+			<div id = "hct_StripNumBtn" class = "c">
+				<div id = "b" class = "b"></div>
+			</div>
+		</div>
+
+		<!-- 纵轴 -->
+		<div id = "za" class = "za">
+			<div id = "hct_StripNumBtn" class = "zc">
+				<div id = "zb" class = "zb"></div>
+			</div>
+		</div>
+	</body>
+</html>

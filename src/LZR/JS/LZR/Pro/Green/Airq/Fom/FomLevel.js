@@ -2,7 +2,7 @@
 作者：子牛连
 类名：FomLevel
 说明：污染物级别
-创建日期：24-三月-2016 15:20:20
+创建日期：27-七月-2016 12:30:03
 版本号：1.0
 *************************************************/
 
@@ -26,6 +26,9 @@ LZR.Pro.Green.Airq.Fom.FomLevel = function (obj) {
 	// 图片路径
 	this.imgUrl = "";	/*as:string*/
 
+	// 健康提示
+	this.healthTips = "";	/*as:string*/
+
 	// 颜色，初始化属性名：clr
 	this.emClr/*m*/ = new LZR.Base.EmClr();	/*as:LZR.Base.EmClr*/
 
@@ -47,6 +50,7 @@ LZR.Pro.Green.Airq.Fom.FomLevel.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 	}
 };
+LZR.Pro.Green.Airq.Fom.FomLevel.prototype.init_.lzrClass_ = LZR.Pro.Green.Airq.Fom.FomLevel;
 
 // 对构造参数的特殊处理
 LZR.Pro.Green.Airq.Fom.FomLevel.prototype.hdObj_ = function (obj/*as:Object*/) {
@@ -54,3 +58,4 @@ LZR.Pro.Green.Airq.Fom.FomLevel.prototype.hdObj_ = function (obj/*as:Object*/) {
 		this.emClr.set(obj.clr);
 	}
 };
+LZR.Pro.Green.Airq.Fom.FomLevel.prototype.hdObj_.lzrClass_ = LZR.Pro.Green.Airq.Fom.FomLevel;

@@ -1,0 +1,199 @@
+<html>
+	<head>
+		<title>日期时间控制器测试</title>
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			.body {
+				padding: 0;
+				margin: 0;
+				font-family: "Microsoft YaHei";
+			}
+
+			.boso {
+				position: absolute;
+				top: 80px;
+				left: 10%;
+				width: 80%;
+			}
+
+			.boso .out {
+				width: 100%;
+				font-size: 0;
+			}
+
+			.boso .tmp {
+				display: inline-block;
+				vertical-align: middle;
+				width: 20%;
+			}
+
+			.boso .tmp .week {
+				width: 100%;
+				height: 20px;
+				font-size: 12px;
+				line-height: 20px;
+				text-align: center;
+				color: #000;
+				background-color: yellow;
+			}
+
+			.boso .tmp .weekend {
+				color: red;
+			}
+
+			.boso .tmp .day {
+				width: 100%;
+				height: 20px;
+				font-size: 12px;
+				line-height: 20px;
+				text-align: center;
+				color: #000;
+			}
+
+			.boso .out .scd .day {
+				color: #FFF;
+				background-color: red;
+			}
+
+			.boso .bar {
+				position: relative;
+				width: 80%;
+				height: 15px;
+				margin: 50px auto;
+				background-color: yellow;
+			}
+
+			.boso .bar .sb {
+				position: absolute;
+				width: 1px;
+				height: 150%;
+				top: -50%;
+				background-color: red;
+			}
+
+			.boso .bar .sb .txt {
+				position: absolute;
+				width: 50px;
+				height: 20px;
+				top: -20px;
+				left: -25px;
+				font-size: 12px;
+				line-height: 20px;
+				color: #000;
+				text-align: center;
+				background-color: yellow;
+			}
+
+			.boso .bar .cover {
+				position: absolute;
+				width: 0;
+				top: 0;
+				left: 0;
+				height: 100%;
+				background-color: red;
+			}
+
+			.boso .bar .moveshow {
+				position: absolute;
+				width: 50px;
+				height: 30px;
+				top: -110%;
+				left: 0;
+				color: #FFF;
+				font-size: 15px;
+				line-height: 30px;
+				text-align: center;
+				background-color: red;
+			}
+
+			.boso .pb {
+				float: left;
+				width: 100px;
+				margin: 0 20px;
+				line-height: 1.5;
+				text-align: center;
+				background-color: yellow;
+			}
+
+			.boso .stop {
+				background-color: red;
+			}
+
+		</style>
+
+		<script>
+			function init() {
+				LZR.curPath = "/myLib";
+				LZR.load([
+					"LZR.HTML.Base.Ctrl.TimBase.DayTim"
+				]);
+				var de = LZR.HTML.Base.Doe;
+				var Cls = LZR.HTML.Base.Ctrl.TimBase.DayTim;
+				var d, ctrl;
+
+				LZR.HTML.alog ("创建对象");
+				d = new de ({
+					hd_doe: document.getElementById("boso")
+				});
+				ctrl = new Cls();
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("添加事件");
+				ctrl.evt.chg.add(function(d, v) {
+					console.log (v);
+				})
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("添加元素");
+				ctrl.add(d, {
+					hd_min: "2016-8-24 9",
+					hd_max: "2016-9-15 18",
+					hd_tim: "2016-8-30 15"
+				});
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("限制循环播放");
+				d.dat.hct_tim.playLoop = false;
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("日均模式");
+				d.getById("hct_DayTimHourBar").dat.hct_num.vcStep.set(24);
+				LZR.HTML.alog ("");
+
+				LZR.HTML.alog ("小时模式");
+				d.getById("hct_DayTimHourBar").dat.hct_num.vcStep.set(1);
+				LZR.HTML.alog ("");
+
+			}
+		</script>
+	</head>
+
+	<body class="body" onload="init()">
+		<div id = "boso" class = "boso">
+			<div idLzr="hct_DayTimDayOut" class = "out">
+				<div idLzr="hct_DayTimDayTemplate" class = "tmp">
+					<div idLzr="week" class = "week">日</div>
+					<div idLzr="day" class = "day">23</div>
+				</div>
+			</div>
+			<div idLzr="hct_DayTimHourBarOut">
+				<div idLzr="hct_DayTimHourBar" class = "bar">
+					<div idLzr = "hct_StripNumBtn" class = "sb">
+						<div idLzr="hct_DayTimHourTxt" class = "txt"></div>
+					</div>
+					<div idLzr="hct_DayTimHourCover" class = "cover"></div>
+					<div idLzr="hct_DayTimHourBarMs" class = "moveshow Lc_nosee">
+						<div idLzr="txt"></div>
+					</div>
+				</div>
+			</div>
+			<div>
+				<div idLzr="hct_DayTimPlayPrev" class = "pb"><<</div>
+				<div idLzr="hct_DayTimPlayBtn" class = "pb">O</div>
+				<div idLzr="hct_DayTimPlayNext" class = "pb">>></div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -2,7 +2,7 @@
 	<head>
 		<title>Ajax</title>
 		<meta charset="utf-8" />
-		<script src="../../../../../src/LZR/JS/LZR.js"></script>
+		<script src="/myLib/LZR.js"></script>
 
 		<style type="text/css">
 			.body {
@@ -13,7 +13,7 @@
 
 		<script>
 			function init() {
-				LZR.curPath = "../../../../../src/LZR/JS";
+				LZR.curPath = "/myLib";
 				LZR.load([
 					"LZR.HTML.Base.Ajax"
 				]);
@@ -22,13 +22,13 @@
 				// 同步GET
 				aj = new LZR.HTML.Base.Ajax ();
 				LZR.HTML.alog ( "\nStart ---------- 同步GET：" );
-				LZR.HTML.alog ( aj.get ( "../../../../../startServer.bat" ) );
+				LZR.HTML.alog ( aj.get ( "http://ziniulian.github.io/index.html" ) );
 				LZR.HTML.alog ( "end ---------- 同步GET" );
 
 				// 同步POST
 				aj = new LZR.HTML.Base.Ajax ();
 				LZR.HTML.alog ( "\nStart ---------- 同步POST：" );
-				LZR.HTML.alog ( aj.post ( "../../../../../startServer.bat", {a:1, b:2, c:[ "fe", "th", "fr" ]} ) );
+				LZR.HTML.alog ( aj.post ( "../../../../../.gitignore", {a:1, b:2, c:[ "fe", "th", "fr" ]} ) );
 				LZR.HTML.alog ( "end ---------- 同步POST" );
 
 				// 异步GET
@@ -42,7 +42,7 @@
 					LZR.HTML.alog ( "-----------end ---------- 异步GET" );
 					LZR.HTML.alog ( "" );
 				});
-				aj.get ( "../../../../../startServer.bat",  true);
+				aj.get ( "../../../../../.gitignore",  true);
 				LZR.HTML.alog ( "end ---------- 异步GET" );
 
 				// 异步POST
@@ -56,7 +56,7 @@
 					LZR.HTML.alog ( "--------------end ---------- 异步POST" );
 					LZR.HTML.alog ( "" );
 				});
-				aj.asynPost ( "../../../../../startServer.bat", {a:1, b:2, c:[ "fe", "th", "fr" ]} );
+				aj.asynPost ( "../../../../../.gitignore", {a:1, b:2, c:[ "fe", "th", "fr" ]} );
 				LZR.HTML.alog ( "end ---------- 异步POST" );
 			}
 		</script>
