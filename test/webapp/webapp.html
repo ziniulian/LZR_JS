@@ -2,6 +2,8 @@
 	<head>
 		<title>库整合</title>
 		<meta charset="utf-8" />
+		<script src="webapp.js"></script>
+
 		<!-- <script src="config/TimeBar.js"></script> -->
 		<!-- <script src="config/Legend.js"></script> -->
 		<!-- <script src="config/ReleaseSys_DatMod.js"></script> -->
@@ -11,7 +13,7 @@
 		<!-- <script src="config/DayTime.js"></script> -->
 		<!-- <script src="config/DayTimLongAxis.js"></script> -->
 
-		<script src="config/DayTime.js"></script>
+		<script src="config/workspace/invengo/test/Test001.js"></script>
 
 		<script src="/myLib/LZR.js"></script>
 
@@ -31,56 +33,7 @@
 		<script>
 			function init() {
 				if (webapp) {
-					var p = webapp();
-					LZR.curPath = "/myLib";
-					LZR.ecTxt = {};		// 记录类加载的文本信息
-					LZR.load(p.loads);
-
-					var d = LZR.ecTxt;
-					var txt = '(function (root, factory) {\n\tif (typeof exports === "object") {\n\t\tmodule.exports = factory();\n\t} else if (typeof define === "function" && define.amd) {\n\t\tdefine([], factory);\n\t} else {\n\t\t';
-					if (p.publish) {
-						txt += "root.LZR_publish_" + p.nam + " = factory();"
-					} else {
-						txt += "root.HelloWorld = factory;"
-					}
-					txt += "\n\t}\n}(this, function () {\n";
-					var s;
-					for (s in d) {
-						if (s.indexOf("/") !== 0) {
-// console.log (s);
-							if (s === "LZR") {
-								txt += d[s].substr( d[s].indexOf("var LZR") );
-							} else {
-								txt += d[s];
-							}
-							txt += "\n\n";
-						}
-					}
-					txt += "var r = {root:LZR,obj:{}";
-					for (s in p.tools) {
-						txt += ",";
-						txt += s;
-						txt += ":";
-						txt += p.tools[s];
-					}
-					txt += "};r.obj.root=r;"
-
-					if (p.fun) {
-						txt += "\nvar fun = ";
-						txt += p.fun.toString();
-						txt += ";\nfun.prototype.tools = r;return fun;";
-					} else {
-						txt += "return r;";
-					}
-					txt += "\n}));";
-
-					var blob = new Blob([txt], {type:"text/text;charset=utf-8"});
-					var u = URL.createObjectURL(blob);
-					var a = document.createElement("a");
-					a.innerText = p.alias;
-					a.download = p.nam + ".js";
-					a.href = u;
-					document.body.appendChild(a);
+					buildWebApp(webapp());
 				}
 			}
 		</script>
