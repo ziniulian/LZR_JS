@@ -488,7 +488,6 @@ LZR.getClassName.lzrClass_ = LZR;
 
 // 删除一个对象的属性
 LZR.del = function (obj/*as:Object*/, proName/*as:string*/) {
-	var note;
 	delete obj[proName];
 };
 LZR.del.lzrClass_ = LZR;

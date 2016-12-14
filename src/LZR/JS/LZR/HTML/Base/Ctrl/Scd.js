@@ -3,7 +3,7 @@
 类名：Scd
 说明：选择器
 创建日期：27-七月-2016 12:30:04
-版本号：1.1
+版本号：1.2
 *************************************************/
 
 LZR.load([
@@ -33,25 +33,6 @@ LZR.HTML.Base.Ctrl.Scd.prototype.version_ = "1.1";
 
 LZR.load(null, "LZR.HTML.Base.Ctrl.Scd");
 
-// ---- 给元素添加事件集
-LZR.HTML.Base.Ctrl.Scd.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*as:Object*/, obj/*as:Object*/) {
-	var v;
-	// 创建数据
-	if (obj) {
-		v = this.crtDat(doeo, "hct_scd", obj);
-	} else {
-		if (pro !== true) {
-			pro = false;
-		}
-		v = this.crtDat(doeo, "hct_scd", new this.clsVc(pro));
-	}
-
-	// 事件添加
-	this.crtCb2Dat(doeo, doeo.dat.hct_scd.evt.set, "setCss");
-	doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo), this.className_);
-};
-LZR.HTML.Base.Ctrl.Scd.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Scd;
-
 // 构造器
 LZR.HTML.Base.Ctrl.Scd.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
@@ -67,9 +48,16 @@ LZR.HTML.Base.Ctrl.Scd.prototype.hdObj_ = function (obj/*as:Object*/) {
 };
 LZR.HTML.Base.Ctrl.Scd.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.Scd;
 
+// 处理触摸按下事件
+LZR.HTML.Base.Ctrl.Scd.prototype.hdTouchDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
+	this.utEvt.stopDefault(evt);
+	this.hdDown(doeo, true, evt);
+};
+LZR.HTML.Base.Ctrl.Scd.prototype.hdTouchDown.lzrClass_ = LZR.HTML.Base.Ctrl.Scd;
+
 // 处理按下事件
-LZR.HTML.Base.Ctrl.Scd.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
-	if (this.utEvt.parseMouseKey(evt) === "lk") {	// 判断是左键被按下
+LZR.HTML.Base.Ctrl.Scd.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe*/, isTouch/*as:boolean*/, evt/*as:Object*/) {
+	if (isTouch || this.utEvt.parseMouseKey(evt) === "lk") {	// 判断是左键被按下
 		var b = doeo.dat.hct_scd.get();
 		doeo.dat.hct_scd.set (!b);
 	}
@@ -85,6 +73,25 @@ LZR.HTML.Base.Ctrl.Scd.prototype.setCss = function (doeo/*as:LZR.HTML.Base.Doe*/
 	}
 };
 LZR.HTML.Base.Ctrl.Scd.prototype.setCss.lzrClass_ = LZR.HTML.Base.Ctrl.Scd;
+
+// ---- 给元素添加事件集
+LZR.HTML.Base.Ctrl.Scd.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*as:Object*/, obj/*as:Object*/) {
+	var v;
+	// 创建数据
+	if (obj) {
+		v = this.crtDat(doeo, "hct_scd", obj);
+	} else {
+		if (pro !== true) {
+			pro = false;
+		}
+		v = this.crtDat(doeo, "hct_scd", new this.clsVc(pro));
+	}
+
+	// 事件添加
+	this.crtCb2Dat(doeo, doeo.dat.hct_scd.evt.set, "setCss");
+	doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo, false), this.className_);
+};
+LZR.HTML.Base.Ctrl.Scd.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Scd;
 
 // ---- 移除元素的事件集
 LZR.HTML.Base.Ctrl.Scd.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {

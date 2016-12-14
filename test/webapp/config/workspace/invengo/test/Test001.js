@@ -5,12 +5,12 @@ function webapp () {
 		publish: false,
 		version: "v1.0",
 		loads: [
-			"LZR.HTML.Base.Ctrl.TouchBtn",
+			"LZR.HTML.Base.Ctrl.Btn",
 			"LZR.HTML.Base.Ajax",
 		],
 		tools: {
 			Doe: "LZR.HTML.Base.Doe",
-			Btn: "LZR.HTML.Base.Ctrl.TouchBtn",
+			Btn: "LZR.HTML.Base.Ctrl.Btn",
 			ajx: "new LZR.HTML.Base.Ajax()",
 			ut: "LZR.getSingleton(LZR.Util)"
 		},

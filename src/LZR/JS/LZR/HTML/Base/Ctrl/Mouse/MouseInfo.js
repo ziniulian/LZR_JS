@@ -35,14 +35,17 @@ LZR.HTML.Base.Ctrl.Mouse.MouseInfo = function (obj) {
 	// 自身移动函数
 	this.selfMoveFun = null;	/*as:fun*/
 
-	// 中
-	this.mid/*m*/ = new LZR.HTML.Base.Ctrl.Mouse.MouseKey();	/*as:LZR.HTML.Base.Ctrl.Mouse.MouseKey*/
-
 	// 左
 	this.lk/*m*/ = new LZR.HTML.Base.Ctrl.Mouse.MouseKey();	/*as:LZR.HTML.Base.Ctrl.Mouse.MouseKey*/
 
+	// 中
+	this.mid/*m*/ = new LZR.HTML.Base.Ctrl.Mouse.MouseKey();	/*as:LZR.HTML.Base.Ctrl.Mouse.MouseKey*/
+
 	// 右
 	this.rk/*m*/ = new LZR.HTML.Base.Ctrl.Mouse.MouseKey();	/*as:LZR.HTML.Base.Ctrl.Mouse.MouseKey*/
+
+	// 触摸
+	this.touch/*m*/ = new LZR.HTML.Base.Ctrl.Mouse.MouseKey();	/*as:LZR.HTML.Base.Ctrl.Mouse.MouseKey*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);

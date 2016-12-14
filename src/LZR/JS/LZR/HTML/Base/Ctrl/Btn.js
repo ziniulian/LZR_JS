@@ -3,7 +3,7 @@
 类名：Btn
 说明：按钮
 创建日期：27-七月-2016 12:30:02
-版本号：1.0
+版本号：1.1
 *************************************************/
 
 LZR.load([
@@ -81,9 +81,16 @@ LZR.HTML.Base.Ctrl.Btn.prototype.hdObj_ = function (obj/*as:Object*/) {
 };
 LZR.HTML.Base.Ctrl.Btn.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
+// 处理触摸按下事件
+LZR.HTML.Base.Ctrl.Btn.prototype.hdTouchDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
+	this.utEvt.stopDefault(evt);
+	this.hdDown(doeo, true, evt);
+};
+LZR.HTML.Base.Ctrl.Btn.prototype.hdTouchDown.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
+
 // 处理按下事件
-LZR.HTML.Base.Ctrl.Btn.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
-	if (this.utEvt.parseMouseKey(evt) === "lk") {	// 判断是左键被按下
+LZR.HTML.Base.Ctrl.Btn.prototype.hdDown = function (doeo/*as:LZR.HTML.Base.Doe*/, isTouch/*as:boolean*/, evt/*as:Object*/) {
+	if (isTouch || this.utEvt.parseMouseKey(evt) === "lk") {	// 判断是左键被按下
 		doeo.addCss(this.css);
 
 		// 触发按下事件
@@ -177,9 +184,15 @@ LZR.HTML.Base.Ctrl.Btn.prototype.onUp.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
 // ---- 给元素添加事件集
 LZR.HTML.Base.Ctrl.Btn.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo), this.className_);
-	doeo.addEvt ("mouseup",  this.utLzr.bind(this, this.hdUp, doeo), this.className_);
-	doeo.addEvt ("mouseout",  this.utLzr.bind(this, this.hdOut, doeo), this.className_);
+	var up = this.utLzr.bind(this, this.hdUp, doeo);
+	var out = this.utLzr.bind(this, this.hdOut, doeo);
+	doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo, false), this.className_);
+	doeo.addEvt ("mouseup",  up, this.className_);
+	doeo.addEvt ("mouseout",  out, this.className_);
+	doeo.addEvt ("touchstart", this.utLzr.bind(this, this.hdTouchDown, doeo), this.className_);
+	doeo.addEvt ("touchend", up, this.className_);
+	doeo.addEvt ("touchcancel",  out, this.className_);
+	doeo.addEvt ("toucheleave",  out, this.className_);
 };
 LZR.HTML.Base.Ctrl.Btn.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;
 
@@ -188,5 +201,9 @@ LZR.HTML.Base.Ctrl.Btn.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/
 	doeo.delEvt ("mousedown", this.className_);
 	doeo.delEvt ("mouseup", this.className_);
 	doeo.delEvt ("mouseout", this.className_);
+	doeo.delEvt ("touchstart", this.className_);
+	doeo.delEvt ("touchend", this.className_);
+	doeo.delEvt ("touchcancel", this.className_);
+	doeo.delEvt ("toucheleave", this.className_);
 };
 LZR.HTML.Base.Ctrl.Btn.prototype.delEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Btn;

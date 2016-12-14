@@ -31,6 +31,9 @@ LZR.HTML.Base.Ctrl.Mouse.MouseKey = function (obj) {
 	// 按下时间
 	this.tim = 0;	/*as:int*/
 
+	// 触摸对象
+	this.touchObj = null;	/*as:Object*/
+
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {

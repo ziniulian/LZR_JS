@@ -26,7 +26,7 @@ LZR.HTML.Util.Evt.prototype.version_ = "1.0";
 LZR.load(null, "LZR.HTML.Util.Evt");
 
 // 鼠标按键状态常量
-LZR.HTML.Util.Evt.prototype.MouseStat = {lk: 1, rk: 2, mid: 4};	/*as:Object*/
+LZR.HTML.Util.Evt.prototype.MouseStat = {nan: 0, lk: 1, rk: 2, mid: 4, touch:128};	/*as:Object*/
 
 // 构造器
 LZR.HTML.Util.Evt.prototype.init_ = function (obj/*as:Object*/) {
@@ -95,27 +95,40 @@ LZR.HTML.Util.Evt.prototype.getMousePosition.lzrClass_ = LZR.HTML.Util.Evt;
 
 // 解析鼠标按键状态
 LZR.HTML.Util.Evt.prototype.parseMouseKey = function (evt/*as:Object*/)/*as:string*/ {
-	var k = this.getEvent(evt).button;
-	if ("\v" != "v") {
-		// 非 IE 6、7、8 版 rotate
-		switch (k) {
-			case 0:
-				k = this.MouseStat.lk;
-				break;
-			case 1:
-				k = this.MouseStat.mid;
-				break;
-		}
-	}
-	switch (k) {
-		case this.MouseStat.lk:
-			return "lk";
-		case this.MouseStat.rk:
-			return "rk";
-		case this.MouseStat.mid:
-			return "mid";
+	var e = this.getEvent(evt);
+	var en = LZR.getClassName(e);
+	var k;
+	switch (en) {
+		case "TouchEvent":
+			return "touch";
+			break;
+		case "MouseEvent":
+			k = this.getEvent(evt).button;
+			if ("\v" != "v") {
+				// 非 IE 6、7、8 版 rotate
+				switch (k) {
+					case 0:
+						k = this.MouseStat.lk;
+						break;
+					case 1:
+						k = this.MouseStat.mid;
+						break;
+				}
+			}
+			switch (k) {
+				case this.MouseStat.lk:
+					return "lk";
+				case this.MouseStat.rk:
+					return "rk";
+				case this.MouseStat.mid:
+					return "mid";
+				default:
+					return "nan";
+			}
+			break;
 		default:
-			return "";
+			return "nan";
+			break;
 	}
 };
 LZR.HTML.Util.Evt.prototype.parseMouseKey.lzrClass_ = LZR.HTML.Util.Evt;
