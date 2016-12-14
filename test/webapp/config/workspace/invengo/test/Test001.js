@@ -67,8 +67,10 @@ function webapp () {
 			this.getCb = function (text, status) {
 				this.txt.doe.innerHTML += text;
 				this.txt.doe.innerHTML += "</br></br>";
+				this.txt.matchParent("b", "l");
 				this.callAdr (text);
 			};
+
 
 			// 调用安卓函数
 			this.callAdr = function (text) {
