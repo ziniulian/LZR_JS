@@ -25,6 +25,12 @@ LZR.HTML.Base.Ctrl.Mouse = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	// 触控长按容错系数
 	this.longRang = 5;	/*as:int*/
 
+	// 鼠标可用
+	this.mouseAble = true;	/*as:boolean*/
+
+	// 触控可用
+	this.touchAble = true;	/*as:boolean*/
+
 	// 滚轮是否可用
 	this.enableWheel = false;	/*as:boolean*/
 
@@ -596,21 +602,33 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe
 	if (this.enableWheel) {
 		doeo.addEvt ("wheel", this.utLzr.bind(this, this.hdWheel, doeo), this.className_);
 	}
-	doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo), this.className_);
-	doeo.addEvt ("touchstart", this.utLzr.bind(this, this.hdTouchDown, doeo), this.className_);
-	doeo.addEvt ("touchmove", this.utLzr.bind(this, this.hdTouchMove, doeo), this.className_);
-	doeo.addEvt ("touchend", this.utLzr.bind(this, this.hdTouchUp, doeo), this.className_);
+	if (this.mouseAble) {
+		doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo), this.className_);
+	}
+	if (this.touchAble) {
+		doeo.addEvt ("touchstart", this.utLzr.bind(this, this.hdTouchDown, doeo), this.className_);
+		doeo.addEvt ("touchmove", this.utLzr.bind(this, this.hdTouchMove, doeo), this.className_);
+		doeo.addEvt ("touchend", this.utLzr.bind(this, this.hdTouchUp, doeo), this.className_);
+	}
 };
 LZR.HTML.Base.Ctrl.Mouse.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
 
 // ---- 移除元素的事件集
 LZR.HTML.Base.Ctrl.Mouse.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	doeo.delEvt ("mousemove", this.className_);
-	doeo.delEvt ("wheel", this.className_);
-	doeo.delEvt ("mousedown", this.className_);
-	doeo.delEvt ("touchstart", this.className_);
-	doeo.delEvt ("touchmove", this.className_);
-	doeo.delEvt ("touchend", this.className_);
+	if (this.enableMove) {
+		doeo.delEvt ("mousemove", this.className_);
+	}
+	if (this.enableWheel) {
+		doeo.delEvt ("wheel", this.className_);
+	}
+	if (this.mouseAble) {
+		doeo.delEvt ("mousedown", this.className_);
+	}
+	if (this.touchAble) {
+		doeo.delEvt ("touchstart", this.className_);
+		doeo.delEvt ("touchmove", this.className_);
+		doeo.delEvt ("touchend", this.className_);
+	}
 
 	// 删除数据
 	this.delDat(doeo, "hct_mof");

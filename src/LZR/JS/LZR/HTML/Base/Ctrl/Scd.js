@@ -17,6 +17,12 @@ LZR.HTML.Base.Ctrl.Scd = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	// 被选中时的样式
 	this.css = "";	/*as:string*/
 
+	// 鼠标可用
+	this.mouseAble = true;	/*as:boolean*/
+
+	// 触控可用
+	this.touchAble = true;	/*as:boolean*/
+
 	// 值控制器类
 	this.clsVc/*m*/ = (LZR.Base.Val.Ctrl);	/*as:fun*/
 
@@ -89,14 +95,24 @@ LZR.HTML.Base.Ctrl.Scd.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/
 
 	// 事件添加
 	this.crtCb2Dat(doeo, doeo.dat.hct_scd.evt.set, "setCss");
-	doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo, false), this.className_);
+	if (this.mouseAble) {
+		doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo, false), this.className_);
+	}
+	if (this.touchAble) {
+		doeo.addEvt ("touchstart", this.utLzr.bind(this, this.hdTouchDown, doeo, false), this.className_);
+	}
 };
 LZR.HTML.Base.Ctrl.Scd.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Scd;
 
 // ---- 移除元素的事件集
 LZR.HTML.Base.Ctrl.Scd.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
 	this.delCb2Dat(doeo, doeo.dat.hct_scd.evt.set, "setCss");
-	doeo.delEvt ("mousedown", this.className_);
+	if (this.mouseAble) {
+		doeo.delEvt ("mousedown", this.className_);
+	}
+	if (this.touchAble) {
+		doeo.delEvt ("touchstart", this.className_);
+	}
 
 	// 删除数据
 	this.delDat(doeo, "hct_scd");

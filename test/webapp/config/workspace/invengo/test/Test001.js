@@ -34,6 +34,7 @@ function webapp () {
 			this.btnCtrl = new this.tools.Btn({
 				dbTim: 0,		// 屏蔽双击
 				longTim: 0,		// 屏蔽长按
+				mouseAble: false,	// 鼠标控制不可用
 				css: obj.css
 			});
 			this.txt = this.doe.getById(obj.txtNam);
