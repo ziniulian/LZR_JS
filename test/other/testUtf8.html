@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>testUtf8</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
+		<meta charset="utf-8" />
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+		</style>
+
+		<script>
+			function init() {
+				var r, s = "你好 Hello，,";
+				for (var i=0; i<s.length; i++) {
+					if (r) {
+						r += "," + s.charCodeAt(i).toString(16);
+					} else {
+						r = s.charCodeAt(i).toString(16);
+					}
+				}
+				console.log (r);
+				console.log (toUtf8Str("你好", 8));
+				r = toUtf8Str(s);
+				console.log (r);
+				console.log (passUtf8Str(r));
+
+			}
+
+			// 将一个 Unicode 码转换为 UTF-8 码
+			function unicode2Utf8 (ch) {
+				var h=0;	// 占用的字节数
+				var v=0;	// 临时变量
+				var mak = 0x3F;	// 最高位可用值域
+				var r;
+
+				if (ch < 0x80) {
+					r = ch;
+				} else {
+					r = 0x80;
+					while (ch > mak) {
+						r = r >> 1 | 0x80;
+						mak >>= 1;
+						if (h) {
+							v = (ch & 0x3F | 0x80) << 8 | v;
+						} else {
+							v = ch & 0x3F | 0x80;
+						}
+						ch >>= 6;
+						h ++;
+					}
+					r = (r | ch) << (8 * h) | v;
+				}
+				// return r;
+				h++;
+				return [r, h];
+			}
+
+			// 将一个 UTF-8 码转换为 Unicode 码
+			function utf82Unicode (ch) {
+				var r, h, v, mak;
+
+				if (ch < 0x80) {
+					r = ch;
+				} else {
+					h = 0;
+					mak = 0x3F;
+					v = ch & 0xFF;
+					while (v < 0xC0) {
+						if (h) {
+							r = (v & 0x3F) << 6 | r;
+						} else {
+							r = v & 0x3F;
+						}
+						h++;
+						ch >>= 8;
+						mak >>= 1;
+						v = ch & 0xFF;
+					}
+					r = (ch & mak) << (6 * h) | r;
+				}
+
+				return r;
+			}
+
+			// 将文字 转换为 UTF-8 16进制字串
+			function toUtf8Str (str, max) {
+				var i, v;
+				var h = 0;
+				var r = "";
+				var len = str.length;
+				for (i = 0; i < len; i++) {
+					v = unicode2Utf8(str.charCodeAt(i));
+					if (max) {
+						h += v[1];
+						if (max < h) {
+							// 截断字符串
+							h -= v[1];
+							break;
+						}
+					}
+					r += v[0].toString(16);
+				}
+				if (max) {
+					// 补位
+					for (i = h; i < max; i++) {
+						r += "00";
+					}
+				}
+				return r;
+			}
+
+			// 将UTF-8 16进制字串 转换为 文字
+			function passUtf8Str (u8str) {
+				var v, s, h, j;
+				var i = 0;
+				var r = [];
+				var len = u8str.length;
+				while (i < len) {
+					s = u8str[i] + u8str[i+1];
+					i += 2;
+
+					h = getSizeByUtf8Head (parseInt(s, 16));
+					for (j = 1; j < h; j++) {
+						s += u8str[i] + u8str[i+1];
+						i += 2;
+					}
+
+					r.push(utf82Unicode(parseInt(s, 16)));
+				}
+
+				return String.fromCharCode.apply(String, r);
+			}
+
+			// 通过 UTF-8 的第一个字节判断其所占用的位数
+			function getSizeByUtf8Head(head) {
+				if (head < 0x80) {
+					return 1;
+				} else if (head < 0xE0) {
+					return 2;
+				} else if (head < 0xF0) {
+					return 3;
+				} else if (head < 0xF8) {
+					return 4;
+				} else if (head < 0xFC) {
+					return 5;
+				} else if (head < 0xFE) {
+					return 6;
+				} else {
+					return 7;
+				}
+			}
+
+		</script>
+	</head>
+
+	<body>
+		<div class="boso">
+			
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
+</html>
