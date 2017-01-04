@@ -30,7 +30,7 @@ LZR.load(null, "LZR.Pro.Rfid.EmTagTyp");
 // 6C
 LZR.Pro.Rfid.EmTagTyp.t6c/*m*/ = new LZR.Pro.Rfid.TagTyp({
 	conf: {
-		ecp:[16,4,16,2,16],
+		ecp:[16,4,16,4,16],
 		tid:[24,24,24,0,24],
 		usr:[64,0,64,0,64],
 		bck:[8,0,8,0,8]

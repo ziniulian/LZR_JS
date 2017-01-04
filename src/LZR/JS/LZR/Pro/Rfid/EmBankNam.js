@@ -34,7 +34,7 @@ LZR.Pro.Rfid.EmBankNam.usr/*m*/ = new LZR.Pro.Rfid.BankNam({nam:"User"});	/*as:L
 LZR.Pro.Rfid.EmBankNam.bck/*m*/ = new LZR.Pro.Rfid.BankNam({nam:"Reserved"});	/*as:LZR.Pro.Rfid.BankNam*/
 
 // EPC
-LZR.Pro.Rfid.EmBankNam.epc/*m*/ = new LZR.Pro.Rfid.BankNam({nam:"EPC"});	/*as:LZR.Pro.Rfid.BankNam*/
+LZR.Pro.Rfid.EmBankNam.ecp/*m*/ = new LZR.Pro.Rfid.BankNam({nam:"EPC"});	/*as:LZR.Pro.Rfid.BankNam*/
 
 // TID
 LZR.Pro.Rfid.EmBankNam.tid/*m*/ = new LZR.Pro.Rfid.BankNam({nam:"TID"});	/*as:LZR.Pro.Rfid.BankNam*/

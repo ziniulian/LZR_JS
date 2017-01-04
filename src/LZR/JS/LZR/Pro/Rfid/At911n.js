@@ -80,7 +80,7 @@ LZR.Pro.Rfid.At911n.prototype.scanning = function () {
 		if (!this.exeScanning) {
 			this.exeScanning = this.utLzr.bind(this, this.scanning);
 		}
-		this.onScanning ("300048656c6c6f20576f726c6421");
+		this.onScanning ("48656c6c6f20576f726c6421");
 		setTimeout(this.exeScanning, 200);
 	}
 };
@@ -113,18 +113,14 @@ LZR.Pro.Rfid.At911n.prototype.stop.lzrClass_ = LZR.Pro.Rfid.At911n;
 // 写码
 LZR.Pro.Rfid.At911n.prototype.write = function (bankNam/*as:string*/, offset/*as:int*/, msg/*as:string*/) {
 	this.bankNam = bankNam;
-	if (bankNam === "ecp") {
-		this.wrMsg = "3000" + msg;
-	} else {
-		this.wrMsg = msg;
-	}
+	this.wrMsg = msg;
 
 	if (this.adrObj) {
 		this.adrObj.write(bankNam, offset, msg);
 	} else if (this.stat === 2) {
 		// 模拟写操作
 		if (bankNam !== "ecp") {
-			this.onWrite("300048656c6c6f20576f726c6421", bankNam, msg);
+			this.onWrite("48656c6c6f20576f726c6421", bankNam, msg);
 		}
 	}
 };
@@ -156,7 +152,7 @@ LZR.Pro.Rfid.At911n.prototype.read = function (bankNam/*as:string*/, offset/*as:
 				msg = "00000000";
 				break;
 		}
-		this.onRead("300048656c6c6f20576f726c6421", bankNam, msg);
+		this.onRead("48656c6c6f20576f726c6421", bankNam, msg);
 	}
 };
 LZR.Pro.Rfid.At911n.prototype.read.lzrClass_ = LZR.Pro.Rfid.At911n;

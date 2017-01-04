@@ -7,6 +7,7 @@
 *************************************************/
 
 LZR.load([
+	"LZR.Base.Str",
 	"LZR.Pro.Rfid.At911n",
 	"LZR.Pro.Rfid.At911n.ScanTag",
 	"LZR.Pro.Rfid.At911n.At911nView"
@@ -20,6 +21,9 @@ LZR.Pro.Rfid.At911n.At911nCtrl = function (obj) {
 
 	// 标签集合的数量
 	this.tagsCount = 0;	/*as:int*/
+
+	// 写入区块
+	this.writeBank = null;	/*as:Object*/
 
 	// 标签类
 	this.clsTag/*m*/ = (LZR.Pro.Rfid.At911n.ScanTag);	/*as:fun*/
@@ -167,19 +171,27 @@ LZR.Pro.Rfid.At911n.At911nCtrl.prototype.read = function (bank/*as:Object*/, msg
 	this.view.setStopDoeo(true);
 
 	var l = bank.getLength();
-	this.adr.write(bank.emNam.getKey(), bank.rs, l);
+	this.adr.read(bank.emNam.getKey(), this.byte2Word(bank.rs), this.byte2Word(l));
 };
 LZR.Pro.Rfid.At911n.At911nCtrl.prototype.read.lzrClass_ = LZR.Pro.Rfid.At911n.At911nCtrl;
+
+// 写码准备
+LZR.Pro.Rfid.At911n.At911nCtrl.prototype.writeBefore = function (bank/*as:Object*/) {
+	this.writeBank = bank;
+	this.view.setWriteDoeo(true, bank.emNam.get().nam, this.view[bank.emNam.getKey() + "Doeo"].getById(this.view.btnNams.txt).doe.innerHTML);
+};
+LZR.Pro.Rfid.At911n.At911nCtrl.prototype.writeBefore.lzrClass_ = LZR.Pro.Rfid.At911n.At911nCtrl;
 
 // 写码
 LZR.Pro.Rfid.At911n.At911nCtrl.prototype.write = function (bank/*as:Object*/, msg/*as:string*/) {
 	this.adr.stat = 2;
 
+	this.view.setWriteDoeo(false);
 	this.view.setStopDoeo(true);
 
 	var l = bank.getLength(true);
-	var s = this.utStr.toUtf8Str(msg, l);
-	this.adr.write(bank.emNam.getKey(), bank.ws, s);
+	var s = this.utStr.toUtf8Str(msg, l).toUpperCase();
+	this.adr.write(bank.emNam.getKey(), this.byte2Word(bank.ws), s);
 };
 LZR.Pro.Rfid.At911n.At911nCtrl.prototype.write.lzrClass_ = LZR.Pro.Rfid.At911n.At911nCtrl;
 
@@ -209,7 +221,7 @@ LZR.Pro.Rfid.At911n.At911nCtrl.prototype.hdWrite.lzrClass_ = LZR.Pro.Rfid.At911n
 
 // 处理读码
 LZR.Pro.Rfid.At911n.At911nCtrl.prototype.hdRead = function (ecpId/*as:string*/, bankNam/*as:string*/, msg/*as:string*/) {
-	this.hdWrite(ecpId,bankNam, msg);
+	this.hdWrite(ecpId, bankNam, msg);
 };
 LZR.Pro.Rfid.At911n.At911nCtrl.prototype.hdRead.lzrClass_ = LZR.Pro.Rfid.At911n.At911nCtrl;
 
@@ -226,6 +238,10 @@ LZR.Pro.Rfid.At911n.At911nCtrl.prototype.bindView.lzrClass_ = LZR.Pro.Rfid.At911
 
 // 处理按钮点击
 LZR.Pro.Rfid.At911n.At911nCtrl.prototype.hdClick = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	var t = this.tags[0];
+	if (!t) {
+		t = new this.clsTag({hd_emTyp: this.tagTyp});
+	}
 	switch (doeo.id.get()) {
 		case this.view.btnNams.scan:
 			this.scanning();
@@ -235,6 +251,36 @@ LZR.Pro.Rfid.At911n.At911nCtrl.prototype.hdClick = function (doeo/*as:LZR.HTML.B
 			break;
 		case this.view.btnNams.listStop:
 			this.stop(false);
+			break;
+		case this.view.btnNams.ecpReadBtn:
+			this.read(t.banks.ecp);
+			break;
+		case this.view.btnNams.tidReadBtn:
+			this.read(t.banks.tid);
+			break;
+		case this.view.btnNams.usrReadBtn:
+			this.read(t.banks.usr);
+			break;
+		case this.view.btnNams.bckReadBtn:
+			this.read(t.banks.bck);
+			break;
+		case this.view.btnNams.stopBtn:
+			this.stop(true);
+			break;
+		case this.view.btnNams.ecpWriteBtn:
+			this.writeBefore(t.banks.ecp);
+			break;
+		case this.view.btnNams.usrWriteBtn:
+			this.writeBefore(t.banks.usr);
+			break;
+		case this.view.btnNams.bckWriteBtn:
+			this.writeBefore(t.banks.bck);
+			break;
+		case this.view.btnNams.writeCancleBtn:
+			this.view.setWriteDoeo(false);
+			break;
+		case this.view.btnNams.writeOkBtn:
+			this.write(this.writeBank, this.view.getWriteTxt());
 			break;
 	}
 };
