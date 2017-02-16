@@ -10,8 +10,11 @@ LZR.load([
 	"LZR.Node"
 ], "LZR.Node.InfSrv");
 LZR.Node.InfSrv = function (obj) {
+	// 通用工具
+	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
+
 	// 自身回调
-	this.exe = LZR.getSingleton(LZR.Util).bind (this, this.srvMain);	/*as:fun*/
+	this.exe = this.utLzr.bind (this, this.srvMain);	/*as:fun*/
 };
 LZR.Node.InfSrv.prototype.className_ = "LZR.Node.InfSrv";
 LZR.Node.InfSrv.prototype.version_ = "1.0";

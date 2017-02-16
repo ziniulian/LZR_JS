@@ -14,6 +14,9 @@ LZR.Node.Router = function (obj) {
 	// express 框架
 	this.ep = LZR.getSingleton (null, null, "express");	/*as:Object*/
 
+	// 模板集合
+	this.tmps = undefined;	/*as:Object*/
+
 	// 路由对象
 	this.ro = this.ep.Router();	/*as:Object*/
 
@@ -43,14 +46,19 @@ LZR.Node.Router.prototype.init_ = function (obj/*as:Object*/) {
 		LZR.setObj (this, obj);
 		this.hdObj_(obj);
 	}
-
-	this.setStaticDir("/", this.path + "web");
 };
 LZR.Node.Router.prototype.init_.lzrClass_ = LZR.Node.Router;
 
 // 对构造参数的特殊处理
 LZR.Node.Router.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
+	if (obj.hd_tmp) {
+		// 设置模板路径
+		this.doTem (obj.hd_tmp);
+	}
+	if (obj.hd_web) {
+		// 设置静态页面路径
+		this.setStaticDir("/", this.path + obj.hd_web);
+	}
 };
 LZR.Node.Router.prototype.hdObj_.lzrClass_ = LZR.Node.Router;
 
@@ -169,3 +177,25 @@ LZR.Node.Router.prototype.delete = function (nam/*as:string*/, fun/*as:Object*/)
 	return this.setCbs(nam, "delete", fun);
 };
 LZR.Node.Router.prototype.delete.lzrClass_ = LZR.Node.Router;
+
+// 创建doT模板
+LZR.Node.Router.prototype.doTem = function (path/*as:string*/)/*as:Object*/ {
+	if (!this.tmps) {
+		if (!path) {
+			path = "tmp";
+		}
+		this.tmps = LZR.getSingleton (null, null, "dot").process({path: path});
+	}
+	return this.tmps;
+};
+LZR.Node.Router.prototype.doTem.lzrClass_ = LZR.Node.Router;
+
+// 获取模板
+LZR.Node.Router.prototype.getTmp = function (tmpNam/*as:string*/, obj/*as:Object*/)/*as:Object*/ {
+	if (this.tmps) {
+		return this.tmps[tmpNam](obj);
+	} else {
+		return null;
+	}
+};
+LZR.Node.Router.prototype.getTmp.lzrClass_ = LZR.Node.Router;

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Flicr 通过图片ID查询图片参数</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
+		<meta charset="utf-8" />
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+
+			.boso {
+				width: 100%;
+				height: 100%;
+			}
+
+			.item {
+				display: inline-block;
+				width: 300px;
+				height: 300px;
+				margin: 10px;
+				background-image: url();
+				background-repeat: no-repeat;
+				background-position: center center;
+				background-size: contain;
+			}
+		</style>
+
+		<script>
+			function init() {
+				boso.onclick = function (e) {
+					var msg = new FormData();
+					var xhr = new XMLHttpRequest();
+					var pid = "32828608416";
+					var infoUrl = "https://www.flickr.com/services/rest/";
+					msg.append("api_key", "0a99f30460429552f18cc31159706bd7");
+					msg.append("method", "flickr.photos.getInfo");
+					msg.append("photo_id", pid);
+					xhr.open("POST", infoUrl, true);
+
+					// 不用 FormData 时的上传方式：
+					// var msg = "api_key=0a99f30460429552f18cc31159706bd7&method=flickr.photos.getInfo&photo_id=" + pid;
+					// xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+
+					xhr.onload = function (e) {
+						var t = e.target;
+						// console.log (t.responseURL);
+						var r = t.responseXML.firstChild;
+						if (r.getAttribute("stat") === "ok") {
+							r = r.firstElementChild;
+							console.log (r.getAttribute("farm"));
+							console.log (r.getAttribute("server"));
+							console.log (r.getAttribute("id"));
+							console.log (r.getAttribute("secret"));
+							console.log (r.getAttribute("originalsecret"));
+							console.log (r.getAttribute("originalformat"));
+							var s = "https://c.staticflickr.com/";
+							s += "/" + r.getAttribute("farm");
+							s += "/" + r.getAttribute("server");
+							s += "/" + r.getAttribute("id");
+							var b = s;
+							s += "_" + r.getAttribute("secret");
+							b += "_" + r.getAttribute("originalsecret");
+							s += "_t." + r.getAttribute("originalformat");
+							b += "_o." + r.getAttribute("originalformat");
+							console.log (s);
+							console.log (b);
+						} else {
+							console.log ("err!");
+						}
+					}
+
+					xhr.send(msg);
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="boso" class="boso">
+			
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
+</html>
