@@ -26,6 +26,9 @@ LZR.Node.Router = function (obj) {
 	// 路径
 	this.path = "./";	/*as:string*/
 
+	// 通用工具
+	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
+
 	// 回调类
 	this.clsCb/*m*/ = (LZR.Base.CallBacks);	/*as:fun*/
 
@@ -53,7 +56,7 @@ LZR.Node.Router.prototype.init_.lzrClass_ = LZR.Node.Router;
 LZR.Node.Router.prototype.hdObj_ = function (obj/*as:Object*/) {
 	if (obj.hd_tmp) {
 		// 设置模板路径
-		this.doTem (obj.hd_tmp);
+		this.crtTmp (obj.hd_tmp);
 	}
 	if (obj.hd_web) {
 		// 设置静态页面路径
@@ -69,7 +72,7 @@ LZR.Node.Router.prototype.setStaticDir = function (nam/*as:string*/, dir/*as:str
 LZR.Node.Router.prototype.setStaticDir.lzrClass_ = LZR.Node.Router;
 
 // 获取回调
-LZR.Node.Router.prototype.getCbs = function (nam/*as:string*/, matching/*as:string*/, proNam/*as:string*/)/*as:Array*/ {
+LZR.Node.Router.prototype.getCbs = function (nam/*as:string*/, matching/*as:string*/)/*as:Array*/ {
 	var r;
 	if (nam && matching) {
 		r = this.cbs[nam];
@@ -80,23 +83,8 @@ LZR.Node.Router.prototype.getCbs = function (nam/*as:string*/, matching/*as:stri
 
 		r = r[matching];
 		if (!r) {
-			if (matching === "param") {
-				r = {};
-			} else {
-				r = [];
-			}
+			r = [];
 			this.cbs[nam][matching] = r;
-		}
-
-		if (matching === "param") {
-			if (proNam) {
-				r = r[proNam];
-				if (!r) {
-					r[proNam] = [];
-				}
-			} else {
-				r = undefined;
-			}
 		}
 	}
 	return r;
@@ -104,9 +92,9 @@ LZR.Node.Router.prototype.getCbs = function (nam/*as:string*/, matching/*as:stri
 LZR.Node.Router.prototype.getCbs.lzrClass_ = LZR.Node.Router;
 
 // 设置回调
-LZR.Node.Router.prototype.setCbs = function (nam/*as:string*/, matching/*as:string*/, fun/*as:Object*/, proNam/*as:string*/)/*as:Object*/ {
+LZR.Node.Router.prototype.setCbs = function (nam/*as:string*/, matching/*as:string*/, fun/*as:Object*/)/*as:Object*/ {
 	var r;
-	var c = this.getCbs(nam, matching, proNam);
+	var c = this.getCbs(nam, matching);
 	if (fun.className_ === this.className_) {
 		this.ro[matching](nam, fun.ro);
 	} else if (c) {
@@ -123,11 +111,7 @@ LZR.Node.Router.prototype.setCbs = function (nam/*as:string*/, matching/*as:stri
 		}
 		if (r) {
 			c.push(r);
-			if (matching === "param") {
-				this.ro[matching](proNam, r.exe);
-			} else {
-				this.ro[matching](nam, r.exe);
-			}
+			this.ro[matching](nam, r.exe);
 		}
 	}
 	return r;
@@ -135,10 +119,8 @@ LZR.Node.Router.prototype.setCbs = function (nam/*as:string*/, matching/*as:stri
 LZR.Node.Router.prototype.setCbs.lzrClass_ = LZR.Node.Router;
 
 // 路由参数匹配
-LZR.Node.Router.prototype.param = function (nam/*as:string*/, proNam/*as:string*/, fun/*as:Object*/)/*as:Object*/ {
-	if (LZR.getClassName(fun) === "function") {
-		return this.setCbs(nam, "param", fun, proNam);
-	}
+LZR.Node.Router.prototype.param = function (nam/*as:string*/, fun/*as:Object*/)/*as:Object*/ {
+	return this.setCbs(nam, "param", fun);
 };
 LZR.Node.Router.prototype.param.lzrClass_ = LZR.Node.Router;
 
@@ -179,23 +161,65 @@ LZR.Node.Router.prototype.delete = function (nam/*as:string*/, fun/*as:Object*/)
 LZR.Node.Router.prototype.delete.lzrClass_ = LZR.Node.Router;
 
 // 创建doT模板
-LZR.Node.Router.prototype.doTem = function (path/*as:string*/)/*as:Object*/ {
+LZR.Node.Router.prototype.crtTmp = function (dir/*as:string*/)/*as:Object*/ {
 	if (!this.tmps) {
-		if (!path) {
-			path = "tmp";
+		if (!dir) {
+			dir = "tmp";
 		}
-		this.tmps = LZR.getSingleton (null, null, "dot").process({path: path});
+		this.tmps = LZR.getSingleton (null, null, "dot").process({path: this.path + dir});
 	}
 	return this.tmps;
 };
-LZR.Node.Router.prototype.doTem.lzrClass_ = LZR.Node.Router;
+LZR.Node.Router.prototype.crtTmp.lzrClass_ = LZR.Node.Router;
 
 // 获取模板
 LZR.Node.Router.prototype.getTmp = function (tmpNam/*as:string*/, obj/*as:Object*/)/*as:Object*/ {
-	if (this.tmps) {
+	if (this.tmps && this.tmps[tmpNam]) {
 		return this.tmps[tmpNam](obj);
 	} else {
 		return null;
 	}
 };
 LZR.Node.Router.prototype.getTmp.lzrClass_ = LZR.Node.Router;
+
+// 初始化模板
+LZR.Node.Router.prototype.initTmp = function (nam/*as:string*/, dir/*as:string*/) {
+	if (!nam) {
+		nam = "/";
+	}
+	if (!dir) {
+		dir = "tmp";
+	}
+
+	// 创建doT模板
+	this.crtTmp (dir);
+
+	// 模板里用到的静态文件夹
+	this.setStaticDir("/tmp2web/", this.path + dir + "/tmp2web");
+	this.use ("/tmp2web/", function (req, res) {
+		// 静态文件夹里没有的文件，直接报错，不再向下路由。
+		res.redirect("/err");
+	});
+	this.all (nam + "*/tmp2web/*", function (req, res) {
+		// console.log (req.path);
+		// console.log (req.url);
+		// console.log (req.baseUrl);
+		// console.log (req.originalUrl);
+		req.params[1];
+		res.redirect(req.baseUrl + "/tmp2web/" + req.params[1]);
+	});
+
+	// 模板调用
+	this.use (nam + ":dotNam", this.utLzr.bind(this, function (req, res, next) {
+		if (!req.qpobj) {
+			req.qpobj = {};
+		}
+		var t = this.getTmp(req.params.dotNam, req.qpobj);
+		if (t) {
+			res.send(t);
+		} else {
+			next();
+		}
+	}));
+};
+LZR.Node.Router.prototype.initTmp.lzrClass_ = LZR.Node.Router;
