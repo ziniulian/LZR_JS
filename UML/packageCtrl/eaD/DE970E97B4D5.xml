@@ -183,7 +183,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Interface"/>
 								<UML:TaggedValue tag="ea_sourceID" value="11"/>
 								<UML:TaggedValue tag="ea_targetID" value="47"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+utLzr"/>
@@ -615,7 +614,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_8695312B_275D_4bc1_8D04_DE970E97B4D5"/>
 								<UML:TaggedValue tag="date_created" value="2016-09-18 09:37:43"/>
-								<UML:TaggedValue tag="date_modified" value="2017-02-20 13:37:24"/>
+								<UML:TaggedValue tag="date_modified" value="2017-02-23 17:16:58"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\Node\Router.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -628,7 +627,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="49"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=80ea;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=184a;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -1648,7 +1647,7 @@
 										<UML:TaggedValue tag="style" value="&#21021;&#22987;&#21270;&#27169;&#26495;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_87686E1D_360C_4073_8B49_74AAB0E69BD1">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="if (!nam) {&#xA;		nam = &quot;/&quot;;&#xA;	}&#xA;	if (!dir) {&#xA;		dir = &quot;tmp&quot;;&#xA;	}&#xA;&#xA;	// &#21019;&#24314;doT&#27169;&#26495;&#xA;	this.crtTmp (dir);&#xA;&#xA;	// &#27169;&#26495;&#37324;&#29992;&#21040;&#30340;&#38745;&#24577;&#25991;&#20214;&#22841;&#xA;	this.setStaticDir(&quot;/tmp2web/&quot;, this.path + dir + &quot;/tmp2web&quot;);&#xA;	this.use (&quot;/tmp2web/&quot;, function (req, res) {&#xA;		// &#38745;&#24577;&#25991;&#20214;&#22841;&#37324;&#27809;&#26377;&#30340;&#25991;&#20214;&#65292;&#30452;&#25509;&#25253;&#38169;&#65292;&#19981;&#20877;&#21521;&#19979;&#36335;&#30001;&#12290;&#xA;		res.redirect(&quot;/err&quot;);&#xA;	});&#xA;	this.all (nam + &quot;*/tmp2web/*&quot;, function (req, res) {&#xA;		// console.log (req.path);&#xA;		// console.log (req.url);&#xA;		// console.log (req.baseUrl);&#xA;		// console.log (req.originalUrl);&#xA;		req.params[1];&#xA;		res.redirect(req.baseUrl + &quot;/tmp2web/&quot; + req.params[1]);&#xA;	});&#xA;&#xA;	// &#27169;&#26495;&#35843;&#29992;&#xA;	this.use (nam + &quot;:dotNam&quot;, this.utLzr.bind(this, function (req, res, next) {&#xA;		if (!req.qpobj) {&#xA;			req.qpobj = {};&#xA;		}&#xA;		var t = this.getTmp(req.params.dotNam, req.qpobj);&#xA;		if (t) {&#xA;			res.send(t);&#xA;		} else {&#xA;			next();&#xA;		}&#xA;	}));"/>
+												<UML:Comment name="if (!nam) {&#xA;		nam = &quot;/&quot;;&#xA;	}&#xA;	if (!dir) {&#xA;		dir = &quot;tmp&quot;;&#xA;	}&#xA;&#xA;	// &#21019;&#24314;doT&#27169;&#26495;&#xA;	this.crtTmp (dir);&#xA;&#xA;	// &#27169;&#26495;&#37324;&#29992;&#21040;&#30340;&#38745;&#24577;&#25991;&#20214;&#22841;&#xA;	this.setStaticDir(&quot;/tmp2web/&quot;, this.path + dir + &quot;/tmp2web&quot;);&#xA;	this.use (&quot;/tmp2web/&quot;, function (req, res) {&#xA;		// &#38745;&#24577;&#25991;&#20214;&#22841;&#37324;&#27809;&#26377;&#30340;&#25991;&#20214;&#65292;&#30452;&#25509;&#25253;&#38169;&#65292;&#19981;&#20877;&#21521;&#19979;&#36335;&#30001;&#12290;&#xA;		res.redirect(&quot;/err&quot;);&#xA;	});&#xA;	this.all (nam + &quot;*/tmp2web/*&quot;, function (req, res) {&#xA;		// console.log (req.path);&#xA;		// console.log (req.url);&#xA;		// console.log (req.baseUrl);&#xA;		// console.log (req.originalUrl);&#xA;		req.params[1];&#xA;		res.redirect(req.baseUrl + &quot;/tmp2web/&quot; + req.params[1]);&#xA;	});&#xA;&#xA;	// &#27169;&#26495;&#35843;&#29992;&#xA;	this.use (nam + &quot;:dotNam&quot;, this.utLzr.bind(this, function (req, res, next) {&#xA;		var u = {&#xA;			base: req.baseUrl,&#xA;			rout: nam,&#xA;			dot: req.params.dotNam&#xA;		};&#xA;		if (!req.qpobj) {&#xA;			req.qpobj = {&#xA;				url: u&#xA;			};&#xA;		} else {&#xA;			req.qpobj.url = u;&#xA;		}&#xA;		var t = this.getTmp(req.params.dotNam, req.qpobj);&#xA;		if (t) {&#xA;			res.send(t);&#xA;		} else {&#xA;			next();&#xA;		}&#xA;	}));"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>

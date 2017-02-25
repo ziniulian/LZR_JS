@@ -211,8 +211,17 @@ LZR.Node.Router.prototype.initTmp = function (nam/*as:string*/, dir/*as:string*/
 
 	// 模板调用
 	this.use (nam + ":dotNam", this.utLzr.bind(this, function (req, res, next) {
+		var u = {
+			base: req.baseUrl,
+			rout: nam,
+			dot: req.params.dotNam
+		};
 		if (!req.qpobj) {
-			req.qpobj = {};
+			req.qpobj = {
+				url: u
+			};
+		} else {
+			req.qpobj.url = u;
 		}
 		var t = this.getTmp(req.params.dotNam, req.qpobj);
 		if (t) {
