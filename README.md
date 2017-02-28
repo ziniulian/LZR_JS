@@ -25,7 +25,7 @@ LZR 的 Javascript 库：
 	- 温度标签数据库设计
 
 - 设计反思：
-	- 添加 tream 方法
+	- 字符串添加 trim 方法
 	- nodejs 访问 Mongo 数据库类
 	- 数据类添加序列化与反序列化方法
 	- nodejs 访问 Excel、MySQL、Oracle 数据库类
