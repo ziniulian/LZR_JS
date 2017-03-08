@@ -67,7 +67,7 @@ LZR.Node.Router.prototype.hdObj_.lzrClass_ = LZR.Node.Router;
 
 // 设置静态文件夹
 LZR.Node.Router.prototype.setStaticDir = function (nam/*as:string*/, dir/*as:string*/) {
-	this.use(nam, this.ep.static(dir));
+	this.use(nam, this.ep["static"](dir));
 };
 LZR.Node.Router.prototype.setStaticDir.lzrClass_ = LZR.Node.Router;
 
@@ -155,10 +155,10 @@ LZR.Node.Router.prototype.put = function (nam/*as:string*/, fun/*as:Object*/)/*a
 LZR.Node.Router.prototype.put.lzrClass_ = LZR.Node.Router;
 
 // 路由 delete 匹配
-LZR.Node.Router.prototype.delete = function (nam/*as:string*/, fun/*as:Object*/)/*as:Object*/ {
+LZR.Node.Router.prototype.del = function (nam/*as:string*/, fun/*as:Object*/)/*as:Object*/ {
 	return this.setCbs(nam, "delete", fun);
 };
-LZR.Node.Router.prototype.delete.lzrClass_ = LZR.Node.Router;
+LZR.Node.Router.prototype.del.lzrClass_ = LZR.Node.Router;
 
 // 创建doT模板
 LZR.Node.Router.prototype.crtTmp = function (dir/*as:string*/)/*as:Object*/ {
@@ -205,7 +205,6 @@ LZR.Node.Router.prototype.initTmp = function (nam/*as:string*/, dir/*as:string*/
 		// console.log (req.url);
 		// console.log (req.baseUrl);
 		// console.log (req.originalUrl);
-		req.params[1];
 		res.redirect(req.baseUrl + "/tmp2web/" + req.params[1]);
 	});
 
