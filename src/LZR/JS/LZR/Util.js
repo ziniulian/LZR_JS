@@ -37,8 +37,18 @@ LZR.Util.prototype.hdObj_ = function (obj/*as:Object*/) {
 LZR.Util.prototype.hdObj_.lzrClass_ = LZR.Util;
 
 // 闭包调用
-LZR.Util.prototype.bind = function (self/*as:Object*/, fun/*as:fun*/)/*as:fun*/ {
-	return LZR.bind(self, fun);
+LZR.Util.prototype.bind = function (self/*as:Object*/, fun/*as:fun*/, args/*as:___*/)/*as:fun*/ {
+	var arg = Array.prototype.slice.call(arguments, 2);
+	return function () {
+		var i, args = [];
+		for ( i=0; i<arg.length; i++ ) {
+			args.push ( arg[i] );
+		}
+		for ( i=0; i<arguments.length; i++ ) {
+			args.push ( arguments[i] );
+		}
+		return fun.apply ( self, args );
+	};
 };
 LZR.Util.prototype.bind.lzrClass_ = LZR.Util;
 

@@ -38,7 +38,7 @@ LZR.Pro.TmpTagMgmt = function (obj) /*interfaces:LZR.Base.InfEvt*/ {
 
 	// 数据库连接配置
 	this.conf = {
-		host: process.env.OPENSHIFT_MYSQL_DB_HOST || "127.3.168.2",
+		host: process.env.OPENSHIFT_MYSQL_DB_HOST || "127.0.0.1",
 		user: "TmpTagMgmt",
 		password: "TmpTagMgmt",
 		database: "TmpTagMgmt",
@@ -104,6 +104,7 @@ LZR.Pro.TmpTagMgmt.prototype.connect.lzrClass_ = LZR.Pro.TmpTagMgmt;
 
 // 处理连接错误
 LZR.Pro.TmpTagMgmt.prototype.hdConnectErr = function (err/*as:Object*/) {
+console.log ("--------- err ----------");
 	if (err) {
 		// 如果是连接断开，自动重新连接
 		if (err.code === 'PROTOCOL_CONNECTION_LOST') {
@@ -207,6 +208,7 @@ LZR.Pro.TmpTagMgmt.prototype.onDevs = function (keyword/*as:string*/, isodd/*as:
 		isodd: isodd,
 		devs: {}
 	};
+console.log (err);
 	if (!err) {
 		for (var i = 0; i<rows.length; i++) {
 			r.devs[rows[i].id] = {
