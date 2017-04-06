@@ -209,3 +209,21 @@ LZR.Base.Str.prototype.passUtf8Str = function (u8str/*as:string*/)/*as:string*/ 
 	return String.fromCharCode.apply(String, r);
 };
 LZR.Base.Str.prototype.passUtf8Str.lzrClass_ = LZR.Base.Str;
+
+// 清空字符左边空格
+LZR.Base.Str.prototype.ltrim = function (str/*as:string*/)/*as:string*/ {
+	return str.replace(/(^\s*)/g, "");
+};
+LZR.Base.Str.prototype.ltrim.lzrClass_ = LZR.Base.Str;
+
+// 清空字符右边空格
+LZR.Base.Str.prototype.rtrim = function (str/*as:string*/)/*as:string*/ {
+	return str.replace(/(\s*$)/g, "");
+};
+LZR.Base.Str.prototype.rtrim.lzrClass_ = LZR.Base.Str;
+
+// 清空字符左右空格
+LZR.Base.Str.prototype.trim = function (str/*as:string*/)/*as:string*/ {
+	return str.replace(/(^\s*)|(\s*$)/g, "");
+};
+LZR.Base.Str.prototype.trim.lzrClass_ = LZR.Base.Str;
