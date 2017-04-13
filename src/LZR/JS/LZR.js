@@ -48,7 +48,7 @@ LZR.prototype.init_.lzrClass_ = LZR;
 
 // 对构造参数的特殊处理
 LZR.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
+
 };
 LZR.prototype.hdObj_.lzrClass_ = LZR;
 
@@ -521,4 +521,4 @@ LZR.bind = function (self/*as:Object*/, fun/*as:fun*/, args/*as:___*/)/*as:fun*/
 		return fun.apply ( self, args );
 	};
 };
-LZR.bind.lzrClass_ = LZR.Util;
+LZR.bind.lzrClass_ = LZR;
