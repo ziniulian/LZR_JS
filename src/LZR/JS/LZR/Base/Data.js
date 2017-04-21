@@ -253,7 +253,7 @@ LZR.Base.Data.prototype.print.lzrClass_ = LZR.Base.Data;
 // 对构造参数的特殊处理
 LZR.Base.Data.prototype.hdObj_ = function (obj/*as:Object*/) {
 	var note;	/*
-				参数说明： obj 里有两个不能属于该类属性的特殊字段 chd_ 和 cls_ 
+				参数说明： obj 里有两个不能属于该类属性的特殊字段 chd_ 和 cls_
 				chd_: {		// 该字段用于递归创建子数据
 					a: {
 						id: "a",
@@ -323,3 +323,17 @@ LZR.Base.Data.prototype.delAll = function ()/*as:Array*/ {
 	return r;
 };
 LZR.Base.Data.prototype.delAll.lzrClass_ = LZR.Base.Data;
+
+// 获取子元素的总数
+LZR.Base.Data.prototype.subCount = function ()/*as:Array*/ {
+	var r = 0;
+	if (this.count) {
+		for (var s in this.subs) {
+			r += this.subs[s].subCount();
+		}
+	} else {
+		r = 1;
+	}
+	return r;
+};
+LZR.Base.Data.prototype.subCount.lzrClass_ = LZR.Base.Data;
