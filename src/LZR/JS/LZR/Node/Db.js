@@ -20,7 +20,6 @@ LZR.Node.Db = function (obj) {
 		example: {
 			db: "库名",
 			tnam: "表名",
-			evt: true,
 			funs: {
 				find: ["arg1", "arg2", "..."],
 				skip: [1],
