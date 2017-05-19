@@ -31,11 +31,17 @@ LZR 的 Javascript 库：
 	- 数据库类图完善
 	- 设计通用 DAO 结构
 	- 数据库通用连接模块，兼容 mysql 和 Mongo
-	- 日记插入参数改用年月日格式（srvSetBlog）
+
+	- nodejs 版的 ajax 工具
+	- nodejs 对 Markdown 文件的处理
+
+	- 自选股的新增、修改页
+	- 自选股的显示与排序方案
 
 	- 设计分类目录数据库
 	- 设计分类查看页面
 	- 分类的新增、修改、删除、移动
+	- 日记插入参数改用年月日格式（srvSetBlog）
 
 	- Ajax 的异常处理（同步时，send方法加 try/catch）
 	- 基于 FormData 的新的 Ajax 类
@@ -43,7 +49,6 @@ LZR 的 Javascript 库：
 	- 图片的关联与导入
 	- 批量上传图片的功能
 	- 域名解析不支持 https 问题
-	- nodejs 对 Markdown 文件的处理
 
 	- 网站访问统计页面
 	- 设计通用 session
@@ -51,7 +56,6 @@ LZR 的 Javascript 库：
 
 	- 连接远程数据库问题：rhc登录失败
 	- 设计一个通用URL对象，供 nodejs 和 HTML 使用
-	- nodejs 版的 ajax 工具
 	- Ajax 跨域访问功能
 
 	- 数据类添加序列化与反序列化方法
