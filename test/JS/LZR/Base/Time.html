@@ -27,6 +27,18 @@
 				LZR.HTML.alog ("\t" + t.format(t.stringToDate(d)));
 				d = "2016/3/5 20:10";
 				LZR.HTML.alog ("\t" + t.format(t.stringToDate(d)));
+
+				LZR.HTML.alog ("测试获取时间值 ：");
+				LZR.HTML.alog ("\t" + t.getTim());
+				LZR.HTML.alog ("\t" + t.getTim( "1985-6-17"));
+				LZR.HTML.alog ("\t" + t.getTim( new Date("1985-6-17")));
+				LZR.HTML.alog ("\t" + t.getTim(1970));
+
+				LZR.HTML.alog ("测试时间戳 ：");
+				LZR.HTML.alog ("\t" + t.getDayTimestamp());
+				LZR.HTML.alog ("\t" + t.getDayTimestamp(487785600000));
+				LZR.HTML.alog ("\t" + t.getDayTimestamp("1985-6-17"));
+				LZR.HTML.alog ("\t" + t.parseDayTimestamp(5646));
 			}
 		</script>
 	</head>

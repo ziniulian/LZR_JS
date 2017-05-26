@@ -32,7 +32,7 @@ LZR.Base.Str.prototype.init_.lzrClass_ = LZR.Base.Str;
 
 // 对构造参数的特殊处理
 LZR.Base.Str.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
+
 };
 LZR.Base.Str.prototype.hdObj_.lzrClass_ = LZR.Base.Str;
 
@@ -227,3 +227,15 @@ LZR.Base.Str.prototype.trim = function (str/*as:string*/)/*as:string*/ {
 	return str.replace(/(^\s*)|(\s*$)/g, "");
 };
 LZR.Base.Str.prototype.trim.lzrClass_ = LZR.Base.Str;
+
+// 二进制码转16进制字串
+LZR.Base.Str.prototype.bytes2Hex = function (bytes/*as:string*/)/*as:string*/ {
+    var i, l, o = "", n;
+    bytes += "";
+    for (i = 0, l = bytes.length; i < l; i++) {
+        n = bytes.charCodeAt(i).toString(16);
+        o += n.length < 2 ? "0" + n : n;
+    }
+    return o;
+};
+LZR.Base.Str.prototype.bytes2Hex.lzrClass_ = LZR.Base.Str;

@@ -11,6 +11,15 @@ LZR.load([
 	"LZR.Base.Str"
 ], "LZR.Base.Time");
 LZR.Base.Time = function (obj) {
+	// 时差的毫秒值
+	this.to = new Date().getTimezoneOffset() * 60000;	/*as:int*/
+
+	// 一小时对应的毫秒值
+	this.dHour = 3600 * 1000;	/*as:int*/
+
+	// 一天对应的毫秒值
+	this.dDay = 24 * this.dHour;	/*as:int*/
+
 	// 字符串工具
 	this.utStr/*m*/ = LZR.getSingleton(LZR.Base.Str);	/*as:LZR.Base.Str*/
 
@@ -33,6 +42,12 @@ LZR.Base.Time.prototype.init_ = function (obj/*as:Object*/) {
 	}
 };
 LZR.Base.Time.prototype.init_.lzrClass_ = LZR.Base.Time;
+
+// 对构造参数的特殊处理
+LZR.Base.Time.prototype.hdObj_ = function (obj/*as:Object*/) {
+
+};
+LZR.Base.Time.prototype.hdObj_.lzrClass_ = LZR.Base.Time;
 
 // 字符串转时间
 LZR.Base.Time.prototype.stringToDate = function (strDate/*as:string*/)/*as:Date*/ {
@@ -160,20 +175,74 @@ LZR.Base.Time.prototype.clone = function (date/*as:Date*/)/*as:Date*/ {
 };
 LZR.Base.Time.prototype.clone.lzrClass_ = LZR.Base.Time;
 
-// 对构造参数的特殊处理
-LZR.Base.Time.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
-};
-LZR.Base.Time.prototype.hdObj_.lzrClass_ = LZR.Base.Time;
-
 // 获取当前时间
 LZR.Base.Time.prototype.getDate = function ()/*as:Date*/ {
 	return new Date();
 };
 LZR.Base.Time.prototype.getDate.lzrClass_ = LZR.Base.Time;
 
-// 获取当前时间值
-LZR.Base.Time.prototype.getTim = function ()/*as:int*/ {
-	return this.getDate().getTime();
+// 获取时间值
+LZR.Base.Time.prototype.getTim = function (date/*as:Object*/)/*as:int*/ {
+	if (date) {
+		return Date.parse(date);
+	} else {
+		return Date.now();
+	}
 };
 LZR.Base.Time.prototype.getTim.lzrClass_ = LZR.Base.Time;
+
+// 获取日时间戳
+LZR.Base.Time.prototype.getDayTimestamp = function (d/*as:Object*/)/*as:int*/ {
+	if (isNaN(d)) {
+		d = this.getTim(d);
+	}
+	return Math.floor((d - this.to) / this.dDay);
+};
+LZR.Base.Time.prototype.getDayTimestamp.lzrClass_ = LZR.Base.Time;
+
+// 获取以秒为单位的时间戳
+LZR.Base.Time.prototype.getTimestamp = function (d/*as:Object*/)/*as:int*/ {
+	if (isNaN(d)) {
+		d = this.getTim(d);
+	}
+	return Math.floor((d - this.to) / 1000);
+};
+LZR.Base.Time.prototype.getTimestamp.lzrClass_ = LZR.Base.Time;
+
+// 解析日时间戳
+LZR.Base.Time.prototype.parseDayTimestamp = function (tmp/*as:int*/)/*as:int*/ {
+	return tmp * this.dDay + this.to;
+};
+LZR.Base.Time.prototype.parseDayTimestamp.lzrClass_ = LZR.Base.Time;
+
+// 解析以秒为单位的时间戳
+LZR.Base.Time.prototype.parseTimestamp = function (tmp/*as:int*/)/*as:int*/ {
+	return tmp * 1000 + this.to;
+};
+LZR.Base.Time.prototype.parseTimestamp.lzrClass_ = LZR.Base.Time;
+
+// 获取时间段的日时间戳
+LZR.Base.Time.prototype.dayAreaStamp = function (y/*as:int*/, m/*as:int*/, max/*as:boolean*/)/*as:int*/ {
+	if (m) {
+		if (max) {
+			if (m == 12) {
+				y ++;
+				m = 1;
+			} else {
+				m ++;
+			}
+		}
+	} else {
+		m = 1;
+		if (max) {
+			y ++;
+		}
+	}
+
+	var r = this.getDayTimestamp(y + "/" + m + "/1");
+	if (max) {
+		r --;
+	}
+	return r;
+};
+LZR.Base.Time.prototype.dayAreaStamp.lzrClass_ = LZR.Base.Time;
