@@ -239,3 +239,27 @@ LZR.Base.Str.prototype.bytes2Hex = function (bytes/*as:string*/)/*as:string*/ {
     return o;
 };
 LZR.Base.Str.prototype.bytes2Hex.lzrClass_ = LZR.Base.Str;
+
+// 将二进制数据转换为Base64字串
+LZR.Base.Str.prototype.toBase64 = function (bytes/*as:string*/)/*as:string*/ {
+	if (typeof btoa === "undefined") {
+		// nodejs
+		var buf = global.Buffer || LZR.getSingleton(null, null, "buffer").Buffer;
+		return new buf(bytes).toString("base64");
+	} else {
+		return btoa(bytes);
+	}
+};
+LZR.Base.Str.prototype.toBase64.lzrClass_ = LZR.Base.Str;
+
+// 解析Base64数据为二进制数据
+LZR.Base.Str.prototype.parseBase64 = function (b64/*as:string*/)/*as:string*/ {
+	if (typeof atob === "undefined") {
+		// nodejs
+		var buf = global.Buffer || LZR.getSingleton(null, null, "buffer").Buffer;
+		return new buf(b64, "base64").toString();
+	} else {
+		return atob(b64);
+	}
+};
+LZR.Base.Str.prototype.parseBase64.lzrClass_ = LZR.Base.Str;

@@ -60,7 +60,7 @@ LZR.HTML.Util.Finger.prototype.crtByCanvas = function ()/*as:string*/ {
     ctx.fillStyle = "rgba(200, 200, 0, 0.6)";
     ctx.fillText(txt, 3, 3);
 
-	var r = atob(cav.toDataURL().replace("data:image/png;base64,","")).slice(-16, -12);
+	var r = this.utStr.parseBase64(cav.toDataURL().replace("data:image/png;base64,","")).slice(-16, -12);
     return this.utStr.bytes2Hex(r);
 };
 LZR.HTML.Util.Finger.prototype.crtByCanvas.lzrClass_ = LZR.HTML.Util.Finger;

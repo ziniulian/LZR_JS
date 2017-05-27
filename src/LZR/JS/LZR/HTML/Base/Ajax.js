@@ -51,7 +51,7 @@ LZR.HTML.Base.Ajax.prototype.init_.lzrClass_ = LZR.HTML.Base.Ajax;
 
 // 对构造参数的特殊处理
 LZR.HTML.Base.Ajax.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
+
 };
 LZR.HTML.Base.Ajax.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ajax;
 
@@ -92,7 +92,7 @@ LZR.HTML.Base.Ajax.prototype.post = function (url/*as:string*/, msg/*as:Object*/
 		this.ajax.send(msg);
 	} catch ( e ) {
 		if (isAsyn) {
-			// this.evt.rsp.execute (null);
+			this.evt.rsp.execute (null);
 		}
 		return null;
 	}

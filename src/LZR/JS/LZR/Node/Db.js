@@ -2,54 +2,35 @@
 作者：子牛连
 类名：Db
 说明：数据库
-创建日期：19-九月-2016 13:01:48
+创建日期：27-五月-2017 10:15:38
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.Node",
-	"LZR.Base.CallBacks",
-	"LZR.Base.Json"
+	"LZR.Base.CallBacks"
 ], "LZR.Node.Db");
 LZR.Node.Db = function (obj) {
 	// 连接信息
-	this.conf = null;
+	this.conf = null;	/*as:Object*/
 
 	// 查询语句
-	this.sqls = {
-		example: {
-			db: "库名",
-			tnam: "表名",
-			funs: {
-				find: ["arg1", "arg2", "..."],
-				skip: [1],
-				limit: [10]
-			}
-		}
-	};
+	this.sqls = null;	/*as:Object*/
 
 	// 回调事件
-	this.evt = {};
+	this.evt = {};	/*as:Object*/
 
 	// 错误事件
-	this.err = {};
+	this.err = {};	/*as:Object*/
 
 	// 是否自动处理错误
-	this.autoErr = false;
+	this.autoErr = false;	/*as:boolean*/
 
 	// 连接数据库失败事件
-	this.err.connect = new LZR.Base.CallBacks();
-
-	// Json转换工具
-	this.utJson = LZR.getSingleton(LZR.Base.Json);
+	this.err.connect/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
 	// 回调类
-	this.clsCb = (LZR.Base.CallBacks);
-
-/******************************************/
-
-	// 连接池
-	this.mcs = LZR.getSingleton(null, null, "mongodb").MongoClient;
+	this.clsCb/*m*/ = (LZR.Base.CallBacks);	/*as:fun*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
@@ -96,70 +77,12 @@ LZR.Node.Db.prototype.crtEvt = function (sql/*as:Object*/) {
 LZR.Node.Db.prototype.crtEvt.lzrClass_ = LZR.Node.Db;
 
 // 自动处理错误
-LZR.Node.Db.prototype.hdAutoErr = function (nam, e, req, res, next) {
+LZR.Node.Db.prototype.hdAutoErr = function (nam/*as:string*/, e/*as:Object*/, req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	e.nam = nam;
 	res.send(e);
 };
 LZR.Node.Db.prototype.hdAutoErr.lzrClass_ = LZR.Node.Db;
 
 // 执行查询
-LZR.Node.Db.prototype.qry = function (sqlNam, req, res, next, args) {
-	var sql = this.sqls[sqlNam];
-	if (this.conf && sql) {
-		var cerr = this.err.connect;
-		var err = this.err[sqlNam];
-		var evt = this.evt[sqlNam];
-		var utj = this.utJson;
-		this.mcs.connect(this.conf, function (err_c, db) {
-			if (err_c) {
-				cerr.execute(err_c, req, res, next);
-			} else {
-				var cdb;
-				if (sql.db !== db.databaseName) {
-					cdb = db.db(sql.db);
-				} else {
-					cdb = db;
-				}
-				var c = cdb.collection(sql.tnam);
-				for (var s in sql.funs) {
-					var as = sql.funs[s];
-
-					// 参数处理
-					if (args) {
-						var fas = as;
-						as = [];
-						for (var i = 0; i < fas.length; i++) {
-							var a = fas[i];
-							if (typeof(a) === "string") {
-								for (var j = 0; j < args.length; j++) {
-									a = a.replace(new RegExp("<" + j + ">", "g"), args[j]);
-								}
-								try {
-									a = utj.toObj(a);
-								} catch (e) {}
-							}
-							as.push(a);
-						}
-					}
-// console.log (s);
-// console.log (as);
-
-					// 方法执行
-					c = c[s].apply(c, as);
-				}
-				c.catch(function (err_r) {
-					db.close();
-					cdb.close();
-					err.execute(err_r, req, res, next);
-				}).then(function (r) {
-					db.close();
-					cdb.close();
-					evt.execute(r, req, res, next);
-				});
-			}
-		});
-	}
-};
-LZR.Node.Db.prototype.qry.lzrCls_ = LZR.Node.Db;
-
-/******************************************/
+LZR.Node.Db.prototype.qry = function (sqlNam/*as:string*/, req/*as:Object*/, res/*as:Object*/, next/*as:fun*/, args/*as:___*/) {};
+LZR.Node.Db.prototype.qry.lzrClass_ = LZR.Node.Db;
