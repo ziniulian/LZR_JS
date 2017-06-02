@@ -16,6 +16,9 @@ LZR.Node.Db.Mongo = function (obj) /*bases:LZR.Node.Db*/ {
 	// 连接池
 	this.mcs = LZR.getSingleton(null, null, "mongodb").MongoClient;	/*as:Object*/
 
+	// ID类
+	this.clsOid = LZR.getSingleton(null, null, "mongodb").ObjectID;	/*as:Object*/
+
 	// Json转换工具
 	this.utJson/*m*/ = LZR.getSingleton(LZR.Base.Json);	/*as:LZR.Base.Json*/
 
@@ -50,6 +53,7 @@ LZR.Node.Db.Mongo.prototype.qry = function (sqlNam/*as:string*/, req/*as:Object*
 		var err = this.err[sqlNam];
 		var evt = this.evt[sqlNam];
 		var utj = this.utJson;
+		var pa = this.parseArg;
 		this.mcs.connect(this.conf, function (err_c, db) {
 			if (err_c) {
 				cerr.execute(err_c, req, res, next);
@@ -69,15 +73,7 @@ LZR.Node.Db.Mongo.prototype.qry = function (sqlNam/*as:string*/, req/*as:Object*
 						var fas = as;
 						as = [];
 						for (var i = 0; i < fas.length; i++) {
-							var a = fas[i];
-							if (typeof(a) === "string") {
-								for (var j = 0; j < args.length; j++) {
-									a = a.replace(new RegExp("<" + j + ">", "g"), args[j]);
-								}
-								try {
-									a = utj.toObj(a);
-								} catch (e) {}
-							}
+							var a = pa(fas[i], args);
 							as.push(a);
 						}
 					}
@@ -101,3 +97,45 @@ LZR.Node.Db.Mongo.prototype.qry = function (sqlNam/*as:string*/, req/*as:Object*
 	}
 };
 LZR.Node.Db.Mongo.prototype.qry.lzrClass_ = LZR.Node.Db.Mongo;
+
+// 参数解析
+LZR.Node.Db.Mongo.prototype.parseArg = function (a/*as:Object*/, args/*as:Array*/)/*as:Object*/ {
+	var r, i, n;
+	switch (typeof(a)) {
+		case "object":
+
+			r = {};
+			for (var s in a) {
+				if (typeof(a[s]) === "string") {
+					n = a[s].length - 1;
+					if ((n > 1) && (a[s][0] === "<") && (a[s][n] === ">")) {
+						i = a[s].substr(1, (n - 1));
+						r[s] = args[i];
+					} else {
+						r[s] = a[s];
+					}
+				} else {
+					r[s] = a[s];
+				}
+			}
+			return r;
+			break;
+		case "string":
+			n = a.length - 1;
+			if ((n > 1) && (a[0] === "<") && (a[n] === ">")) {
+				i = a.substr(1, (n-1));
+				return args[i];
+			} else if ((n > 1) && (a[0] === "{") && (a[n] === "}")) {
+				// 尽量不用此方式传参
+				for (var j = 0; j < args.length; j++) {
+					a = a.replace(new RegExp("<" + j + ">", "g"), args[j]);
+				}
+				try {
+					a = utj.toObj(a);
+					return a;
+				} catch (e) {}
+			}
+			break;
+	}
+};
+LZR.Node.Db.Mongo.prototype.parseArg.lzrClass_ = LZR.Node.Db.Mongo;

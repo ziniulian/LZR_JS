@@ -333,7 +333,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_C8A29A0E_045C_475d_AE89_26A49FC582F9"/>
 								<UML:TaggedValue tag="date_created" value="2017-05-27 10:37:36"/>
-								<UML:TaggedValue tag="date_modified" value="2017-05-27 16:17:04"/>
+								<UML:TaggedValue tag="date_modified" value="2017-06-02 15:25:11"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\Node\Db\Mongo.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -346,7 +346,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="305"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=1b31;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=18d0;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -371,6 +371,29 @@
 										<UML:TaggedValue tag="ea_localid" value="324"/>
 										<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
 										<UML:TaggedValue tag="style" value="&#36830;&#25509;&#27744;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:Attribute>
+								<UML:Attribute name="clsOid" changeable="none" visibility="private" ownerScope="instance" targetScope="instance">
+									<UML:Attribute.initialValue>
+										<UML:Expression body="LZR.getSingleton(null, null, &quot;mongodb&quot;).ObjectID"/>
+									</UML:Attribute.initialValue>
+									<UML:StructuralFeature.type>
+										<UML:Classifier xmi.idref="eaxmiid0"/>
+									</UML:StructuralFeature.type>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="Object"/>
+										<UML:TaggedValue tag="derived" value="0"/>
+										<UML:TaggedValue tag="containment" value="Not Specified"/>
+										<UML:TaggedValue tag="ordered" value="0"/>
+										<UML:TaggedValue tag="collection" value="false"/>
+										<UML:TaggedValue tag="position" value="1"/>
+										<UML:TaggedValue tag="lowerBound" value="1"/>
+										<UML:TaggedValue tag="upperBound" value="1"/>
+										<UML:TaggedValue tag="duplicates" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{99F143F3-A2CD-47b5-AA53-5F53989C1245}"/>
+										<UML:TaggedValue tag="ea_localid" value="334"/>
+										<UML:TaggedValue tag="styleex" value="IsLiteral=0;volatile=0;"/>
+										<UML:TaggedValue tag="style" value="ID&#31867;"/>
 									</UML:ModelElement.taggedValue>
 								</UML:Attribute>
 								<UML:Operation name="init_" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
@@ -435,7 +458,7 @@
 										<UML:TaggedValue tag="style" value="&#25191;&#34892;&#26597;&#35810;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_1494F81C_38A4_41ba_92AE_7C25647567A7">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var sql = this.sqls[sqlNam];&#xA;&#xA;	if (this.conf &amp;&amp; sql) {&#xA;		var cerr = this.err.connect;&#xA;		var err = this.err[sqlNam];&#xA;		var evt = this.evt[sqlNam];&#xA;		var utj = this.utJson;&#xA;		this.mcs.connect(this.conf, function (err_c, db) {&#xA;			if (err_c) {&#xA;				cerr.execute(err_c, req, res, next);&#xA;			} else {&#xA;				var cdb;&#xA;				if (sql.db !== db.databaseName) {&#xA;					cdb = db.db(sql.db);&#xA;				} else {&#xA;					cdb = db;&#xA;				}&#xA;				var c = cdb.collection(sql.tnam);&#xA;				for (var s in sql.funs) {&#xA;					var as = sql.funs[s];&#xA;&#xA;					// &#21442;&#25968;&#22788;&#29702;&#xA;					if (args) {&#xA;						var fas = as;&#xA;						as = [];&#xA;						for (var i = 0; i &lt; fas.length; i++) {&#xA;							var a = fas[i];&#xA;							if (typeof(a) === &quot;string&quot;) {&#xA;								for (var j = 0; j &lt; args.length; j++) {&#xA;									a = a.replace(new RegExp(&quot;&lt;&quot; + j + &quot;&gt;&quot;, &quot;g&quot;), args[j]);&#xA;								}&#xA;								try {&#xA;									a = utj.toObj(a);&#xA;								} catch (e) {}&#xA;							}&#xA;							as.push(a);&#xA;						}&#xA;					}&#xA;// console.log (s);&#xA;// console.log (as);&#xA;&#xA;					// &#26041;&#27861;&#25191;&#34892;&#xA;					c = c[s].apply(c, as);&#xA;				}&#xA;				c.catch(function (err_r) {&#xA;					db.close();&#xA;					cdb.close();&#xA;					err.execute(err_r, req, res, next);&#xA;				}).then(function (r) {&#xA;					db.close();&#xA;					cdb.close();&#xA;					evt.execute(r, req, res, next);&#xA;				});&#xA;			}&#xA;		});&#xA;	}"/>
+												<UML:Comment name="var sql = this.sqls[sqlNam];&#xA;&#xA;	if (this.conf &amp;&amp; sql) {&#xA;		var cerr = this.err.connect;&#xA;		var err = this.err[sqlNam];&#xA;		var evt = this.evt[sqlNam];&#xA;		var utj = this.utJson;&#xA;		var pa = this.parseArg;&#xA;		this.mcs.connect(this.conf, function (err_c, db) {&#xA;			if (err_c) {&#xA;				cerr.execute(err_c, req, res, next);&#xA;			} else {&#xA;				var cdb;&#xA;				if (sql.db !== db.databaseName) {&#xA;					cdb = db.db(sql.db);&#xA;				} else {&#xA;					cdb = db;&#xA;				}&#xA;				var c = cdb.collection(sql.tnam);&#xA;				for (var s in sql.funs) {&#xA;					var as = sql.funs[s];&#xA;&#xA;					// &#21442;&#25968;&#22788;&#29702;&#xA;					if (args) {&#xA;						var fas = as;&#xA;						as = [];&#xA;						for (var i = 0; i &lt; fas.length; i++) {&#xA;							var a = pa(fas[i], args);&#xA;							as.push(a);&#xA;						}&#xA;					}&#xA;// console.log (s);&#xA;// console.log (as);&#xA;&#xA;					// &#26041;&#27861;&#25191;&#34892;&#xA;					c = c[s].apply(c, as);&#xA;				}&#xA;				c.catch(function (err_r) {&#xA;					db.close();&#xA;					cdb.close();&#xA;					err.execute(err_r, req, res, next);&#xA;				}).then(function (r) {&#xA;					db.close();&#xA;					cdb.close();&#xA;					evt.execute(r, req, res, next);&#xA;				});&#xA;			}&#xA;		});&#xA;	}"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -530,6 +553,71 @@
 										</UML:Parameter>
 									</UML:BehavioralFeature.parameter>
 								</UML:Operation>
+								<UML:Operation name="parseArg" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="Object"/>
+										<UML:TaggedValue tag="const" value="false"/>
+										<UML:TaggedValue tag="synchronised" value="0"/>
+										<UML:TaggedValue tag="concurrency" value="Sequential"/>
+										<UML:TaggedValue tag="position" value="2"/>
+										<UML:TaggedValue tag="returnarray" value="0"/>
+										<UML:TaggedValue tag="pure" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{045A5259-149C-4466-BBC4-DF8974360A0C}"/>
+										<UML:TaggedValue tag="ea_localid" value="950"/>
+										<UML:TaggedValue tag="style" value="&#21442;&#25968;&#35299;&#26512;"/>
+										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_CFC3BA89_077B_4776_B288_FB7EDD98B69E">
+											<XMI.extension xmi.extender="Enterprise Architect 2.5">
+												<UML:Comment name="var r, i, n;&#xA;	switch (typeof(a)) {&#xA;		case &quot;object&quot;:&#xA;&#xA;			r = {};&#xA;			for (var s in a) {&#xA;				if (typeof(a[s]) === &quot;string&quot;) {&#xA;					n = a[s].length - 1;&#xA;					if ((n &gt; 1) &amp;&amp; (a[s][0] === &quot;&lt;&quot;) &amp;&amp; (a[s][n] === &quot;&gt;&quot;)) {&#xA;						i = a[s].substr(1, (n - 1));&#xA;						r[s] = args[i];&#xA;					} else {&#xA;						r[s] = a[s];&#xA;					}&#xA;				} else {&#xA;					r[s] = a[s];&#xA;				}&#xA;			}&#xA;			return r;&#xA;			break;&#xA;		case &quot;string&quot;:&#xA;			n = a.length - 1;&#xA;			if ((n &gt; 1) &amp;&amp; (a[0] === &quot;&lt;&quot;) &amp;&amp; (a[n] === &quot;&gt;&quot;)) {&#xA;				i = a.substr(1, (n-1));&#xA;				return args[i];&#xA;			} else if ((n &gt; 1) &amp;&amp; (a[0] === &quot;{&quot;) &amp;&amp; (a[n] === &quot;}&quot;)) {&#xA;				// &#23613;&#37327;&#19981;&#29992;&#27492;&#26041;&#24335;&#20256;&#21442;&#xA;				for (var j = 0; j &lt; args.length; j++) {&#xA;					a = a.replace(new RegExp(&quot;&lt;&quot; + j + &quot;&gt;&quot;, &quot;g&quot;), args[j]);&#xA;				}&#xA;				try {&#xA;					a = utj.toObj(a);&#xA;					return a;&#xA;				} catch (e) {}&#xA;			}&#xA;			break;&#xA;	}"/>
+											</XMI.extension>
+										</UML:TaggedValue>
+									</UML:ModelElement.taggedValue>
+									<UML:BehavioralFeature.parameter>
+										<UML:Parameter kind="return" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid0"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{RETURNID-149C-4466-BBC4-DF8974360A0C}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="a" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid0"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#21407;&#22987;&#21442;&#25968;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{0761D49C-9D82-4ae6-8FEE-744416C83656}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="args" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid5"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="1"/>
+												<UML:TaggedValue tag="type" value="Array"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#20851;&#32852;&#21442;&#25968;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{9585D69F-2091-4118-87FC-4BA78C5CFB86}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+									</UML:BehavioralFeature.parameter>
+								</UML:Operation>
 							</UML:Classifier.feature>
 						</UML:Class>
 						<UML:Association xmi.id="EAID_387104A9_510B_4117_AE03_4C4B9FC3B1F3" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
@@ -615,6 +703,7 @@
 				<UML:DataType xmi.id="eaxmiid1" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
 				<UML:DataType xmi.id="eaxmiid4" name="___" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
 				<UML:DataType xmi.id="eaxmiid2" name="string" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+				<UML:DataType xmi.id="eaxmiid5" name="Array" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
 				<UML:DataType xmi.id="eaxmiid0" name="Object" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
 				<UML:DataType xmi.id="eaxmiid3" name="fun" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
 			</UML:Namespace.ownedElement>
@@ -624,19 +713,19 @@
 				<UML:TaggedValue tag="version" value="1.0"/>
 				<UML:TaggedValue tag="author" value="LZR"/>
 				<UML:TaggedValue tag="created_date" value="2017-05-27 08:55:58"/>
-				<UML:TaggedValue tag="modified_date" value="2017-05-27 14:37:22"/>
+				<UML:TaggedValue tag="modified_date" value="2017-06-02 14:04:38"/>
 				<UML:TaggedValue tag="package" value="EAPK_C8A29A0E_045C_475d_AE89_26A49FC582F9"/>
 				<UML:TaggedValue tag="type" value="Logical"/>
 				<UML:TaggedValue tag="swimlanes" value="locked=false;orientation=0;width=0;inbar=false;names=false;color=-1;bold=false;fcol=0;tcol=-1;ofCol=-1;hl=1;cls=0;"/>
 				<UML:TaggedValue tag="matrixitems" value="locked=false;matrixactive=false;swimlanesactive=true;kanbanactive=false;width=1;"/>
 				<UML:TaggedValue tag="ea_localid" value="61"/>
 				<UML:TaggedValue tag="EAStyle" value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=2;PPgs.cy=1;DocSize.cx=780;DocSize.cy=1134;ShowDetails=0;Orientation=P;Zoom=141;ShowTags=0;OpParams=2;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=9;HideParents=0;UseAlias=1;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
-				<UML:TaggedValue tag="styleex" value="SaveTag=83ABEFAE;ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ProfileData=;MDGDgm=;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;"/>
+				<UML:TaggedValue tag="styleex" value="SaveTag=400BE091;ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ProfileData=;MDGDgm=;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;"/>
 			</UML:ModelElement.taggedValue>
 			<UML:Diagram.element>
 				<UML:DiagramElement geometry="Left=507;Top=670;Right=914;Bottom=792;" subject="EAID_5D72A09F_8251_4e6e_B6E2_15DE5683B4AE" seqno="1" style="DUID=183C556E;"/>
-				<UML:DiagramElement geometry="Left=108;Top=862;Right=361;Bottom=971;" subject="EAID_92FE47D4_06A6_44d2_BAB9_60161CF4A212" seqno="2" style="DUID=A77E658B;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
-				<UML:DiagramElement geometry="Left=30;Top=674;Right=437;Bottom=757;" subject="EAID_F526B73A_D19E_406c_95F5_4FEFF13B8D4A" seqno="3" style="DUID=A6567C80;"/>
+				<UML:DiagramElement geometry="Left=108;Top=875;Right=361;Bottom=984;" subject="EAID_92FE47D4_06A6_44d2_BAB9_60161CF4A212" seqno="2" style="DUID=A77E658B;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=30;Top=675;Right=437;Bottom=793;" subject="EAID_F526B73A_D19E_406c_95F5_4FEFF13B8D4A" seqno="3" style="DUID=A6567C80;"/>
 				<UML:DiagramElement geometry="Left=203;Top=348;Right=673;Bottom=535;" subject="EAID_EED70891_BD66_420d_ADBC_EEA6CE5B85B8" seqno="4" style="DUID=B88BE655;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
 				<UML:DiagramElement geometry="Left=249;Top=41;Right=627;Bottom=228;" subject="EAID_3A94C7CC_AD39_41fd_A07F_C50D8969A361" seqno="5" style="DUID=76827A3A;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
 				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_46503303_F965_4806_9CA0_1976A96C9754" style="Mode=3;EOID=B88BE655;SOID=183C556E;Color=-1;LWidth=0;Hidden=0;"/>

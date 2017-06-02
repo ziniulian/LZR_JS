@@ -34,7 +34,7 @@
 				var dropEnable = true;
 
 				boso.ondragover = function (e) {
-					//ondragover中必须组织事件的默认行为，默认地，无法将数据/元素放置到其他元素中。
+					//ondragover中必须阻止事件的默认行为，默认地，无法将数据/元素放置到其他元素中。
 					e.preventDefault();
 				};
 
@@ -169,7 +169,7 @@
 
 	<body>
 		<div id="boso" class="boso">
-			
+
 		</div>
 	</body>
 
