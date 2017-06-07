@@ -100,42 +100,45 @@ LZR.Node.Db.Mongo.prototype.qry.lzrClass_ = LZR.Node.Db.Mongo;
 
 // 参数解析
 LZR.Node.Db.Mongo.prototype.parseArg = function (a/*as:Object*/, args/*as:Array*/)/*as:Object*/ {
-	var r, i, n;
+	var r = a, i, n;
 	switch (typeof(a)) {
 		case "object":
-
-			r = {};
+			if (Object.prototype.toString.apply(a) === "[object Array]") {
+				r = [];
+			} else {
+				r = {};
+			}
 			for (var s in a) {
 				if (typeof(a[s]) === "string") {
 					n = a[s].length - 1;
 					if ((n > 1) && (a[s][0] === "<") && (a[s][n] === ">")) {
-						i = a[s].substr(1, (n - 1));
+						i = a[s].substring(1, n);
 						r[s] = args[i];
 					} else {
+						// r[s] = this.parseArg (a[s], args);	// 暂不考虑使用递归，待日后参数必须如此处理时再做修改。
 						r[s] = a[s];
 					}
 				} else {
 					r[s] = a[s];
 				}
 			}
-			return r;
 			break;
 		case "string":
 			n = a.length - 1;
 			if ((n > 1) && (a[0] === "<") && (a[n] === ">")) {
-				i = a.substr(1, (n-1));
-				return args[i];
-			} else if ((n > 1) && (a[0] === "{") && (a[n] === "}")) {
+				i = a.substring(1, n);
+				r = args[i];
+			} else if ((n > 1) && (((a[0] === "{") && (a[n] === "}")) || ((a[0] === "[") && (a[n] === "]"))) ) {
 				// 尽量不用此方式传参
 				for (var j = 0; j < args.length; j++) {
 					a = a.replace(new RegExp("<" + j + ">", "g"), args[j]);
 				}
 				try {
-					a = utj.toObj(a);
-					return a;
+					r = utj.toObj(a);
 				} catch (e) {}
 			}
 			break;
 	}
+	return r;
 };
 LZR.Node.Db.Mongo.prototype.parseArg.lzrClass_ = LZR.Node.Db.Mongo;

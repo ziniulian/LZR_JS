@@ -333,7 +333,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_C8A29A0E_045C_475d_AE89_26A49FC582F9"/>
 								<UML:TaggedValue tag="date_created" value="2017-05-27 10:37:36"/>
-								<UML:TaggedValue tag="date_modified" value="2017-06-02 15:25:11"/>
+								<UML:TaggedValue tag="date_modified" value="2017-06-07 14:27:38"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\Node\Db\Mongo.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -346,7 +346,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="305"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=18d0;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=1514;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -567,7 +567,7 @@
 										<UML:TaggedValue tag="style" value="&#21442;&#25968;&#35299;&#26512;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_CFC3BA89_077B_4776_B288_FB7EDD98B69E">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var r, i, n;&#xA;	switch (typeof(a)) {&#xA;		case &quot;object&quot;:&#xA;&#xA;			r = {};&#xA;			for (var s in a) {&#xA;				if (typeof(a[s]) === &quot;string&quot;) {&#xA;					n = a[s].length - 1;&#xA;					if ((n &gt; 1) &amp;&amp; (a[s][0] === &quot;&lt;&quot;) &amp;&amp; (a[s][n] === &quot;&gt;&quot;)) {&#xA;						i = a[s].substr(1, (n - 1));&#xA;						r[s] = args[i];&#xA;					} else {&#xA;						r[s] = a[s];&#xA;					}&#xA;				} else {&#xA;					r[s] = a[s];&#xA;				}&#xA;			}&#xA;			return r;&#xA;			break;&#xA;		case &quot;string&quot;:&#xA;			n = a.length - 1;&#xA;			if ((n &gt; 1) &amp;&amp; (a[0] === &quot;&lt;&quot;) &amp;&amp; (a[n] === &quot;&gt;&quot;)) {&#xA;				i = a.substr(1, (n-1));&#xA;				return args[i];&#xA;			} else if ((n &gt; 1) &amp;&amp; (a[0] === &quot;{&quot;) &amp;&amp; (a[n] === &quot;}&quot;)) {&#xA;				// &#23613;&#37327;&#19981;&#29992;&#27492;&#26041;&#24335;&#20256;&#21442;&#xA;				for (var j = 0; j &lt; args.length; j++) {&#xA;					a = a.replace(new RegExp(&quot;&lt;&quot; + j + &quot;&gt;&quot;, &quot;g&quot;), args[j]);&#xA;				}&#xA;				try {&#xA;					a = utj.toObj(a);&#xA;					return a;&#xA;				} catch (e) {}&#xA;			}&#xA;			break;&#xA;	}"/>
+												<UML:Comment name="var r = a, i, n;&#xA;	switch (typeof(a)) {&#xA;		case &quot;object&quot;:&#xA;			if (Object.prototype.toString.apply(a) === &quot;[object Array]&quot;) {&#xA;				r = [];&#xA;			} else {&#xA;				r = {};&#xA;			}&#xA;			for (var s in a) {&#xA;				if (typeof(a[s]) === &quot;string&quot;) {&#xA;					n = a[s].length - 1;&#xA;					if ((n &gt; 1) &amp;&amp; (a[s][0] === &quot;&lt;&quot;) &amp;&amp; (a[s][n] === &quot;&gt;&quot;)) {&#xA;						i = a[s].substring(1, n);&#xA;						r[s] = args[i];&#xA;					} else {&#xA;						// r[s] = this.parseArg (a[s], args);	// &#26242;&#19981;&#32771;&#34385;&#20351;&#29992;&#36882;&#24402;&#65292;&#24453;&#26085;&#21518;&#21442;&#25968;&#24517;&#39035;&#22914;&#27492;&#22788;&#29702;&#26102;&#20877;&#20570;&#20462;&#25913;&#12290;&#xA;						r[s] = a[s];&#xA;					}&#xA;				} else {&#xA;					r[s] = a[s];&#xA;				}&#xA;			}&#xA;			break;&#xA;		case &quot;string&quot;:&#xA;			n = a.length - 1;&#xA;			if ((n &gt; 1) &amp;&amp; (a[0] === &quot;&lt;&quot;) &amp;&amp; (a[n] === &quot;&gt;&quot;)) {&#xA;				i = a.substring(1, n);&#xA;				r = args[i];&#xA;			} else if ((n &gt; 1) &amp;&amp; (((a[0] === &quot;{&quot;) &amp;&amp; (a[n] === &quot;}&quot;)) || ((a[0] === &quot;[&quot;) &amp;&amp; (a[n] === &quot;]&quot;))) ) {&#xA;				// &#23613;&#37327;&#19981;&#29992;&#27492;&#26041;&#24335;&#20256;&#21442;&#xA;				for (var j = 0; j &lt; args.length; j++) {&#xA;					a = a.replace(new RegExp(&quot;&lt;&quot; + j + &quot;&gt;&quot;, &quot;g&quot;), args[j]);&#xA;				}&#xA;				try {&#xA;					r = utj.toObj(a);&#xA;				} catch (e) {}&#xA;			}&#xA;			break;&#xA;	}&#xA;	return r;"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
