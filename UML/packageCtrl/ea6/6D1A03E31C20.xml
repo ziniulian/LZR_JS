@@ -45,7 +45,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_B30A8796_39F2_4219_9231_6D1A03E31C20"/>
 								<UML:TaggedValue tag="date_created" value="2015-12-03 21:11:05"/>
-								<UML:TaggedValue tag="date_modified" value="2017-03-14 15:48:02"/>
+								<UML:TaggedValue tag="date_modified" value="2017-06-20 16:56:24"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -57,7 +57,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="5"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=24f0;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=1e08;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -532,7 +532,7 @@
 										<UML:TaggedValue tag="style" value="&#21152;&#36733;js"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_92AA55F0_888B_4f42_8926_D7C27D7FA238">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="switch (this.loadTyp) {&#xA;		case 0:	// Ajax&#xA;			window.eval(txt);&#xA;			break;&#xA;		case 1:	// Node.js&#xA;			eval(txt);&#xA;			break;&#xA;	}"/>
+												<UML:Comment name="eval(txt);"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -696,7 +696,7 @@
 										<UML:TaggedValue tag="style" value="&#21152;&#36733;&#22806;&#37096;&#24211;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_9E7FF783_628A_4613_A88B_EAF3CB25939C">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var a, s, n;&#xA;	a = [];&#xA;	for (s in obj) {&#xA;		n = obj[s];&#xA;		if (!this.annexs[n]) {&#xA;			this.annexs[n] = true;&#xA;			a.push(n);&#xA;		}&#xA;	}&#xA;	if (a.length &gt; 0) {&#xA;		this.load(a);&#xA;	}"/>
+												<UML:Comment name="var a, s, n, b;&#xA;	a = [];&#xA;	for (s in obj) {&#xA;		n = obj[s];&#xA;		if (!this.annexs[n]) {&#xA;			this.annexs[n] = true;&#xA;&#xA;			// &#29305;&#27530;&#26080;&#39035;&#21152;&#36733;&#24773;&#20917;&#30340;&#22788;&#29702;&#xA;			b = true;&#xA;			switch (s) {&#xA;				case &quot;JSON&quot;:&#xA;					try {&#xA;						if (JSON) {&#xA;							b = false;&#xA;						}&#xA;					} catch (e) {}&#xA;					break;&#xA;			}&#xA;&#xA;			if (b) {&#xA;				a.push(n);&#xA;			}&#xA;		}&#xA;	}&#xA;	if (a.length &gt; 0) {&#xA;		this.load(a);&#xA;	}"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -1500,7 +1500,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="batchsave" value="0"/>
 								<UML:TaggedValue tag="batchload" value="0"/>
-								<UML:TaggedValue tag="packageFlags" value="VCCFG=LZR_JS;CheckedOutTo=ziniulian;"/>
+								<UML:TaggedValue tag="packageFlags" value="VCCFG=LZR_JS;"/>
 								<UML:TaggedValue tag="savedasstub" value="true"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="status" value="Proposed"/>

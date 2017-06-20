@@ -58,7 +58,7 @@
 
 				a.add(b);
 				print(ary);
-				
+
 				d.add(e);
 				print(ary);
 
@@ -134,7 +134,7 @@
 							cls_: DT
 						},
 						b: {
-							cls_: DT,
+							cls_: "LZR.Base.Data",	// 测试字符式传参能否使用
 							view: "top.b.view",
 							ctrl: "top.b.ctrl",
 							chd_: {
@@ -206,8 +206,14 @@
 						}
 					}
 				});
-				LZR.HTML.alog (t.print());
-				console.log (t);
+				LZR.HTML.alog (t.print("* ", ["id", "view", "subs"]));
+
+				LZR.HTML.alog ("测试 克隆：");
+				var k = t.getById("f").clone();
+				LZR.HTML.alog (k.print("* "));
+
+				LZR.HTML.alog ("测试 序列化：");
+				LZR.HTML.alog (k.getById("f2").toJson());
 			}
 		</script>
 	</head>

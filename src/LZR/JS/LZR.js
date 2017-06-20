@@ -123,14 +123,7 @@ LZR.loadTxt.lzrClass_ = LZR;
 
 // 加载js
 LZR.loadToJs = function (txt/*as:string*/) {
-	switch (this.loadTyp) {
-		case 0:	// Ajax
-			window.eval(txt);
-			break;
-		case 1:	// Node.js
-			eval(txt);
-			break;
-	}
+	eval(txt);
 };
 LZR.loadToJs.lzrClass_ = LZR;
 
@@ -266,13 +259,28 @@ LZR.load.lzrClass_ = LZR;
 
 // 加载外部库
 LZR.loadAnnex = function (obj/*as:Object*/) {
-	var a, s, n;
+	var a, s, n, b;
 	a = [];
 	for (s in obj) {
 		n = obj[s];
 		if (!this.annexs[n]) {
 			this.annexs[n] = true;
-			a.push(n);
+
+			// 特殊无须加载情况的处理
+			b = true;
+			switch (s) {
+				case "JSON":
+					try {
+						if (JSON) {
+							b = false;
+						}
+					} catch (e) {}
+					break;
+			}
+
+			if (b) {
+				a.push(n);
+			}
 		}
 	}
 	if (a.length > 0) {
