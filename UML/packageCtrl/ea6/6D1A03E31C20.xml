@@ -45,7 +45,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_B30A8796_39F2_4219_9231_6D1A03E31C20"/>
 								<UML:TaggedValue tag="date_created" value="2015-12-03 21:11:05"/>
-								<UML:TaggedValue tag="date_modified" value="2017-06-20 16:56:24"/>
+								<UML:TaggedValue tag="date_modified" value="2017-07-26 09:42:22"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -57,7 +57,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="5"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=1e08;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=4ef9;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -1335,6 +1335,87 @@
 										</UML:Parameter>
 									</UML:BehavioralFeature.parameter>
 								</UML:Operation>
+								<UML:Operation name="simpleClone" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="Object"/>
+										<UML:TaggedValue tag="const" value="false"/>
+										<UML:TaggedValue tag="static" value="1"/>
+										<UML:TaggedValue tag="synchronised" value="0"/>
+										<UML:TaggedValue tag="concurrency" value="Sequential"/>
+										<UML:TaggedValue tag="position" value="18"/>
+										<UML:TaggedValue tag="returnarray" value="0"/>
+										<UML:TaggedValue tag="pure" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{BF2FE8C6-B5C7-4684-9A93-31AF63C84D9E}"/>
+										<UML:TaggedValue tag="ea_localid" value="979"/>
+										<UML:TaggedValue tag="style" value="&#31616;&#21333;&#30340;&#20811;&#38534;"/>
+										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_70FB1B68_7059_4f83_8321_DEACF540AF4F">
+											<XMI.extension xmi.extender="Enterprise Architect 2.5">
+												<UML:Comment name="if (!tag) {&#xA;		tag = {}&#xA;	}&#xA;&#xA;	if (src !== tag) {&#xA;		for (var s in src) {&#xA;			tag[s] = src[s];&#xA;		}&#xA;	}&#xA;&#xA;	// &#24615;&#33021;&#26410;&#27979;&#35797;&#65292;&#26242;&#26102;&#20197;&#20026;&#36825;&#26679;&#36807;&#28388;&#23646;&#24615;&#65292;&#35201;&#27604;&#24490;&#29615;&#21028;&#26029;&#27599;&#20010;&#23646;&#24615;&#26159;&#21542;&#38468;&#21644; filter &#26465;&#20214;&#35201;&#21512;&#29702;&#19968;&#20123;&#12290;&#xA;	for (var i = 2; i &lt; arguments.length; i++) {&#xA;		this.del(tag, arguments[i]);&#xA;	}&#xA;&#xA;	return tag;"/>
+											</XMI.extension>
+										</UML:TaggedValue>
+									</UML:ModelElement.taggedValue>
+									<UML:BehavioralFeature.parameter>
+										<UML:Parameter kind="return" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid1"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{RETURNID-B5C7-4684-9A93-31AF63C84D9E}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="src" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid1"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#20803;&#25968;&#25454;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{E1E35A58-94A0-435c-9EAA-C2C16324D2CE}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="tag" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid1"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="1"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#30446;&#26631;&#25968;&#25454;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{6040DA9D-78BA-4bc8-8F70-DFC0347C8025}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="filters" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid7"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="2"/>
+												<UML:TaggedValue tag="type" value="___"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#36807;&#28388;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{2E58A7CD-091C-4187-ADDE-219D970A3729}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+									</UML:BehavioralFeature.parameter>
+								</UML:Operation>
 							</UML:Classifier.feature>
 						</UML:Class>
 						<UML:Class name="___Temp" xmi.id="EAID_C4205FE0_403A_4366_B030_573B563DCC62" visibility="public" namespace="EAPK_B30A8796_39F2_4219_9231_6D1A03E31C20" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
@@ -1476,7 +1557,7 @@
 										<UML:TaggedValue tag="complexity" value="1"/>
 										<UML:TaggedValue tag="status" value="Proposed"/>
 										<UML:TaggedValue tag="tpos" value="0"/>
-										<UML:TaggedValue tag="ea_localid" value="6"/>
+										<UML:TaggedValue tag="ea_localid" value="109"/>
 										<UML:TaggedValue tag="ea_eleType" value="package"/>
 										<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 									</UML:ModelElement.taggedValue>
@@ -1491,7 +1572,7 @@
 								<UML:TaggedValue tag="modified" value="2015-11-30 17:55:55"/>
 								<UML:TaggedValue tag="iscontrolled" value="TRUE"/>
 								<UML:TaggedValue tag="xmlpath" value="eaD\D0D3363F8677.xml"/>
-								<UML:TaggedValue tag="lastloaddate" value="2016-11-28 00:08:27"/>
+								<UML:TaggedValue tag="lastloaddate" value="2017-07-26 10:21:44"/>
 								<UML:TaggedValue tag="lastsavedate" value="2016-01-12 13:19:48"/>
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="isprotected" value="FALSE"/>
@@ -1500,7 +1581,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="batchsave" value="0"/>
 								<UML:TaggedValue tag="batchload" value="0"/>
-								<UML:TaggedValue tag="packageFlags" value="VCCFG=LZR_JS;"/>
+								<UML:TaggedValue tag="packageFlags" value="VCCFG=LZR_JS;CheckedOutTo=LZR;"/>
 								<UML:TaggedValue tag="savedasstub" value="true"/>
 								<UML:TaggedValue tag="phase" value="1.0"/>
 								<UML:TaggedValue tag="status" value="Proposed"/>
