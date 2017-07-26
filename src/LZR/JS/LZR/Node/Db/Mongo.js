@@ -109,17 +109,26 @@ LZR.Node.Db.Mongo.prototype.parseArg = function (a/*as:Object*/, args/*as:Array*
 				r = {};
 			}
 			for (var s in a) {
+				var ss = s;
+
+				// // 可对键名进行替换
+				// n = s.length - 1;
+				// if ((n > 1) && (s[0] === "<") && (s[n] === ">")) {
+				// 	i = s.substring(1, n);
+				// 	ss = args[i];
+				// }
+
 				if (typeof(a[s]) === "string") {
 					n = a[s].length - 1;
 					if ((n > 1) && (a[s][0] === "<") && (a[s][n] === ">")) {
 						i = a[s].substring(1, n);
-						r[s] = args[i];
+						r[ss] = args[i];
 					} else {
-						// r[s] = this.parseArg (a[s], args);	// 暂不考虑使用递归，待日后参数必须如此处理时再做修改。
-						r[s] = a[s];
+						// r[ss] = this.parseArg (a[s], args);	// 暂不考虑使用递归，待日后参数必须如此处理时再做修改。
+						r[ss] = a[s];
 					}
 				} else {
-					r[s] = a[s];
+					r[ss] = a[s];
 				}
 			}
 			break;

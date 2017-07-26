@@ -333,14 +333,13 @@ LZR.Base.Data.prototype.hdClonePro = function (name/*as:string*/, rt/*as:Object*
 };
 LZR.Base.Data.prototype.hdClonePro.lzrClass_ = LZR.Base.Data;
 
-// 生成序列化对象
-LZR.Base.Data.prototype.crtJsonObj = function (dep/*as:boolean*/)/*as:Object*/ {
-	var s, t;
+// 生成无子类的序列化对象
+LZR.Base.Data.prototype.crtSingleJsonObj = function (dep/*as:boolean*/)/*as:Object*/ {
 	var r = {
 		cls_: this.constructor
 	};
 	var p = this.constructor.prototype;
-	for (s in this) {
+	for (var s in this) {
 		if (p[s] === undefined) {
 			switch (s) {
 				case "root":
@@ -363,6 +362,15 @@ LZR.Base.Data.prototype.crtJsonObj = function (dep/*as:boolean*/)/*as:Object*/ {
 	}
 // console.log (r);
 
+	return r;
+};
+LZR.Base.Data.prototype.crtSingleJsonObj.lzrClass_ = LZR.Base.Data;
+
+// 生成序列化对象
+LZR.Base.Data.prototype.crtJsonObj = function (dep/*as:boolean*/)/*as:Object*/ {
+	var s, t;
+	var r = this.crtSingleJsonObj(dep);
+
 	if (this.count) {
 		r.chd_ = {};
 		for (s in this.subs) {
@@ -376,13 +384,19 @@ LZR.Base.Data.prototype.crtJsonObj = function (dep/*as:boolean*/)/*as:Object*/ {
 LZR.Base.Data.prototype.crtJsonObj.lzrClass_ = LZR.Base.Data;
 
 // 序列化
-LZR.Base.Data.prototype.toJson = function ()/*as:string*/ {
-	return this.utJson.toJson(this.hdJsonObj(this.crtJsonObj()));
+LZR.Base.Data.prototype.toJson = function (noCls/*as:boolean*/)/*as:string*/ {
+	return this.utJson.toJson(this.hdJsonObj(this.crtJsonObj(), noCls));
 };
 LZR.Base.Data.prototype.toJson.lzrClass_ = LZR.Base.Data;
 
+// 无子类的序列化
+LZR.Base.Data.prototype.toSingleJson = function (noCls/*as:boolean*/)/*as:string*/ {
+	return this.utJson.toJson(this.hdJsonObj(this.crtSingleJsonObj(), noCls));
+};
+LZR.Base.Data.prototype.toSingleJson.lzrClass_ = LZR.Base.Data;
+
 // 序列化格式处理
-LZR.Base.Data.prototype.hdJsonObj = function (oj/*as:Object*/)/*as:Object*/ {
+LZR.Base.Data.prototype.hdJsonObj = function (oj/*as:Object*/, noCls/*as:boolean*/)/*as:Object*/ {
 	var s;
 	if (!oj.view) {
 		LZR.del(oj, "view");
@@ -390,7 +404,11 @@ LZR.Base.Data.prototype.hdJsonObj = function (oj/*as:Object*/)/*as:Object*/ {
 	if (!oj.ctrl) {
 		LZR.del(oj, "ctrl");
 	}
-	oj.cls_ = oj.cls_.prototype.className_;
+	if (noCls) {
+		LZR.del(oj, "cls_");
+	} else {
+		oj.cls_ = oj.cls_.prototype.className_;
+	}
 
 	for (s in oj.chd_) {
 		oj.chd_[s] = this.hdJsonObj(oj.chd_[s]);

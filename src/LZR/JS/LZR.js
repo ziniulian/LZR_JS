@@ -530,3 +530,24 @@ LZR.bind = function (self/*as:Object*/, fun/*as:fun*/, args/*as:___*/)/*as:fun*/
 	};
 };
 LZR.bind.lzrClass_ = LZR;
+
+// 简单的克隆
+LZR.simpleClone = function (src/*as:Object*/, tag/*as:Object*/, filters/*as:___*/)/*as:Object*/ {
+	if (!tag) {
+		tag = {}
+	}
+
+	if (src !== tag) {
+		for (var s in src) {
+			tag[s] = src[s];
+		}
+	}
+
+	// 性能未测试，暂时以为这样过滤属性，要比循环判断每个属性是否附和 filter 条件要合理一些。
+	for (var i = 2; i < arguments.length; i++) {
+		this.del(tag, arguments[i]);
+	}
+
+	return tag;
+};
+LZR.simpleClone.lzrClass_ = LZR;

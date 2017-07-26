@@ -55,7 +55,6 @@ LZR.Node.Db.prototype.init_.lzrClass_ = LZR.Node.Db;
 // 对构造参数的特殊处理
 LZR.Node.Db.prototype.hdObj_ = function (obj/*as:Object*/) {
 	if (obj.hd_sqls) {
-		this.sqls = obj.hd_sqls;
 		this.crtEvt(obj.hd_sqls);
 	}
 };
@@ -63,6 +62,7 @@ LZR.Node.Db.prototype.hdObj_.lzrClass_ = LZR.Node.Db;
 
 // 生成查询语句的事件
 LZR.Node.Db.prototype.crtEvt = function (sql/*as:Object*/) {
+	this.sqls = sql;
 	if (this.autoErr) {
 		this.err.connect.add(LZR.bind(this, this.hdAutoErr, "connect"));
 	}
