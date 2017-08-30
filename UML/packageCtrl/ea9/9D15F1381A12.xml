@@ -45,7 +45,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_5D031A92_48C4_4130_9E5E_9D15F1381A12"/>
 								<UML:TaggedValue tag="date_created" value="2015-12-15 17:19:02"/>
-								<UML:TaggedValue tag="date_modified" value="2016-11-27 23:03:27"/>
+								<UML:TaggedValue tag="date_modified" value="2017-08-24 10:18:46"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\HTML\Util\Url.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -58,7 +58,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="97"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=1154;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=712d;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -217,7 +217,7 @@
 										<UML:TaggedValue tag="style" value="&#33719;&#21462; URL &#21442;&#25968;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_6AB5F874_E255_4e2f_B8C5_CC510C0DCE1C">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var url = location.search;&#xA;	var theRequest = {};&#xA;	if (url.indexOf(&quot;?&quot;) != -1) {&#xA;		url = url.substr(1).split(&quot;&amp;&quot;);&#xA;		for(var i = 0; i &lt; url.length; i ++) {&#xA;			var str = url[i].split(&quot;=&quot;);&#xA;			theRequest[str[0]] = unescape(str[1]);&#xA;		}&#xA;	}&#xA;	return theRequest;"/>
+												<UML:Comment name="var url = location.search;&#xA;	var theRequest = {};&#xA;	if (url.indexOf(&quot;?&quot;) != -1) {&#xA;		url = url.substr(1).split(&quot;&amp;&quot;);&#xA;		for(var i = 0; i &lt; url.length; i ++) {&#xA;			var str = url[i].split(&quot;=&quot;);&#xA;			theRequest[str[0]] = decodeURIComponent(str[1]);&#xA;		}&#xA;	}&#xA;	return theRequest;"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -1195,6 +1195,7 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="100"/>
 								<UML:TaggedValue tag="ea_targetID" value="98"/>
+								<UML:TaggedValue tag="privatedata5" value="EDGE=0;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1.."/>
 								<UML:TaggedValue tag="lt" value="+clsDoePosition"/>
@@ -1236,6 +1237,7 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="98"/>
 								<UML:TaggedValue tag="ea_targetID" value="99"/>
+								<UML:TaggedValue tag="privatedata5" value="EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+utDt"/>

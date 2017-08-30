@@ -32,7 +32,7 @@ LZR.HTML.Util.Url.prototype.init_.lzrClass_ = LZR.HTML.Util.Url;
 
 // 对构造参数的特殊处理
 LZR.HTML.Util.Url.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
+
 };
 LZR.HTML.Util.Url.prototype.hdObj_.lzrClass_ = LZR.HTML.Util.Url;
 
@@ -61,7 +61,7 @@ LZR.HTML.Util.Url.prototype.getRequest = function ()/*as:Object*/ {
 		url = url.substr(1).split("&");
 		for(var i = 0; i < url.length; i ++) {
 			var str = url[i].split("=");
-			theRequest[str[0]] = unescape(str[1]);
+			theRequest[str[0]] = decodeURIComponent(str[1]);
 		}
 	}
 	return theRequest;

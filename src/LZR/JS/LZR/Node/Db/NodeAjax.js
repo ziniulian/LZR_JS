@@ -22,6 +22,12 @@ LZR.Node.Db.NodeAjax = function (obj) /*bases:LZR.Node.Db*/ {
 	// 数据缓存
 	this.buf = global.Buffer || LZR.getSingleton(null, null, "buffer").Buffer;	/*as:Object*/
 
+	// 字符转换器
+	this.conv = LZR.getSingleton(null, null, "iconv-lite");	/*as:Object*/
+
+	// 字符编码
+	this.enc = "";	/*as:string*/
+
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
@@ -50,6 +56,8 @@ LZR.Node.Db.NodeAjax.prototype.qry = function (sqlNam/*as:string*/, req/*as:Obje
 	var evt = this.evt[sqlNam];
 	var err = this.err[sqlNam];
 	var b = this.buf;
+	var e = this.enc;
+	var c = this.conv;
 	var h;
 
 	// URL 数据替换
@@ -74,11 +82,12 @@ LZR.Node.Db.NodeAjax.prototype.qry = function (sqlNam/*as:string*/, req/*as:Obje
 		});
 		r.on("end", function () {
 			var buff = b.concat(d, size);
-			// // 需转码时的方法
-			// var iconv = require("iconv-lite");
-			// var rr = iconv.decode(buff, "utf8");
-			var rr = buff.toString();
-
+			var rr;
+			if (e) {
+				rr = c.decode(buff, e);
+			} else {
+				rr = buff.toString();
+			}
 			evt.execute(rr, req, res, next);
 		})
 	}).on ("error", function (err_r) {

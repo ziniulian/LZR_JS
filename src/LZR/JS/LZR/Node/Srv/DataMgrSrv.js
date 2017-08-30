@@ -62,7 +62,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.initDb = function (dbNam/*as:string*/, tnam/*a
 				db: dbNam,
 				tnam: tnam,
 				funs: {
-					findOne: ["<0>"]
+					findOne: ["<0>", {_id: 0}]
 				}
 			},
 
@@ -81,7 +81,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.initDb = function (dbNam/*as:string*/, tnam/*a
 				tnam: tnam,
 				funs: {
 					updateOne: [
-						{_id: "root"},
+						{id: "root"},
 						{$inc: {im: 1}}
 					]
 				}
@@ -93,7 +93,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.initDb = function (dbNam/*as:string*/, tnam/*a
 				tnam: tnam,
 				funs: {
 					updateOne: [
-						{_id: "<0>"},
+						{id: "<0>"},
 						{$set: "<1>"}
 					]
 				}
@@ -104,8 +104,8 @@ LZR.Node.Srv.DataMgrSrv.prototype.initDb = function (dbNam/*as:string*/, tnam/*a
 				db: dbNam,
 				tnam: tnam,
 				funs: {
-					// find: [{chd_: {$all: "<0>"}}, {_id: 1}],
-					find: [{chd_: "<0>"}, {_id: 1}],
+					// find: [{chd_: {$all: "<0>"}}, {id: 1}],
+					find: [{chd_: "<0>"}, {id: 1, _id: 0}],
 					toArray: []
 				}
 			},
@@ -115,8 +115,8 @@ LZR.Node.Srv.DataMgrSrv.prototype.initDb = function (dbNam/*as:string*/, tnam/*a
 				db: dbNam,
 				tnam: tnam,
 				funs: {
-					// deleteMany: [{_id: {$in: "<0>"}}]
-					deleteMany: [{_id: "<0>"}]
+					// deleteMany: [{id: {$in: "<0>"}}]
+					deleteMany: [{id: "<0>"}]
 				}
 			},
 
@@ -126,7 +126,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.initDb = function (dbNam/*as:string*/, tnam/*a
 				tnam: tnam,
 				funs: {
 					updateOne: [
-						{_id: "root"},
+						{id: "root"},
 						// {$unset: {"<0>": 1}}
 						{$unset: "<0>"}
 					]
@@ -139,7 +139,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.initDb = function (dbNam/*as:string*/, tnam/*a
 				tnam: tnam,
 				funs: {
 					updateMany: [
-						{_id: "<0>"},
+						{id: "<0>"},
 						"<1>"
 					]
 				}
@@ -153,7 +153,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.initDb = function (dbNam/*as:string*/, tnam/*a
 		this.db.evt.sub.add(LZR.bind(this, this.cbSub));
 
 		// 获取数据集
-		this.db.qry("get", {qpobj: {dbSt: "root"}}, null, null, [{_id: "root"}]);
+		this.db.qry("get", {qpobj: {dbSt: "root"}}, null, null, [{id: "root"}]);
 	}
 };
 LZR.Node.Srv.DataMgrSrv.prototype.initDb.lzrClass_ = LZR.Node.Srv.DataMgrSrv;
@@ -209,8 +209,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbGet = function (r/*as:Object*/, req/*as:Obje
 	switch (req.qpobj.dbSt) {
 		case "srvGet":
 			if (r) {
-				r.id = r._id;
-				res.json(LZR.simpleClone(r, r, "chd_id", "chd_", "_id"));
+				res.json(LZR.simpleClone(r, r, "chd_id", "chd_"));
 			} else {
 				res.send("null");
 			}
@@ -242,6 +241,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbGet = function (r/*as:Object*/, req/*as:Obje
 				req.qpobj.obj = r;
 				this.db.qry("sub", req, res, next, [{$all: r.chd_}]);
 			} else {
+				this.lock = false;
 				res.send("null");
 			}
 			break;
@@ -251,7 +251,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbGet = function (r/*as:Object*/, req/*as:Obje
 		case "srvGetAll":
 			if (r) {
 				res.json(LZR.simpleClone(this.get(r.chd_), {
-					id: r._id
+					id: r.id
 				}));
 			} else {
 				res.send("null");
@@ -267,10 +267,10 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbGet = function (r/*as:Object*/, req/*as:Obje
 		case "root":
 			if (r) {
 				this.root = r;
-				LZR.del(this.root, "_id");
+				LZR.del(this.root, "id");
 			} else {
 				// 创建数据集
-				this.db.qry("new", null, null, null, [{_id: "root", im: 1}]);
+				this.db.qry("new", null, null, null, [{id: "root", im: 1}]);
 				this.root = {im: 1};
 			}
 			break;
@@ -314,7 +314,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbNew = function (r/*as:Object*/, req/*as:Obje
 		} else if (req.qpobj.obj.chd_id) {
 			// 检查父元素是否存在
 			req.qpobj.dbSt = "srvNewPid";
-			this.db.qry("get", req, res, next, [{_id: req.qpobj.obj.chd_id}]);
+			this.db.qry("get", req, res, next, [{id: req.qpobj.obj.chd_id}]);
 			return;
 		}
 	}
@@ -323,7 +323,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbNew = function (r/*as:Object*/, req/*as:Obje
 	var sn = req.qpobj.obj;
 	// var o = LZR.simpleClone(sn, {}, "chd_id");
 	var o = LZR.simpleClone(sn, {chd_: {}}, "chd_id");
-	sn._id = this.root.im;
+	sn.id = this.root.im;
 
 	if (hasParent) {
 		// 新增有父类的元素
@@ -355,11 +355,11 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbNew = function (r/*as:Object*/, req/*as:Obje
 	// root 修改
 	this.db.qry("chg", null, null, null, ["root", sr]);
 
+	this.lock = false;
 	res.json(LZR.simpleClone(o, {
-		id: sn._id
+		id: sn.id
 	}, "chd_"));
 
-	this.lock = false;
 };
 LZR.Node.Srv.DataMgrSrv.prototype.cbNew.lzrClass_ = LZR.Node.Srv.DataMgrSrv;
 
@@ -385,7 +385,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.srvGet = function (req/*as:Object*/, res/*as:O
 			req.qpobj.dbSt = "srvGet"
 			break;
 	}
-	this.db.qry("get", req, res, next, [{_id: (id - 0)}]);
+	this.db.qry("get", req, res, next, [{id: (id - 0)}]);
 };
 LZR.Node.Srv.DataMgrSrv.prototype.srvGet.lzrClass_ = LZR.Node.Srv.DataMgrSrv;
 
@@ -401,7 +401,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.srvSet = function (req/*as:Object*/, res/*as:O
 		dbSt: "srvSet",
 		obj: obj
 	};
-	this.db.qry("get", req, res, next, [{_id: (id - 0)}]);
+	this.db.qry("get", req, res, next, [{id: (id - 0)}]);
 };
 LZR.Node.Srv.DataMgrSrv.prototype.srvSet.lzrClass_ = LZR.Node.Srv.DataMgrSrv;
 
@@ -413,7 +413,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbSet = function (r/*as:Object*/, req/*as:Obje
 		var p = req.qpobj.obj;
 		var rs = {};
 		var s;
-		this.db.qry("chg", null, null, null, [r._id, p]);
+		this.db.qry("chg", null, null, null, [r.id, p]);
 		for (s in p) {
 			rs[rd + "." + s] = p[s];
 			o[s] = p[s];
@@ -422,7 +422,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbSet = function (r/*as:Object*/, req/*as:Obje
 
 		// 返回值
 		res.json(LZR.simpleClone(o, {
-			id: r._id
+			id: r.id
 		}, "chd_"));
 	} else {
 		// 修改失败
@@ -444,7 +444,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.srvDel = function (req/*as:Object*/, res/*as:O
 	req.qpobj = {
 		dbSt: "srvDel"
 	};
-	this.db.qry("get", req, res, next, [{_id: (id - 0)}]);
+	this.db.qry("get", req, res, next, [{id: (id - 0)}]);
 };
 LZR.Node.Srv.DataMgrSrv.prototype.srvDel.lzrClass_ = LZR.Node.Srv.DataMgrSrv;
 
@@ -458,6 +458,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbSub = function (r/*as:Object*/, req/*as:Obje
 			this.cbSp(r, req, res, next);
 			break;
 		default:
+			this.lock = false;
 			res.json(r);
 			break;
 	}
@@ -468,19 +469,25 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbSub.lzrClass_ = LZR.Node.Srv.DataMgrSrv;
 LZR.Node.Srv.DataMgrSrv.prototype.cbDel = function (r/*as:Object*/, req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	var a = [];
 	for (var i = 0; i < r.length; i++) {
-		a.push(r[i]._id);
+		a.push(r[i].id);
 	}
 	this.db.qry("del", null, null, null, [{$in: a}]);
 
 	var rs = {};
-	rs[this.road2str(req.qpobj.obj.chd_)] = 1;
-	var n = "" + req.qpobj.obj.chd_.pop();
-	var p = this.get(req.qpobj.obj.chd_).chd_;
+	var road = req.qpobj.obj.chd_;
+	rs[this.road2str(road)] = 1;
+	var n = "" + road.pop();
+	var p;
+	if (road.length) {
+		p = this.get(road).chd_;
+	} else {
+		p = this.root;
+	}
 	LZR.del(p, n);
 	this.db.qry("delRoot", null, null, null, [rs]);
 
-	res.json(a);
 	this.lock = false;
+	res.json(a);
 };
 LZR.Node.Srv.DataMgrSrv.prototype.cbDel.lzrClass_ = LZR.Node.Srv.DataMgrSrv;
 
@@ -496,7 +503,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.srvSp = function (req/*as:Object*/, res/*as:Ob
 		dbSt: "srvSp"
 	};
 	req.qpobj.p = pid ? (pid - 0) : 0;
-	this.db.qry("get", req, res, next, [{_id: (id - 0)}]);
+	this.db.qry("get", req, res, next, [{id: (id - 0)}]);
 };
 LZR.Node.Srv.DataMgrSrv.prototype.srvSp.lzrClass_ = LZR.Node.Srv.DataMgrSrv;
 
@@ -510,7 +517,7 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbSp = function (r/*as:Object*/, req/*as:Objec
 	var np = this.root;
 	var a = [];
 	for (var i = 0; i < r.length; i++) {
-		a.push(r[i]._id);
+		a.push(r[i].id);
 	}
 
 	us[this.road2str(req.qpobj.obj.chd_)] = 1;
@@ -521,24 +528,24 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbSp = function (r/*as:Object*/, req/*as:Objec
 		op = this.get(req.qpobj.obj.chd_).chd_;
 	}
 	if (req.qpobj.p) {
-		pid = req.qpobj.p._id;
+		pid = req.qpobj.p.id;
 		np = this.get(req.qpobj.p.chd_).chd_;
-		st[this.road2str(req.qpobj.p.chd_) + ".chd_." + req.qpobj.obj._id] = o;
+		st[this.road2str(req.qpobj.p.chd_) + ".chd_." + req.qpobj.obj.id] = o;
 		// 给这些子元素添加新的路径
 		this.db.qry("chgParent", null, null, null, [{$in: a}, {$push: {chd_: {
 			$each: req.qpobj.p.chd_,
 			$position: 0
 		}}}]);
 	} else {
-		st[req.qpobj.obj._id] = o;
+		st[req.qpobj.obj.id] = o;
 	}
 
 	// 修改数据
-	this.db.qry("chg", null, null, null, [req.qpobj.obj._id, {chd_id: pid}]);
+	this.db.qry("chg", null, null, null, [req.qpobj.obj.id, {chd_id: pid}]);
 
 	// root 修改
-	np[req.qpobj.obj._id] = o;
-	LZR.del(op, req.qpobj.obj._id);
+	np[req.qpobj.obj.id] = o;
+	LZR.del(op, req.qpobj.obj.id);
 
 	// 数据库 root 修改
 	this.db.qry("chgParent", null, null, null, ["root", {
@@ -546,8 +553,8 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbSp = function (r/*as:Object*/, req/*as:Objec
 		$set: st
 	}]);
 
-	res.json(a);
 	this.lock = false;
+	res.json(a);
 };
 LZR.Node.Srv.DataMgrSrv.prototype.cbSp.lzrClass_ = LZR.Node.Srv.DataMgrSrv;
 
@@ -558,15 +565,15 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbSpSelf = function (r/*as:Object*/, req/*as:O
 		if (req.qpobj.p) {
 			// 检查父类是否存在
 			req.qpobj.dbSt = "srvSpHas";
-			this.db.qry("get", req, res, next, [{_id: req.qpobj.p}]);
+			this.db.qry("get", req, res, next, [{id: req.qpobj.p}]);
 		} else {
 			// 抓取所有相关的子元素
 			this.cbSpCheck(false, req, res, next);
 		}
 	} else {
 		// 欲修改的数据不存在
-		res.send("null");
 		this.lock = false;
+		res.send("null");
 	}
 };
 LZR.Node.Srv.DataMgrSrv.prototype.cbSpSelf.lzrClass_ = LZR.Node.Srv.DataMgrSrv;
@@ -575,12 +582,12 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbSpSelf.lzrClass_ = LZR.Node.Srv.DataMgrSrv;
 LZR.Node.Srv.DataMgrSrv.prototype.cbSpHas = function (r/*as:Object*/, req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	if (r) {
 		// 检查父类的路径中是否包含欲修改的ID
-		var oid = req.qpobj.obj._id;
+		var oid = req.qpobj.obj.id;
 		for (var i = 0; i < r.chd_.length; i++) {
 			if (oid === r.chd_[i]) {
 				// 父类的路径中存在欲修改的ID，不能修改
-				res.send("null");
 				this.lock = false;
+				res.send("null");
 				return;
 			}
 		}
@@ -588,13 +595,13 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbSpHas = function (r/*as:Object*/, req/*as:Ob
 		// 检查父类中是否存在与自身数据相同的元素
 		req.qpobj.p = r;
 		req.qpobj.dbSt = "srvSpCheck";
-		var o = LZR.simpleClone(req.qpobj.obj, {}, "chd_", "_id");
-		o.chd_id = r._id;
+		var o = LZR.simpleClone(req.qpobj.obj, {}, "chd_", "id");
+		o.chd_id = r.id;
 		this.db.qry("get", req, res, next, [o]);
 	} else {
 		// 父元素不存在
-		res.send("null");
 		this.lock = false;
+		res.send("null");
 	}
 };
 LZR.Node.Srv.DataMgrSrv.prototype.cbSpHas.lzrClass_ = LZR.Node.Srv.DataMgrSrv;
@@ -603,8 +610,8 @@ LZR.Node.Srv.DataMgrSrv.prototype.cbSpHas.lzrClass_ = LZR.Node.Srv.DataMgrSrv;
 LZR.Node.Srv.DataMgrSrv.prototype.cbSpCheck = function (r/*as:Object*/, req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	if (r) {
 		// 已存在相同元素不能修改
-		res.send("null");
 		this.lock = false;
+		res.send("null");
 	} else {
 		// 抓取所有相关的子元素
 		req.qpobj.dbSt = "srvSp";
