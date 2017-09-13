@@ -62,6 +62,9 @@ LZR 的 Javascript 库：
 	- 新增分类类
 	- 设计分类查看页面
 
+	- rfid读写器对接基类
+	- rfid模拟工具
+
 	- 基于 FormData 的新的 Ajax 类
 	- 设计外链图片数据库
 	- 图片的关联与导入
