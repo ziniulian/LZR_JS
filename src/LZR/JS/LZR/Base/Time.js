@@ -12,7 +12,7 @@ LZR.load([
 ], "LZR.Base.Time");
 LZR.Base.Time = function (obj) {
 	// 时差的毫秒值
-	this.to = getTim("1970-1-1");	/*as:int*/
+	this.to = this.getTim("1970-1-1");	/*as:int*/
 
 	// 一小时对应的毫秒值
 	this.dHour = 3600 * 1000;	/*as:int*/
