@@ -11,9 +11,6 @@ LZR.load([
 	"LZR.Base.Str"
 ], "LZR.Base.Time");
 LZR.Base.Time = function (obj) {
-	// 时差的毫秒值
-	this.to = this.getTim("1970-1-1");	/*as:int*/
-
 	// 一小时对应的毫秒值
 	this.dHour = 3600 * 1000;	/*as:int*/
 
@@ -191,33 +188,59 @@ LZR.Base.Time.prototype.getTim = function (date/*as:Object*/)/*as:int*/ {
 };
 LZR.Base.Time.prototype.getTim.lzrClass_ = LZR.Base.Time;
 
+// 获取UTC时间戳
+LZR.Base.Time.prototype.getUTCTim = function (d/*as:Object*/)/*as:int*/ {
+	var t;
+	if (!d) {
+		t = new Date();
+	} else if (LZR.getClassName(d) !== "Date") {
+		t = new Date(d);
+	} else {
+		t = d;
+	}
+	if (isNaN(t.getTime())) {
+		return NaN;
+	} else {
+		return Date.UTC(t.getFullYear(), t.getMonth(), t.getDate(), t.getHours(), t.getMinutes(), t.getSeconds(), t.getMilliseconds());
+	}
+};
+LZR.Base.Time.prototype.getUTCTim.lzrClass_ = LZR.Base.Time;
+
 // 获取日时间戳
 LZR.Base.Time.prototype.getDayTimestamp = function (d/*as:Object*/)/*as:int*/ {
-	if (isNaN(d)) {
-		d = this.getTim(d);
-	}
-	return Math.floor((d - this.to) / this.dDay);
+	return Math.floor(this.getUTCTim(d) / this.dDay);
 };
 LZR.Base.Time.prototype.getDayTimestamp.lzrClass_ = LZR.Base.Time;
 
 // 获取以秒为单位的时间戳
 LZR.Base.Time.prototype.getTimestamp = function (d/*as:Object*/)/*as:int*/ {
-	if (isNaN(d)) {
-		d = this.getTim(d);
-	}
-	return Math.floor((d - this.to) / 1000);
+	return Math.floor(this.getUTCTim(d) / 1000);
 };
 LZR.Base.Time.prototype.getTimestamp.lzrClass_ = LZR.Base.Time;
 
+// 解析UTC时间戳
+LZR.Base.Time.prototype.parseUTCTimestamp = function (tmp/*as:int*/, noms/*as:boolean*/)/*as:int*/ {
+	var d = new Date (tmp);
+	var s = d.toUTCString();
+	var i = s.indexOf("GMT");
+	var r = Date.parse(s.substring(5, i));
+	if (noms) {
+		return r;
+	} else {
+		return r + d.getMilliseconds();
+	}
+};
+LZR.Base.Time.prototype.parseUTCTimestamp.lzrClass_ = LZR.Base.Time;
+
 // 解析日时间戳
 LZR.Base.Time.prototype.parseDayTimestamp = function (tmp/*as:int*/)/*as:int*/ {
-	return tmp * this.dDay + this.to;
+	return this.parseUTCTimestamp(tmp * this.dDay, true);
 };
 LZR.Base.Time.prototype.parseDayTimestamp.lzrClass_ = LZR.Base.Time;
 
 // 解析以秒为单位的时间戳
 LZR.Base.Time.prototype.parseTimestamp = function (tmp/*as:int*/)/*as:int*/ {
-	return tmp * 1000 + this.to;
+	return this.parseUTCTimestamp(tmp, true);
 };
 LZR.Base.Time.prototype.parseTimestamp.lzrClass_ = LZR.Base.Time;
 

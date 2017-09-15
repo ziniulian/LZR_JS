@@ -20,7 +20,7 @@
 					"LZR.Base.Time"
 				]);
 				var t = new LZR.Base.Time();
-				var d;
+				var d, dd;
 
 				LZR.HTML.alog ("测试字符串转时间 ：");
 				d = "2016-5-5 20:10";
@@ -39,6 +39,24 @@
 				LZR.HTML.alog ("\t" + t.getDayTimestamp(487785600000));
 				LZR.HTML.alog ("\t" + t.getDayTimestamp("1985-6-17"));
 				LZR.HTML.alog ("\t" + t.parseDayTimestamp(5646));
+
+				LZR.HTML.alog ("测试UTC时间 ：");
+				d = "1985-6-17 22:22:22:561";
+				LZR.HTML.alog ("\t" + d);
+				dd = new Date(d);
+				LZR.HTML.alog ("\t" + dd.valueOf());
+				LZR.HTML.alog ("\t" + dd.toString());
+				LZR.HTML.alog ("\t" + dd.toUTCString());
+				d = t.getUTCTim(d);
+				LZR.HTML.alog ("\t" + d);
+				dd = new Date(d);
+				LZR.HTML.alog ("\t" + dd.valueOf());
+				LZR.HTML.alog ("\t" + dd.toString());
+				LZR.HTML.alog ("\t" + dd.toUTCString());
+				LZR.HTML.alog ("\t" + t.parseUTCTimestamp(d));
+				LZR.HTML.alog ("\t" + new Date("1970-01-01") + " , 1970-01-01 小时值不为0，有时差");
+				LZR.HTML.alog ("\t" + new Date("1970-1-1") + " , 1970-1-1 无时差");
+
 			}
 		</script>
 	</head>
