@@ -32,6 +32,15 @@ LZR.Node.Util.prototype.init_.lzrClass_ = LZR.Node.Util;
 
 // 对构造参数的特殊处理
 LZR.Node.Util.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
+
 };
 LZR.Node.Util.prototype.hdObj_.lzrClass_ = LZR.Node.Util;
+
+// 获取客户端IP
+LZR.Node.Util.prototype.getClientIp = function (req/*as:Object*/)/*as:string*/ {
+	return req.headers["x-forwarded-for"] ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    req.connection.socket.remoteAddress;
+};
+LZR.Node.Util.prototype.getClientIp.lzrClass_ = LZR.Node.Util;
