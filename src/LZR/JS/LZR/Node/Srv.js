@@ -15,7 +15,7 @@ LZR.Node.Srv = function (obj) {
 	this.ep = LZR.getSingleton (null, null, "express");	/*as:Object*/
 
 	// 端口号
-	this.port = 80;	/*as:string*/
+	this.port = 80;	/*as:int*/
 
 	// IP号
 	this.ip = null;	/*as:string*/
@@ -48,7 +48,7 @@ LZR.Node.Srv.prototype.init_.lzrClass_ = LZR.Node.Srv;
 
 // 对构造参数的特殊处理
 LZR.Node.Srv.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
+
 };
 LZR.Node.Srv.prototype.hdObj_.lzrClass_ = LZR.Node.Srv;
 
