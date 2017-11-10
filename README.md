@@ -40,27 +40,25 @@
 
 - 设计反思：
 	- NodeAjax 支持多编码格式
-	- openshft 服务打包
 	- 基于 FormData 的新的 Ajax 类
-	- 基础的mongodb数据库查询、导入、导出、清空、修改功能
+	- 游戏动画初体验
 
 	- rfid读写器对接基类
 	- rfid模拟工具
 	- rfid前端代码打包
 
-	- md5 加密工具
 	- 解决 UTF-8 转码时使用的 js 位移运算符，在移动较大数据时出错的问题
 	- 枚举的EA逆向工程有问题：LZR.Pro.Rfid.EmTagTyp
+	- 彻底清理或修改与 LZR_annex、loadAnnex 相关的类（主要集中在 HTML 的控制器里）
+	- nodejs 对 Markdown 文件的处理
+	- md5 加密工具
+	- 基础的mongodb数据库查询、导入、导出、清空、修改功能
 	- 项目代码的管理和生成工具，取消 load、loadAnnex 方法，隐藏类名，自动压缩
-
-	- 游戏动画初体验
+	- 各服务相关的 LZR库 前端代码打包（依据实际网速决定是否要打包）
 
 	- 一个可表明高热度高频率的数据缓存器（基本思想：一个有限的链表结构，每命中一次，向前提n位的排名）
 	- mysql 数据库通用连接模块，可参考 LZR.Pro.TmpTagMgmt 类
 	- nodejs 访问 Excel、sqlite、Oracle 数据库类
-	- nodejs 对 Markdown 文件的处理
-
-	- 彻底清理或修改与 LZR_annex、loadAnnex 相关的类（主要集中在 HTML 的控制器里）
 
 *******************************************************************
 
