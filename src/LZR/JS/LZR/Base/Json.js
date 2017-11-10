@@ -6,9 +6,9 @@
 版本号：1.0
 *************************************************/
 
-LZR.loadAnnex({
-	JSON: "/Lib/Util/JSON.js"
-});
+// LZR.loadAnnex({
+// 	JSON: "/Lib/Util/JSON.js"
+// });
 
 LZR.load([
 	"LZR.Base"
