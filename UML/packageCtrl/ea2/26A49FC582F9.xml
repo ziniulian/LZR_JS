@@ -44,7 +44,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_C8A29A0E_045C_475d_AE89_26A49FC582F9"/>
 								<UML:TaggedValue tag="date_created" value="2017-05-27 14:04:32"/>
-								<UML:TaggedValue tag="date_modified" value="2017-08-24 17:05:24"/>
+								<UML:TaggedValue tag="date_modified" value="2017-11-11 15:36:57"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\Node\Db\NodeAjax.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -57,7 +57,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="314"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=1e57;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=18d1;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -237,7 +237,7 @@
 										<UML:TaggedValue tag="style" value="&#25191;&#34892;&#26597;&#35810;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_49C7FCBE_78C9_45ea_9073_FFEBB94FE51F">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var url = this.sqls[sqlNam];&#xA;	var evt = this.evt[sqlNam];&#xA;	var err = this.err[sqlNam];&#xA;	var b = this.buf;&#xA;	var e = this.enc;&#xA;	var c = this.conv;&#xA;	var h;&#xA;&#xA;	// URL &#25968;&#25454;&#26367;&#25442;&#xA;	for (var i = 0; i &lt; args.length; i++) {&#xA;		url = url.replace(new RegExp(&quot;&lt;&quot; + i + &quot;&gt;&quot;, &quot;g&quot;), args[i]);&#xA;	}&#xA;&#xA;	// &#21028;&#26029;&#26159;&#21542;&#20351;&#29992; HTTPS &#21327;&#35758;&#xA;	if ((url.substr(0, 8).toLowerCase()) === &quot;https://&quot;) {&#xA;		h = this.https;&#xA;	} else {&#xA;		h = this.http;&#xA;	}&#xA;&#xA;	// &#21457;&#36865; HTTP &#35831;&#27714;&#xA;	h.get(url, function (r) {&#xA;		var d = [];&#xA;		var size = 0;&#xA;		r.on(&quot;data&quot;, function (data) {&#xA;			d.push(data);&#xA;			size += data.length;&#xA;		});&#xA;		r.on(&quot;end&quot;, function () {&#xA;			var buff = b.concat(d, size);&#xA;			var rr;&#xA;			if (e) {&#xA;				rr = c.decode(buff, e);&#xA;			} else {&#xA;				rr = buff.toString();&#xA;			}&#xA;			evt.execute(rr, req, res, next);&#xA;		})&#xA;	}).on (&quot;error&quot;, function (err_r) {&#xA;		err.execute(err_r, req, res, next);&#xA;	})"/>
+												<UML:Comment name="var url = this.sqls[sqlNam];&#xA;	var evt = this.evt[sqlNam];&#xA;	var err = this.err[sqlNam];&#xA;	var b = this.buf;&#xA;	var e = this.enc;&#xA;	var c = this.conv;&#xA;	var h, hs;&#xA;&#xA;	// URL &#25968;&#25454;&#26367;&#25442;&#xA;	for (var i = 0; i &lt; args.length; i++) {&#xA;		url = url.replace(new RegExp(&quot;&lt;&quot; + i + &quot;&gt;&quot;, &quot;g&quot;), args[i]);&#xA;	}&#xA;&#xA;	// &#21028;&#26029;&#26159;&#21542;&#20351;&#29992; HTTPS &#21327;&#35758;&#xA;	var hs = url.substr(0, 5).toLowerCase();&#xA;	if (hs === &quot;https&quot;) {&#xA;		h = this.https;&#xA;	} else if (hs === &quot;http:&quot;) {&#xA;		h = this.http;&#xA;	} else {&#xA;		var i = url.indexOf(&quot;,&quot;);&#xA;		hs = url.substr(i + 1, 5);&#xA;		if (hs === &quot;https&quot;) {&#xA;			h = this.https;&#xA;			e = url.substr(0, i);&#xA;		} else if (hs === &quot;http:&quot;) {&#xA;			h = this.http;&#xA;			e = url.substr(0, i);&#xA;		} else {&#xA;			h = this.http;&#xA;		}&#xA;	}&#xA;&#xA;	// &#21457;&#36865; HTTP &#35831;&#27714;&#xA;	h.get(url, function (r) {&#xA;		var d = [];&#xA;		var size = 0;&#xA;		r.on(&quot;data&quot;, function (data) {&#xA;			d.push(data);&#xA;			size += data.length;&#xA;		});&#xA;		r.on(&quot;end&quot;, function () {&#xA;			var buff = b.concat(d, size);&#xA;			var rr;&#xA;			if (e) {&#xA;				rr = c.decode(buff, e);&#xA;			} else {&#xA;				rr = buff.toString();&#xA;			}&#xA;			evt.execute(rr, req, res, next);&#xA;		});&#xA;	}).on (&quot;error&quot;, function (err_r) {&#xA;		err.execute(err_r, req, res, next);&#xA;	})"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -368,7 +368,6 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
@@ -687,7 +686,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="284"/>
 								<UML:TaggedValue tag="ea_targetID" value="305"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+utJson"/>
@@ -744,7 +742,6 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
@@ -767,6 +764,7 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="305"/>
 								<UML:TaggedValue tag="ea_targetID" value="355"/>
+								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+db"/>
 							</UML:ModelElement.taggedValue>

@@ -58,7 +58,7 @@ LZR.Node.Db.NodeAjax.prototype.qry = function (sqlNam/*as:string*/, req/*as:Obje
 	var b = this.buf;
 	var e = this.enc;
 	var c = this.conv;
-	var h;
+	var h, hs;
 
 	// URL 数据替换
 	for (var i = 0; i < args.length; i++) {
@@ -66,10 +66,23 @@ LZR.Node.Db.NodeAjax.prototype.qry = function (sqlNam/*as:string*/, req/*as:Obje
 	}
 
 	// 判断是否使用 HTTPS 协议
-	if ((url.substr(0, 8).toLowerCase()) === "https://") {
+	var hs = url.substr(0, 5).toLowerCase();
+	if (hs === "https") {
 		h = this.https;
-	} else {
+	} else if (hs === "http:") {
 		h = this.http;
+	} else {
+		var i = url.indexOf(",");
+		hs = url.substr(i + 1, 5);
+		if (hs === "https") {
+			h = this.https;
+			e = url.substr(0, i);
+		} else if (hs === "http:") {
+			h = this.http;
+			e = url.substr(0, i);
+		} else {
+			h = this.http;
+		}
 	}
 
 	// 发送 HTTP 请求
@@ -89,7 +102,7 @@ LZR.Node.Db.NodeAjax.prototype.qry = function (sqlNam/*as:string*/, req/*as:Obje
 				rr = buff.toString();
 			}
 			evt.execute(rr, req, res, next);
-		})
+		});
 	}).on ("error", function (err_r) {
 		err.execute(err_r, req, res, next);
 	})
