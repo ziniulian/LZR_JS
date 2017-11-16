@@ -59,7 +59,7 @@ LZR.Node.Db.Mongo.prototype.qry = function (sqlNam/*as:string*/, req/*as:Object*
 				cerr.execute(err_c, req, res, next);
 			} else {
 				var cdb;
-				if (sql.db !== db.databaseName) {
+				if (sql.db && (sql.db !== db.databaseName)) {
 					cdb = db.db(sql.db);
 				} else {
 					cdb = db;
