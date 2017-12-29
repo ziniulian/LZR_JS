@@ -43,7 +43,16 @@ LZR.Node.Srv.DomainSrv.prototype.hdObj_.lzrClass_ = LZR.Node.Srv.DomainSrv;
 // 获取域名
 LZR.Node.Srv.DomainSrv.prototype.get = function (key/*as:string*/)/*as:string*/ {
 	if (key) {
-		return key;
+		switch (key) {
+			case "io_home":
+				return "http://www.ziniulian.tk";
+			case "io_gu":
+				return "http://www.ziniulian.tk/gu.html";
+			case "gu":
+				return "http://srv-lzrgu.193b.starter-ca-central-1.openshiftapps.com/Gu";
+			default:
+				return key;
+		}
 	} else {
 		return this.clsHtml.domain;
 	}
