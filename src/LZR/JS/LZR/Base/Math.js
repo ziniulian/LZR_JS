@@ -52,7 +52,7 @@ LZR.Base.Math.prototype.format = function (f/*as:double*/, digit/*as:int*/)/*as:
 	if (digit > n) {
 		n = digit - n;
 		for (var i = 0; i < n; i++) {
-			x += "0";
+			x = "0" + x;
 		}
 	}
 	return d + "." + x;
