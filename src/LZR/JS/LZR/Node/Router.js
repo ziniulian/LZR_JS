@@ -195,8 +195,8 @@ LZR.Node.Router.prototype.initTmp = function (nam/*as:string*/, dir/*as:string*/
 	this.crtTmp (dir);
 
 	// 模板里用到的静态文件夹
-	this.setStaticDir("/tmp2web/", this.path + dir + "/tmp2web");
-	this.use ("/tmp2web/", function (req, res) {
+	this.setStaticDir(nam + "tmp2web/", this.path + dir + "/tmp2web");
+	this.use (nam + "tmp2web/", function (req, res) {
 		// 静态文件夹里没有的文件，直接报错，不再向下路由。
 		res.redirect("/err");
 	});
@@ -205,7 +205,7 @@ LZR.Node.Router.prototype.initTmp = function (nam/*as:string*/, dir/*as:string*/
 		// console.log (req.url);
 		// console.log (req.baseUrl);
 		// console.log (req.originalUrl);
-		res.redirect(req.baseUrl + "/tmp2web/" + req.params[1]);
+		res.redirect(req.baseUrl + nam + "tmp2web/" + req.params[1]);
 	});
 
 	// 模板调用
