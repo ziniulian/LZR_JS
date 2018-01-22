@@ -69,9 +69,9 @@ LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)
 		case "date2":
 			s = date.getFullYear();
 			s += "-";
-			s += this.utStr.format((date.getMonth() + 1), 2, "0");
+			s += this.utStr.format((date.getMonth() + 1) + "", 2, "0");
 			s += "-";
-			s += this.utStr.format(date.getDate(), 2, "0");
+			s += this.utStr.format(date.getDate() + "", 2, "0");
 			break;
 		case "datetim":
 			s = date.getFullYear();
@@ -80,11 +80,11 @@ LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)
 			s += "-";
 			s += date.getDate();
 			s += " ";
-			s += this.utStr.format(date.getHours(), 2, "0");
+			s += this.utStr.format(date.getHours() + "", 2, "0");
 			s += ":";
-			s += this.utStr.format(date.getMinutes(), 2, "0");
+			s += this.utStr.format(date.getMinutes() + "", 2, "0");
 			s += ":";
-			s += this.utStr.format(date.getSeconds(), 2, "0");
+			s += this.utStr.format(date.getSeconds() + "", 2, "0");
 			break;
 		case "dateChn":
 			s = date.getFullYear();
@@ -101,7 +101,7 @@ LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)
 			s += "月";
 			s += date.getDate();
 			s += "日";
-			s += this.utStr.format(date.getHours(), 2, "0");
+			s += this.utStr.format(date.getHours() + "", 2, "0");
 			s += "时";
 			break;
 		case "mdChn":
@@ -138,29 +138,29 @@ LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)
 		default:
 			var key = "";
 			var num = 0;
-			var r = "";
 			var print = function (f, d, k, n) {
 				switch (k) {
 					case "y":
-						return f(d.getFullYear(), n, "0");
+						return f(d.getFullYear() + "", n, "0");
 					case "M":
-						return f( (d.getMonth() + 1), n, "0" );
+						return f( (d.getMonth() + 1) + "", n, "0" );
 					case "d":
-						return f(d.getDate(), n, "0");
+						return f(d.getDate() + "", n, "0");
 					case "h":
-						return f(d.getHours(), n, "0");
+						return f(d.getHours() + "", n, "0");
 					case "m":
-						return f(d.getMinutes(), n, "0");
+						return f(d.getMinutes() + "", n, "0");
 					case "s":
-						return f(d.getSeconds(), n, "0");
+						return f(d.getSeconds() + "", n, "0");
 					case "f":
-						return f(d.getMilliseconds(), n, "0");
+						return f(d.getMilliseconds() + "", n, "0");
 					default:
 						return "";
 				}
 			};
-			for (var i = 0; i<fom.length; i++) {
-				switch (fom[i]) {
+			s = "";
+			for (var i = 0; i<format.length; i++) {
+				switch (format[i]) {
 					case "y":
 					case "M":
 					case "d":
@@ -168,31 +168,30 @@ LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)
 					case "m":
 					case "s":
 					case "f":
-						if (key === fom[i]) {
+						if (key === format[i]) {
 							num ++;
 						} else if (key === "") {
-							key = fom[i];
+							key = format[i];
 							num = 1;
 						} else {
-							r += print(this.utStr.format, date, key, num);
-							key = fom[i];
+							s += print(this.utStr.format, date, key, num);
+							key = format[i];
 							num = 1;
 						}
 						break;
 					default:
 						if (key) {
-							r += print(this.utStr.format, date, key, num);
+							s += print(this.utStr.format, date, key, num);
 							key = "";
 							num = 0;
 						}
-						r += fom[i];
+						s += format[i];
 						break;
 				}
 			}
 			if (key) {
-				r += print(this.utStr.format, date, key, num);
+				s += print(this.utStr.format, date, key, num);
 			}
-			s = r;
 			break;
 	}
 	return s;
