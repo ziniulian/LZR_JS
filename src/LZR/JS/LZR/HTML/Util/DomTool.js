@@ -36,7 +36,7 @@ LZR.HTML.Util.DomTool.prototype.init_.lzrClass_ = LZR.HTML.Util.DomTool;
 
 // 对构造参数的特殊处理
 LZR.HTML.Util.DomTool.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
+
 };
 LZR.HTML.Util.DomTool.prototype.hdObj_.lzrClass_ = LZR.HTML.Util.DomTool;
 
@@ -196,3 +196,12 @@ LZR.HTML.Util.DomTool.prototype.getDocument = function (doe/*as:Object*/)/*as:Ob
 	return doe.ownerDocument || document;
 };
 LZR.HTML.Util.DomTool.prototype.getDocument.lzrClass_ = LZR.HTML.Util.DomTool;
+
+// 通过名称设置元素属性
+LZR.HTML.Util.DomTool.prototype.setProByNam = function (nam/*as:string*/, pro/*as:string*/, v/*as:Object*/) {
+	var da = document.getElementsByName(nam);
+	for (var i = 0; i < da.length; i ++) {
+		da[i][pro] = v;
+	}
+};
+LZR.HTML.Util.DomTool.prototype.setProByNam.lzrClass_ = LZR.HTML.Util.DomTool;
