@@ -86,6 +86,21 @@ LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)
 			s += ":";
 			s += this.utStr.format(date.getSeconds() + "", 2, "0");
 			break;
+		case "datetim2":
+			s = date.getFullYear();
+			s += "-";
+			s += this.utStr.format((date.getMonth() + 1) + "", 2, "0");
+			s += "-";
+			s += this.utStr.format(date.getDate() + "", 2, "0");
+			s += " ";
+			s += this.utStr.format(date.getHours() + "", 2, "0");
+			s += ":";
+			s += this.utStr.format(date.getMinutes() + "", 2, "0");
+			s += ":";
+			s += this.utStr.format(date.getSeconds() + "", 2, "0");
+			s += ":";
+			s += this.utStr.format(date.getMilliseconds() + "", 3, "0");
+			break;
 		case "dateChn":
 			s = date.getFullYear();
 			s += "年";
