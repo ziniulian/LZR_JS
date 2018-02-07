@@ -78,8 +78,11 @@ LZR.Node.Db.prototype.crtEvt.lzrClass_ = LZR.Node.Db;
 
 // 自动处理错误
 LZR.Node.Db.prototype.hdAutoErr = function (nam/*as:string*/, e/*as:Object*/, req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
-	e.nam = nam;
-	res.send(e);
+	res.json({
+		ok: false,
+		msg: nam,
+		dat: e
+	});
 };
 LZR.Node.Db.prototype.hdAutoErr.lzrClass_ = LZR.Node.Db;
 
