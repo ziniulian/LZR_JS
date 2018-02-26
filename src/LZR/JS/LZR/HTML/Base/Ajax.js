@@ -2,14 +2,13 @@
 作者：子牛连
 类名：Ajax
 说明：
-创建日期：27-七月-2016 12:30:02
+创建日期：25-二月-2018 13:23:33
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.HTML.Base",
-	"LZR.Util",
-	"LZR.Base.Json",
+	"LZR.HTML.Util.Url",
 	"LZR.Base.CallBacks",
 	"LZR.Base.InfEvt"
 ], "LZR.HTML.Base.Ajax");
@@ -19,11 +18,8 @@ LZR.HTML.Base.Ajax = function (obj) /*interfaces:LZR.Base.InfEvt*/ {
 	// AJAX对象
 	this.ajax = LZR.getAjax();	/*as:Object*/
 
-	// 常用工具
-	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
-
-	// Json转换工具
-	this.utJson/*m*/ = LZR.getSingleton(LZR.Base.Json);	/*as:LZR.Base.Json*/
+	// URL工具
+	this.utUrl/*m*/ = LZR.getSingleton(LZR.HTML.Util.Url);	/*as:LZR.HTML.Util.Url*/
 
 	// Ajax应答
 	this.evt.rsp/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
@@ -58,24 +54,10 @@ LZR.HTML.Base.Ajax.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.Ajax;
 // 发送POST请求
 LZR.HTML.Base.Ajax.prototype.post = function (url/*as:string*/, msg/*as:Object*/, msgType/*as:string*/, isAsyn/*as:boolean*/, isGet/*as:boolean*/)/*as:string*/ {
 	if ( isAsyn ) {
-		this.ajax.onreadystatechange = this.utLzr.bind ( this,  this.onRsp );
+		this.ajax.onreadystatechange = LZR.bind ( this,  this.onRsp );
 		isAsyn = true;
 	} else {
 		isAsyn = false;
-	}
-
-	// 处理 msg
-	if ( msg && typeof msg == "object" ) {
-		var ms="";
-		for (var n in msg) {
-			if ("" !== ms) {
-				ms += "&";
-			}
-			ms += n;
-			ms += "=";
-			ms += this.utJson.toJson ( msg[n] );
-		}
-		msg = ms;
 	}
 
 	// 发送请求
@@ -89,7 +71,7 @@ LZR.HTML.Base.Ajax.prototype.post = function (url/*as:string*/, msg/*as:Object*/
 			}
 			this.ajax.setRequestHeader("Content-Type", msgType);
 		}
-		this.ajax.send(msg);
+		this.ajax.send(this.utUrl.toPostDat ( msg ) || null);
 	} catch ( e ) {
 		if (isAsyn) {
 			this.evt.rsp.execute (null);

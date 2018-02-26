@@ -44,7 +44,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_C8A29A0E_045C_475d_AE89_26A49FC582F9"/>
 								<UML:TaggedValue tag="date_created" value="2017-05-27 14:04:32"/>
-								<UML:TaggedValue tag="date_modified" value="2017-11-11 15:36:57"/>
+								<UML:TaggedValue tag="date_modified" value="2018-02-26 11:19:39"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\Node\Db\NodeAjax.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -57,7 +57,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="314"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=18d1;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=9ace;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -237,7 +237,7 @@
 										<UML:TaggedValue tag="style" value="&#25191;&#34892;&#26597;&#35810;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_49C7FCBE_78C9_45ea_9073_FFEBB94FE51F">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var url = this.sqls[sqlNam];&#xA;	var evt = this.evt[sqlNam];&#xA;	var err = this.err[sqlNam];&#xA;	var b = this.buf;&#xA;	var e = this.enc;&#xA;	var c = this.conv;&#xA;	var h, hs;&#xA;&#xA;	// URL &#25968;&#25454;&#26367;&#25442;&#xA;	for (var i = 0; i &lt; args.length; i++) {&#xA;		url = url.replace(new RegExp(&quot;&lt;&quot; + i + &quot;&gt;&quot;, &quot;g&quot;), args[i]);&#xA;	}&#xA;&#xA;	// &#21028;&#26029;&#26159;&#21542;&#20351;&#29992; HTTPS &#21327;&#35758;&#xA;	var hs = url.substr(0, 5).toLowerCase();&#xA;	if (hs === &quot;https&quot;) {&#xA;		h = this.https;&#xA;	} else if (hs === &quot;http:&quot;) {&#xA;		h = this.http;&#xA;	} else {&#xA;		var i = url.indexOf(&quot;,&quot;);&#xA;		hs = url.substr(i + 1, 5);&#xA;		if (hs === &quot;https&quot;) {&#xA;			h = this.https;&#xA;			e = url.substr(0, i);&#xA;		} else if (hs === &quot;http:&quot;) {&#xA;			h = this.http;&#xA;			e = url.substr(0, i);&#xA;		} else {&#xA;			h = this.http;&#xA;		}&#xA;	}&#xA;&#xA;	// &#21457;&#36865; HTTP &#35831;&#27714;&#xA;	h.get(url, function (r) {&#xA;		var d = [];&#xA;		var size = 0;&#xA;		r.on(&quot;data&quot;, function (data) {&#xA;			d.push(data);&#xA;			size += data.length;&#xA;		});&#xA;		r.on(&quot;end&quot;, function () {&#xA;			var buff = b.concat(d, size);&#xA;			var rr;&#xA;			if (e) {&#xA;				rr = c.decode(buff, e);&#xA;			} else {&#xA;				rr = buff.toString();&#xA;			}&#xA;			evt.execute(rr, req, res, next);&#xA;		});&#xA;	}).on (&quot;error&quot;, function (err_r) {&#xA;		err.execute(err_r, req, res, next);&#xA;	})"/>
+												<UML:Comment name="var url = this.sqls[sqlNam];&#xA;	var evt = this.evt[sqlNam];&#xA;	var err = this.err[sqlNam];&#xA;	var b = this.buf;&#xA;	var e = this.enc;&#xA;	var c = this.conv;&#xA;	var h, hs, o, rq, dat;&#xA;&#xA;	// URL &#25968;&#25454;&#26367;&#25442;&#xA;	hs = this.utUrl.parseUrl(url, args);&#xA;&#xA;	// &#21028;&#26029;&#26159;&#21542;&#20351;&#29992; HTTPS &#21327;&#35758;&#xA;	if (hs.protocol === &quot;https&quot;) {&#xA;		h = this.https;&#xA;	} else {&#xA;		h = this.http;&#xA;	}&#xA;&#xA;	// &#25968;&#25454;&#25972;&#29702;&#xA;	o = {&#xA;		hostname: hs.hostname,&#xA;		port: hs.port,&#xA;		path: hs.path,&#xA;		method: postObj ? &quot;POST&quot; : &quot;GET&quot;&#xA;	};&#xA;	if (postObj) {&#xA;		dat = this.utUrl.toPostDat(postObj);&#xA;		o.headers = {&#xA;			&quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded;charset=UTF-8&quot;,&#xA;			&quot;Content-Length&quot;: b.byteLength(dat)&#xA;		};&#xA;	}&#xA;// console.log(o);&#xA;&#xA;	// &#21457;&#36865; HTTP &#35831;&#27714;&#xA;	rq = h.request(o, function (r) {&#xA;		var d = [];&#xA;		var size = 0;&#xA;		r.on(&quot;data&quot;, function (data) {&#xA;			d.push(data);&#xA;			size += data.length;&#xA;		});&#xA;		r.on(&quot;end&quot;, function () {&#xA;			var buff = b.concat(d, size);&#xA;			var rr;&#xA;			if (e) {&#xA;				rr = c.decode(buff, e);&#xA;			} else {&#xA;				rr = buff.toString();&#xA;			}&#xA;// console.log(rr);&#xA;			evt.execute(rr, req, res, next);&#xA;		});&#xA;	});&#xA;	rq.on (&quot;error&quot;, function (err_r) {&#xA;		err.execute(err_r, req, res, next);&#xA;	});&#xA;	if (postObj) {&#xA;// console.log(dat);&#xA;		rq.write(dat);&#xA;	}&#xA;	rq.end();"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -321,10 +321,25 @@
 											</UML:Parameter.type>
 											<UML:ModelElement.taggedValue>
 												<UML:TaggedValue tag="pos" value="4"/>
-												<UML:TaggedValue tag="type" value="___"/>
+												<UML:TaggedValue tag="type" value="Array"/>
 												<UML:TaggedValue tag="const" value="0"/>
 												<UML:TaggedValue tag="styleex" value="alias=&#20854;&#23427;&#21442;&#25968;;"/>
 												<UML:TaggedValue tag="ea_guid" value="{53D78902-2558-4929-AB0D-5D54F4AA13B6}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="postObj" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid0"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="5"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=POST&#21442;&#25968;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{FBEC2F4E-2717-4a7f-B826-6107AC3FB427}"/>
 											</UML:ModelElement.taggedValue>
 											<UML:Parameter.defaultValue>
 												<UML:Expression/>
@@ -432,6 +447,7 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="314"/>
 								<UML:TaggedValue tag="ea_targetID" value="370"/>
+								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+ajx"/>
 							</UML:ModelElement.taggedValue>
@@ -445,6 +461,48 @@
 									</UML:ModelElement.taggedValue>
 								</UML:AssociationEnd>
 								<UML:AssociationEnd visibility="public" aggregation="shared" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_063BCCB6_41A6_4364_8C1A_7612B5AB1DDA">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+										<UML:TaggedValue tag="ea_end" value="target"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+							</UML:Association.connection>
+						</UML:Association>
+						<UML:Association xmi.id="EAID_CAE9A9B3_3849_46c7_BA53_BCC480C160D0" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="ea_type" value="Aggregation"/>
+								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="subtype" value="Weak"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="985"/>
+								<UML:TaggedValue tag="ea_sourceName" value="Url"/>
+								<UML:TaggedValue tag="ea_targetName" value="NodeAjax"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
+								<UML:TaggedValue tag="ea_targetType" value="Class"/>
+								<UML:TaggedValue tag="ea_sourceID" value="97"/>
+								<UML:TaggedValue tag="ea_targetID" value="314"/>
+								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+								<UML:TaggedValue tag="lb" value="1"/>
+								<UML:TaggedValue tag="lt" value="+utUrl"/>
+							</UML:ModelElement.taggedValue>
+							<UML:Association.connection>
+								<UML:AssociationEnd visibility="public" multiplicity="1" name="utUrl" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_15049AFC_0CBA_45bc_828F_643E6396D959">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="description" value="URL&#24037;&#20855;"/>
+										<UML:TaggedValue tag="containment" value="Unspecified"/>
+										<UML:TaggedValue tag="sourcestyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Non-Navigable;alias=URL&#24037;&#20855;;"/>
+										<UML:TaggedValue tag="ea_end" value="source"/>
+									</UML:ModelElement.taggedValue>
+								</UML:AssociationEnd>
+								<UML:AssociationEnd visibility="public" aggregation="shared" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_5D72A09F_8251_4e6e_B6E2_15DE5683B4AE">
 									<UML:ModelElement.taggedValue>
 										<UML:TaggedValue tag="containment" value="Unspecified"/>
 										<UML:TaggedValue tag="deststyle" value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
@@ -667,7 +725,7 @@
 										</UML:Parameter>
 										<UML:Parameter name="args" kind="in" visibility="public">
 											<UML:Parameter.type>
-												<UML:Classifier xmi.idref="eaxmiid4"/>
+												<UML:Classifier xmi.idref="eaxmiid5"/>
 											</UML:Parameter.type>
 											<UML:ModelElement.taggedValue>
 												<UML:TaggedValue tag="pos" value="4"/>
@@ -732,7 +790,7 @@
 										</UML:Parameter>
 										<UML:Parameter name="args" kind="in" visibility="public">
 											<UML:Parameter.type>
-												<UML:Classifier xmi.idref="eaxmiid5"/>
+												<UML:Classifier xmi.idref="eaxmiid4"/>
 											</UML:Parameter.type>
 											<UML:ModelElement.taggedValue>
 												<UML:TaggedValue tag="pos" value="1"/>
@@ -848,6 +906,7 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="305"/>
 								<UML:TaggedValue tag="ea_targetID" value="370"/>
+								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+mdb"/>
 							</UML:ModelElement.taggedValue>
@@ -913,9 +972,9 @@
 					</UML:Namespace.ownedElement>
 				</UML:Package>
 				<UML:DataType xmi.id="eaxmiid2" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
-				<UML:DataType xmi.id="eaxmiid4" name="___" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+				<UML:DataType xmi.id="eaxmiid5" name="___" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
 				<UML:DataType xmi.id="eaxmiid1" name="string" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
-				<UML:DataType xmi.id="eaxmiid5" name="Array" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
+				<UML:DataType xmi.id="eaxmiid4" name="Array" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
 				<UML:DataType xmi.id="eaxmiid0" name="Object" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
 				<UML:DataType xmi.id="eaxmiid3" name="fun" visibility="private" isRoot="false" isLeaf="false" isAbstract="false"/>
 			</UML:Namespace.ownedElement>
@@ -925,23 +984,26 @@
 				<UML:TaggedValue tag="version" value="1.0"/>
 				<UML:TaggedValue tag="author" value="LZR"/>
 				<UML:TaggedValue tag="created_date" value="2017-05-27 08:55:58"/>
-				<UML:TaggedValue tag="modified_date" value="2017-08-24 16:09:25"/>
+				<UML:TaggedValue tag="modified_date" value="2018-02-26 10:36:01"/>
 				<UML:TaggedValue tag="package" value="EAPK_C8A29A0E_045C_475d_AE89_26A49FC582F9"/>
 				<UML:TaggedValue tag="type" value="Logical"/>
 				<UML:TaggedValue tag="swimlanes" value="locked=false;orientation=0;width=0;inbar=false;names=false;color=-1;bold=false;fcol=0;tcol=-1;ofCol=-1;hl=1;cls=0;"/>
 				<UML:TaggedValue tag="matrixitems" value="locked=false;matrixactive=false;swimlanesactive=true;kanbanactive=false;width=1;"/>
 				<UML:TaggedValue tag="ea_localid" value="61"/>
 				<UML:TaggedValue tag="EAStyle" value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=2;PPgs.cy=1;DocSize.cx=780;DocSize.cy=1134;ShowDetails=0;Orientation=P;Zoom=141;ShowTags=0;OpParams=2;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=9;HideParents=0;UseAlias=1;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
-				<UML:TaggedValue tag="styleex" value="SaveTag=E7F67593;ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ProfileData=;MDGDgm=;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;"/>
+				<UML:TaggedValue tag="styleex" value="SaveTag=68B57646;ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ProfileData=;MDGDgm=;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;"/>
 			</UML:ModelElement.taggedValue>
 			<UML:Diagram.element>
-				<UML:DiagramElement geometry="Left=523;Top=670;Right=926;Bottom=792;" subject="EAID_5D72A09F_8251_4e6e_B6E2_15DE5683B4AE" seqno="1" style="DUID=183C556E;"/>
-				<UML:DiagramElement geometry="Left=108;Top=875;Right=361;Bottom=984;" subject="EAID_92FE47D4_06A6_44d2_BAB9_60161CF4A212" seqno="2" style="DUID=A77E658B;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
-				<UML:DiagramElement geometry="Left=30;Top=675;Right=437;Bottom=793;" subject="EAID_F526B73A_D19E_406c_95F5_4FEFF13B8D4A" seqno="3" style="DUID=A6567C80;"/>
-				<UML:DiagramElement geometry="Left=203;Top=348;Right=673;Bottom=535;" subject="EAID_EED70891_BD66_420d_ADBC_EEA6CE5B85B8" seqno="4" style="DUID=B88BE655;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
-				<UML:DiagramElement geometry="Left=249;Top=41;Right=627;Bottom=228;" subject="EAID_3A94C7CC_AD39_41fd_A07F_C50D8969A361" seqno="5" style="DUID=76827A3A;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=605;Top=912;Right=943;Bottom=1026;" subject="EAID_15049AFC_0CBA_45bc_828F_643E6396D959" seqno="1" style="DUID=F46F25C3;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=523;Top=670;Right=1022;Bottom=813;" subject="EAID_5D72A09F_8251_4e6e_B6E2_15DE5683B4AE" seqno="2" style="DUID=183C556E;"/>
+				<UML:DiagramElement geometry="Left=106;Top=886;Right=359;Bottom=995;" subject="EAID_92FE47D4_06A6_44d2_BAB9_60161CF4A212" seqno="3" style="DUID=A77E658B;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=30;Top=675;Right=437;Bottom=793;" subject="EAID_F526B73A_D19E_406c_95F5_4FEFF13B8D4A" seqno="4" style="DUID=A6567C80;"/>
+				<UML:DiagramElement geometry="Left=203;Top=348;Right=673;Bottom=535;" subject="EAID_EED70891_BD66_420d_ADBC_EEA6CE5B85B8" seqno="5" style="DUID=B88BE655;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=249;Top=41;Right=627;Bottom=228;" subject="EAID_3A94C7CC_AD39_41fd_A07F_C50D8969A361" seqno="6" style="DUID=76827A3A;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=40:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_CAE9A9B3_3849_46c7_BA53_BCC480C160D0" style="Mode=3;EOID=183C556E;SOID=F46F25C3;Color=-1;LWidth=0;Hidden=0;"/>
 				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_46503303_F965_4806_9CA0_1976A96C9754" style="Mode=3;EOID=B88BE655;SOID=183C556E;Color=-1;LWidth=0;Hidden=0;"/>
-				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=61:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_387104A9_510B_4117_AE03_4C4B9FC3B1F3" style="Mode=3;EOID=A6567C80;SOID=A77E658B;Color=-1;LWidth=0;Hidden=0;"/>
+				<UML:DiagramElement geometry="EDGE=2;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_9B3319EC_87BF_475a_AC01_51AC9175547E" style="Mode=3;EOID=F46F25C3;SOID=A77E658B;Color=-1;LWidth=0;Hidden=1;"/>
+				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=61:CY=13:OX=-8:OY=-7:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_387104A9_510B_4117_AE03_4C4B9FC3B1F3" style="Mode=3;EOID=A6567C80;SOID=A77E658B;Color=-1;LWidth=0;Hidden=0;"/>
 				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_D7B438E8_23C1_450d_95BE_76026F78B0F3" style="Mode=3;EOID=B88BE655;SOID=A6567C80;Color=-1;LWidth=0;Hidden=0;"/>
 				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=3;$LLB=CX=12:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=30:CY=13:OX=1:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_9A062F0C_FBA1_471e_96AE_71B3E19DA662" style="Mode=3;EOID=B88BE655;SOID=76827A3A;Color=-1;LWidth=0;Hidden=0;"/>
 				<UML:DiagramElement geometry="SX=-77;SY=-93;EX=-76;EY=67;EDGE=3;$LLB=;LLT=CX=90:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_A088C1A9_4899_487f_8A53_F1D44076C656" style="Mode=3;EOID=B88BE655;SOID=76827A3A;Color=-1;LWidth=0;Hidden=0;"/>
@@ -952,12 +1014,12 @@
 				<UML:TaggedValue tag="diagram_guid" value="EAID_C77D0B28_0C51_4bfe_A9F0_2AC7F5229F21"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
-		<UML:DiagramElement geometry="Left=251;Top=1140;Right=658;Bottom=1285;" subject="EAID_5D72A09F_8251_4e6e_B6E2_15DE5683B4AE" seqno="2" style="DUID=610415E7;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;">
+		<UML:DiagramElement geometry="Left=203;Top=1146;Right=707;Bottom=1291;" subject="EAID_5D72A09F_8251_4e6e_B6E2_15DE5683B4AE" seqno="2" style="DUID=610415E7;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_365D7CFD_0ABF_4433_84C6_5F60C712F7CC"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
-		<UML:DiagramElement geometry="Left=69;Top=616;Right=476;Bottom=761;" subject="EAID_5D72A09F_8251_4e6e_B6E2_15DE5683B4AE" seqno="3" style="DUID=62E9C248;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;">
+		<UML:DiagramElement geometry="Left=69;Top=616;Right=573;Bottom=761;" subject="EAID_5D72A09F_8251_4e6e_B6E2_15DE5683B4AE" seqno="3" style="DUID=62E9C248;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_5450BFDA_779A_4b66_BDF6_5900B8E2DB59"/>
 			</UML:ModelElement.taggedValue>
@@ -972,16 +1034,16 @@
 				<UML:TaggedValue tag="diagram_guid" value="EAID_5450BFDA_779A_4b66_BDF6_5900B8E2DB59"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
-		<UML:DiagramElement geometry="EDGE=2;$LLB=;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_12E30062_107D_49db_9714_F364BCE71929" style="Mode=3;EOID=4FBFD983;SOID=62E9C248;Color=-1;LWidth=0;">
-			<UML:ModelElement.taggedValue>
-				<UML:TaggedValue tag="diagram_guid" value="EAID_5450BFDA_779A_4b66_BDF6_5900B8E2DB59"/>
-				<UML:TaggedValue tag="hidden" value="255"/>
-			</UML:ModelElement.taggedValue>
-		</UML:DiagramElement>
 		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_12E30062_107D_49db_9714_F364BCE71929" style="Mode=3;EOID=936F6D2D;SOID=610415E7;Color=-1;LWidth=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_365D7CFD_0ABF_4433_84C6_5F60C712F7CC"/>
 				<UML:TaggedValue tag="hidden" value="0"/>
+			</UML:ModelElement.taggedValue>
+		</UML:DiagramElement>
+		<UML:DiagramElement geometry="EDGE=2;$LLB=;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_12E30062_107D_49db_9714_F364BCE71929" style="Mode=3;EOID=4FBFD983;SOID=62E9C248;Color=-1;LWidth=0;">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="diagram_guid" value="EAID_5450BFDA_779A_4b66_BDF6_5900B8E2DB59"/>
+				<UML:TaggedValue tag="hidden" value="255"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
 		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_660FBA47_0502_4036_B82E_CAA04A9995AE" style="Mode=3;EOID=D5536125;SOID=62E9C248;Color=-1;LWidth=0;">
@@ -990,16 +1052,16 @@
 				<UML:TaggedValue tag="hidden" value="0"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
-		<UML:DiagramElement geometry="EDGE=2;$LLB=;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_12E30062_107D_49db_9714_F364BCE71929" style="Mode=3;EOID=4FBFD983;SOID=62E9C248;Color=-1;LWidth=0;">
-			<UML:ModelElement.taggedValue>
-				<UML:TaggedValue tag="diagram_guid" value="EAID_5450BFDA_779A_4b66_BDF6_5900B8E2DB59"/>
-				<UML:TaggedValue tag="hidden" value="255"/>
-			</UML:ModelElement.taggedValue>
-		</UML:DiagramElement>
 		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_12E30062_107D_49db_9714_F364BCE71929" style="Mode=3;EOID=936F6D2D;SOID=610415E7;Color=-1;LWidth=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_365D7CFD_0ABF_4433_84C6_5F60C712F7CC"/>
 				<UML:TaggedValue tag="hidden" value="0"/>
+			</UML:ModelElement.taggedValue>
+		</UML:DiagramElement>
+		<UML:DiagramElement geometry="EDGE=2;$LLB=;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_12E30062_107D_49db_9714_F364BCE71929" style="Mode=3;EOID=4FBFD983;SOID=62E9C248;Color=-1;LWidth=0;">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="diagram_guid" value="EAID_5450BFDA_779A_4b66_BDF6_5900B8E2DB59"/>
+				<UML:TaggedValue tag="hidden" value="255"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
 		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_660FBA47_0502_4036_B82E_CAA04A9995AE" style="Mode=3;EOID=D5536125;SOID=62E9C248;Color=-1;LWidth=0;">
@@ -1051,6 +1113,7 @@
 		<EAStub xmi.id="EAID_EED70891_BD66_420d_ADBC_EEA6CE5B85B8" name="Db" UMLType="Class"/>
 		<EAModel.paramSub/>
 		<EAStub xmi.id="EAID_063BCCB6_41A6_4364_8C1A_7612B5AB1DDA" name="ComDbSrv" UMLType="Class"/>
+		<EAStub xmi.id="EAID_15049AFC_0CBA_45bc_828F_643E6396D959" name="Url" UMLType="Class"/>
 		<EAStub xmi.id="EAID_92FE47D4_06A6_44d2_BAB9_60161CF4A212" name="Json" UMLType="Class"/>
 		<EAStub xmi.id="EAID_E4F338C8_4C59_4695_B24F_78F6EE23C734" name="DataMgrSrv" UMLType="Class"/>
 	</XMI.extensions>

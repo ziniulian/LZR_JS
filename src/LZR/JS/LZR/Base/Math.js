@@ -58,3 +58,13 @@ LZR.Base.Math.prototype.format = function (f/*as:double*/, digit/*as:int*/)/*as:
 	return d + "." + x;
 };
 LZR.Base.Math.prototype.format.lzrClass_ = LZR.Base.Math;
+
+// 将字符串转换成数字
+LZR.Base.Math.prototype.str2num = function (num/*as:string*/)/*as:double*/ {
+	if (num || (num === 0)) {
+		return num - 0;
+	} else {
+		return NaN;
+	}
+};
+LZR.Base.Math.prototype.str2num.lzrClass_ = LZR.Base.Math;

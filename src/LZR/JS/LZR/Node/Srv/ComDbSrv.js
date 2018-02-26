@@ -68,18 +68,26 @@ LZR.Node.Srv.ComDbSrv.prototype.hdObj_ = function (obj/*as:Object*/) {
 };
 LZR.Node.Srv.ComDbSrv.prototype.hdObj_.lzrClass_ = LZR.Node.Srv.ComDbSrv;
 
+// 初始化Ajax
+LZR.Node.Srv.ComDbSrv.prototype.initAjx = function () {
+	if (!this.dms.ds.vs) {
+		this.dms.initAjx();
+		this.dms.ajx.evt.get.add(LZR.bind(this, function (r) {
+			this.ajx.crtEvt({
+				vs: this.dms.ds.vs + "srvTrace/"
+			});
+			console.log("DomainSrv OK!");
+		}));
+		this.dms.get("vs");
+	}
+};
+LZR.Node.Srv.ComDbSrv.prototype.initAjx.lzrClass_ = LZR.Node.Srv.ComDbSrv;
+
 // 初始化数据库
 LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as:string*/) {
-	// // 域名
-	// this.dms.initAjx();
-	// this.dms.ajx.evt.get.add(LZR.bind(this, function (r) {
-	// 	this.ajx.crtEvt({
-	// 		hd_sqls: {
-	// 			vs: r.vs + "srvTrace/<0>/<1>/<2>"
-	// 		}
-	// 	});
-	// }));
-	// this.dms.get("vs");
+	if (this.logAble) {
+		this.initAjx();
+	}
 
 	// 数据库设置
 	this.mdb.conf = conf;
@@ -165,8 +173,14 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 
 		// 记录操作日志
 		if (b && (this.logAble & 2)) {
-			console.log("dbadd");
-			// this.ajx.qry("vs", req, res, next, [encodeURIComponent(req.protocol + "://" + req.hostname + req.originalUrl), "dbAdd - " + r.result.n, this.utNode.getClientIp(req)]);
+			this.ajx.qry("vs", req, res, next, null, {
+				url: req.protocol + "://" + req.hostname + req.originalUrl,
+				ip: this.utNode.getClientIp(req),
+				uuid: {
+					method: "add",
+					cond: r.insertedIds
+				}
+			});
 		}
 	}));
 	this.mdb.evt.qry.add(LZR.bind(this, function (r, req, res, next) {
@@ -201,8 +215,11 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 
 		// 记录操作日志
 		if (b && (this.logAble & 4)) {
-			console.log("dbset");
-			// this.ajx.qry("vs", req, res, next, [encodeURIComponent(req.protocol + "://" + req.hostname + req.originalUrl), "dbSet - " + r.result.nModified, this.utNode.getClientIp(req)]);
+			this.ajx.qry("vs", req, res, next, null, {
+				url: req.protocol + "://" + req.hostname + req.originalUrl,
+				ip: this.utNode.getClientIp(req),
+				uuid: req.qpobj.comDbSrvCond
+			});
 		}
 	}));
 	this.mdb.evt.del.add(LZR.bind(this, function (r, req, res, next) {
@@ -215,8 +232,11 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 
 		// 记录操作日志
 		if (b && (this.logAble & 1)) {
-			console.log("dbdel");
-			// this.ajx.qry("vs", req, res, next, [encodeURIComponent(req.protocol + "://" + req.hostname + req.originalUrl), "dbDel - " + r.result.n, this.utNode.getClientIp(req)]);
+			this.ajx.qry("vs", req, res, next, null, {
+				url: req.protocol + "://" + req.hostname + req.originalUrl,
+				ip: this.utNode.getClientIp(req),
+				uuid: req.qpobj.comDbSrvCond
+			});
 		}
 	}));
 };
@@ -237,15 +257,19 @@ LZR.Node.Srv.ComDbSrv.prototype.add = function (req/*as:Object*/, res/*as:Object
 	} else {
 		req.qpobj.comDbSrvObjs = [objs];
 	}
-	this.mdb.qry("get", req, res, next, [cond]);
+	if (cond) {
+		this.mdb.qry("get", req, res, next, [cond]);
+	} else {
+		this.mdb.qry("add", req, res, next, [req.qpobj.comDbSrvObjs]);
+	}
 };
 LZR.Node.Srv.ComDbSrv.prototype.add.lzrClass_ = LZR.Node.Srv.ComDbSrv;
 
 // 分页查询
 LZR.Node.Srv.ComDbSrv.prototype.qry = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/, k/*as:string*/, v/*as:Object*/, cond/*as:Object*/, mark/*as:Object*/, noRes/*as:boolean*/) {
 	this.setPro (req, "qry", noRes);
-	var n = (req.params.size - 0) || (req.body.size - 0) || this.qrySize;
-	var s = (req.params.sort - 0) || (req.body.sort - 0) || this.qrySort;
+	var n = (req.body.size - 0) || (req.params.size - 0) || this.qrySize;
+	var s = (req.body.sort - 0) || (req.params.sort - 0) || this.qrySort;
 	var o = {};
 	if (!cond) {
 		cond = {};
@@ -255,13 +279,17 @@ LZR.Node.Srv.ComDbSrv.prototype.qry = function (req/*as:Object*/, res/*as:Object
 	}
 	if (s > 0) {
 		s = 1;
-		if (v && (n > 0)) {		// BUG: 目前此方法会忽略掉 v=0 的条件
-			cond[k]["$gte"] = v;
+		if ((v || v === 0) && (n > 0)) {
+			if (!cond[k]["$gte"] || cond[k]["$gte"] < v) {
+				cond[k]["$gte"] = v;
+			}
 		}
 	} else {
 		s = -1;
-		if (v && (n > 0)) {
-			cond[k]["$lte"] = v;
+		if ((v || v === 0) && (n > 0)) {
+			if (!cond[k]["$lte"] || cond[k]["$lte"] > v) {
+				cond[k]["$lte"] = v;
+			}
 		}
 	}
 	if (n > 0) {
@@ -269,6 +297,10 @@ LZR.Node.Srv.ComDbSrv.prototype.qry = function (req/*as:Object*/, res/*as:Object
 		o[k] = s;
 		this.mdb.qry("qry", req, res, next, [cond, mark, o, n]);
 	} else if (this.qryDelAble && n === -2) {
+		req.qpobj.comDbSrvCond = {
+			method: "del",
+			cond: cond
+		};
 		this.mdb.qry("del", req, res, next, [cond]);
 	} else {
 		this.mdb.qry("count", req, res, next, [cond]);
@@ -286,6 +318,10 @@ LZR.Node.Srv.ComDbSrv.prototype.count.lzrClass_ = LZR.Node.Srv.ComDbSrv;
 // 修改
 LZR.Node.Srv.ComDbSrv.prototype.set = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/, cond/*as:Object*/, cont/*as:Object*/, noRes/*as:boolean*/) {
 	this.setPro (req, "set", noRes);
+	req.qpobj.comDbSrvCond = {
+		method: "set",
+		cond: cond
+	};
 	this.mdb.qry("set", req, res, next, [cond, cont]);
 };
 LZR.Node.Srv.ComDbSrv.prototype.set.lzrClass_ = LZR.Node.Srv.ComDbSrv;
@@ -293,6 +329,10 @@ LZR.Node.Srv.ComDbSrv.prototype.set.lzrClass_ = LZR.Node.Srv.ComDbSrv;
 // 删除
 LZR.Node.Srv.ComDbSrv.prototype.del = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/, cond/*as:Object*/, noRes/*as:boolean*/) {
 	this.setPro (req, "del", noRes);
+	req.qpobj.comDbSrvCond = {
+		method: "del",
+		cond: cond
+	};
 	this.mdb.qry("del", req, res, next, [cond]);
 };
 LZR.Node.Srv.ComDbSrv.prototype.del.lzrClass_ = LZR.Node.Srv.ComDbSrv;

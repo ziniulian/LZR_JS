@@ -2,13 +2,13 @@
 作者：子牛连
 类名：NodeAjax
 说明：nodejs 版的 ajax 工具
-创建日期：27-五月-2017 14:20:57
+创建日期：25-二月-2018 8:56:26
 版本号：1.0
 *************************************************/
 
 LZR.load([
 	"LZR.Node.Db",
-	"LZR.Base.Str"
+	"LZR.HTML.Util.Url"
 ], "LZR.Node.Db.NodeAjax");
 LZR.Node.Db.NodeAjax = function (obj) /*bases:LZR.Node.Db*/ {
 	LZR.initSuper(this, obj);
@@ -27,6 +27,9 @@ LZR.Node.Db.NodeAjax = function (obj) /*bases:LZR.Node.Db*/ {
 
 	// 字符编码
 	this.enc = "";	/*as:string*/
+
+	// URL工具
+	this.utUrl/*m*/ = LZR.getSingleton(LZR.HTML.Util.Url);	/*as:LZR.HTML.Util.Url*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
@@ -51,42 +54,43 @@ LZR.Node.Db.NodeAjax.prototype.init_ = function (obj/*as:Object*/) {
 LZR.Node.Db.NodeAjax.prototype.init_.lzrClass_ = LZR.Node.Db.NodeAjax;
 
 // 执行查询
-LZR.Node.Db.NodeAjax.prototype.qry = function (sqlNam/*as:string*/, req/*as:Object*/, res/*as:Object*/, next/*as:fun*/, args/*as:___*/) {
+LZR.Node.Db.NodeAjax.prototype.qry = function (sqlNam/*as:string*/, req/*as:Object*/, res/*as:Object*/, next/*as:fun*/, args/*as:Array*/, postObj/*as:Object*/) {
 	var url = this.sqls[sqlNam];
 	var evt = this.evt[sqlNam];
 	var err = this.err[sqlNam];
 	var b = this.buf;
 	var e = this.enc;
 	var c = this.conv;
-	var h, hs;
+	var h, hs, o, rq, dat;
 
 	// URL 数据替换
-	for (var i = 0; i < args.length; i++) {
-		url = url.replace(new RegExp("<" + i + ">", "g"), args[i]);
-	}
+	hs = this.utUrl.parseUrl(url, args);
 
 	// 判断是否使用 HTTPS 协议
-	var hs = url.substr(0, 5).toLowerCase();
-	if (hs === "https") {
+	if (hs.protocol === "https") {
 		h = this.https;
-	} else if (hs === "http:") {
-		h = this.http;
 	} else {
-		var i = url.indexOf(",");
-		hs = url.substr(i + 1, 5);
-		if (hs === "https") {
-			h = this.https;
-			e = url.substr(0, i);
-		} else if (hs === "http:") {
-			h = this.http;
-			e = url.substr(0, i);
-		} else {
-			h = this.http;
-		}
+		h = this.http;
 	}
 
+	// 数据整理
+	o = {
+		hostname: hs.hostname,
+		port: hs.port,
+		path: hs.path,
+		method: postObj ? "POST" : "GET"
+	};
+	if (postObj) {
+		dat = this.utUrl.toPostDat(postObj);
+		o.headers = {
+			"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+			"Content-Length": b.byteLength(dat)
+		};
+	}
+// console.log(o);
+
 	// 发送 HTTP 请求
-	h.get(url, function (r) {
+	rq = h.request(o, function (r) {
 		var d = [];
 		var size = 0;
 		r.on("data", function (data) {
@@ -101,10 +105,17 @@ LZR.Node.Db.NodeAjax.prototype.qry = function (sqlNam/*as:string*/, req/*as:Obje
 			} else {
 				rr = buff.toString();
 			}
+// console.log(rr);
 			evt.execute(rr, req, res, next);
 		});
-	}).on ("error", function (err_r) {
+	});
+	rq.on ("error", function (err_r) {
 		err.execute(err_r, req, res, next);
-	})
+	});
+	if (postObj) {
+// console.log(dat);
+		rq.write(dat);
+	}
+	rq.end();
 };
 LZR.Node.Db.NodeAjax.prototype.qry.lzrClass_ = LZR.Node.Db.NodeAjax;
