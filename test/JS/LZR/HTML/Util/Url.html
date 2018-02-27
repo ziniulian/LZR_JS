@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>URL解析测试</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+		</style>
+
+		<script>
+			function init() {
+				LZR.load([
+					"LZR.HTML",
+					"LZR.HTML.Util.Url"
+				]);
+				var o;
+				var utUrl = LZR.getSingleton(LZR.HTML.Util.Url);
+
+				o = utUrl.parseUrl("http://user:pass@host.com:8080/p/a/t/h?query=string#hash");
+				console.log(o);
+				LZR.HTML.alog(utUrl.utJson.toJson(o));
+				LZR.HTML.alog("");
+
+				o = utUrl.parseUrl("gb2312,mongo<2>://<0>:<1>@db.lzrm<><<>><56>><ain.svc:27017/main?a=<3>&b=<<<&c=<a666>>69&d=<4>#q_<5>", ["userQ3c", "pasHaXHYzcbP5dPP", "db", "aaa", "ddd", "hash"], true);
+				console.log(o);
+				LZR.HTML.alog(utUrl.utJson.toJson(o.query));
+				LZR.HTML.alog("");
+
+				o = utUrl.parseUrl("<2>,mongodb://<0>:<1>@db.lzrm<><<>><56>><ain.svc:27017/main?a=<3>&b=<<<&c=<a666>>69&d=<4>#q_<5>", null);
+				console.log(o);
+				LZR.HTML.alog(o.search);
+				LZR.HTML.alog("");
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="boso">
+
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
+</html>

@@ -74,6 +74,7 @@ LZR.Node.Srv.ComDbSrv.prototype.initAjx = function () {
 		this.dms.initAjx();
 		this.dms.ajx.evt.get.add(LZR.bind(this, function (r) {
 			this.ajx.crtEvt({
+				// vs: "http://127.0.0.1/Vs/srvTrace/"	// 测试用
 				vs: this.dms.ds.vs + "srvTrace/"
 			});
 			console.log("DomainSrv OK!");

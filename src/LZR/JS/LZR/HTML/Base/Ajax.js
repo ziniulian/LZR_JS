@@ -74,7 +74,7 @@ LZR.HTML.Base.Ajax.prototype.post = function (url/*as:string*/, msg/*as:Object*/
 		this.ajax.send(this.utUrl.toPostDat ( msg ) || null);
 	} catch ( e ) {
 		if (isAsyn) {
-			this.evt.rsp.execute (null);
+			this.evt.rsp.execute (null, 404);
 		}
 		return null;
 	}

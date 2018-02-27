@@ -89,7 +89,6 @@ LZR.HTML.Util.Url.prototype.parseUrl = function (url/*as:string*/, args/*as:Arra
 	var wp = 0;		// 第一个 ? 的位置
 	var jp = 0;		// 第一个 # 的位置
 	var sp = 0;		// 尖括号起始位置
-	// http://user:pass@host.com:8080/p/a/t/h?query=string#hash
 	var r = {};
 	var p = "";
 	var i, j;
