@@ -35,9 +35,6 @@ LZR.HTML.Srv.ComDbQry = function (obj) /*interfaces:LZR.Base.InfEvt*/ {
 	// 属性名
 	this.keyNam = "";	/*as:string*/
 
-	// 参数名
-	this.proNam = "";	/*as:string*/
-
 	// 缓冲页
 	this.mark = {
 			doe: null,
@@ -61,6 +58,7 @@ LZR.HTML.Srv.ComDbQry = function (obj) /*interfaces:LZR.Base.InfEvt*/ {
 			add: "",
 			del: "",
 			set: "",
+			meg: "",
 			qry: ""
 		};	/*as:Object*/
 
@@ -145,7 +143,7 @@ LZR.HTML.Srv.ComDbQry.prototype.qry = function () {
 			sort: this.prePg ? -this.sort : this.sort
 		};
 		if (this.pgd !== null) {
-			this.cond[this.proNam] = this.pgd;
+			this.cond[this.keyNam] = this.pgd;
 		}
 		this.onQryb(this.cond);
 		this.qryajx.post(this.url.qry, this.cond, null, true);
@@ -254,7 +252,7 @@ LZR.HTML.Srv.ComDbQry.prototype.hdexe = function (txt/*as:string*/, sta/*as:int*
 		this.onExer(this.busy, d);
 		if (d.ok && this.busy !== "count") {
 			// if (this.addTmp !== null && this.busy === "add") {
-			if (this.addTmp !== null) {
+			if (this.addTmp !== null && d.msg === "add") {
 				this.pgd = this.addTmp;
 				this.addTmp = null;
 			}
@@ -281,6 +279,18 @@ LZR.HTML.Srv.ComDbQry.prototype.add = function (co/*as:Object*/, d/*as:Object*/)
 };
 LZR.HTML.Srv.ComDbQry.prototype.add.lzrClass_ = LZR.HTML.Srv.ComDbQry;
 
+// 合并
+LZR.HTML.Srv.ComDbQry.prototype.meg = function (co/*as:Object*/, d/*as:Object*/) {
+	if (!this.busy) {
+		this.showMark("meg");
+		if (d !== undefined) {
+			this.addTmp = d;
+		}
+		this.exeajx.post(this.url.meg, co, null, true);
+	}
+};
+LZR.HTML.Srv.ComDbQry.prototype.meg.lzrClass_ = LZR.HTML.Srv.ComDbQry;
+
 // 修改
 LZR.HTML.Srv.ComDbQry.prototype.set = function (co/*as:Object*/) {
 	if (!this.busy) {
@@ -303,8 +313,7 @@ LZR.HTML.Srv.ComDbQry.prototype.del.lzrClass_ = LZR.HTML.Srv.ComDbQry;
 LZR.HTML.Srv.ComDbQry.prototype.count = function () {
 	if (!this.busy) {
 		this.showMark("count");
-		this.cond.size = -1;
-		LZR.del(this.cond, this.proNam);
+		this.cond = { size: -1 };
 		this.onQryb(this.cond);
 		this.exeajx.post(this.url.qry, this.cond, null, true);
 	}
@@ -315,8 +324,7 @@ LZR.HTML.Srv.ComDbQry.prototype.count.lzrClass_ = LZR.HTML.Srv.ComDbQry;
 LZR.HTML.Srv.ComDbQry.prototype.qrydel = function () {
 	if (!this.busy) {
 		this.showMark("qrydel");
-		this.cond.size = -2;
-		LZR.del(this.cond, this.proNam);
+		this.cond = { size: -2 };
 		this.onQryb(this.cond);
 		this.exeajx.post(this.url.qry, this.cond, null, true);
 	}

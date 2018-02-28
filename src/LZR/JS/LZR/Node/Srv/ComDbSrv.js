@@ -161,6 +161,23 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 						this.mdb.qry("add", req, res, next, [req.qpobj.comDbSrvObjs]);
 					}
 					break;
+				case "meg":
+					// 合并
+					if (r.length) {
+						this.mdb.qry("set", req, res, next, [
+							req.qpobj.comDbSrvCond.cond,
+							{"$set": req.qpobj.comDbSrvObjs}
+						]);
+					} else {
+						var c = req.qpobj.comDbSrvCond.cond;
+						var o = req.qpobj.comDbSrvObjs;
+						var s;
+						for (s in o) {
+							c[s] = o[s];
+						}
+						this.mdb.qry("add", req, res, next, [[c]]);
+					}
+					break;
 			}
 		}
 	}));
@@ -169,7 +186,7 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 		if (req.qpobj.comDbSrvNoRes) {
 			req.qpobj.comDbSrvReturn = r.result;
 		} else {
-			res.json(this.clsR.get(r.result.n, "", b));
+			res.json(this.clsR.get(r.result.n, "add", b));
 		}
 
 		// 记录操作日志
@@ -177,7 +194,8 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 			this.ajx.qry("vs", req, res, next, null, {
 				url: req.protocol + "://" + req.hostname + req.originalUrl,
 				ip: this.utNode.getClientIp(req),
-				uuid: {
+				uuid: "dbLog",
+				dbLog: {
 					method: "add",
 					cond: r.insertedIds
 				}
@@ -200,7 +218,7 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 			req.qpobj.comDbSrvReturn = r;
 		} else {
 			if (r === 0) {
-				res.json(this.clsR.get(r, "", true));
+				res.json(this.clsR.get(r, "count", true));
 			} else {
 				res.json(this.clsR.get(r));
 			}
@@ -211,7 +229,7 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 		if (req.qpobj.comDbSrvNoRes) {
 			req.qpobj.comDbSrvReturn = r.result;
 		} else {
-			res.json(this.clsR.get(r.result.nModified, "", b));
+			res.json(this.clsR.get(r.result.nModified, "set", b));
 		}
 
 		// 记录操作日志
@@ -219,7 +237,8 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 			this.ajx.qry("vs", req, res, next, null, {
 				url: req.protocol + "://" + req.hostname + req.originalUrl,
 				ip: this.utNode.getClientIp(req),
-				uuid: req.qpobj.comDbSrvCond
+				uuid: "dbLog",
+				dbLog: req.qpobj.comDbSrvCond
 			});
 		}
 	}));
@@ -228,7 +247,7 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 		if (req.qpobj.comDbSrvNoRes) {
 			req.qpobj.comDbSrvReturn = r.result;
 		} else {
-			res.json(this.clsR.get(r.result.n, "", b));
+			res.json(this.clsR.get(r.result.n, "del", b));
 		}
 
 		// 记录操作日志
@@ -236,7 +255,8 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 			this.ajx.qry("vs", req, res, next, null, {
 				url: req.protocol + "://" + req.hostname + req.originalUrl,
 				ip: this.utNode.getClientIp(req),
-				uuid: req.qpobj.comDbSrvCond
+				uuid: "dbLog",
+				dbLog: req.qpobj.comDbSrvCond
 			});
 		}
 	}));
@@ -338,12 +358,26 @@ LZR.Node.Srv.ComDbSrv.prototype.del = function (req/*as:Object*/, res/*as:Object
 };
 LZR.Node.Srv.ComDbSrv.prototype.del.lzrClass_ = LZR.Node.Srv.ComDbSrv;
 
+// 合并
+LZR.Node.Srv.ComDbSrv.prototype.meg = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/, cond/*as:Object*/, cont/*as:Object*/, noRes/*as:boolean*/) {
+	this.setPro (req, "meg", noRes);
+	req.qpobj.comDbSrvObjs = cont;
+	req.qpobj.comDbSrvCond = {
+		method: "set",
+		cond: cond
+	};
+	this.mdb.qry("get", req, res, next, [cond, cont]);
+};
+LZR.Node.Srv.ComDbSrv.prototype.meg.lzrClass_ = LZR.Node.Srv.ComDbSrv;
+
 // 设置参数
 LZR.Node.Srv.ComDbSrv.prototype.setPro = function (req/*as:Object*/, typ/*as:string*/, noRes/*as:boolean*/) {
 	if (!req.qpobj) {
 		req.qpobj = {};
 	}
 	req.qpobj.comDbSrvTyp = typ;
-	req.qpobj.comDbSrvNoRes = noRes;
+	if (noRes) {
+		req.qpobj.comDbSrvNoRes = noRes;
+	}
 };
 LZR.Node.Srv.ComDbSrv.prototype.setPro.lzrClass_ = LZR.Node.Srv.ComDbSrv;

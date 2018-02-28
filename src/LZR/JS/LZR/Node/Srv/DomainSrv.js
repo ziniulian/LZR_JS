@@ -61,7 +61,7 @@ LZR.Node.Srv.DomainSrv.prototype.hdObj_.lzrClass_ = LZR.Node.Srv.DomainSrv;
 LZR.Node.Srv.DomainSrv.prototype.initAjx = function () {
 	this.ds.main = this.clsHtml.domain;
 	this.ajx.crtEvt({
-		get: this.clsHtml.domain + "Domain/srvGet/<0>"
+		get: this.clsHtml.domain + "Domain/srvGet/"
 	});
 	this.ajx.evt.get.add(LZR.bind(this, this.cbGet));
 };
@@ -70,7 +70,7 @@ LZR.Node.Srv.DomainSrv.prototype.initAjx.lzrClass_ = LZR.Node.Srv.DomainSrv;
 // 获取域名
 LZR.Node.Srv.DomainSrv.prototype.get = function (ids/*as:string*/) {
 	if (ids) {
-		this.ajx.qry("get", null, null, null, [ids]);
+		this.ajx.qry("get", null, null, null, null, {ids:ids});
 	}
 };
 LZR.Node.Srv.DomainSrv.prototype.get.lzrClass_ = LZR.Node.Srv.DomainSrv;

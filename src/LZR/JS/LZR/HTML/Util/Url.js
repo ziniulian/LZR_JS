@@ -234,9 +234,6 @@ LZR.HTML.Util.Url.prototype.toPostDat = function (dat/*as:Object*/, useURI/*as:b
 	var tt;
 	if (dat) {
 		switch (LZR.getClassName(dat)) {
-			case "string":
-				r = dat;
-				break;
 			case "Object":
 				for (var s in dat) {
 					if ("" !== r) {
@@ -244,13 +241,18 @@ LZR.HTML.Util.Url.prototype.toPostDat = function (dat/*as:Object*/, useURI/*as:b
 					}
 					r += useURI ? encodeURIComponent(s) : s;
 					r += "=";
-					if (dat[s] && (typeof dat[s] === "object")) {
-						tt = this.utJson.toJson ( dat[s] );
-						r += useURI ? encodeURIComponent(tt) : tt;
-					} else {
-						r += useURI ? encodeURIComponent(dat[s]) : dat[s];
+					if (dat[s] || dat[s] === 0) {
+						if (typeof dat[s] === "object") {
+							tt = this.utJson.toJson ( dat[s] );
+							r += useURI ? encodeURIComponent(tt) : tt;
+						} else {
+							r += useURI ? encodeURIComponent(dat[s]) : dat[s];
+						}
 					}
 				}
+				break;
+			case "string":
+				r = dat;
 				break;
 			default:
 				r = "dat=";

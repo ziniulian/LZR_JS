@@ -62,15 +62,20 @@ LZR.Node.Db.prototype.hdObj_.lzrClass_ = LZR.Node.Db;
 
 // 生成查询语句的事件
 LZR.Node.Db.prototype.crtEvt = function (sql/*as:Object*/) {
-	this.sqls = sql;
-	if (this.autoErr) {
-		this.err.connect.add(LZR.bind(this, this.hdAutoErr, "connect"));
+	if (!this.sqls) {
+		this.sqls = {};
+		if (this.autoErr) {
+			this.err.connect.add(LZR.bind(this, this.hdAutoErr, "connect"));
+		}
 	}
 	for (var s in sql) {
-		this.evt[s] = new this.clsCb();
-		this.err[s] = new this.clsCb();
-		if (this.autoErr) {
-			this.err[s].add(LZR.bind(this, this.hdAutoErr, s));
+		if (!this.sqls[s]) {
+			this.sqls[s] = sql[s];
+			this.evt[s] = new this.clsCb();
+			this.err[s] = new this.clsCb();
+			if (this.autoErr) {
+				this.err[s].add(LZR.bind(this, this.hdAutoErr, s));
+			}
 		}
 	}
 };

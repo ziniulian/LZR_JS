@@ -359,7 +359,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="49"/>
 								<UML:TaggedValue tag="ea_targetID" value="48"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+ro"/>
 							</UML:ModelElement.taggedValue>
@@ -1577,7 +1576,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="333"/>
 								<UML:TaggedValue tag="ea_targetID" value="49"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+utLzr"/>
@@ -1619,7 +1617,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="279"/>
 								<UML:TaggedValue tag="ea_targetID" value="49"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1.."/>
 								<UML:TaggedValue tag="lt" value="+clsCb"/>
@@ -1829,7 +1826,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="50"/>
 								<UML:TaggedValue tag="ea_targetID" value="370"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+utNode"/>
 							</UML:ModelElement.taggedValue>
@@ -1859,7 +1855,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_8695312B_275D_4bc1_8D04_DE970E97B4D5"/>
 								<UML:TaggedValue tag="date_created" value="2017-05-27 09:31:29"/>
-								<UML:TaggedValue tag="date_modified" value="2018-02-05 15:50:03"/>
+								<UML:TaggedValue tag="date_modified" value="2018-02-28 16:07:31"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\Node\Db.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -1872,7 +1868,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="303"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=18fc;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=1a53;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -2100,7 +2096,7 @@
 										<UML:TaggedValue tag="style" value="&#29983;&#25104;&#26597;&#35810;&#35821;&#21477;&#30340;&#20107;&#20214;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_63DF3200_6005_4305_93D6_BE2BB5877866">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="this.sqls = sql;&#xA;	if (this.autoErr) {&#xA;		this.err.connect.add(LZR.bind(this, this.hdAutoErr, &quot;connect&quot;));&#xA;	}&#xA;	for (var s in sql) {&#xA;		this.evt[s] = new this.clsCb();&#xA;		this.err[s] = new this.clsCb();&#xA;		if (this.autoErr) {&#xA;			this.err[s].add(LZR.bind(this, this.hdAutoErr, s));&#xA;		}&#xA;	}"/>
+												<UML:Comment name="if (!this.sqls) {&#xA;		this.sqls = {};&#xA;		if (this.autoErr) {&#xA;			this.err.connect.add(LZR.bind(this, this.hdAutoErr, &quot;connect&quot;));&#xA;		}&#xA;	}&#xA;	for (var s in sql) {&#xA;		if (!this.sqls[s]) {&#xA;			this.sqls[s] = sql[s];&#xA;			this.evt[s] = new this.clsCb();&#xA;			this.err[s] = new this.clsCb();&#xA;			if (this.autoErr) {&#xA;				this.err[s].add(LZR.bind(this, this.hdAutoErr, s));&#xA;			}&#xA;		}&#xA;	}"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -2382,7 +2378,6 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
@@ -2405,7 +2400,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="279"/>
 								<UML:TaggedValue tag="ea_targetID" value="303"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1.."/>
 								<UML:TaggedValue tag="lt" value="+clsCb"/>
@@ -2447,7 +2441,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="279"/>
 								<UML:TaggedValue tag="ea_targetID" value="303"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-77;SY=-93;EX=-76;EY=67;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+err.connect"/>
 							</UML:ModelElement.taggedValue>
@@ -2503,7 +2496,6 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
@@ -2638,7 +2630,7 @@
 				<UML:TaggedValue tag="diagram_guid" value="EAID_A3B4FD98_1661_478a_850A_5EE503E4B089"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
-		<UML:DiagramElement geometry="Left=834;Top=375;Right=1044;Bottom=445;" subject="EAID_CC5612D3_6196_4eb6_A360_FBC8FEFC0C19" seqno="2" style="DUID=A6B5A199;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;">
+		<UML:DiagramElement geometry="Left=838;Top=385;Right=1048;Bottom=455;" subject="EAID_CC5612D3_6196_4eb6_A360_FBC8FEFC0C19" seqno="2" style="DUID=A6B5A199;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_5450BFDA_779A_4b66_BDF6_5900B8E2DB59"/>
 			</UML:ModelElement.taggedValue>
