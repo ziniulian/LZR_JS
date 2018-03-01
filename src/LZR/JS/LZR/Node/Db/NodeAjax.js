@@ -81,7 +81,7 @@ LZR.Node.Db.NodeAjax.prototype.qry = function (sqlNam/*as:string*/, req/*as:Obje
 		method: postObj ? "POST" : "GET"
 	};
 	if (postObj) {
-		dat = this.utUrl.toPostDat(postObj);
+		dat = this.utUrl.toPostDat(postObj, true);
 		o.headers = {
 			"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
 			"Content-Length": b.byteLength(dat)

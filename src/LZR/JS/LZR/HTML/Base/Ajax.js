@@ -71,7 +71,7 @@ LZR.HTML.Base.Ajax.prototype.post = function (url/*as:string*/, msg/*as:Object*/
 			}
 			this.ajax.setRequestHeader("Content-Type", msgType);
 		}
-		this.ajax.send(this.utUrl.toPostDat ( msg ) || null);
+		this.ajax.send(this.utUrl.toPostDat(msg, true) || null);
 	} catch ( e ) {
 		if (isAsyn) {
 			this.evt.rsp.execute (null, 404);

@@ -44,7 +44,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_C8A29A0E_045C_475d_AE89_26A49FC582F9"/>
 								<UML:TaggedValue tag="date_created" value="2017-05-27 14:04:32"/>
-								<UML:TaggedValue tag="date_modified" value="2018-02-26 11:19:39"/>
+								<UML:TaggedValue tag="date_modified" value="2018-03-01 09:34:39"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\Node\Db\NodeAjax.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -57,7 +57,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="314"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=9ace;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=428e;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -237,7 +237,7 @@
 										<UML:TaggedValue tag="style" value="&#25191;&#34892;&#26597;&#35810;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_49C7FCBE_78C9_45ea_9073_FFEBB94FE51F">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var url = this.sqls[sqlNam];&#xA;	var evt = this.evt[sqlNam];&#xA;	var err = this.err[sqlNam];&#xA;	var b = this.buf;&#xA;	var e = this.enc;&#xA;	var c = this.conv;&#xA;	var h, hs, o, rq, dat;&#xA;&#xA;	// URL &#25968;&#25454;&#26367;&#25442;&#xA;	hs = this.utUrl.parseUrl(url, args);&#xA;&#xA;	// &#21028;&#26029;&#26159;&#21542;&#20351;&#29992; HTTPS &#21327;&#35758;&#xA;	if (hs.protocol === &quot;https&quot;) {&#xA;		h = this.https;&#xA;	} else {&#xA;		h = this.http;&#xA;	}&#xA;&#xA;	// &#25968;&#25454;&#25972;&#29702;&#xA;	o = {&#xA;		hostname: hs.hostname,&#xA;		port: hs.port,&#xA;		path: hs.path,&#xA;		method: postObj ? &quot;POST&quot; : &quot;GET&quot;&#xA;	};&#xA;	if (postObj) {&#xA;		dat = this.utUrl.toPostDat(postObj);&#xA;		o.headers = {&#xA;			&quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded;charset=UTF-8&quot;,&#xA;			&quot;Content-Length&quot;: b.byteLength(dat)&#xA;		};&#xA;	}&#xA;// console.log(o);&#xA;&#xA;	// &#21457;&#36865; HTTP &#35831;&#27714;&#xA;	rq = h.request(o, function (r) {&#xA;		var d = [];&#xA;		var size = 0;&#xA;		r.on(&quot;data&quot;, function (data) {&#xA;			d.push(data);&#xA;			size += data.length;&#xA;		});&#xA;		r.on(&quot;end&quot;, function () {&#xA;			var buff = b.concat(d, size);&#xA;			var rr;&#xA;			if (e) {&#xA;				rr = c.decode(buff, e);&#xA;			} else {&#xA;				rr = buff.toString();&#xA;			}&#xA;// console.log(rr);&#xA;			evt.execute(rr, req, res, next);&#xA;		});&#xA;	});&#xA;	rq.on (&quot;error&quot;, function (err_r) {&#xA;		err.execute(err_r, req, res, next);&#xA;	});&#xA;	if (postObj) {&#xA;// console.log(dat);&#xA;		rq.write(dat);&#xA;	}&#xA;	rq.end();"/>
+												<UML:Comment name="var url = this.sqls[sqlNam];&#xA;	var evt = this.evt[sqlNam];&#xA;	var err = this.err[sqlNam];&#xA;	var b = this.buf;&#xA;	var e = this.enc;&#xA;	var c = this.conv;&#xA;	var h, hs, o, rq, dat;&#xA;&#xA;	// URL &#25968;&#25454;&#26367;&#25442;&#xA;	hs = this.utUrl.parseUrl(url, args);&#xA;&#xA;	// &#21028;&#26029;&#26159;&#21542;&#20351;&#29992; HTTPS &#21327;&#35758;&#xA;	if (hs.protocol === &quot;https&quot;) {&#xA;		h = this.https;&#xA;	} else {&#xA;		h = this.http;&#xA;	}&#xA;&#xA;	// &#25968;&#25454;&#25972;&#29702;&#xA;	o = {&#xA;		hostname: hs.hostname,&#xA;		port: hs.port,&#xA;		path: hs.path,&#xA;		method: postObj ? &quot;POST&quot; : &quot;GET&quot;&#xA;	};&#xA;	if (postObj) {&#xA;		dat = this.utUrl.toPostDat(postObj, true);&#xA;		o.headers = {&#xA;			&quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded;charset=UTF-8&quot;,&#xA;			&quot;Content-Length&quot;: b.byteLength(dat)&#xA;		};&#xA;	}&#xA;// console.log(o);&#xA;&#xA;	// &#21457;&#36865; HTTP &#35831;&#27714;&#xA;	rq = h.request(o, function (r) {&#xA;		var d = [];&#xA;		var size = 0;&#xA;		r.on(&quot;data&quot;, function (data) {&#xA;			d.push(data);&#xA;			size += data.length;&#xA;		});&#xA;		r.on(&quot;end&quot;, function () {&#xA;			var buff = b.concat(d, size);&#xA;			var rr;&#xA;			if (e) {&#xA;				rr = c.decode(buff, e);&#xA;			} else {&#xA;				rr = buff.toString();&#xA;			}&#xA;// console.log(rr);&#xA;			evt.execute(rr, req, res, next);&#xA;		});&#xA;	});&#xA;	rq.on (&quot;error&quot;, function (err_r) {&#xA;		err.execute(err_r, req, res, next);&#xA;	});&#xA;	if (postObj) {&#xA;// console.log(dat);&#xA;		rq.write(dat);&#xA;	}&#xA;	rq.end();"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
