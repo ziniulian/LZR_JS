@@ -23,6 +23,9 @@ LZR.HTML.Srv.ComDbQry = function (obj) /*interfaces:LZR.Base.InfEvt*/ {
 	// 是否前翻
 	this.prePg = false;	/*as:boolean*/
 
+	// 是否自定义执行
+	this.custExe = false;	/*as:boolean*/
+
 	// 当前位置
 	this.pgd = null;	/*as:Object*/
 
@@ -250,7 +253,7 @@ LZR.HTML.Srv.ComDbQry.prototype.hdexe = function (txt/*as:string*/, sta/*as:int*
 	if (sta === 200) {
 		d = this.utJson.toObj(txt);
 		this.onExer(this.busy, d);
-		if (d.ok && this.busy !== "count") {
+		if (this.custExe === false && d.ok && this.busy !== "count") {
 			// if (this.addTmp !== null && this.busy === "add") {
 			if (this.addTmp !== null && d.msg === "add") {
 				this.pgd = this.addTmp;
@@ -263,7 +266,9 @@ LZR.HTML.Srv.ComDbQry.prototype.hdexe = function (txt/*as:string*/, sta/*as:int*
 	}
 
 	this.addTmp = null;
-	this.showMark(false);
+	if (!d || this.custExe === false) {
+		this.showMark(false);
+	}
 };
 LZR.HTML.Srv.ComDbQry.prototype.hdexe.lzrClass_ = LZR.HTML.Srv.ComDbQry;
 
