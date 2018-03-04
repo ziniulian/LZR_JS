@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Flicr 图片上传测试</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
+		<meta charset="utf-8" />
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+
+			.boso {
+				width: 100%;
+				height: 100%;
+			}
+
+			.item {
+				display: inline-block;
+				width: 300px;
+				height: 300px;
+				margin: 10px;
+				background-image: url();
+				background-repeat: no-repeat;
+				background-position: center center;
+				background-size: contain;
+			}
+		</style>
+
+		<script>
+			function init() {
+				var dropEnable = true;
+
+				boso.ondragover = function (e) {
+					//ondragover中必须阻止事件的默认行为，默认地，无法将数据/元素放置到其他元素中。
+					e.preventDefault();
+				};
+
+				boso.ondrop = function (e) {
+					//drop 事件的默认行为是以链接形式打开，所以也需要阻止其默认行为。
+					e.preventDefault();
+
+					//拿到拖入的文件
+					if (dropEnable) {
+						dropEnable = false;
+
+						var files = e.dataTransfer.files;
+						var len = files.length;
+
+						for (var i = 0; i < len; i++) {
+							// console.log (files[i]);
+							showFile(files[i]);
+						}
+
+						dropEnable = true;
+					}
+				};
+			}
+
+			// 显示需要上传的文件
+			function showFile (file) {
+				if (file.type.match(/image*/)) {
+					// 显示控件
+					var doe = document.createElement("div");
+					doe.className = "item";
+					boso.appendChild(doe);
+/*
+					// 显示图片
+					var reader = new FileReader();
+					reader.onload = function (e) {
+						doe.style.backgroundImage = "url(\"" + e.target.result + "\")";
+					};
+					reader.readAsDataURL(file);
+*/
+					// 上传
+					var dat = new FormData();
+					var xhr = new XMLHttpRequest();
+					// var upUrl = "https://api.flickr.com/services/upload/";
+					// var upUrl = "https://up.flickr.com/services/upload/";
+					var upUrl = "https://flickr.com/services/upload/";
+					var infoUrl = "https://www.flickr.com/services/rest/";
+					dat.append("photo", file);
+					dat.append("api_key", "0a99f30460429552f18cc31159706bd7");
+					dat.append("auth_token", "72157671074479021-2e770264eeca5fef");
+					dat.append("api_sig", "65b1fc51225e013263cf1a7be5153a16");
+					xhr.open("POST", upUrl, true);
+					// xhr.setRequestHeader("Content-Type", "multipart/form-data;");	// 加此参数，ajax会出错。
+
+					xhr.onload = function (e) {
+						var r;
+						var t = e.target;
+						// console.log (t);
+						// console.log (e);
+						// console.log(xhr.status);
+						// console.log (xhr.readyState);
+						// console.log(xhr.responseText);
+						switch (t.responseURL) {
+							case upUrl:
+								r = t.responseXML.firstChild;
+								if (r.getAttribute("stat") === "ok") {
+									var msg = new FormData();
+									msg.append("api_key", "0a99f30460429552f18cc31159706bd7");
+									msg.append("method", "flickr.photos.getInfo");
+									msg.append("photo_id", r.textContent.replace(/(^\s*)|(\s*$)/g, ""));
+									t.open("POST", infoUrl, true);
+									t.send(msg);
+								} else {
+									// 错误处理
+								}
+								break;
+							case infoUrl:
+								r = t.responseXML.firstChild;
+								if (r.getAttribute("stat") === "ok") {
+									r = r.firstElementChild;
+									// console.log (r.getAttribute("farm"));
+									// console.log (r.getAttribute("server"));
+									// console.log (r.getAttribute("id"));
+									// console.log (r.getAttribute("secret"));
+									// console.log (r.getAttribute("originalsecret"));
+									// console.log (r.getAttribute("originalformat"));
+									var s = "https://c.staticflickr.com/";
+									s += "/" + r.getAttribute("farm");
+									s += "/" + r.getAttribute("server");
+									s += "/" + r.getAttribute("id");
+									var b = s;
+									s += "_" + r.getAttribute("secret");
+									b += "_" + r.getAttribute("originalsecret");
+									s += "_t." + r.getAttribute("originalformat");
+									b += "_o." + r.getAttribute("originalformat");
+									console.log (s);
+									console.log (b);
+								} else {
+									// 错误处理
+								}
+								break;
+						}
+					}
+/*
+					xhr.onreadystatechange = function (e) {
+						console.log ("---------- " + xhr.readyState);
+						if ( xhr.readyState == 4 ) {
+							console.log(xhr.responseText);
+							console.log(xhr.status);
+						}
+						console.log ("---------- END -------");
+					}
+
+					//HTML5新增的API，存储了上传过程中的信息
+					xhr.upload.onprogress = function (e) {
+						var percent = 0;
+						if (e.lengthComputable) {
+							//更新页面显示效果
+							percent = 100 * e.loaded / e.total;
+							// progress.height(percent );
+							// percentage.text(percent + "%");
+							// percent >= 100 && li.addClass("done");
+						}
+						console.log ("percent : " + percent);
+					};
+*/
+					xhr.send(dat);
+
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="boso" class="boso">
+
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
+</html>

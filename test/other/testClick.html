@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>mousedown、moseup、click、touchstart、touchmove、touchend 事件顺序与触发测试</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
+		<meta charset="utf-8" />
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+
+			.btn {
+				width: 80px;
+				height: 50px;
+				background-color: yellow;
+				margin: 60px auto;
+			}
+		</style>
+
+		<script>
+			function init() {
+				btn.addEventListener("click", function (e) {
+					console.log ("click : " + e.button);
+				}, false);
+				btn.addEventListener("mousedown", function (e) {
+					console.log ("mousedown : " + e.button);
+				}, false);
+				btn.addEventListener("mousemove", function (e) {
+					console.log ("mousemove : " + e.button);
+				}, false);
+				btn.addEventListener("mouseup", function (e) {
+					console.log ("mouseup : " + e.button);
+				}, false);
+				btn.addEventListener("touchstart", function (e) {
+					e.preventDefault();	// 阻止触发click方法
+					console.log ("touchstart : " + e.button + " , " + e.identifier);
+					// console.log (e);
+					// console.log(Object.prototype.toString.apply ( e ));
+					// console.log(e.toString());
+				}, false);
+				btn.addEventListener("touchmove", function (e) {
+					console.log ("touchmove : " + e.button);
+				}, false);
+				btn.addEventListener("touchend", function (e) {
+					console.log ("touchend : " + e.button);
+					console.log (e);
+				}, false);
+
+				btn.click();
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="boso">
+			<div id="btn" class="btn"></div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
+</html>

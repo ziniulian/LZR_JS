@@ -2,16 +2,16 @@
 作者：子牛连
 类名：Mouse
 说明：鼠标控制器
-创建日期：27-七月-2016 12:30:03
-版本号：1.0
+创建日期：14-12月-2016 15:32:00
+版本号：1.1
 *************************************************/
 
 LZR.load([
 	"LZR.HTML.Base.Ctrl",
 	"LZR.HTML.Base.Doe",
 	"LZR.Base.CallBacks",
-	"LZR.HTML.Base.Ctrl.Mouse.MouseInfo",
-	"LZR.Base.Time"
+	"LZR.Base.Time",
+	"LZR.HTML.Base.Ctrl.Mouse.MouseInfo"
 ], "LZR.HTML.Base.Ctrl.Mouse");
 LZR.HTML.Base.Ctrl.Mouse = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	LZR.initSuper(this, obj);
@@ -22,6 +22,15 @@ LZR.HTML.Base.Ctrl.Mouse = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	// 长按间隔
 	this.longTim = 0;	/*as:int*/
 
+	// 触控长按容错系数
+	this.longRang = 5;	/*as:int*/
+
+	// 鼠标可用
+	this.mouseAble = true;	/*as:boolean*/
+
+	// 触控可用
+	this.touchAble = true;	/*as:boolean*/
+
 	// 滚轮是否可用
 	this.enableWheel = false;	/*as:boolean*/
 
@@ -29,28 +38,34 @@ LZR.HTML.Base.Ctrl.Mouse = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	this.enableMove = false;	/*as:boolean*/
 
 	// 事件
-	this.evt = {lk:{}, mid:{}, rk:{}};	/*as:Object*/
+	this.evt = {lk:{}, mid:{}, rk:{}, touch:{}};	/*as:Object*/
 
-	// 右长
-	this.evt.rk.lclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+	// 中滚
+	this.evt.mid.wheel/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
 	// 按下
 	this.evt.down/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
-	// 中双
-	this.evt.mid.dbclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
-
-	// 中单
-	this.evt.mid.click/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+	// 左双
+	this.evt.lk.dbclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
 	// 中拖
 	this.evt.mid.drop/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
+	// 中单
+	this.evt.mid.click/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+
+	// 抬起
+	this.evt.up/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+
+	// 经过
+	this.evt.move/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+
 	// 右拖
 	this.evt.rk.drop/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
-	// 右单
-	this.evt.rk.click/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+	// 右长
+	this.evt.rk.lclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
 	// 右双
 	this.evt.rk.dbclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
@@ -58,17 +73,23 @@ LZR.HTML.Base.Ctrl.Mouse = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	// 中长
 	this.evt.mid.lclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
-	// 中滚
-	this.evt.mid.wheel/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+	// 时间工具
+	this.utTim/*m*/ = new LZR.Base.Time();	/*as:LZR.Base.Time*/
 
 	// 中硬滚
 	this.evt.mid.dw/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
-	// 左双
-	this.evt.lk.dbclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+	// 右单
+	this.evt.rk.click/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
 	// 左单
 	this.evt.lk.click/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+
+	// 左长
+	this.evt.lk.lclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+
+	// 中双
+	this.evt.mid.dbclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
 	// 左拖
 	this.evt.lk.drop/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
@@ -76,17 +97,20 @@ LZR.HTML.Base.Ctrl.Mouse = function (obj) /*bases:LZR.HTML.Base.Ctrl*/ {
 	// 鼠标信息类
 	this.clsMof/*m*/ = (LZR.HTML.Base.Ctrl.Mouse.MouseInfo);	/*as:fun*/
 
-	// 时间工具
-	this.utTim/*m*/ = new LZR.Base.Time();	/*as:LZR.Base.Time*/
+	// 触单
+	this.evt.touch.click/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
-	// 左长
-	this.evt.lk.lclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+	// 触拖
+	this.evt.touch.drop/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
-	// 经过
-	this.evt.move/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+	// 触双
+	this.evt.touch.dbclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
-	// 抬起
-	this.evt.up/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+	// 触长
+	this.evt.touch.lclick/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
+
+	// 触控
+	this.evt.touch.ctrl/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
@@ -330,6 +354,100 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.hdWheel = function (doeo/*as:LZR.HTML.Base.Do
 };
 LZR.HTML.Base.Ctrl.Mouse.prototype.hdWheel.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
 
+// 处理触摸按下事件
+LZR.HTML.Base.Ctrl.Mouse.prototype.hdTouchDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
+	this.utEvt.stopDefault(evt);
+	this.utEvt.stopBubble(evt);
+
+	if (this.onDown(doeo, evt) && evt.touches.length === 1) {
+		var v = doeo.dat.hct_mof.touch;
+		if (v.touchObj === null) {
+			v.touchObj = evt.touches[0];
+
+			// 判断是否双击
+			var p = {x: v.touchObj.pageX, y: v.touchObj.pageY};
+			if (this.dbTim && v.dbStat === 2 && ((this.utTim.getTim() - v.tim) < this.dbTim)) {
+				v.dbStat = 3;
+
+				// 删除延时单击
+				clearTimeout(v.timeout);
+
+				// 触发双击事件
+				var x = p.x - doeo.position.left;
+				var y = p.y - doeo.position.top;
+				this.onTouchDouble(doeo, x, y, p.x, p.y);
+			} else {
+				v.dbStat = 1;
+				v.sx = p.x;
+				v.sy = p.y;
+				v.ex = p.x;
+				v.ey = p.y;
+				v.tim = this.utTim.getTim();
+			}
+		}
+	}
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.hdTouchDown.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
+// 处理触摸移动事件
+LZR.HTML.Base.Ctrl.Mouse.prototype.hdTouchMove = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
+	this.utEvt.stopDefault(evt);
+	this.utEvt.stopBubble(evt);
+
+	var v = doeo.dat.hct_mof.touch;
+	if (evt.touches.length === 1 && v.touchObj) {
+		var p = {x: evt.touches[0].pageX, y: evt.touches[0].pageY};
+		var x = p.x - doeo.position.left;
+		var y = p.y - doeo.position.top;
+
+		if (!(v.dbStat && (Math.abs(v.sx - p.x) < this.longRang) && (Math.abs(v.sy - p.y) < this.longRang))) {
+			v.dbStat = 0;
+			v.ex = p.x;
+			v.ey = p.y;
+			// 触发拖动事件
+			this.onTouchDrop(doeo, x, y, p.x, p.y);
+		}
+	} else {
+		// 触发触控事件
+		v.dbStat = 0;
+		this.onTouchCtrl(doeo, evt)
+	}
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.hdTouchMove.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
+// 处理触摸抬起事件
+LZR.HTML.Base.Ctrl.Mouse.prototype.hdTouchUp = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
+	this.utEvt.stopDefault(evt);
+	this.utEvt.stopBubble(evt);
+
+	var v = doeo.dat.hct_mof.touch;
+	// if (this.onUp(doeo, evt, v) && evt.touches.length === 0) {
+	if (this.onUp(doeo, evt, v) && v.touchObj) {
+		if (v.dbStat === 1) {
+			var t = this.utTim.getTim() - v.tim;
+			var p = {x: v.touchObj.pageX, y: v.touchObj.pageY};
+			var x = p.x - doeo.position.left;
+			var y = p.y - doeo.position.top;
+			if (this.dbTim && t < this.dbTim) {
+				// 双击状态
+				v.dbStat = 2;
+
+				// 创建延时单击
+				v.timeout = setTimeout(this.utLzr.bind(this, this.onTouchClick, doeo, x, y, p.x, p.y), this.dbTim);
+				v.tim += t;
+			} else if (t < this.longTim || !this.longTim) {
+				// 触发单击事件
+				this.onTouchClick(doeo, x, y, p.x, p.y);
+			} else {
+				// 触发长按事件
+				this.onTouchLong(doeo, x, y, p.x, p.y);
+			}
+		}
+		v.touchObj = null;
+	}
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.hdTouchUp.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
 // 按下事件
 LZR.HTML.Base.Ctrl.Mouse.prototype.onDown = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/)/*as:boolean*/ {
 	return this.evt.down.execute (doeo, evt);
@@ -432,6 +550,36 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.onDownWheel = function (doeo/*as:LZR.HTML.Bas
 };
 LZR.HTML.Base.Ctrl.Mouse.prototype.onDownWheel.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
 
+// 触摸双击事件
+LZR.HTML.Base.Ctrl.Mouse.prototype.onTouchDouble = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/, bx/*as:double*/, by/*as:double*/) {
+	this.evt.touch.dbclick.execute (doeo, x, y, bx, by);
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.onTouchDouble.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
+// 触摸单击事件
+LZR.HTML.Base.Ctrl.Mouse.prototype.onTouchClick = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/, bx/*as:double*/, by/*as:double*/) {
+	this.evt.touch.click.execute (doeo, x, y, bx, by);
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.onTouchClick.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
+// 触摸长按事件
+LZR.HTML.Base.Ctrl.Mouse.prototype.onTouchLong = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/, bx/*as:double*/, by/*as:double*/) {
+	this.evt.touch.lclick.execute (doeo, x, y, bx, by);
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.onTouchLong.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
+// 触摸拖动事件
+LZR.HTML.Base.Ctrl.Mouse.prototype.onTouchDrop = function (doeo/*as:LZR.HTML.Base.Doe*/, x/*as:double*/, y/*as:double*/, bx/*as:double*/, by/*as:double*/) {
+	this.evt.touch.drop.execute (doeo, x, y, bx, by);
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.onTouchDrop.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
+// 触控事件
+LZR.HTML.Base.Ctrl.Mouse.prototype.onTouchCtrl = function (doeo/*as:LZR.HTML.Base.Doe*/, evt/*as:Object*/) {
+	this.evt.touch.ctrl.execute (doeo, evt);
+};
+LZR.HTML.Base.Ctrl.Mouse.prototype.onTouchCtrl.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
+
 // ---- 给元素添加事件集
 LZR.HTML.Base.Ctrl.Mouse.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe*/, pro/*as:Object*/, obj/*as:Object*/) {
 	var v;
@@ -454,15 +602,33 @@ LZR.HTML.Base.Ctrl.Mouse.prototype.addEvt = function (doeo/*as:LZR.HTML.Base.Doe
 	if (this.enableWheel) {
 		doeo.addEvt ("wheel", this.utLzr.bind(this, this.hdWheel, doeo), this.className_);
 	}
-	doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo), this.className_);
+	if (this.mouseAble) {
+		doeo.addEvt ("mousedown", this.utLzr.bind(this, this.hdDown, doeo), this.className_);
+	}
+	if (this.touchAble) {
+		doeo.addEvt ("touchstart", this.utLzr.bind(this, this.hdTouchDown, doeo), this.className_);
+		doeo.addEvt ("touchmove", this.utLzr.bind(this, this.hdTouchMove, doeo), this.className_);
+		doeo.addEvt ("touchend", this.utLzr.bind(this, this.hdTouchUp, doeo), this.className_);
+	}
 };
 LZR.HTML.Base.Ctrl.Mouse.prototype.addEvt.lzrClass_ = LZR.HTML.Base.Ctrl.Mouse;
 
 // ---- 移除元素的事件集
 LZR.HTML.Base.Ctrl.Mouse.prototype.delEvt = function (doeo/*as:LZR.HTML.Base.Doe*/) {
-	doeo.delEvt ("mousemove", this.className_);
-	doeo.delEvt ("wheel", this.className_);
-	doeo.delEvt ("mousedown", this.className_);
+	if (this.enableMove) {
+		doeo.delEvt ("mousemove", this.className_);
+	}
+	if (this.enableWheel) {
+		doeo.delEvt ("wheel", this.className_);
+	}
+	if (this.mouseAble) {
+		doeo.delEvt ("mousedown", this.className_);
+	}
+	if (this.touchAble) {
+		doeo.delEvt ("touchstart", this.className_);
+		doeo.delEvt ("touchmove", this.className_);
+		doeo.delEvt ("touchend", this.className_);
+	}
 
 	// 删除数据
 	this.delDat(doeo, "hct_mof");

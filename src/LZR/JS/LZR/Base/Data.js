@@ -9,6 +9,7 @@
 LZR.load([
 	"LZR.Base",
 	"LZR.Base.Data",
+	"LZR.Base.Json",
 	"LZR.Base.Val.Ctrl"
 ], "LZR.Base.Data");
 LZR.Base.Data = function (obj) {
@@ -33,17 +34,20 @@ LZR.Base.Data = function (obj) {
 	// 最后一个子元素
 	this.last = null;	/*as:Object*/
 
+	// 数据之子
+	this.subs/*m*/ = {};	/*as:LZR.Base.Data*/
+
+	// 数据之父
+	this.parent/*m*/ = new LZR.Base.Val.Ctrl();	/*as:LZR.Base.Val.Ctrl*/
+
 	// 数据之名
 	this.id/*m*/ = new LZR.Base.Val.Ctrl();	/*as:LZR.Base.Val.Ctrl*/
 
 	// 数据之根
 	this.root/*m*/ = new LZR.Base.Val.Ctrl();	/*as:LZR.Base.Val.Ctrl*/
 
-	// 数据之父
-	this.parent/*m*/ = new LZR.Base.Val.Ctrl();	/*as:LZR.Base.Val.Ctrl*/
-
-	// 数据之子
-	this.subs/*m*/ = {};	/*as:LZR.Base.Data*/
+	// Json工具
+	this.utJson/*m*/ = LZR.getSingleton(LZR.Base.Json);	/*as:LZR.Base.Json*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
@@ -55,6 +59,43 @@ LZR.Base.Data.prototype.className_ = "LZR.Base.Data";
 LZR.Base.Data.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.Base.Data");
+
+// 构造器
+LZR.Base.Data.prototype.init_ = function (obj/*as:Object*/) {
+	this.root.set (this, false);
+	this.root.setEventObj (this);
+	this.root.evt.change.add(this.changeRoot);
+
+	this.id.setEventObj (this);
+	this.id.evt.change.add(this.changeId);
+
+	this.parent.setEventObj (this);
+	this.parent.evt.change.add(this.changeParent);
+
+	if (obj) {
+		LZR.setObj (this, obj);
+		this.hdObj_(obj);
+	}
+};
+LZR.Base.Data.prototype.init_.lzrClass_ = LZR.Base.Data;
+
+// 对构造参数的特殊处理
+LZR.Base.Data.prototype.hdObj_ = function (obj/*as:Object*/) {
+	var note;	/*
+				参数说明： obj 里有两个不能属于该类属性的特殊字段 chd_ 和 cls_
+				chd_: {		// 该字段用于递归创建子数据
+					a: {
+						id: "a",
+						cls_: LZR.Base.Data		// 用于明确数据类型，若为空，则使用对象自己的构造函数。
+					}
+				}
+			*/
+	if (obj.chd_) {
+		// 子数据的递归创建
+		this.initSubs(obj.chd_);
+	}
+};
+LZR.Base.Data.prototype.hdObj_.lzrClass_ = LZR.Base.Data;
 
 // 添加子数据
 LZR.Base.Data.prototype.add = function (sub/*as:Data*/, id/*as:string*/)/*as:boolean*/ {
@@ -102,25 +143,6 @@ LZR.Base.Data.prototype.add = function (sub/*as:Data*/, id/*as:string*/)/*as:boo
 };
 LZR.Base.Data.prototype.add.lzrClass_ = LZR.Base.Data;
 
-// 构造器
-LZR.Base.Data.prototype.init_ = function (obj/*as:Object*/) {
-	this.root.set (this, false);
-	this.root.setEventObj (this);
-	this.root.evt.change.add(this.changeRoot);
-
-	this.id.setEventObj (this);
-	this.id.evt.change.add(this.changeId);
-
-	this.parent.setEventObj (this);
-	this.parent.evt.change.add(this.changeParent);
-
-	if (obj) {
-		LZR.setObj (this, obj);
-		this.hdObj_(obj);
-	}
-};
-LZR.Base.Data.prototype.init_.lzrClass_ = LZR.Base.Data;
-
 // 父类变化时触发的事件
 LZR.Base.Data.prototype.changeParent = function (obj/*as:Object*/, self/*as:LZR.Base.Val.Ctrl*/, old/*as:Object*/) {
 	if (obj) {
@@ -147,6 +169,14 @@ LZR.Base.Data.prototype.changeId = function (obj/*as:Object*/, self/*as:LZR.Base
 	}
 };
 LZR.Base.Data.prototype.changeId.lzrClass_ = LZR.Base.Data;
+
+// 根变化时触发的事件
+LZR.Base.Data.prototype.changeRoot = function (obj/*as:Object*/, self/*as:LZR.Base.Val.Ctrl*/, old/*as:Object*/) {
+	for (var s in this.subs) {
+		this.subs[s].root.set (obj);
+	}
+};
+LZR.Base.Data.prototype.changeRoot.lzrClass_ = LZR.Base.Data;
 
 // 递归查询匹配ID的数据
 LZR.Base.Data.prototype.getById = function (id/*as:string*/)/*as:Object*/ {
@@ -220,86 +250,75 @@ LZR.Base.Data.prototype.initSubs = function (config/*as:Object*/) {
 		if (!c) {
 			// 获取对象的构造函数
 			c = this.constructor;
+		} else if (typeof(c) === "string") {
+			c = eval(c);
 		}
 		this.add( new c(o), s );
 	}
 };
 LZR.Base.Data.prototype.initSubs.lzrClass_ = LZR.Base.Data;
 
-// 根变化时触发的事件
-LZR.Base.Data.prototype.changeRoot = function (obj/*as:Object*/, self/*as:LZR.Base.Val.Ctrl*/, old/*as:Object*/) {
+// 删除所有子元素
+LZR.Base.Data.prototype.delAll = function ()/*as:Array*/ {
+	var r = [];
 	for (var s in this.subs) {
-		this.subs[s].root.set (obj);
+		r.push(this.del(s));
 	}
+	return r;
 };
-LZR.Base.Data.prototype.changeRoot.lzrClass_ = LZR.Base.Data;
+LZR.Base.Data.prototype.delAll.lzrClass_ = LZR.Base.Data;
+
+// 获取子元素的总数
+LZR.Base.Data.prototype.subCount = function ()/*as:Array*/ {
+	var r = 0;
+	if (this.count) {
+		for (var s in this.subs) {
+			r += this.subs[s].subCount();
+		}
+	} else {
+		r = 1;
+	}
+	return r;
+};
+LZR.Base.Data.prototype.subCount.lzrClass_ = LZR.Base.Data;
 
 // 结构输出
-LZR.Base.Data.prototype.print = function (indent/*as:string*/)/*as:string*/ {
+LZR.Base.Data.prototype.print = function (indent/*as:string*/, pros/*as:Array*/)/*as:string*/ {
 	if (!indent) {
 		indent = "";
 	}
+	if (!pros) {
+		pros = ["id"];
+	}
+
 	var r = indent;
-	r += this.id.get();
-	r += "\n";
+	r += "----------\n";
+	for (var i = 0; i < pros.length; i++) {
+		r += indent;
+		r += pros[i];
+		r += " : ";
+		if (pros[i] === "id") {
+			r += this.id.get();
+		} else {
+			// r += this[pros[i]].toString();
+			r += this[pros[i]];
+		}
+		r += "\n";
+	}
+	r += indent;
+	r += "----------\n";
+
 	indent += "\t";
 	for (var s in this.subs) {
-		r += this.subs[s].print(indent);
+		r += this.subs[s].print(indent, pros);
 	}
 	return r;
 };
 LZR.Base.Data.prototype.print.lzrClass_ = LZR.Base.Data;
 
-// 对构造参数的特殊处理
-LZR.Base.Data.prototype.hdObj_ = function (obj/*as:Object*/) {
-	var note;	/*
-				参数说明： obj 里有两个不能属于该类属性的特殊字段 chd_ 和 cls_ 
-				chd_: {		// 该字段用于递归创建子数据
-					a: {
-						id: "a",
-						cls_: LZR.Base.Data		// 用于明确数据类型，若为空，则使用对象自己的构造函数。
-					}
-				}
-			*/
-	if (obj.chd_) {
-		// 子数据的递归创建
-		this.initSubs(obj.chd_);
-	}
-};
-LZR.Base.Data.prototype.hdObj_.lzrClass_ = LZR.Base.Data;
-
 // 克隆
 LZR.Base.Data.prototype.clone = function (dep/*as:boolean*/)/*as:Object*/ {
-	var s;
-	var r = {};
-	var p = this.constructor.prototype;
-	for (s in this) {
-		if (p[s] === undefined) {
-			switch (s) {
-				case "root":
-				case "parent":
-				case "count":
-				case "subs":
-				case "prev":
-				case "next":
-				case "first":
-				case "last":
-					break;
-				case "id":
-					r.id = this.id.get();
-					break;
-				default:
-					this.hdClonePro (s, r, dep);
-			}
-		}
-	}
-// console.log (r);
-	r = new this.constructor(r);
-
-	for (s in this.subs) {
-		r.add (this.subs[s].clone(dep));
-	}
-	return r;
+	return new this.constructor(this.crtJsonObj(dep));
 };
 LZR.Base.Data.prototype.clone.lzrClass_ = LZR.Base.Data;
 
@@ -314,12 +333,86 @@ LZR.Base.Data.prototype.hdClonePro = function (name/*as:string*/, rt/*as:Object*
 };
 LZR.Base.Data.prototype.hdClonePro.lzrClass_ = LZR.Base.Data;
 
-// 删除所有子元素
-LZR.Base.Data.prototype.delAll = function ()/*as:Array*/ {
-	var r = [];
-	for (var s in this.subs) {
-		r.push(this.del(s));
+// 生成无子类的序列化对象
+LZR.Base.Data.prototype.crtSingleJsonObj = function (dep/*as:boolean*/)/*as:Object*/ {
+	var r = {
+		cls_: this.constructor
+	};
+	var p = this.constructor.prototype;
+	for (var s in this) {
+		if (p[s] === undefined) {
+			switch (s) {
+				case "root":
+				case "parent":
+				case "count":
+				case "subs":
+				case "prev":
+				case "next":
+				case "first":
+				case "last":
+				case "utJson":
+					break;
+				case "id":
+					r.id = this.id.get();
+					break;
+				default:
+					this.hdClonePro (s, r, dep);
+			}
+		}
 	}
+// console.log (r);
+
 	return r;
 };
-LZR.Base.Data.prototype.delAll.lzrClass_ = LZR.Base.Data;
+LZR.Base.Data.prototype.crtSingleJsonObj.lzrClass_ = LZR.Base.Data;
+
+// 生成序列化对象
+LZR.Base.Data.prototype.crtJsonObj = function (dep/*as:boolean*/)/*as:Object*/ {
+	var s, t;
+	var r = this.crtSingleJsonObj(dep);
+
+	if (this.count) {
+		r.chd_ = {};
+		for (s in this.subs) {
+			t = this.subs[s].crtJsonObj(dep);
+			r.chd_[t.id] = t;
+		}
+	}
+
+	return r;
+};
+LZR.Base.Data.prototype.crtJsonObj.lzrClass_ = LZR.Base.Data;
+
+// 序列化
+LZR.Base.Data.prototype.toJson = function (noCls/*as:boolean*/)/*as:string*/ {
+	return this.utJson.toJson(this.hdJsonObj(this.crtJsonObj(), noCls));
+};
+LZR.Base.Data.prototype.toJson.lzrClass_ = LZR.Base.Data;
+
+// 无子类的序列化
+LZR.Base.Data.prototype.toSingleJson = function (noCls/*as:boolean*/)/*as:string*/ {
+	return this.utJson.toJson(this.hdJsonObj(this.crtSingleJsonObj(), noCls));
+};
+LZR.Base.Data.prototype.toSingleJson.lzrClass_ = LZR.Base.Data;
+
+// 序列化格式处理
+LZR.Base.Data.prototype.hdJsonObj = function (oj/*as:Object*/, noCls/*as:boolean*/)/*as:Object*/ {
+	var s;
+	if (!oj.view) {
+		LZR.del(oj, "view");
+	}
+	if (!oj.ctrl) {
+		LZR.del(oj, "ctrl");
+	}
+	if (noCls) {
+		LZR.del(oj, "cls_");
+	} else {
+		oj.cls_ = oj.cls_.prototype.className_;
+	}
+
+	for (s in oj.chd_) {
+		oj.chd_[s] = this.hdJsonObj(oj.chd_[s]);
+	}
+	return oj;
+};
+LZR.Base.Data.prototype.hdJsonObj.lzrClass_ = LZR.Base.Data;

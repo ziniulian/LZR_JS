@@ -48,7 +48,7 @@ LZR.prototype.init_.lzrClass_ = LZR;
 
 // 对构造参数的特殊处理
 LZR.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
+
 };
 LZR.prototype.hdObj_.lzrClass_ = LZR;
 
@@ -123,14 +123,7 @@ LZR.loadTxt.lzrClass_ = LZR;
 
 // 加载js
 LZR.loadToJs = function (txt/*as:string*/) {
-	switch (this.loadTyp) {
-		case 0:	// Ajax
-			window.eval(txt);
-			break;
-		case 1:	// Node.js
-			eval(txt);
-			break;
-	}
+	eval(txt);
 };
 LZR.loadToJs.lzrClass_ = LZR;
 
@@ -266,13 +259,28 @@ LZR.load.lzrClass_ = LZR;
 
 // 加载外部库
 LZR.loadAnnex = function (obj/*as:Object*/) {
-	var a, s, n;
+	var a, s, n, b;
 	a = [];
 	for (s in obj) {
 		n = obj[s];
 		if (!this.annexs[n]) {
 			this.annexs[n] = true;
-			a.push(n);
+
+			// 特殊无须加载情况的处理
+			b = true;
+			switch (s) {
+				case "JSON":
+					try {
+						if (JSON) {
+							b = false;
+						}
+					} catch (e) {}
+					break;
+			}
+
+			if (b) {
+				a.push(n);
+			}
 		}
 	}
 	if (a.length > 0) {
@@ -488,7 +496,6 @@ LZR.getClassName.lzrClass_ = LZR;
 
 // 删除一个对象的属性
 LZR.del = function (obj/*as:Object*/, proName/*as:string*/) {
-	var note;
 	delete obj[proName];
 };
 LZR.del.lzrClass_ = LZR;
@@ -507,3 +514,40 @@ LZR.getNodejsModelPath = function (path/*as:string*/, fileNam/*as:string*/)/*as:
 	}
 };
 LZR.getNodejsModelPath.lzrClass_ = LZR;
+
+// 闭包调用
+LZR.bind = function (self/*as:Object*/, fun/*as:fun*/, args/*as:___*/)/*as:fun*/ {
+	var arg = Array.prototype.slice.call(arguments, 2);
+	return function () {
+		var i, args = [];
+		for ( i=0; i<arg.length; i++ ) {
+			args.push ( arg[i] );
+		}
+		for ( i=0; i<arguments.length; i++ ) {
+			args.push ( arguments[i] );
+		}
+		return fun.apply ( self, args );
+	};
+};
+LZR.bind.lzrClass_ = LZR;
+
+// 简单的克隆
+LZR.simpleClone = function (src/*as:Object*/, tag/*as:Object*/, filters/*as:___*/)/*as:Object*/ {
+	if (!tag) {
+		tag = {}
+	}
+
+	if (src !== tag) {
+		for (var s in src) {
+			tag[s] = src[s];
+		}
+	}
+
+	// 性能未测试，暂时以为这样过滤属性，要比循环判断每个属性是否附和 filter 条件要合理一些。
+	for (var i = 2; i < arguments.length; i++) {
+		this.del(tag, arguments[i]);
+	}
+
+	return tag;
+};
+LZR.simpleClone.lzrClass_ = LZR;

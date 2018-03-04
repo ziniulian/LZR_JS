@@ -6,9 +6,9 @@
 版本号：1.0
 *************************************************/
 
-LZR.loadAnnex({
-	html2canvas: "/Lib/Util/htm2cav/h2c.js"
-});
+// LZR.loadAnnex({
+// 	html2canvas: "/Lib/Util/htm2cav/h2c.js"
+// });
 
 LZR.load([
 	"LZR.HTML.Base.InfScrnshot",
@@ -18,7 +18,7 @@ LZR.HTML.Base.InfScrnshot.H2c = function (obj) /*interfaces:LZR.HTML.Base.InfScr
 	LZR.HTML.Base.InfScrnshot.call(this);
 
 	// 控件对象
-	this.h2c = html2canvas;	/*as:Object*/
+	this.h2c = null;	/*as:Object*/
 
 	// 代理服务名
 	this.proxy = "";	/*as:string*/
@@ -58,7 +58,9 @@ LZR.HTML.Base.InfScrnshot.H2c.prototype.init_.lzrClass_ = LZR.HTML.Base.InfScrns
 
 // 对构造参数的特殊处理
 LZR.HTML.Base.InfScrnshot.H2c.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
+	if (obj.hd_html2canvas) {
+		this.h2c = obj.hd_html2canvas;
+	}
 };
 LZR.HTML.Base.InfScrnshot.H2c.prototype.hdObj_.lzrClass_ = LZR.HTML.Base.InfScrnshot.H2c;
 
@@ -73,6 +75,8 @@ LZR.HTML.Base.InfScrnshot.H2c.prototype.shot = function (doe/*as:Object*/) {
 	if (this.proxy) {
 		d.proxy = this.proxy;
 	}
-	this.h2c(doe, d);
+	if (this.h2c) {
+		this.h2c(doe, d);
+	}
 };
 LZR.HTML.Base.InfScrnshot.H2c.prototype.shot.lzrClass_ = LZR.HTML.Base.InfScrnshot.H2c;

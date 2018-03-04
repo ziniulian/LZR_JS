@@ -28,9 +28,6 @@ LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo = function (obj) {
 	// 缓存图片数
 	this.catchNum = 0;	/*as:int*/
 
-	// 模版
-	this.modDoe = null;	/*as:LZR.HTML.Base.Doe*/
-
 	// 是否竖直放置滚动条
 	this.vertical = false;	/*as:boolean*/
 
@@ -51,6 +48,9 @@ LZR.HTML.Base.Ctrl.Thumbnails.ThumbnailsInfo = function (obj) {
 
 	// 被选中时的样式
 	this.scdCss = "Lc_hct_ThumbnailsBlockScd";	/*as:string*/
+
+	// 模版
+	this.modDoe/*m*/ = null;	/*as:LZR.HTML.Base.Doe*/
 
 	// 布局位置
 	this.position/*m*/ = new LZR.Base.Val.RangeNum();	/*as:LZR.Base.Val.RangeNum*/

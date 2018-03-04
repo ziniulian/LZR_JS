@@ -152,6 +152,9 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.crtDays = function (doeo/
 		if (sd) {
 			d.add(sd, i.toString());
 			this.ctrlScd.add(sd);
+
+			// 停止播放
+			sd.addEvt ("mousedown", this.tim.utLzr.bind(this, this.constructor.autoStop, sd), "DayTim_autoStop");
 		}
 	}
 };
@@ -313,3 +316,9 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.hdStepChg = function (doe
 	}
 };
 LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.prototype.hdStepChg.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo;
+
+// 自动停止播放
+LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.autoStop = function (doeo/*as:LZR.HTML.Base.Doe*/) {
+	doeo.root.get().getById("hct_DayTimPlayBtn").dat.hct_scd.set(false);
+};
+LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo.autoStop.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim.DayTimInfo;

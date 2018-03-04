@@ -14,8 +14,8 @@ LZR.load([
 
 // 测试服务的实例化
 var srv = new LZR.Node.Srv ({
-	ip: "192.168.1.236",
-	port: 8080
+	ip: "127.0.0.1",
+	port: 80
 });
 // console.log ("\n======= 测试服务的实例化 =======");
 // console.log (srv);
@@ -29,7 +29,7 @@ srv.use("*", function (req, res) {
 
 // 测试服务启动
 srv.start();
-console.log ("http://192.168.1.236:8080/");
+console.log ("http://127.0.0.1/");
 // console.log ("\n======= 测试服务启动 =======");
 // console.log (srv);
 // console.log ("======= 测试服务启动 END ======= \n");

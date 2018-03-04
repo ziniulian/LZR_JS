@@ -61,6 +61,8 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.init_ = function (obj/*as:Object*/) 
 	this.ctrlStrip.enableDropBase = false;
 	this.ctrlStrip.evt.chg.add(this.utLzr.bind(this, this.hdStrip), "DayTim_hdStrip");
 	this.ctrlStrip.evt.move.add(this.utLzr.bind(this, this.hdMoveShow), "DayTim_hdMoveShow");
+	this.ctrlStrip.btnCtrl.evt.down.add(this.clsInfo.autoStop, "DayTim_autoStop");
+	this.ctrlStrip.baseCtrl.evt.down.add(this.clsInfo.autoStop, "DayTim_autoStop");
 	this.ctrlBtn.evt.click.add(this.utLzr.bind(this, this.hdClick), "DayTim_hdClick");
 
 	if (obj) {
@@ -117,7 +119,7 @@ LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.hdClick = function (doeo/*as:LZR.HTM
 	}
 
 	// 停止播放
-	doeo.root.get().getById("hct_DayTimPlayBtn").dat.hct_scd.set(false);
+	this.clsInfo.autoStop(doeo);
 };
 LZR.HTML.Base.Ctrl.TimBase.DayTim.prototype.hdClick.lzrClass_ = LZR.HTML.Base.Ctrl.TimBase.DayTim;
 

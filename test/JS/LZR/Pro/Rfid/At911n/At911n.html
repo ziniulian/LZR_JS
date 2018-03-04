@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Temp</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
+		<meta charset="utf-8" />
+		<script src="/myLib/LZR.js"></script>
+
+		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+				font-family: "Microsoft YaHei";
+				font-size: 20px;
+			}
+
+			.boso {
+				height: 100%;
+			}
+
+			.listOut {
+				position: relative;
+				width: 100%;
+				height: 100%;
+			}
+
+			.list {
+				width: 100%;
+				height: 50%;
+				overflow: auto;
+			}
+
+			.tag {
+				position: relative;
+				width: 96%;
+				margin: 0 auto 0.2rem auto;
+			}
+
+			.tag .txt {
+				width: 83%;
+				margin: 0 0 0 17%;
+				font-size: 1.5rem;
+				line-height: 1.3;
+				font-weight: bold;
+				overflow: hidden;
+				color: #000;
+			}
+
+			.tag .hx {
+				width: 83%;
+				margin: 0 0 0 17%;
+				font-size: 0.8rem;
+				line-height: 1.2;
+				font-style: italic;
+				overflow: hidden;
+				color: #999;
+			}
+
+			.tag .tim {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 15%;
+				font-size: 1rem;
+				line-height: 2.5;
+				text-align: right;
+				overflow: hidden;
+				color: blue;
+			}
+
+			.bar {
+				position: absolute;
+				left: 0;
+				bottom: 0.5rem;
+				width: 100%;
+				text-align: center;
+				font-size: 0;
+			}
+
+			.ctrl {
+				width: 100%;
+			}
+
+			.btn {
+				display: inline-block;
+				cursor: pointer;
+				width: 48%;
+				margin: 0 1%;
+				font-size: 1rem;
+				line-height: 1.5;
+				background-color: yellow;
+			}
+
+			.btnB {
+				display: block;
+				width: 98%;
+				margin: 0 auto;
+			}
+
+			.btnSec {
+				background-color: #F0F;
+			}
+
+			/*设置元素不可见*/
+			.Lc_nosee {
+				display: none !important;
+			}
+
+			/*设置元素不能被选中*/
+			.Lc_noselect {
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+
+		</style>
+
+		<script>
+			function init() {
+				LZR.load([
+					"LZR.HTML",
+					"LZR.Pro.Rfid.At911n.At911nCtrl"
+				]);
+
+				var clsAt = LZR.Pro.Rfid.At911n.At911nCtrl;
+
+				var hwo = new clsAt ();
+				hwo.view.initView (document.getElementById("boso"), {
+					listOut: "listOut",
+					tagOut: "tagOut",
+
+					listDoeo: "list",
+					listMod: "mod",
+					listCtrlBar: "ctrl",
+					listStopBar: "listStopBtn",
+					btnCtrlCss: "btnSec"
+				}, {
+					scan: "scanBtn",
+					clean: "clearBtn",
+					listStop: "listStopBtn",
+
+					txt: "txt",
+					hx: "hx",
+					tim: "tim"
+				});
+
+				// LZR.HTML.alog ("test ：");
+				// LZR.HTML.alog ("");
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="boso" class="boso">
+			<div idLzr="listOut" class="listOut">
+				<div idLzr="list" class="list">
+					<div idLzr="mod" class="tag">
+						<div idLzr="txt" class="txt"></div>
+						<div idLzr="hx" class="hx"></div>
+						<div idLzr="tim" class="tim"></div>
+					</div>
+				</div>
+				<div idLzr="bar" class="bar">
+					<div idLzr="ctrl" class="ctrl">
+						<div idLzr="scanBtn" class="btn Lc_noselect">扫码</div><!-- 
+						 --><div idLzr="clearBtn" class="btn Lc_noselect">清空</div>
+					</div>
+					<div idLzr="listStopBtn" class="btn btnB Lc_noselect Lc_nosee">停止</div>
+				</div>
+			</div>
+
+			<div idLzr="tagOut" class="tagOut">
+				<!-- <div idLzr="ecp" class="tag">
+					<div class="nam">ECP</div>
+					<div idLzr="txt" class="txt"></div>
+					<div idLzr="hx" class="hx"></div>
+				</div>
+				<div idLzr="tid" class="tag">
+					<div class="nam">TID</div>
+					<div idLzr="txt" class="txt"></div>
+					<div idLzr="hx" class="hx"></div>
+				</div>
+				<div idLzr="usr" class="tag">
+					<div class="nam">User</div>
+					<div idLzr="txt" class="txt"></div>
+					<div idLzr="hx" class="hx"></div>
+				</div>
+				<div idLzr="bck" class="tag">
+					<div class="nam">Reserved</div>
+					<div idLzr="txt" class="txt"></div>
+					<div idLzr="hx" class="hx"></div>
+				</div>
+				<div idLzr="bar" class="bar">
+					<div idLzr="readBtn" class="btn"></div>
+					<div idLzr="writeBtn" class="btn"></div>
+				</div> -->
+			</div>
+			<div idLzr="stop" class="stop">
+				<div idLzr="stopBtn" class="stopBtn Lc_nosee"></div>
+			</div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		document.body.onload = init;
+	</script>
+</html>

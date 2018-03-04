@@ -34,7 +34,7 @@ function webapp () {
 			this.nodo = false;
 
 			// 时间筛选
-			this.timFilt = "08";
+			this.timFilt = "all";
 
 			//服务器地址
 			this.wsServer = "ws://192.168.1.130:8901";
@@ -287,7 +287,7 @@ function webapp () {
 				d.add(-24 * 3600 *1000);
 				r.subView.date.doe.value = d.format("yyyy-MM-dd");
 				this.scd("area", "d01");
-				this.scd("tim", "08");
+				this.scd("tim", "all");
 				this.scd("fom", "05");
 
 				// 添加事件

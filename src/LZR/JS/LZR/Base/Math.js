@@ -30,6 +30,12 @@ LZR.Base.Math.prototype.init_ = function (obj/*as:Object*/) {
 };
 LZR.Base.Math.prototype.init_.lzrClass_ = LZR.Base.Math;
 
+// 对构造参数的特殊处理
+LZR.Base.Math.prototype.hdObj_ = function (obj/*as:Object*/) {
+
+};
+LZR.Base.Math.prototype.hdObj_.lzrClass_ = LZR.Base.Math;
+
 // 消除小数的精度误差
 LZR.Base.Math.prototype.formatFloat = function (f/*as:double*/, digit/*as:int*/)/*as:double*/ {
 	var m = Math.pow(10, digit);
@@ -37,8 +43,28 @@ LZR.Base.Math.prototype.formatFloat = function (f/*as:double*/, digit/*as:int*/)
 };
 LZR.Base.Math.prototype.formatFloat.lzrClass_ = LZR.Base.Math;
 
-// 对构造参数的特殊处理
-LZR.Base.Math.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
+// 格式化为指定精度的字串
+LZR.Base.Math.prototype.format = function (f/*as:double*/, digit/*as:int*/)/*as:string*/ {
+	var m = Math.pow(10, digit);
+	var d = Math.floor(f);
+	var x = Math.floor((f - d) * m) + "";
+	var n = x.length;
+	if (digit > n) {
+		n = digit - n;
+		for (var i = 0; i < n; i++) {
+			x = "0" + x;
+		}
+	}
+	return d + "." + x;
 };
-LZR.Base.Math.prototype.hdObj_.lzrClass_ = LZR.Base.Math;
+LZR.Base.Math.prototype.format.lzrClass_ = LZR.Base.Math;
+
+// 将字符串转换成数字
+LZR.Base.Math.prototype.str2num = function (num/*as:string*/)/*as:double*/ {
+	if (num || (num === 0)) {
+		return num - 0;
+	} else {
+		return NaN;
+	}
+};
+LZR.Base.Math.prototype.str2num.lzrClass_ = LZR.Base.Math;

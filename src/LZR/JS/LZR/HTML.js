@@ -24,6 +24,9 @@ LZR.load(null, "LZR.HTML");
 // LOG容器
 LZR.HTML.logger = null;	/*as:Object*/
 
+// 主域名
+LZR.HTML.domain = "http://srv-lzrmain.193b.starter-ca-central-1.openshiftapps.com/";	/*as:string*/
+
 // 构造器
 LZR.HTML.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
@@ -32,6 +35,12 @@ LZR.HTML.prototype.init_ = function (obj/*as:Object*/) {
 	}
 };
 LZR.HTML.prototype.init_.lzrClass_ = LZR.HTML;
+
+// 对构造参数的特殊处理
+LZR.HTML.prototype.hdObj_ = function (obj/*as:Object*/) {
+
+};
+LZR.HTML.prototype.hdObj_.lzrClass_ = LZR.HTML;
 
 // 创建LOG
 LZR.HTML.createLog = function () {
@@ -64,9 +73,3 @@ LZR.HTML.alog = function (memo/*as:string*/) {
 	this.logger.innerHTML += "<br>";
 };
 LZR.HTML.alog.lzrClass_ = LZR.HTML;
-
-// 对构造参数的特殊处理
-LZR.HTML.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
-};
-LZR.HTML.prototype.hdObj_.lzrClass_ = LZR.HTML;
