@@ -198,20 +198,25 @@ LZR.HTML.Srv.ComDbQry.prototype.hdqry = function (txt/*as:string*/, sta/*as:int*
 		}
 	}
 
-	if (this.pgd) {
-		this.utDomTool.setProByNam(this.btn.preNam, "className", this.btn.showCss);
-	} else {
-		this.utDomTool.setProByNam(this.btn.preNam, "className", this.btn.hidCss);
-	}
-	if (this.pgn) {
-		this.utDomTool.setProByNam(this.btn.nextNam, "className", this.btn.showCss);
-	} else {
-		this.utDomTool.setProByNam(this.btn.nextNam, "className", this.btn.hidCss);
-	}
+	this.showBtn ("preNam", this.pgd);
+	this.showBtn ("nextNam", this.pgn);
 
 	this.showMark(false);
 };
 LZR.HTML.Srv.ComDbQry.prototype.hdqry.lzrClass_ = LZR.HTML.Srv.ComDbQry;
+
+// 设置按钮
+LZR.HTML.Srv.ComDbQry.prototype.showBtn = function (nam/*as:string*/, b/*as:boolean*/) {
+	var o = this.btn[nam];
+	if (o) {
+		if (b) {
+			this.utDomTool.setProByNam(this.btn[nam], "className", this.btn.showCss);
+		} else {
+			this.utDomTool.setProByNam(this.btn[nam], "className", this.btn.hidCss);
+		}
+	}
+};
+LZR.HTML.Srv.ComDbQry.prototype.showBtn.lzrClass_ = LZR.HTML.Srv.ComDbQry;
 
 // 第一页
 LZR.HTML.Srv.ComDbQry.prototype.first = function (v/*as:Object*/) {
