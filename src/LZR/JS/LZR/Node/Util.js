@@ -44,3 +44,26 @@ LZR.Node.Util.prototype.getClientIp = function (req/*as:Object*/)/*as:string*/ {
     req.connection.socket.remoteAddress;
 };
 LZR.Node.Util.prototype.getClientIp.lzrClass_ = LZR.Node.Util;
+
+// 逆 HTTP
+LZR.Node.Util.prototype.ptth = function (req/*as:Object*/, nam/*as:string*/)/*as:boolean*/ {
+	if (req.body.dat) {
+		var n = require(nam);
+		var c = req.socket;
+		var s, o = JSON.parse(req.body.dat);
+		c.removeAllListeners("data");
+		s = n.createConnection(o.port, o.host);
+		c.pipe(s);
+		s.pipe(c);
+		s.on("error", function () {});
+		if (o.buf) {
+			s.write(new Buffer(o.buf.data));
+		} else {
+			c.write(new Buffer(o.rok));
+		}
+		return true;
+	} else {
+		return false;
+	}
+};
+LZR.Node.Util.prototype.ptth.lzrClass_ = LZR.Node.Util;
