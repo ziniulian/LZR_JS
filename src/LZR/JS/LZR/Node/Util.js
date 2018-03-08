@@ -50,20 +50,32 @@ LZR.Node.Util.prototype.ptth = function (req/*as:Object*/, nam/*as:string*/)/*as
 	if (req.body.dat) {
 		var n = require(nam);
 		var c = req.socket;
-		var s, o = JSON.parse(req.body.dat);
-		c.removeAllListeners("data");
-		s = n.createConnection(o.port, o.host);
-		c.pipe(s);
-		s.pipe(c);
-		s.on("error", function () {});
-		if (o.buf) {
-			s.write(new Buffer(o.buf.data));
-		} else {
-			c.write(new Buffer(o.rok));
+		var s, o;
+		try {
+			if (req.body.dat[0] === "%") {
+				o = JSON.parse(decodeURIComponent(req.body.dat));
+			} else {
+				o = JSON.parse(req.body.dat);
+			}
+		} catch (e) {
+			return false;
 		}
-		return true;
-	} else {
-		return false;
+		if (o && o.host && o.port) {
+			c.removeAllListeners("data");
+			s = n.createConnection(o.port, o.host);
+			c.pipe(s);
+			s.pipe(c);
+			s.on("error", function () {});
+			if (o.buf) {
+				s.write(new Buffer(o.buf.data));
+			} else if (o.rok) {
+				c.write(new Buffer(o.rok));
+			} else {
+				return false;
+			}
+			return true;
+		}
 	}
+	return false;
 };
 LZR.Node.Util.prototype.ptth.lzrClass_ = LZR.Node.Util;

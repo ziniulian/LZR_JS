@@ -1650,7 +1650,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_8695312B_275D_4bc1_8D04_DE970E97B4D5"/>
 								<UML:TaggedValue tag="date_created" value="2016-09-19 13:01:02"/>
-								<UML:TaggedValue tag="date_modified" value="2018-03-07 16:04:29"/>
+								<UML:TaggedValue tag="date_modified" value="2018-03-08 10:56:45"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\Node\Util.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -1663,7 +1663,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="50"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=1a63;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=8c20;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -1822,7 +1822,7 @@
 										<UML:TaggedValue tag="style" value="&#36870; HTTP"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_CD60EE6E_3AF4_4eb6_8A1B_D27673CC6868">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="if (req.body.dat) {&#xA;		var n = require(nam);&#xA;		var c = req.socket;&#xA;		var s, o = JSON.parse(req.body.dat);&#xA;		c.removeAllListeners(&quot;data&quot;);&#xA;		s = n.createConnection(o.port, o.host);&#xA;		c.pipe(s);&#xA;		s.pipe(c);&#xA;		s.on(&quot;error&quot;, function () {});&#xA;		if (o.buf) {&#xA;			s.write(new Buffer(o.buf.data));&#xA;		} else {&#xA;			c.write(new Buffer(o.rok));&#xA;		}&#xA;		return true;&#xA;	} else {&#xA;		return false;&#xA;	}"/>
+												<UML:Comment name="if (req.body.dat) {&#xA;		var n = require(nam);&#xA;		var c = req.socket;&#xA;		var s, o;&#xA;		try {&#xA;			if (req.body.dat[0] === &quot;%&quot;) {&#xA;				o = JSON.parse(decodeURIComponent(req.body.dat));&#xA;			} else {&#xA;				o = JSON.parse(req.body.dat);&#xA;			}&#xA;		} catch (e) {&#xA;			return false;&#xA;		}&#xA;		if (o &amp;&amp; o.host &amp;&amp; o.port) {&#xA;			c.removeAllListeners(&quot;data&quot;);&#xA;			s = n.createConnection(o.port, o.host);&#xA;			c.pipe(s);&#xA;			s.pipe(c);&#xA;			s.on(&quot;error&quot;, function () {});&#xA;			if (o.buf) {&#xA;				s.write(new Buffer(o.buf.data));&#xA;			} else if (o.rok) {&#xA;				c.write(new Buffer(o.rok));&#xA;			} else {&#xA;				return false;&#xA;			}&#xA;			return true;&#xA;		}&#xA;	}&#xA;	return false;"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
