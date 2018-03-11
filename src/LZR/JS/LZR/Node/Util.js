@@ -56,10 +56,7 @@ LZR.Node.Util.prototype.getClientIp.lzrClass_ = LZR.Node.Util;
 
 // 两个Buffer对象加起来
 LZR.Node.Util.prototype.addBuffer = function (buf1/*as:Object*/, buf2/*as:Object*/) {
-	var re = new this.buf(buf1.length + buf2.length);
-	buf1.copy(re);
-	buf2.copy(re,buf1.length);
-	return re;
+	return this.buf.concat([buf1, buf2], buf1.length + buf2.length);
 };
 LZR.Node.Util.prototype.addBuffer.lzrClass_ = LZR.Node.Util;
 
