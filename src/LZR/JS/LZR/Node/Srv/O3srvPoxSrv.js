@@ -96,7 +96,7 @@ LZR.Node.Srv.O3srvPoxSrv.prototype.hdHttp = function (buf/*as:Object*/, req/*as:
 				s.idCatch = {	// 记录接受数据的顺序
 					cur: 0,		// 即将接收的顺序
 					max: 0,		// 最大顺序
-					c = c,		// 当前的客户端连接
+					c: c,		// 当前的客户端连接
 					bufs: {}		// 缓存
 				};
 				this.srvarr.push(s);
