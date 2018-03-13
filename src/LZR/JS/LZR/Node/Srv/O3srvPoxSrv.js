@@ -96,6 +96,7 @@ LZR.Node.Srv.O3srvPoxSrv.prototype.hdHttp = function (buf/*as:Object*/, req/*as:
 				s.idCatch = {	// 记录接受数据的顺序
 					cur: 0,		// 即将接收的顺序
 					max: 0,		// 最大顺序
+					c = c,		// 当前的客户端连接
 					bufs: {}		// 缓存
 				};
 				this.srvarr.push(s);
@@ -151,6 +152,10 @@ LZR.Node.Srv.O3srvPoxSrv.prototype.hdHttps = function (buf/*as:Object*/, req/*as
 	if (s) {
 		s.removeAllListeners("data");
 		var cah = s.idCatch;
+		if (cah.c) {
+			cah.c.end();
+			cah.c = null;
+		}
 		if (id > cah.max) {
 			cah.max = id;
 		}
@@ -170,6 +175,7 @@ LZR.Node.Srv.O3srvPoxSrv.prototype.hdHttps = function (buf/*as:Object*/, req/*as
 			var b = false;
 			var c = req.socket;
 			c.removeAllListeners("data");
+			cah.c = c;
 			s.on("data", LZR.bind(this, function (dat) {
 				if (b) {
 					c.write(dat);
@@ -179,12 +185,6 @@ LZR.Node.Srv.O3srvPoxSrv.prototype.hdHttps = function (buf/*as:Object*/, req/*as
 				}
 				if (this.showLog) {
 					console.log(key + "-" + i + " <<---- " + dat.length);
-				}
-			}));
-			s.on("end", LZR.bind(this, function() {
-				c.end();
-				if (this.showLog) {
-					console.log(key + "-" + i + " s - end");
 				}
 			}));
 			s.write(this.clsBuf.concat(arr));
@@ -200,9 +200,15 @@ LZR.Node.Srv.O3srvPoxSrv.prototype.hdHttps.lzrClass_ = LZR.Node.Srv.O3srvPoxSrv;
 
 // 清空服务队列
 LZR.Node.Srv.O3srvPoxSrv.prototype.delSrvs = function ()/*as:int*/ {
-	var r = this.srvarr.length;
+	var s, r = this.srvarr.length;
 	for (var i = 0; i < r; i ++) {
-		this.srvarr[i].end();
+		s = this.srvarr[i];
+		if (s.idCatch.c) {
+			s.idCatch.c.end();
+			s.idCatch.c = undefined;
+		}
+		s.end();
+		this.srvarr[i] = undefined;
 	}
 	if (r) {
 		this.srvarr = [];
