@@ -145,6 +145,7 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 	this.mdb.evt.get.add(LZR.bind(this, function (r, req, res, next) {
 		if (req.qpobj.comDbSrvNoRes) {
 			req.qpobj.comDbSrvReturn = r;
+			next();
 		} else {
 			switch (req.qpobj.comDbSrvTyp) {
 				case "get":
@@ -185,6 +186,7 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 		var b = (r.result.ok === 1 && r.result.n > 0);
 		if (req.qpobj.comDbSrvNoRes) {
 			req.qpobj.comDbSrvReturn = r.result;
+			next();
 		} else {
 			res.json(this.clsR.get(r.result.n, "add", b));
 		}
@@ -205,6 +207,7 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 	this.mdb.evt.qry.add(LZR.bind(this, function (r, req, res, next) {
 		if (req.qpobj.comDbSrvNoRes) {
 			req.qpobj.comDbSrvReturn = r;
+			next();
 		} else {
 			if (r.length) {
 				res.json(this.clsR.get(r));
@@ -216,6 +219,7 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 	this.mdb.evt.count.add(LZR.bind(this, function (r, req, res, next) {
 		if (req.qpobj.comDbSrvNoRes) {
 			req.qpobj.comDbSrvReturn = r;
+			next();
 		} else {
 			if (r === 0) {
 				res.json(this.clsR.get(r, "count", true));
@@ -228,6 +232,7 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 		var b = (r.result.ok === 1 && r.result.nModified > 0);
 		if (req.qpobj.comDbSrvNoRes) {
 			req.qpobj.comDbSrvReturn = r.result;
+			next();
 		} else {
 			res.json(this.clsR.get(r.result.nModified, "set", b));
 		}
@@ -246,6 +251,7 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 		var b = (r.result.ok === 1 && r.result.n > 0);
 		if (req.qpobj.comDbSrvNoRes) {
 			req.qpobj.comDbSrvReturn = r.result;
+			next();
 		} else {
 			res.json(this.clsR.get(r.result.n, "del", b));
 		}
@@ -376,8 +382,6 @@ LZR.Node.Srv.ComDbSrv.prototype.setPro = function (req/*as:Object*/, typ/*as:str
 		req.qpobj = {};
 	}
 	req.qpobj.comDbSrvTyp = typ;
-	if (noRes) {
-		req.qpobj.comDbSrvNoRes = noRes;
-	}
+	req.qpobj.comDbSrvNoRes = noRes;
 };
 LZR.Node.Srv.ComDbSrv.prototype.setPro.lzrClass_ = LZR.Node.Srv.ComDbSrv;

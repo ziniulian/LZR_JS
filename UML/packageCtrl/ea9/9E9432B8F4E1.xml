@@ -47,7 +47,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_7CB36E13_23B5_43a1_9D79_9E9432B8F4E1"/>
 								<UML:TaggedValue tag="date_created" value="2018-02-05 14:47:40"/>
-								<UML:TaggedValue tag="date_modified" value="2018-02-28 16:08:28"/>
+								<UML:TaggedValue tag="date_modified" value="2018-03-16 15:42:36"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\Node\Srv\ComDbSrv.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -60,7 +60,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="370"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=1a61;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=1945;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -281,7 +281,7 @@
 										<UML:TaggedValue tag="style" value="&#21021;&#22987;&#21270;&#25968;&#25454;&#24211;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_E38214FF_74B9_4b49_9352_2B3E37F28219">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="if (this.logAble) {&#xA;		this.initAjx();&#xA;	}&#xA;&#xA;	// &#25968;&#25454;&#24211;&#35774;&#32622;&#xA;	this.mdb.conf = conf;&#xA;	this.mdb.autoErr = true;&#xA;	this.mdb.crtEvt({&#xA;		get: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				find: [&quot;&lt;0&gt;&quot;, &quot;&lt;1&gt;&quot;],&#xA;				toArray: []&#xA;			}&#xA;		},&#xA;&#xA;		add: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				insertMany: [&quot;&lt;0&gt;&quot;]&#xA;			}&#xA;		},&#xA;&#xA;		qry: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				find: [&quot;&lt;0&gt;&quot;, &quot;&lt;1&gt;&quot;],&#xA;				sort: [&quot;&lt;2&gt;&quot;],&#xA;				limit: [&quot;&lt;3&gt;&quot;],&#xA;				toArray: []&#xA;			}&#xA;		},&#xA;&#xA;		count: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				count: [&quot;&lt;0&gt;&quot;]&#xA;			}&#xA;		},&#xA;&#xA;		set: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				updateMany: [&quot;&lt;0&gt;&quot;, &quot;&lt;1&gt;&quot;]&#xA;			}&#xA;		},&#xA;&#xA;		del: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				deleteMany: [&quot;&lt;0&gt;&quot;]&#xA;			}&#xA;		}&#xA;	});&#xA;&#xA;	// &#25968;&#25454;&#24211;&#20107;&#20214;&#22788;&#29702;&#xA;	this.mdb.evt.get.add(LZR.bind(this, function (r, req, res, next) {&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r;&#xA;		} else {&#xA;			switch (req.qpobj.comDbSrvTyp) {&#xA;				case &quot;get&quot;:&#xA;					if (r.length) {&#xA;						res.json(this.clsR.get(r));&#xA;					} else {&#xA;						res.json(this.clsR.get(null, &quot;&#26242;&#26080;&#25968;&#25454;&quot;));&#xA;					}&#xA;					break;&#xA;				case &quot;add&quot;:&#xA;					if (r.length) {&#xA;						res.json(this.clsR.get(0, &quot;&#25968;&#25454;&#24050;&#23384;&#22312;&quot;, false));&#xA;					} else {&#xA;						this.mdb.qry(&quot;add&quot;, req, res, next, [req.qpobj.comDbSrvObjs]);&#xA;					}&#xA;					break;&#xA;				case &quot;meg&quot;:&#xA;					// &#21512;&#24182;&#xA;					if (r.length) {&#xA;						this.mdb.qry(&quot;set&quot;, req, res, next, [&#xA;							req.qpobj.comDbSrvCond.cond,&#xA;							{&quot;$set&quot;: req.qpobj.comDbSrvObjs}&#xA;						]);&#xA;					} else {&#xA;						var c = req.qpobj.comDbSrvCond.cond;&#xA;						var o = req.qpobj.comDbSrvObjs;&#xA;						var s;&#xA;						for (s in o) {&#xA;							c[s] = o[s];&#xA;						}&#xA;						this.mdb.qry(&quot;add&quot;, req, res, next, [[c]]);&#xA;					}&#xA;					break;&#xA;			}&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.add.add(LZR.bind(this, function (r, req, res, next) {&#xA;		var b = (r.result.ok === 1 &amp;&amp; r.result.n &gt; 0);&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r.result;&#xA;		} else {&#xA;			res.json(this.clsR.get(r.result.n, &quot;add&quot;, b));&#xA;		}&#xA;&#xA;		// &#35760;&#24405;&#25805;&#20316;&#26085;&#24535;&#xA;		if (b &amp;&amp; (this.logAble &amp; 2)) {&#xA;			this.ajx.qry(&quot;vs&quot;, req, res, next, null, {&#xA;				url: req.protocol + &quot;://&quot; + req.hostname + req.originalUrl,&#xA;				ip: this.utNode.getClientIp(req),&#xA;				uuid: &quot;dbLog&quot;,&#xA;				dbLog: {&#xA;					method: &quot;add&quot;,&#xA;					cond: r.insertedIds&#xA;				}&#xA;			});&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.qry.add(LZR.bind(this, function (r, req, res, next) {&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r;&#xA;		} else {&#xA;			if (r.length) {&#xA;				res.json(this.clsR.get(r));&#xA;			} else {&#xA;				res.json(this.clsR.get(null, &quot;&#26242;&#26080;&#25968;&#25454;&quot;));&#xA;			}&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.count.add(LZR.bind(this, function (r, req, res, next) {&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r;&#xA;		} else {&#xA;			if (r === 0) {&#xA;				res.json(this.clsR.get(r, &quot;count&quot;, true));&#xA;			} else {&#xA;				res.json(this.clsR.get(r));&#xA;			}&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.set.add(LZR.bind(this, function (r, req, res, next) {&#xA;		var b = (r.result.ok === 1 &amp;&amp; r.result.nModified &gt; 0);&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r.result;&#xA;		} else {&#xA;			res.json(this.clsR.get(r.result.nModified, &quot;set&quot;, b));&#xA;		}&#xA;&#xA;		// &#35760;&#24405;&#25805;&#20316;&#26085;&#24535;&#xA;		if (b &amp;&amp; (this.logAble &amp; 4)) {&#xA;			this.ajx.qry(&quot;vs&quot;, req, res, next, null, {&#xA;				url: req.protocol + &quot;://&quot; + req.hostname + req.originalUrl,&#xA;				ip: this.utNode.getClientIp(req),&#xA;				uuid: &quot;dbLog&quot;,&#xA;				dbLog: req.qpobj.comDbSrvCond&#xA;			});&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.del.add(LZR.bind(this, function (r, req, res, next) {&#xA;		var b = (r.result.ok === 1 &amp;&amp; r.result.n &gt; 0);&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r.result;&#xA;		} else {&#xA;			res.json(this.clsR.get(r.result.n, &quot;del&quot;, b));&#xA;		}&#xA;&#xA;		// &#35760;&#24405;&#25805;&#20316;&#26085;&#24535;&#xA;		if (b &amp;&amp; (this.logAble &amp; 1)) {&#xA;			this.ajx.qry(&quot;vs&quot;, req, res, next, null, {&#xA;				url: req.protocol + &quot;://&quot; + req.hostname + req.originalUrl,&#xA;				ip: this.utNode.getClientIp(req),&#xA;				uuid: &quot;dbLog&quot;,&#xA;				dbLog: req.qpobj.comDbSrvCond&#xA;			});&#xA;		}&#xA;	}));"/>
+												<UML:Comment name="if (this.logAble) {&#xA;		this.initAjx();&#xA;	}&#xA;&#xA;	// &#25968;&#25454;&#24211;&#35774;&#32622;&#xA;	this.mdb.conf = conf;&#xA;	this.mdb.autoErr = true;&#xA;	this.mdb.crtEvt({&#xA;		get: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				find: [&quot;&lt;0&gt;&quot;, &quot;&lt;1&gt;&quot;],&#xA;				toArray: []&#xA;			}&#xA;		},&#xA;&#xA;		add: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				insertMany: [&quot;&lt;0&gt;&quot;]&#xA;			}&#xA;		},&#xA;&#xA;		qry: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				find: [&quot;&lt;0&gt;&quot;, &quot;&lt;1&gt;&quot;],&#xA;				sort: [&quot;&lt;2&gt;&quot;],&#xA;				limit: [&quot;&lt;3&gt;&quot;],&#xA;				toArray: []&#xA;			}&#xA;		},&#xA;&#xA;		count: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				count: [&quot;&lt;0&gt;&quot;]&#xA;			}&#xA;		},&#xA;&#xA;		set: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				updateMany: [&quot;&lt;0&gt;&quot;, &quot;&lt;1&gt;&quot;]&#xA;			}&#xA;		},&#xA;&#xA;		del: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				deleteMany: [&quot;&lt;0&gt;&quot;]&#xA;			}&#xA;		}&#xA;	});&#xA;&#xA;	// &#25968;&#25454;&#24211;&#20107;&#20214;&#22788;&#29702;&#xA;	this.mdb.evt.get.add(LZR.bind(this, function (r, req, res, next) {&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r;&#xA;			next();&#xA;		} else {&#xA;			switch (req.qpobj.comDbSrvTyp) {&#xA;				case &quot;get&quot;:&#xA;					if (r.length) {&#xA;						res.json(this.clsR.get(r));&#xA;					} else {&#xA;						res.json(this.clsR.get(null, &quot;&#26242;&#26080;&#25968;&#25454;&quot;));&#xA;					}&#xA;					break;&#xA;				case &quot;add&quot;:&#xA;					if (r.length) {&#xA;						res.json(this.clsR.get(0, &quot;&#25968;&#25454;&#24050;&#23384;&#22312;&quot;, false));&#xA;					} else {&#xA;						this.mdb.qry(&quot;add&quot;, req, res, next, [req.qpobj.comDbSrvObjs]);&#xA;					}&#xA;					break;&#xA;				case &quot;meg&quot;:&#xA;					// &#21512;&#24182;&#xA;					if (r.length) {&#xA;						this.mdb.qry(&quot;set&quot;, req, res, next, [&#xA;							req.qpobj.comDbSrvCond.cond,&#xA;							{&quot;$set&quot;: req.qpobj.comDbSrvObjs}&#xA;						]);&#xA;					} else {&#xA;						var c = req.qpobj.comDbSrvCond.cond;&#xA;						var o = req.qpobj.comDbSrvObjs;&#xA;						var s;&#xA;						for (s in o) {&#xA;							c[s] = o[s];&#xA;						}&#xA;						this.mdb.qry(&quot;add&quot;, req, res, next, [[c]]);&#xA;					}&#xA;					break;&#xA;			}&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.add.add(LZR.bind(this, function (r, req, res, next) {&#xA;		var b = (r.result.ok === 1 &amp;&amp; r.result.n &gt; 0);&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r.result;&#xA;			next();&#xA;		} else {&#xA;			res.json(this.clsR.get(r.result.n, &quot;add&quot;, b));&#xA;		}&#xA;&#xA;		// &#35760;&#24405;&#25805;&#20316;&#26085;&#24535;&#xA;		if (b &amp;&amp; (this.logAble &amp; 2)) {&#xA;			this.ajx.qry(&quot;vs&quot;, req, res, next, null, {&#xA;				url: req.protocol + &quot;://&quot; + req.hostname + req.originalUrl,&#xA;				ip: this.utNode.getClientIp(req),&#xA;				uuid: &quot;dbLog&quot;,&#xA;				dbLog: {&#xA;					method: &quot;add&quot;,&#xA;					cond: r.insertedIds&#xA;				}&#xA;			});&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.qry.add(LZR.bind(this, function (r, req, res, next) {&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r;&#xA;			next();&#xA;		} else {&#xA;			if (r.length) {&#xA;				res.json(this.clsR.get(r));&#xA;			} else {&#xA;				res.json(this.clsR.get(null, &quot;&#26242;&#26080;&#25968;&#25454;&quot;));&#xA;			}&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.count.add(LZR.bind(this, function (r, req, res, next) {&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r;&#xA;			next();&#xA;		} else {&#xA;			if (r === 0) {&#xA;				res.json(this.clsR.get(r, &quot;count&quot;, true));&#xA;			} else {&#xA;				res.json(this.clsR.get(r));&#xA;			}&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.set.add(LZR.bind(this, function (r, req, res, next) {&#xA;		var b = (r.result.ok === 1 &amp;&amp; r.result.nModified &gt; 0);&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r.result;&#xA;			next();&#xA;		} else {&#xA;			res.json(this.clsR.get(r.result.nModified, &quot;set&quot;, b));&#xA;		}&#xA;&#xA;		// &#35760;&#24405;&#25805;&#20316;&#26085;&#24535;&#xA;		if (b &amp;&amp; (this.logAble &amp; 4)) {&#xA;			this.ajx.qry(&quot;vs&quot;, req, res, next, null, {&#xA;				url: req.protocol + &quot;://&quot; + req.hostname + req.originalUrl,&#xA;				ip: this.utNode.getClientIp(req),&#xA;				uuid: &quot;dbLog&quot;,&#xA;				dbLog: req.qpobj.comDbSrvCond&#xA;			});&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.del.add(LZR.bind(this, function (r, req, res, next) {&#xA;		var b = (r.result.ok === 1 &amp;&amp; r.result.n &gt; 0);&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r.result;&#xA;			next();&#xA;		} else {&#xA;			res.json(this.clsR.get(r.result.n, &quot;del&quot;, b));&#xA;		}&#xA;&#xA;		// &#35760;&#24405;&#25805;&#20316;&#26085;&#24535;&#xA;		if (b &amp;&amp; (this.logAble &amp; 1)) {&#xA;			this.ajx.qry(&quot;vs&quot;, req, res, next, null, {&#xA;				url: req.protocol + &quot;://&quot; + req.hostname + req.originalUrl,&#xA;				ip: this.utNode.getClientIp(req),&#xA;				uuid: &quot;dbLog&quot;,&#xA;				dbLog: req.qpobj.comDbSrvCond&#xA;			});&#xA;		}&#xA;	}));"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -1206,7 +1206,7 @@
 										<UML:TaggedValue tag="style" value="&#35774;&#32622;&#21442;&#25968;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_9C7FC027_2BC2_41e2_BBB4_4A516F1BF87B">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="if (!req.qpobj) {&#xA;		req.qpobj = {};&#xA;	}&#xA;	req.qpobj.comDbSrvTyp = typ;&#xA;	if (noRes) {&#xA;		req.qpobj.comDbSrvNoRes = noRes;&#xA;	}"/>
+												<UML:Comment name="if (!req.qpobj) {&#xA;		req.qpobj = {};&#xA;	}&#xA;	req.qpobj.comDbSrvTyp = typ;&#xA;	req.qpobj.comDbSrvNoRes = noRes;"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -1292,7 +1292,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="368"/>
 								<UML:TaggedValue tag="ea_targetID" value="370"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+dms"/>
 							</UML:ModelElement.taggedValue>
@@ -1333,7 +1332,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="314"/>
 								<UML:TaggedValue tag="ea_targetID" value="370"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+ajx"/>
 							</UML:ModelElement.taggedValue>
@@ -1374,7 +1372,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="366"/>
 								<UML:TaggedValue tag="ea_targetID" value="370"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1.."/>
 								<UML:TaggedValue tag="lt" value="+clsR"/>
@@ -1416,7 +1413,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="50"/>
 								<UML:TaggedValue tag="ea_targetID" value="370"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+utNode"/>
 							</UML:ModelElement.taggedValue>
@@ -1457,7 +1453,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="305"/>
 								<UML:TaggedValue tag="ea_targetID" value="370"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+mdb"/>
 							</UML:ModelElement.taggedValue>
@@ -2341,7 +2336,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="314"/>
 								<UML:TaggedValue tag="ea_targetID" value="368"/>
-								<UML:TaggedValue tag="privatedata5" value="EDGE=2;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+ajx"/>
 							</UML:ModelElement.taggedValue>
@@ -2382,7 +2376,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="332"/>
 								<UML:TaggedValue tag="ea_targetID" value="368"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=2;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1.."/>
 								<UML:TaggedValue tag="lt" value="+clsHtml"/>
@@ -2424,7 +2417,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="284"/>
 								<UML:TaggedValue tag="ea_targetID" value="368"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+utJson"/>
@@ -5180,7 +5172,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="366"/>
 								<UML:TaggedValue tag="ea_targetID" value="355"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1.."/>
 								<UML:TaggedValue tag="lt" value="+clsR"/>
@@ -5222,7 +5213,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="305"/>
 								<UML:TaggedValue tag="ea_targetID" value="355"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+db"/>
 							</UML:ModelElement.taggedValue>
