@@ -45,6 +45,14 @@ LZR.HTML.Srv.ComDbQry = function (obj) /*interfaces:LZR.Base.InfEvt*/ {
 			hidCss: "Lc_nosee"
 		};	/*as:Object*/
 
+	// 提示框
+	this.memo = {
+			doe: null,
+			tim: 2000,	// 提示信息显示时长
+			timo: 0,	// 延时对象
+			cbfun: null	// 回调函数
+		};	/*as:Object*/
+
 	// 按钮
 	this.btn = {
 			preNam: "preDom",
@@ -62,6 +70,7 @@ LZR.HTML.Srv.ComDbQry = function (obj) /*interfaces:LZR.Base.InfEvt*/ {
 			del: "",
 			set: "",
 			meg: "",
+			get: "",
 			qry: ""
 		};	/*as:Object*/
 
@@ -70,6 +79,12 @@ LZR.HTML.Srv.ComDbQry = function (obj) /*interfaces:LZR.Base.InfEvt*/ {
 
 	// 查询条件
 	this.cond = null;	/*as:Object*/
+
+	// 普通查询工具
+	this.getajx/*m*/ = new LZR.HTML.Base.Ajax();	/*as:LZR.HTML.Base.Ajax*/
+
+	// 普通查询应答
+	this.evt.getr/*m*/ = new LZR.Base.CallBacks();	/*as:LZR.Base.CallBacks*/
 
 	// 查询工具
 	this.qryajx/*m*/ = new LZR.HTML.Base.Ajax();	/*as:LZR.HTML.Base.Ajax*/
@@ -106,8 +121,10 @@ LZR.load(null, "LZR.HTML.Srv.ComDbQry");
 
 // 构造器
 LZR.HTML.Srv.ComDbQry.prototype.init_ = function (obj/*as:Object*/) {
+	this.getajx.evt.rsp.add(LZR.bind(this, this.hdget));
 	this.qryajx.evt.rsp.add(LZR.bind(this, this.hdqry));
 	this.exeajx.evt.rsp.add(LZR.bind(this, this.hdexe));
+	this.memo.cbfun = LZR.bind(this, this.showMsg);
 
 	if (obj) {
 		LZR.setObj (this, obj);
@@ -122,12 +139,28 @@ LZR.HTML.Srv.ComDbQry.prototype.hdObj_ = function (obj/*as:Object*/) {
 };
 LZR.HTML.Srv.ComDbQry.prototype.hdObj_.lzrClass_ = LZR.HTML.Srv.ComDbQry;
 
+// 显示提示信息
+LZR.HTML.Srv.ComDbQry.prototype.showMsg = function (msg/*as:string*/) {
+	if (msg) {
+		if (this.memo.timo) {
+			clearTimeout(this.memo.timo);
+		}
+		this.memo.doe.innerHTML = msg;
+		this.memo.timo = setTimeout(this.memo.cbfun, this.memo.tim);
+	} else {
+		this.memo.timo = 0;
+		this.memo.doe.innerHTML = "";
+	}
+};
+LZR.HTML.Srv.ComDbQry.prototype.showMsg.lzrClass_ = LZR.HTML.Srv.ComDbQry;
+
 // 显示缓冲页
 LZR.HTML.Srv.ComDbQry.prototype.showMark = function (show/*as:string*/) {
 	if (show) {
 		this.mark.doe.className = this.mark.showCss;
 	} else {
 		if (this.busy) {
+			this.getajx.abort();
 			this.qryajx.abort();
 			this.exeajx.abort();
 		}
@@ -136,6 +169,28 @@ LZR.HTML.Srv.ComDbQry.prototype.showMark = function (show/*as:string*/) {
 	this.busy = show;
 };
 LZR.HTML.Srv.ComDbQry.prototype.showMark.lzrClass_ = LZR.HTML.Srv.ComDbQry;
+
+// 普通查询
+LZR.HTML.Srv.ComDbQry.prototype.get = function (co/*as:Object*/) {
+	if (!this.busy) {
+		this.showMark("get");
+		this.getajx.post(this.url.get, co, null, true);
+	}
+};
+LZR.HTML.Srv.ComDbQry.prototype.get.lzrClass_ = LZR.HTML.Srv.ComDbQry;
+
+// 普通查询回调
+LZR.HTML.Srv.ComDbQry.prototype.hdget = function (txt/*as:string*/, sta/*as:int*/) {
+	var d, o;
+	if (sta === 200) {
+		d = this.utJson.toObj(txt);
+		if (d.ok) {
+			this.onGetr(d.dat);
+		}
+	}
+	this.showMark(false);
+};
+LZR.HTML.Srv.ComDbQry.prototype.hdget.lzrClass_ = LZR.HTML.Srv.ComDbQry;
 
 // 查询
 LZR.HTML.Srv.ComDbQry.prototype.qry = function () {
@@ -340,6 +395,12 @@ LZR.HTML.Srv.ComDbQry.prototype.qrydel = function () {
 	}
 };
 LZR.HTML.Srv.ComDbQry.prototype.qrydel.lzrClass_ = LZR.HTML.Srv.ComDbQry;
+
+// 普通查询应答触发的事件
+LZR.HTML.Srv.ComDbQry.prototype.onGetr = function (obj/*as:Object*/) {
+	this.evt.getr.execute (obj);
+};
+LZR.HTML.Srv.ComDbQry.prototype.onGetr.lzrClass_ = LZR.HTML.Srv.ComDbQry;
 
 // 查询应答触发的事件
 LZR.HTML.Srv.ComDbQry.prototype.onQryr = function (obj/*as:Object*/) {
