@@ -25,7 +25,7 @@ LZR.load(null, "LZR.HTML");
 LZR.HTML.logger = null;	/*as:Object*/
 
 // 主域名
-LZR.HTML.domain = "http://srv-lzrmain.193b.starter-ca-central-1.openshiftapps.com/";	/*as:string*/
+LZR.HTML.domain = "https://srv-lzrmain.193b.starter-ca-central-1.openshiftapps.com/";	/*as:string*/
 
 // 构造器
 LZR.HTML.prototype.init_ = function (obj/*as:Object*/) {
