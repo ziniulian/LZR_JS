@@ -127,6 +127,12 @@ GitHub URL : https://github.com/ziniulian/LZR_JS
 1. LZR_annex ：后处理附加的外部库 （从 2017-11-10 以后禁用，不再从代码里关联外部库！）
 
 1. tmp2web ：模板里用到的静态文件夹
-1. qpobj ：路由请求对象里用于传递给模板的参数信息
+1. qpobj ：路由请求对象的数据缓存区
+1. qpobj.tmpo ：模板默认参数信息
+1. qpobj.comDbSrvNoRes ：数据库操作完是否自动应答
+1. qpobj.comDbSrvReturn ：数据库操作的返回结果
+1. qpobj.comDbSrvTyp ：数据库操作类型
+1. qpobj.comDbSrvObjs ：数据库操作的修改内容
+1. qpobj.comDbSrvCond ：数据库操作的匹配条件
 
 *******************************************************************

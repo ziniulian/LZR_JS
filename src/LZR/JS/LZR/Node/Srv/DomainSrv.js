@@ -59,11 +59,13 @@ LZR.Node.Srv.DomainSrv.prototype.hdObj_.lzrClass_ = LZR.Node.Srv.DomainSrv;
 
 // 初始化Ajax
 LZR.Node.Srv.DomainSrv.prototype.initAjx = function () {
-	this.ds.main = this.clsHtml.domain;
-	this.ajx.crtEvt({
-		get: this.clsHtml.domain + "Domain/srvGet/"
-	});
-	this.ajx.evt.get.add(LZR.bind(this, this.cbGet));
+	if (!this.ds.main) {
+		this.ds.main = this.clsHtml.domain;
+		this.ajx.crtEvt({
+			get: this.clsHtml.domain + "Domain/srvGet/"
+		});
+		this.ajx.evt.get.add(LZR.bind(this, this.cbGet));
+	}
 };
 LZR.Node.Srv.DomainSrv.prototype.initAjx.lzrClass_ = LZR.Node.Srv.DomainSrv;
 

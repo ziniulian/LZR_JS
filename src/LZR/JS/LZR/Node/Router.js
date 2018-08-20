@@ -26,9 +26,6 @@ LZR.Node.Router = function (obj) {
 	// 路径
 	this.path = "./";	/*as:string*/
 
-	// 通用工具
-	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
-
 	// 回调类
 	this.clsCb/*m*/ = (LZR.Base.CallBacks);	/*as:fun*/
 
@@ -174,60 +171,16 @@ LZR.Node.Router.prototype.crtTmp.lzrClass_ = LZR.Node.Router;
 
 // 获取模板
 LZR.Node.Router.prototype.getTmp = function (tmpNam/*as:string*/, obj/*as:Object*/)/*as:Object*/ {
+	var r = null;
 	if (this.tmps && this.tmps[tmpNam]) {
-		return this.tmps[tmpNam](obj);
-	} else {
-		return null;
+		try {
+			r = this.tmps[tmpNam](obj);
+		} catch (e) {
+			// console.log (e);
+			// console.log (e.name);
+			// console.log (e.message);
+		}
 	}
+	return r;
 };
 LZR.Node.Router.prototype.getTmp.lzrClass_ = LZR.Node.Router;
-
-// 初始化模板
-LZR.Node.Router.prototype.initTmp = function (nam/*as:string*/, dir/*as:string*/) {
-	if (!nam) {
-		nam = "/";
-	}
-	if (!dir) {
-		dir = "tmp";
-	}
-
-	// 创建doT模板
-	this.crtTmp (dir);
-
-	// 模板里用到的静态文件夹
-	this.setStaticDir(nam + "tmp2web/", this.path + dir + "/tmp2web");
-	this.use (nam + "tmp2web/", function (req, res) {
-		// 静态文件夹里没有的文件，直接报错，不再向下路由。
-		res.redirect("/err");
-	});
-	this.all (nam + "*/tmp2web/*", function (req, res) {
-		// console.log (req.path);
-		// console.log (req.url);
-		// console.log (req.baseUrl);
-		// console.log (req.originalUrl);
-		res.redirect(req.baseUrl + nam + "tmp2web/" + req.params[1]);
-	});
-
-	// 模板调用
-	this.use (nam + ":dotNam", this.utLzr.bind(this, function (req, res, next) {
-		var u = {
-			base: req.baseUrl,
-			rout: nam,
-			dot: req.params.dotNam
-		};
-		if (!req.qpobj) {
-			req.qpobj = {
-				url: u
-			};
-		} else {
-			req.qpobj.url = u;
-		}
-		var t = this.getTmp(req.params.dotNam, req.qpobj);
-		if (t) {
-			res.send(t);
-		} else {
-			next();
-		}
-	}));
-};
-LZR.Node.Router.prototype.initTmp.lzrClass_ = LZR.Node.Router;
