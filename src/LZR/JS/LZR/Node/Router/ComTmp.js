@@ -114,6 +114,7 @@ LZR.Node.Router.ComTmp.prototype.initDms = function (ids/*as:string*/, srvNam/*a
 
 	this.dms.initAjx();
 
+	// 刷新域名信息
 	this.ro.get (srvNam, LZR.bind(this, function (req, res) {
 		this.dms.get(this.dmIds);
 		res.json(this.clsR.get(this.dms.ds));
