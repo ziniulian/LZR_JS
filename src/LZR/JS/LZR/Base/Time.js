@@ -253,8 +253,8 @@ LZR.Base.Time.prototype.clone = function (date/*as:Date*/)/*as:Date*/ {
 LZR.Base.Time.prototype.clone.lzrClass_ = LZR.Base.Time;
 
 // 获取当前时间
-LZR.Base.Time.prototype.getDate = function ()/*as:Date*/ {
-	return new Date();
+LZR.Base.Time.prototype.getDate = function (o/*as:Object*/)/*as:Date*/ {
+	return new Date(o);
 };
 LZR.Base.Time.prototype.getDate.lzrClass_ = LZR.Base.Time;
 

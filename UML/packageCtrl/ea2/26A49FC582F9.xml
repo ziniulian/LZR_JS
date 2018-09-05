@@ -406,7 +406,7 @@
 								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="314"/>
-								<UML:TaggedValue tag="ea_targetID" value="303"/>
+								<UML:TaggedValue tag="ea_targetID" value="399"/>
 								<UML:TaggedValue tag="src_visibility" value="Public"/>
 								<UML:TaggedValue tag="src_aggregation" value="0"/>
 								<UML:TaggedValue tag="src_isOrdered" value="false"/>
@@ -515,7 +515,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_C8A29A0E_045C_475d_AE89_26A49FC582F9"/>
 								<UML:TaggedValue tag="date_created" value="2017-05-27 10:37:36"/>
-								<UML:TaggedValue tag="date_modified" value="2017-11-16 13:51:12"/>
+								<UML:TaggedValue tag="date_modified" value="2018-09-05 16:04:00"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\Node\Db\Mongo.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -528,7 +528,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="305"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=1326;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=1a79;"/>
 								<UML:TaggedValue tag="$ea_oprsclassified" value="{7419D9B8-E682-4f4d-A924-9910429E48B1}"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
@@ -641,7 +641,7 @@
 										<UML:TaggedValue tag="style" value="&#25191;&#34892;&#26597;&#35810;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_1494F81C_38A4_41ba_92AE_7C25647567A7">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var sql = this.sqls[sqlNam];&#xA;&#xA;	if (this.conf &amp;&amp; sql) {&#xA;		var cerr = this.err.connect;&#xA;		var err = this.err[sqlNam];&#xA;		var evt = this.evt[sqlNam];&#xA;		var utj = this.utJson;&#xA;		var pa = this.parseArg;&#xA;		this.mcs.connect(this.conf, function (err_c, db) {&#xA;			if (err_c) {&#xA;				cerr.execute(err_c, req, res, next);&#xA;			} else {&#xA;				var cdb;&#xA;				if (sql.db &amp;&amp; (sql.db !== db.databaseName)) {&#xA;					cdb = db.db(sql.db);&#xA;				} else {&#xA;					cdb = db;&#xA;				}&#xA;				var c = cdb.collection(sql.tnam);&#xA;				for (var s in sql.funs) {&#xA;					var as = sql.funs[s];&#xA;&#xA;					// &#21442;&#25968;&#22788;&#29702;&#xA;					if (args) {&#xA;						var fas = as;&#xA;						as = [];&#xA;						for (var i = 0; i &lt; fas.length; i++) {&#xA;							var a = pa(fas[i], args);&#xA;							as.push(a);&#xA;						}&#xA;					}&#xA;// console.log (s);&#xA;// console.log (as);&#xA;&#xA;					// &#26041;&#27861;&#25191;&#34892;&#xA;					c = c[s].apply(c, as);&#xA;				}&#xA;				c.catch(function (err_r) {&#xA;					db.close();&#xA;					cdb.close();&#xA;					err.execute(err_r, req, res, next);&#xA;				}).then(function (r) {&#xA;					db.close();&#xA;					cdb.close();&#xA;					evt.execute(r, req, res, next);&#xA;				});&#xA;			}&#xA;		});&#xA;	}"/>
+												<UML:Comment name="var sql = this.sqls[sqlNam];&#xA;&#xA;	if (this.conf &amp;&amp; sql) {&#xA;		var cerr = this.err.connect;&#xA;		var err = this.err[sqlNam];&#xA;		var evt = this.evt[sqlNam];&#xA;		var utj = this.utJson;&#xA;		var pa = this.parseArg;&#xA;		var tn = this.getTnam(req, sql.tnam);&#xA;		this.mcs.connect(this.conf, function (err_c, db) {&#xA;			if (err_c) {&#xA;				cerr.execute(err_c, req, res, next);&#xA;			} else {&#xA;				var cdb;&#xA;				if (sql.db &amp;&amp; (sql.db !== db.databaseName)) {&#xA;					cdb = db.db(sql.db);&#xA;				} else {&#xA;					cdb = db;&#xA;				}&#xA;				var c = cdb.collection(tn);&#xA;				for (var s in sql.funs) {&#xA;					var as = sql.funs[s];&#xA;&#xA;					// &#21442;&#25968;&#22788;&#29702;&#xA;					if (args) {&#xA;						var fas = as;&#xA;						as = [];&#xA;						for (var i = 0; i &lt; fas.length; i++) {&#xA;							var a = pa(fas[i], args);&#xA;							as.push(a);&#xA;						}&#xA;					}&#xA;// console.log (s);&#xA;// console.log (as);&#xA;&#xA;					// &#26041;&#27861;&#25191;&#34892;&#xA;					c = c[s].apply(c, as);&#xA;				}&#xA;				c.catch(function (err_r) {&#xA;					db.close();&#xA;					cdb.close();&#xA;					err.execute(err_r, req, res, next);&#xA;				});&#xA;				c.then(function (r) {&#xA;					db.close();&#xA;					cdb.close();&#xA;					evt.execute(r, req, res, next);&#xA;				});&#xA;			}&#xA;		});&#xA;	}"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -801,6 +801,71 @@
 										</UML:Parameter>
 									</UML:BehavioralFeature.parameter>
 								</UML:Operation>
+								<UML:Operation name="getTnam" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="type" value="string"/>
+										<UML:TaggedValue tag="const" value="false"/>
+										<UML:TaggedValue tag="synchronised" value="0"/>
+										<UML:TaggedValue tag="concurrency" value="Sequential"/>
+										<UML:TaggedValue tag="position" value="3"/>
+										<UML:TaggedValue tag="returnarray" value="0"/>
+										<UML:TaggedValue tag="pure" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{D9F0F117-11EF-4ddd-B3CE-8A8246BAA17D}"/>
+										<UML:TaggedValue tag="ea_localid" value="1358"/>
+										<UML:TaggedValue tag="style" value="&#33719;&#21462;&#34920;&#21517;"/>
+										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_55A4A750_1E2F_42ee_9F91_F31BC7F5CBAF">
+											<XMI.extension xmi.extender="Enterprise Architect 2.5">
+												<UML:Comment name="if (req &amp;&amp; req.qpobj &amp;&amp; req.qpobj.tmpqry &amp;&amp; req.qpobj.tmpqry.tn) {&#xA;		return req.qpobj.tmpqry.tn;&#xA;	} else {&#xA;		return nam;&#xA;	}"/>
+											</XMI.extension>
+										</UML:TaggedValue>
+									</UML:ModelElement.taggedValue>
+									<UML:BehavioralFeature.parameter>
+										<UML:Parameter kind="return" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid1"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="type" value="string"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{RETURNID-11EF-4ddd-B3CE-8A8246BAA17D}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="req" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid0"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#35831;&#27714;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{1E253828-E20C-486b-A565-1CCDE0F1E959}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="nam" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid1"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="1"/>
+												<UML:TaggedValue tag="type" value="string"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#34920;&#21517;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{FECC594A-EEB5-452b-8590-60A010A491F0}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+									</UML:BehavioralFeature.parameter>
+								</UML:Operation>
 							</UML:Classifier.feature>
 						</UML:Class>
 						<UML:Association xmi.id="EAID_387104A9_510B_4117_AE03_4C4B9FC3B1F3" visibility="public" isRoot="false" isLeaf="false" isAbstract="false">
@@ -861,7 +926,7 @@
 								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="305"/>
-								<UML:TaggedValue tag="ea_targetID" value="303"/>
+								<UML:TaggedValue tag="ea_targetID" value="399"/>
 								<UML:TaggedValue tag="src_visibility" value="Public"/>
 								<UML:TaggedValue tag="src_aggregation" value="0"/>
 								<UML:TaggedValue tag="src_isOrdered" value="false"/>
@@ -997,11 +1062,11 @@
 				<UML:DiagramElement geometry="EDGE=2;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_9B3319EC_87BF_475a_AC01_51AC9175547E" style="Mode=3;EOID=F46F25C3;SOID=A77E658B;Color=-1;LWidth=0;Hidden=1;"/>
 				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=61:CY=13:OX=-8:OY=-7:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_387104A9_510B_4117_AE03_4C4B9FC3B1F3" style="Mode=3;EOID=A6567C80;SOID=A77E658B;Color=-1;LWidth=0;Hidden=0;"/>
 				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_D7B438E8_23C1_450d_95BE_76026F78B0F3" style="Mode=3;EOID=B88BE655;SOID=A6567C80;Color=-1;LWidth=0;Hidden=0;"/>
-				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=3;$LLB=CX=12:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=30:CY=13:OX=1:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_9A062F0C_FBA1_471e_96AE_71B3E19DA662" style="Mode=3;EOID=B88BE655;SOID=76827A3A;Color=-1;LWidth=0;Hidden=0;"/>
-				<UML:DiagramElement geometry="SX=-77;SY=-93;EX=-76;EY=67;EDGE=3;$LLB=;LLT=CX=90:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_A088C1A9_4899_487f_8A53_F1D44076C656" style="Mode=3;EOID=B88BE655;SOID=76827A3A;Color=-1;LWidth=0;Hidden=0;"/>
+				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;Path=;" subject="EAID_9A062F0C_FBA1_471e_96AE_71B3E19DA662" style=";Hidden=0;"/>
+				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;Path=;" subject="EAID_A088C1A9_4899_487f_8A53_F1D44076C656" style=";Hidden=0;"/>
 			</UML:Diagram.element>
 		</UML:Diagram>
-		<UML:DiagramElement geometry="Left=62;Top=522;Right=192;Bottom=602;" subject="EAID_C8A29A0E_045C_475d_AE89_26A49FC582F9" seqno="1" style=" DUID=1AEBAEC6;">
+		<UML:DiagramElement geometry="Left=62;Top=522;Right=206;Bottom=602;" subject="EAID_C8A29A0E_045C_475d_AE89_26A49FC582F9" seqno="2" style=" DUID=1AEBAEC6;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_C77D0B28_0C51_4bfe_A9F0_2AC7F5229F21"/>
 			</UML:ModelElement.taggedValue>
@@ -1026,16 +1091,16 @@
 				<UML:TaggedValue tag="diagram_guid" value="EAID_5450BFDA_779A_4b66_BDF6_5900B8E2DB59"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
-		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_12E30062_107D_49db_9714_F364BCE71929" style="Mode=3;EOID=936F6D2D;SOID=610415E7;Color=-1;LWidth=0;">
-			<UML:ModelElement.taggedValue>
-				<UML:TaggedValue tag="diagram_guid" value="EAID_365D7CFD_0ABF_4433_84C6_5F60C712F7CC"/>
-				<UML:TaggedValue tag="hidden" value="0"/>
-			</UML:ModelElement.taggedValue>
-		</UML:DiagramElement>
 		<UML:DiagramElement geometry="EDGE=2;$LLB=;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_12E30062_107D_49db_9714_F364BCE71929" style="Mode=3;EOID=4FBFD983;SOID=62E9C248;Color=-1;LWidth=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_5450BFDA_779A_4b66_BDF6_5900B8E2DB59"/>
 				<UML:TaggedValue tag="hidden" value="255"/>
+			</UML:ModelElement.taggedValue>
+		</UML:DiagramElement>
+		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_12E30062_107D_49db_9714_F364BCE71929" style="Mode=3;EOID=936F6D2D;SOID=610415E7;Color=-1;LWidth=0;">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="diagram_guid" value="EAID_365D7CFD_0ABF_4433_84C6_5F60C712F7CC"/>
+				<UML:TaggedValue tag="hidden" value="0"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
 		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_660FBA47_0502_4036_B82E_CAA04A9995AE" style="Mode=3;EOID=D5536125;SOID=62E9C248;Color=-1;LWidth=0;">
@@ -1044,16 +1109,16 @@
 				<UML:TaggedValue tag="hidden" value="0"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
-		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_12E30062_107D_49db_9714_F364BCE71929" style="Mode=3;EOID=936F6D2D;SOID=610415E7;Color=-1;LWidth=0;">
-			<UML:ModelElement.taggedValue>
-				<UML:TaggedValue tag="diagram_guid" value="EAID_365D7CFD_0ABF_4433_84C6_5F60C712F7CC"/>
-				<UML:TaggedValue tag="hidden" value="0"/>
-			</UML:ModelElement.taggedValue>
-		</UML:DiagramElement>
 		<UML:DiagramElement geometry="EDGE=2;$LLB=;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_12E30062_107D_49db_9714_F364BCE71929" style="Mode=3;EOID=4FBFD983;SOID=62E9C248;Color=-1;LWidth=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_5450BFDA_779A_4b66_BDF6_5900B8E2DB59"/>
 				<UML:TaggedValue tag="hidden" value="255"/>
+			</UML:ModelElement.taggedValue>
+		</UML:DiagramElement>
+		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_12E30062_107D_49db_9714_F364BCE71929" style="Mode=3;EOID=936F6D2D;SOID=610415E7;Color=-1;LWidth=0;">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="diagram_guid" value="EAID_365D7CFD_0ABF_4433_84C6_5F60C712F7CC"/>
+				<UML:TaggedValue tag="hidden" value="0"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
 		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_660FBA47_0502_4036_B82E_CAA04A9995AE" style="Mode=3;EOID=D5536125;SOID=62E9C248;Color=-1;LWidth=0;">

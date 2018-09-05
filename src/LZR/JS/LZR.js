@@ -551,3 +551,33 @@ LZR.simpleClone = function (src/*as:Object*/, tag/*as:Object*/, filters/*as:___*
 	return tag;
 };
 LZR.simpleClone.lzrClass_ = LZR;
+
+// 填充属性
+LZR.fillPro = function (obj/*as:Object*/, pro/*as:string*/)/*as:Object*/ {
+	var r = obj;
+	if (pro) {
+		var ps = pro.split(".");
+		for (var i = 0; i<ps.length; i++) {
+			if (r && ((typeof r) === "object")) {
+				if (undefined === r[ps[i]]) {
+					r[ps[i]] = {};
+				}
+				r = r[ps[i]];
+			} else {
+				r = undefined;
+				break;
+			}
+		}
+	}
+	return r;
+};
+LZR.fillPro.lzrClass_ = LZR;
+
+// 合并属性
+LZR.megPro = function (obj/*as:Object*/, pro/*as:Object*/)/*as:Object*/ {
+	for (var s in pro) {
+		obj[s] = pro[s];
+	}
+	return obj;
+};
+LZR.megPro.lzrClass_ = LZR;

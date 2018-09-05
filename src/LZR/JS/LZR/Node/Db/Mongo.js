@@ -54,6 +54,7 @@ LZR.Node.Db.Mongo.prototype.qry = function (sqlNam/*as:string*/, req/*as:Object*
 		var evt = this.evt[sqlNam];
 		var utj = this.utJson;
 		var pa = this.parseArg;
+		var tn = this.getTnam(req, sql.tnam);
 		this.mcs.connect(this.conf, function (err_c, db) {
 			if (err_c) {
 				cerr.execute(err_c, req, res, next);
@@ -64,7 +65,7 @@ LZR.Node.Db.Mongo.prototype.qry = function (sqlNam/*as:string*/, req/*as:Object*
 				} else {
 					cdb = db;
 				}
-				var c = cdb.collection(sql.tnam);
+				var c = cdb.collection(tn);
 				for (var s in sql.funs) {
 					var as = sql.funs[s];
 
@@ -87,7 +88,8 @@ LZR.Node.Db.Mongo.prototype.qry = function (sqlNam/*as:string*/, req/*as:Object*
 					db.close();
 					cdb.close();
 					err.execute(err_r, req, res, next);
-				}).then(function (r) {
+				});
+				c.then(function (r) {
 					db.close();
 					cdb.close();
 					evt.execute(r, req, res, next);
@@ -151,3 +153,13 @@ LZR.Node.Db.Mongo.prototype.parseArg = function (a/*as:Object*/, args/*as:Array*
 	return r;
 };
 LZR.Node.Db.Mongo.prototype.parseArg.lzrClass_ = LZR.Node.Db.Mongo;
+
+// 获取表名
+LZR.Node.Db.Mongo.prototype.getTnam = function (req/*as:Object*/, nam/*as:string*/)/*as:string*/ {
+	if (req && req.qpobj && req.qpobj.tmpqry && req.qpobj.tmpqry.tn) {
+		return req.qpobj.tmpqry.tn;
+	} else {
+		return nam;
+	}
+};
+LZR.Node.Db.Mongo.prototype.getTnam.lzrClass_ = LZR.Node.Db.Mongo;

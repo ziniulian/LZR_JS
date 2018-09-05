@@ -77,7 +77,6 @@ LZR.Node.Srv.ComDbSrv.prototype.initAjx = function () {
 				// vs: "http://127.0.0.1/Vs/srvTrace/"	// 测试用
 				vs: this.dms.ds.vs + "srvTrace/"
 			});
-			console.log("DomainSrv OK!");
 		}));
 		this.dms.get("vs");
 	}
@@ -85,14 +84,14 @@ LZR.Node.Srv.ComDbSrv.prototype.initAjx = function () {
 LZR.Node.Srv.ComDbSrv.prototype.initAjx.lzrClass_ = LZR.Node.Srv.ComDbSrv;
 
 // 初始化数据库
-LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as:string*/) {
+LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as:string*/, noErr/*as:boolean*/) {
 	if (this.logAble) {
 		this.initAjx();
 	}
 
 	// 数据库设置
 	this.mdb.conf = conf;
-	this.mdb.autoErr = true;
+	this.mdb.autoErr = !noErr;
 	this.mdb.crtEvt({
 		get: {
 			tnam: tabnam,
@@ -138,54 +137,71 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 			funs: {
 				deleteMany: ["<0>"]
 			}
+		},
+
+		drop: {
+			tnam: tabnam,
+			funs: {
+				drop: []
+			}
 		}
 	});
 
 	// 数据库事件处理
 	this.mdb.evt.get.add(LZR.bind(this, function (r, req, res, next) {
-		if (req.qpobj.comDbSrvNoRes) {
-			req.qpobj.comDbSrvReturn = r;
-			next();
-		} else {
-			switch (req.qpobj.comDbSrvTyp) {
-				case "get":
+		switch (req.qpobj.comDbSrvTyp) {
+			case "get":
+				if (req.qpobj.comDbSrvNoRes) {
+					req.qpobj.comDbSrvReturn = r;
+					next();
+				} else {
 					if (r.length) {
 						res.json(this.clsR.get(r));
 					} else {
 						res.json(this.clsR.get(null, "暂无数据"));
 					}
-					break;
-				case "add":
-					if (r.length) {
+				}
+				break;
+			case "add":
+				if (r.length) {
+					if (req.qpobj.comDbSrvNoRes) {
+						req.qpobj.comDbSrvReturn = {
+							result: {
+								ok: false,
+								n: 0
+							}
+						};
+						next();
+					} else {
 						res.json(this.clsR.get(0, "数据已存在", false));
-					} else {
-						this.mdb.qry("add", req, res, next, [req.qpobj.comDbSrvObjs]);
 					}
-					break;
-				case "meg":
-					// 合并
-					if (r.length) {
-						this.mdb.qry("set", req, res, next, [
-							req.qpobj.comDbSrvCond.cond,
-							{"$set": req.qpobj.comDbSrvObjs}
-						]);
-					} else {
-						var c = req.qpobj.comDbSrvCond.cond;
-						var o = req.qpobj.comDbSrvObjs;
-						var s;
-						for (s in o) {
-							c[s] = o[s];
-						}
-						this.mdb.qry("add", req, res, next, [[c]]);
+				} else {
+					this.mdb.qry("add", req, res, next, [req.qpobj.comDbSrvObjs]);
+				}
+				break;
+			case "meg":
+				// 合并
+				if (r.length) {
+					this.mdb.qry("set", req, res, next, [
+						req.qpobj.comDbSrvCond.cond,
+						{"$set": req.qpobj.comDbSrvObjs}
+					]);
+				} else {
+					var c = req.qpobj.comDbSrvCond.cond;
+					var o = req.qpobj.comDbSrvObjs;
+					var s;
+					for (s in o) {
+						c[s] = o[s];
 					}
-					break;
-			}
+					this.mdb.qry("add", req, res, next, [[c]]);
+				}
+				break;
 		}
 	}));
 	this.mdb.evt.add.add(LZR.bind(this, function (r, req, res, next) {
 		var b = (r.result.ok === 1 && r.result.n > 0);
 		if (req.qpobj.comDbSrvNoRes) {
-			req.qpobj.comDbSrvReturn = r.result;
+			req.qpobj.comDbSrvReturn = r;
 			next();
 		} else {
 			res.json(this.clsR.get(r.result.n, "add", b));
@@ -254,6 +270,24 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 			next();
 		} else {
 			res.json(this.clsR.get(r.result.n, "del", b));
+		}
+
+		// 记录操作日志
+		if (b && (this.logAble & 1)) {
+			this.ajx.qry("vs", req, res, next, null, {
+				url: req.protocol + "://" + req.hostname + req.originalUrl,
+				ip: this.utNode.getClientIp(req),
+				uuid: "dbLog",
+				dbLog: req.qpobj.comDbSrvCond
+			});
+		}
+	}));
+	this.mdb.evt.drop.add(LZR.bind(this, function (r, req, res, next) {
+		if (req.qpobj.comDbSrvNoRes) {
+			req.qpobj.comDbSrvReturn = r;
+			next();
+		} else {
+			res.json(this.clsR.get("", "drop", r));
 		}
 
 		// 记录操作日志
@@ -375,6 +409,16 @@ LZR.Node.Srv.ComDbSrv.prototype.meg = function (req/*as:Object*/, res/*as:Object
 	this.mdb.qry("get", req, res, next, [cond, cont]);
 };
 LZR.Node.Srv.ComDbSrv.prototype.meg.lzrClass_ = LZR.Node.Srv.ComDbSrv;
+
+// 销毁表
+LZR.Node.Srv.ComDbSrv.prototype.drop = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/, noRes/*as:boolean*/) {
+	this.setPro (req, "drop", noRes);
+	req.qpobj.comDbSrvCond = {
+		method: "drop"
+	};
+	this.mdb.qry("drop", req, res, next);
+};
+LZR.Node.Srv.ComDbSrv.prototype.drop.lzrClass_ = LZR.Node.Srv.ComDbSrv;
 
 // 设置参数
 LZR.Node.Srv.ComDbSrv.prototype.setPro = function (req/*as:Object*/, typ/*as:string*/, noRes/*as:boolean*/) {

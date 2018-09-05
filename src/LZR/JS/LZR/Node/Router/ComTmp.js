@@ -51,7 +51,7 @@ LZR.Node.Router.ComTmp.prototype.hdObj_ = function (obj/*as:Object*/) {
 LZR.Node.Router.ComTmp.prototype.hdObj_.lzrClass_ = LZR.Node.Router.ComTmp;
 
 // 初始化模板
-LZR.Node.Router.ComTmp.prototype.initTmp = function (nam/*as:string*/, dir/*as:string*/) {
+LZR.Node.Router.ComTmp.prototype.initTmp = function (nam/*as:string*/, dir/*as:string*/, tools/*as:Object*/) {
 	if (!nam) {
 		nam = "/";
 	}
@@ -78,20 +78,16 @@ LZR.Node.Router.ComTmp.prototype.initTmp = function (nam/*as:string*/, dir/*as:s
 
 	// 模板调用
 	this.ro.use (nam + ":dotNam", LZR.bind(this, function (req, res, next) {
-		var o = {
-			url: {
-				base: req.baseUrl,
-				rout: nam,
-				dot: req.params.dotNam
-			},
-			dms: this.dms.ds
+		var o = LZR.fillPro(req, "qpobj.tmpo");
+		o.url = {
+			base: req.baseUrl,
+			rout: req.baseUrl.substr(0, (req.baseUrl.length - req.params.dotNam.length)),
+			dot: req.params.dotNam
 		};
-		if (!req.qpobj) {
-			req.qpobj = {
-				tmpo: o
-			};
-		} else {
-			req.qpobj.tmpo = o;
+		o.dms = this.dms.ds;
+		if (tools) {
+			o = LZR.fillPro(o, "tls");
+			LZR.megPro(o, tools);
 		}
 		var t = this.ro.getTmp(req.params.dotNam, req.qpobj);
 		if (t) {

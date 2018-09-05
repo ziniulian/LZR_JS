@@ -80,6 +80,7 @@ GitHub URL : https://github.com/ziniulian/LZR_JS
 1. 克隆方法统一使用 clone
 1. 枚举默认的空属性统一使用 emnull
 1. body里唯一的一个总 div 其 id 和 class 统一命名为 boso （body only sub out）
+1. dot模板的js文件里唯一的一个类对象 统一命名为 dco （def/dot class object）
 
 1. 服务的缩写： srv
 1. 事件的缩写： evt
@@ -100,6 +101,7 @@ GitHub URL : https://github.com/ziniulian/LZR_JS
 1. 枚举对象，均以 em 为前缀
 1. 值控制器变量，均以 vc 为前缀
 1. 创建对象的方法名，均以 crt 为前缀
+1. 绑定自身回调的函数，均以 exe 为前缀
 1. 通用DAO结构获取SQL方法名，均已 sql 为前缀
 1. 枚举类，均以 Em 为前缀
 1. 接口，均以 Inf 为前缀
@@ -129,6 +131,8 @@ GitHub URL : https://github.com/ziniulian/LZR_JS
 1. tmp2web ：模板里用到的静态文件夹
 1. qpobj ：路由请求对象的数据缓存区
 1. qpobj.tmpo ：模板默认参数信息
+1. qpobj.tmpo.qry ：模板的分页查询参数
+1. qpobj.tmpo.tls ：模板需要的工具库
 1. qpobj.comDbSrvNoRes ：数据库操作完是否自动应答
 1. qpobj.comDbSrvReturn ：数据库操作的返回结果
 1. qpobj.comDbSrvTyp ：数据库操作类型

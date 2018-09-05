@@ -14,6 +14,12 @@ LZR.Node.Router = function (obj) {
 	// express 框架
 	this.ep = LZR.getSingleton (null, null, "express");	/*as:Object*/
 
+	// POST解析工具
+	this.utPost = LZR.getSingleton (null, null, "body-parser");	/*as:Object*/
+
+	// 模板工具
+	this.utDot = LZR.getSingleton (null, null, "dot");	/*as:Object*/
+
 	// 模板集合
 	this.tmps = undefined;	/*as:Object*/
 
@@ -25,6 +31,9 @@ LZR.Node.Router = function (obj) {
 
 	// 路径
 	this.path = "./";	/*as:string*/
+
+	// 绑定了POST解析的路由名集
+	this.postList = {};	/*as:Object*/
 
 	// 回调类
 	this.clsCb/*m*/ = (LZR.Base.CallBacks);	/*as:fun*/
@@ -163,7 +172,7 @@ LZR.Node.Router.prototype.crtTmp = function (dir/*as:string*/)/*as:Object*/ {
 		if (!dir) {
 			dir = "tmp";
 		}
-		this.tmps = LZR.getSingleton (null, null, "dot").process({path: this.path + dir});
+		this.tmps = this.utDot.process({path: this.path + dir});
 	}
 	return this.tmps;
 };
@@ -184,3 +193,12 @@ LZR.Node.Router.prototype.getTmp = function (tmpNam/*as:string*/, obj/*as:Object
 	return r;
 };
 LZR.Node.Router.prototype.getTmp.lzrClass_ = LZR.Node.Router;
+
+// 解析POST数据
+LZR.Node.Router.prototype.hdPost = function (nam/*as:string*/) {
+	if (!this.postList[nam]) {
+		this.ro.post(nam, this.utPost.urlencoded({ extended: false }));
+		this.postList[nam] = true;
+	}
+};
+LZR.Node.Router.prototype.hdPost.lzrClass_ = LZR.Node.Router;
