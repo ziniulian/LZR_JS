@@ -26,6 +26,9 @@ LZR.Node.Router.QryTmp = function (obj) {
 	// 添加条件
 	this.addC = null;
 
+	// 默认表名
+	this.defTnam = "test";	/*as:string*/
+
 	// 数据库
 	this.db/*m*/ = null;	/*as:LZR.Node.Srv.ComDbSrv*/
 
@@ -54,30 +57,8 @@ LZR.Node.Router.QryTmp.prototype.init_ = function (obj/*as:Object*/) {
 	if (obj) {
 		LZR.setObj (this, obj);
 		this.hdObj_(obj);
-		// 说明：
-		// 分页查询：(POST)
-		//     /qry*/pag/表名/每页显示个数/排序方式/排序键/排序值/上下页/[查询条件(JSON)]/
-		//
-		// 带总数的分页查询：(POST)
-		//     /qry*/count/表名/每页显示个数/排序方式/排序键/排序值/上下页/[查询条件(JSON)]/
-		//
-		// 清空：(POST)
-		//     /qry*/drop/表名/
-		//
-		// 添加：(POST)
-		//     /qry*/add/表名/[对象内容(JSON)]/
-		//
-		// 清空符合查询条件的所有记录：(POST)
-		//     /qry*/clear/表名/[查询条件(JSON)]/
-		//
-		// 单个删除：(POST)
-		//     /qry*/del/表名/_id/
-		//
-		// 修改：(POST)
-		//     /qry*/set/表名/_id/[修改内容(JSON)]/
-		//
 		// 模板的分页查询数据结构：
-		// tmpqry: {
+		// {
 		//     mt: 方法,		pag,count,drop,add,clear,del,set
 		//     tn: 表名,
 		//     size: 每页显示个数,
@@ -104,10 +85,10 @@ LZR.Node.Router.QryTmp.prototype.hdObj_ = function (obj/*as:Object*/) {
 LZR.Node.Router.QryTmp.prototype.hdObj_.lzrClass_ = LZR.Node.Router.QryTmp;
 
 // 初始化
-LZR.Node.Router.QryTmp.prototype.init = function (nam/*as:string*/, tnam/*as:string*/) {
+LZR.Node.Router.QryTmp.prototype.init = function (nam/*as:string*/) {
 	if (!this.db && this.conf) {
 		this.db = new this.clsDbSrv({logAble: this.logAble});
-		this.db.initDb (this.conf, tnam, true);
+		this.db.initDb (this.conf, this.defTnam, true);
 
 		// 对数据库进行错误处理
 		var hdErr = LZR.bind(this, function (e, req, res, next) {
@@ -132,7 +113,7 @@ LZR.Node.Router.QryTmp.prototype.init.lzrClass_ = LZR.Node.Router.QryTmp;
 LZR.Node.Router.QryTmp.prototype.hdGet = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	var o = LZR.fillPro(req, "qpobj.tmpo.qry");
 	o.mt = "pag";
-	o.tn = req.params.tn || o.tn || "test";
+	o.tn = req.params.tn || o.tn || this.defTnam;
 	o.size = (req.params.size - 0) || o.size || 10;
 	o.sort = (req.params.sort - 0) || o.sort || 1;
 	o.k = req.params.k || o.k || "_id";
@@ -190,10 +171,10 @@ LZR.Node.Router.QryTmp.prototype.hdPost = function (req/*as:Object*/, res/*as:Ob
 		case "set":
 			this.db.set( req, res, next, {"_id": this.parsV("_id", req.body.id)}, {"$set": this.utJson.toObj(o.cont)}, true );
 			break;
-		case "del":
+		case "del":		// 删除单个记录
 			this.db.del( req, res, next, {"_id": this.parsV("_id", o.cont)}, true );
 			break;
-		case "clear":
+		case "clear":	// 清空符合查询条件的所有记录
 			this.db.del( req, res, next, this.utJson.toObj(o.cond), true );
 			break;
 		case "drop":

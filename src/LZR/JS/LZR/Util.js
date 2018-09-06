@@ -32,7 +32,7 @@ LZR.Util.prototype.init_.lzrClass_ = LZR.Util;
 
 // 对构造参数的特殊处理
 LZR.Util.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
+
 };
 LZR.Util.prototype.hdObj_.lzrClass_ = LZR.Util;
 
@@ -54,14 +54,7 @@ LZR.Util.prototype.bind.lzrClass_ = LZR.Util;
 
 // 判断一个对象的属性是否存在
 LZR.Util.prototype.exist = function (obj/*as:Object*/, pro/*as:string*/)/*as:Object*/ {
-	var ps = pro.split(".");
-	for (var i = 0; i<ps.length; i++) {
-		if (undefined === obj || null === obj) {
-			return undefined;
-		}
-		obj = obj[ps[i]];
-	}
-	return obj;
+	return LZR.fillPro(obj, pro, true);
 };
 LZR.Util.prototype.exist.lzrClass_ = LZR.Util;
 

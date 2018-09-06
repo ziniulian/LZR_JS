@@ -553,13 +553,14 @@ LZR.simpleClone = function (src/*as:Object*/, tag/*as:Object*/, filters/*as:___*
 LZR.simpleClone.lzrClass_ = LZR;
 
 // 填充属性
-LZR.fillPro = function (obj/*as:Object*/, pro/*as:string*/)/*as:Object*/ {
+LZR.fillPro = function (obj/*as:Object*/, pro/*as:string*/, exist/*as:boolean*/)/*as:Object*/ {
 	var r = obj;
 	if (pro) {
 		var ps = pro.split(".");
-		for (var i = 0; i<ps.length; i++) {
-			if (r && ((typeof r) === "object")) {
-				if (undefined === r[ps[i]]) {
+		for (var t, i = 0; i<ps.length; i++) {
+			t = typeof r;
+			if (r && (t === "object" || t === "function")) {
+				if (!exist && undefined === r[ps[i]]) {
 					r[ps[i]] = {};
 				}
 				r = r[ps[i]];

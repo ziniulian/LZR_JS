@@ -291,7 +291,7 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 		}
 
 		// 记录操作日志
-		if (b && (this.logAble & 1)) {
+		if (r && (this.logAble & 1)) {
 			this.ajx.qry("vs", req, res, next, null, {
 				url: req.protocol + "://" + req.hostname + req.originalUrl,
 				ip: this.utNode.getClientIp(req),

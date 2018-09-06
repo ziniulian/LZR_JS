@@ -156,10 +156,6 @@ LZR.Node.Db.Mongo.prototype.parseArg.lzrClass_ = LZR.Node.Db.Mongo;
 
 // 获取表名
 LZR.Node.Db.Mongo.prototype.getTnam = function (req/*as:Object*/, nam/*as:string*/)/*as:string*/ {
-	if (req && req.qpobj && req.qpobj.tmpqry && req.qpobj.tmpqry.tn) {
-		return req.qpobj.tmpqry.tn;
-	} else {
-		return nam;
-	}
+	return LZR.fillPro(req, "qpobj.tmpo.qry.tn", true) || nam;
 };
 LZR.Node.Db.Mongo.prototype.getTnam.lzrClass_ = LZR.Node.Db.Mongo;
