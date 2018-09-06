@@ -45,7 +45,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_B30A8796_39F2_4219_9231_6D1A03E31C20"/>
 								<UML:TaggedValue tag="date_created" value="2015-12-03 21:11:05"/>
-								<UML:TaggedValue tag="date_modified" value="2018-09-05 15:55:29"/>
+								<UML:TaggedValue tag="date_modified" value="2018-09-06 14:34:34"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -57,7 +57,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="5"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=19fc;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=15e8;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -1432,7 +1432,7 @@
 										<UML:TaggedValue tag="style" value="&#22635;&#20805;&#23646;&#24615;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_DD3DF197_D360_4f0b_949B_B17380944069">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var r = obj;&#xA;	if (pro) {&#xA;		var ps = pro.split(&quot;.&quot;);&#xA;		for (var i = 0; i&lt;ps.length; i++) {&#xA;			if (r &amp;&amp; ((typeof r) === &quot;object&quot;)) {&#xA;				if (undefined === r[ps[i]]) {&#xA;					r[ps[i]] = {};&#xA;				}&#xA;				r = r[ps[i]];&#xA;			} else {&#xA;				r = undefined;&#xA;				break;&#xA;			}&#xA;		}&#xA;	}&#xA;	return r;"/>
+												<UML:Comment name="var r = obj;&#xA;	if (pro) {&#xA;		var ps = pro.split(&quot;.&quot;);&#xA;		for (var t, i = 0; i&lt;ps.length; i++) {&#xA;			t = typeof r;&#xA;			if (r &amp;&amp; (t === &quot;object&quot; || t === &quot;function&quot;)) {&#xA;				if (!exist &amp;&amp; undefined === r[ps[i]]) {&#xA;					r[ps[i]] = {};&#xA;				}&#xA;				r = r[ps[i]];&#xA;			} else {&#xA;				r = undefined;&#xA;				break;&#xA;			}&#xA;		}&#xA;	}&#xA;	return r;"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -1476,6 +1476,21 @@
 												<UML:TaggedValue tag="const" value="0"/>
 												<UML:TaggedValue tag="styleex" value="alias=&#23646;&#24615;&#21517;;"/>
 												<UML:TaggedValue tag="ea_guid" value="{D6212777-E7FE-4295-8D49-EEEBB6EF8149}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="exist" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid6"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="2"/>
+												<UML:TaggedValue tag="type" value="boolean"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#21482;&#26816;&#26597;&#23646;&#24615;&#26159;&#21542;&#23384;&#22312;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{012EA376-5513-4e05-9B51-B17769AFFFFD}"/>
 											</UML:ModelElement.taggedValue>
 											<UML:Parameter.defaultValue>
 												<UML:Expression/>
@@ -1690,7 +1705,7 @@
 										<UML:TaggedValue tag="complexity" value="1"/>
 										<UML:TaggedValue tag="status" value="Proposed"/>
 										<UML:TaggedValue tag="tpos" value="0"/>
-										<UML:TaggedValue tag="ea_localid" value="128"/>
+										<UML:TaggedValue tag="ea_localid" value="131"/>
 										<UML:TaggedValue tag="ea_eleType" value="package"/>
 										<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 									</UML:ModelElement.taggedValue>
@@ -1705,7 +1720,7 @@
 								<UML:TaggedValue tag="modified" value="2015-11-30 17:55:55"/>
 								<UML:TaggedValue tag="iscontrolled" value="TRUE"/>
 								<UML:TaggedValue tag="xmlpath" value="eaD\D0D3363F8677.xml"/>
-								<UML:TaggedValue tag="lastloaddate" value="2018-08-20 16:57:33"/>
+								<UML:TaggedValue tag="lastloaddate" value="2018-09-06 14:32:45"/>
 								<UML:TaggedValue tag="lastsavedate" value="2016-01-12 13:19:48"/>
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="isprotected" value="FALSE"/>
