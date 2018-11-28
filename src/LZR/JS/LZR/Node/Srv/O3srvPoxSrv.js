@@ -97,7 +97,9 @@ LZR.Node.Srv.O3srvPoxSrv.prototype.hdHttp = function (buf/*as:Object*/, req/*as:
 					cur: 0,		// 即将接收的顺序
 					max: 0,		// 最大顺序
 					c: c,		// 当前的客户端连接
-					bufs: {}		// 缓存
+					bufs: {},		// 缓存
+					h: o.h,		// host
+					p: o.p		// 端口号
 				};
 				this.srvarr.push(s);
 				var sae = this.srvarr.length;
@@ -200,9 +202,12 @@ LZR.Node.Srv.O3srvPoxSrv.prototype.hdHttps.lzrClass_ = LZR.Node.Srv.O3srvPoxSrv;
 
 // 清空服务队列
 LZR.Node.Srv.O3srvPoxSrv.prototype.delSrvs = function ()/*as:int*/ {
-	var s, r = this.srvarr.length;
+	var s, hosts = "", r = this.srvarr.length;
 	for (var i = 0; i < r; i ++) {
 		s = this.srvarr[i];
+		if (s.remoteAddress) {
+			hosts += s.remoteAddress + "\t" + s.idCatch.h + "\n";
+		}
 		if (s.idCatch.c) {
 			s.idCatch.c.end();
 			s.idCatch.c = undefined;
@@ -213,6 +218,6 @@ LZR.Node.Srv.O3srvPoxSrv.prototype.delSrvs = function ()/*as:int*/ {
 	if (r) {
 		this.srvarr = [];
 	}
-	return r;
+	return [r, hosts];
 };
 LZR.Node.Srv.O3srvPoxSrv.prototype.delSrvs.lzrClass_ = LZR.Node.Srv.O3srvPoxSrv;
