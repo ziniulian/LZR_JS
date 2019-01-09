@@ -53,12 +53,12 @@ LZR.Node.Srv.prototype.hdObj_ = function (obj/*as:Object*/) {
 LZR.Node.Srv.prototype.hdObj_.lzrClass_ = LZR.Node.Srv;
 
 // 启动服务
-LZR.Node.Srv.prototype.start = function () {
+LZR.Node.Srv.prototype.start = function ()/*as:Object*/ {	
 	this.so.use('/', this.ro.ro);
 	if (this.ip) {
-		this.so.listen(this.port, this.ip);
+		return this.so.listen(this.port, this.ip);
 	} else {
-		this.so.listen(this.port);
+		return this.so.listen(this.port);
 	}
 };
 LZR.Node.Srv.prototype.start.lzrClass_ = LZR.Node.Srv;
