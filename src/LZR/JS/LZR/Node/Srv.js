@@ -14,6 +14,15 @@ LZR.Node.Srv = function (obj) {
 	// express 框架
 	this.ep = LZR.getSingleton (null, null, "express");	/*as:Object*/
 
+	// 基础服务
+	this.app = LZR.getSingleton (null, null, "http");	/*as:Object*/
+
+	// 基础服务对象
+	this.appO = null;	/*as:Object*/
+
+	// 基础服务对象回调
+	this.appR = null;	/*as:Object*/
+
 	// 端口号
 	this.port = 80;	/*as:int*/
 
@@ -52,14 +61,26 @@ LZR.Node.Srv.prototype.hdObj_ = function (obj/*as:Object*/) {
 };
 LZR.Node.Srv.prototype.hdObj_.lzrClass_ = LZR.Node.Srv;
 
-// 启动服务
-LZR.Node.Srv.prototype.start = function ()/*as:Object*/ {	
-	this.so.use('/', this.ro.ro);
-	if (this.ip) {
-		return this.so.listen(this.port, this.ip);
-	} else {
-		return this.so.listen(this.port);
+// 获取基础服务
+LZR.Node.Srv.prototype.getApp = function ()/*as:Object*/ {
+	if (!this.appO) {
+		this.so.use('/', this.ro.ro);
+		this.appO = this.app.createServer(this.so);
 	}
+	return this.appO;
+};
+LZR.Node.Srv.prototype.getApp.lzrClass_ = LZR.Node.Srv;
+
+// 启动服务
+LZR.Node.Srv.prototype.start = function ()/*as:Object*/ {
+	if (!this.appR) {
+		if (this.ip) {
+			this.appR = this.getApp().listen(this.port, this.ip);
+		} else {
+			this.appR = this.getApp().listen(this.port);
+		}
+	}
+	return this.appR;
 };
 LZR.Node.Srv.prototype.start.lzrClass_ = LZR.Node.Srv;
 
