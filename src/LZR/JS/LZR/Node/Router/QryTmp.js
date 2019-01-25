@@ -112,6 +112,12 @@ LZR.Node.Router.QryTmp.prototype.init.lzrClass_ = LZR.Node.Router.QryTmp;
 // 处理GET请求
 LZR.Node.Router.QryTmp.prototype.hdGet = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	var o = LZR.fillPro(req, "qpobj.tmpo.qry");
+	if (req.params.tn === "null") {
+		req.params.tn = null;
+	}
+	if (req.params.k === "null") {
+		req.params.k = null;
+	}
 	o.mt = "pag";
 	o.tn = req.params.tn || o.tn || this.defTnam;
 	o.size = (req.params.size - 0) || o.size || 10;
@@ -120,8 +126,8 @@ LZR.Node.Router.QryTmp.prototype.hdGet = function (req/*as:Object*/, res/*as:Obj
 	o.v = "";
 	o.sm = 0;
 	o.total = 0;
-	o.cond = "{}";
-	o.mark = "{}";
+	o.cond = o.cond || "{}";
+	o.mark = o.mark || "{}";
 	req.body = {};		// GET请求不会自动生成 body
 
 	this.hdPost(req, res, next);
@@ -189,6 +195,10 @@ LZR.Node.Router.QryTmp.prototype.hdPost.lzrClass_ = LZR.Node.Router.QryTmp;
 
 // 分页查询
 LZR.Node.Router.QryTmp.prototype.pagQry = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	if (!req.params[0]) {
+		next();
+		return;
+	}
 	var o = LZR.fillPro(req, "qpobj.tmpo.qry");
 	var r = req.qpobj.comDbSrvReturn;
 	var redo = 1;

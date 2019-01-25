@@ -33,14 +33,14 @@ LZR.Node.Srv.ComDbSrv = function (obj) {
 	// 数据库
 	this.mdb/*m*/ = new LZR.Node.Db.Mongo();	/*as:LZR.Node.Db.Mongo*/
 
-	// Ajax工具
-	this.ajx/*m*/ = new LZR.Node.Db.NodeAjax();	/*as:LZR.Node.Db.NodeAjax*/
-
 	// node工具
-	this.utNode/*m*/ = new LZR.Node.Util();	/*as:LZR.Node.Util*/
+	this.utNode/*m*/ = LZR.getSingleton(LZR.Node.Util);	/*as:LZR.Node.Util*/
 
-	// 域名
-	this.dms/*m*/ = new LZR.Node.Srv.DomainSrv();	/*as:LZR.Node.Srv.DomainSrv*/
+	// 时间工具
+	this.utTim/*m*/ = LZR.getSingleton(LZR.Base.Time);	/*as:LZR.Base.Time*/
+
+	// Json工具
+	this.utJson/*m*/ = LZR.getSingleton(LZR.Base.Json);	/*as:LZR.Base.Json*/
 
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
@@ -68,27 +68,8 @@ LZR.Node.Srv.ComDbSrv.prototype.hdObj_ = function (obj/*as:Object*/) {
 };
 LZR.Node.Srv.ComDbSrv.prototype.hdObj_.lzrClass_ = LZR.Node.Srv.ComDbSrv;
 
-// 初始化Ajax
-LZR.Node.Srv.ComDbSrv.prototype.initAjx = function () {
-	if (!this.dms.ds.vs) {
-		this.dms.initAjx();
-		this.dms.ajx.evt.get.add(LZR.bind(this, function (r) {
-			this.ajx.crtEvt({
-				// vs: "http://127.0.0.1/Vs/srvTrace/"	// 测试用
-				vs: this.dms.ds.vs + "srvTrace/"
-			});
-		}));
-		this.dms.get("vs");
-	}
-};
-LZR.Node.Srv.ComDbSrv.prototype.initAjx.lzrClass_ = LZR.Node.Srv.ComDbSrv;
-
 // 初始化数据库
 LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as:string*/, noErr/*as:boolean*/) {
-	if (this.logAble) {
-		this.initAjx();
-	}
-
 	// 数据库设置
 	this.mdb.conf = conf;
 	this.mdb.autoErr = !noErr;
@@ -143,6 +124,14 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 			tnam: tabnam,
 			funs: {
 				drop: []
+			}
+		},
+
+		// 日志记录
+		vs: {
+			tnam: "vs",
+			funs: {
+				insert: ["<0>"]
 			}
 		}
 	});
@@ -209,15 +198,16 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 
 		// 记录操作日志
 		if (b && (this.logAble & 2)) {
-			this.ajx.qry("vs", req, res, next, null, {
-				url: req.protocol + "://" + req.hostname + req.originalUrl,
+			this.mdb.qry("vs", req, res, next, [{
+				// url: req.protocol + "://" + req.hostname + req.originalUrl,
+				url: req.originalUrl,
 				ip: this.utNode.getClientIp(req),
-				uuid: "dbLog",
-				dbLog: {
+				tim: this.utTim.getTim(),
+				dbLog:  this.utJson.toJson({
 					method: "add",
 					cond: r.insertedIds
-				}
-			});
+				})
+			}]);
 		}
 	}));
 	this.mdb.evt.qry.add(LZR.bind(this, function (r, req, res, next) {
@@ -255,12 +245,12 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 
 		// 记录操作日志
 		if (b && (this.logAble & 4)) {
-			this.ajx.qry("vs", req, res, next, null, {
-				url: req.protocol + "://" + req.hostname + req.originalUrl,
+			this.mdb.qry("vs", req, res, next, [{
+				url: req.originalUrl,
 				ip: this.utNode.getClientIp(req),
-				uuid: "dbLog",
-				dbLog: req.qpobj.comDbSrvCond
-			});
+				tim: this.utTim.getTim(),
+				dbLog: this.utJson.toJson(req.qpobj.comDbSrvCond)
+			}]);
 		}
 	}));
 	this.mdb.evt.del.add(LZR.bind(this, function (r, req, res, next) {
@@ -274,12 +264,12 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 
 		// 记录操作日志
 		if (b && (this.logAble & 1)) {
-			this.ajx.qry("vs", req, res, next, null, {
-				url: req.protocol + "://" + req.hostname + req.originalUrl,
+			this.mdb.qry("vs", req, res, next, [{
+				url: req.originalUrl,
 				ip: this.utNode.getClientIp(req),
-				uuid: "dbLog",
-				dbLog: req.qpobj.comDbSrvCond
-			});
+				tim: this.utTim.getTim(),
+				dbLog:  this.utJson.toJson(req.qpobj.comDbSrvCond)
+			}]);
 		}
 	}));
 	this.mdb.evt.drop.add(LZR.bind(this, function (r, req, res, next) {
@@ -292,12 +282,12 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 
 		// 记录操作日志
 		if (r && (this.logAble & 1)) {
-			this.ajx.qry("vs", req, res, next, null, {
-				url: req.protocol + "://" + req.hostname + req.originalUrl,
+			this.mdb.qry("vs", req, res, next, [{
+				url: req.originalUrl,
 				ip: this.utNode.getClientIp(req),
-				uuid: "dbLog",
-				dbLog: req.qpobj.comDbSrvCond
-			});
+				tim: this.utTim.getTim(),
+				dbLog:  this.utJson.toJson(req.qpobj.comDbSrvCond)
+			}]);
 		}
 	}));
 };
