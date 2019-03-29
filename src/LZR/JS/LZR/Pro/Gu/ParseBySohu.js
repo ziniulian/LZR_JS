@@ -97,46 +97,16 @@ LZR.Pro.Gu.ParseBySohu.prototype.parseTab.lzrClass_ = LZR.Pro.Gu.ParseBySohu;
 LZR.Pro.Gu.ParseBySohu.prototype.parseMain = function (htm/*as:string*/, tmp/*as:Array*/)/*as:Array*/ {
 	var i, j, k, n, a, r = 301;
 	// http://q.stock.sohu.com/cn/600519/cwzb.shtml
-	if (!tmp) {
-		tmp = this.tmpMain;
-	}
-	if (!tmp) {
-		r = 302;
-	} else {
-		i = htm.indexOf("<title>");
-		j = htm.indexOf("(", i);
-		n = htm.substring(i, j);
-		a = this.parseHTML(htm, "reportA");
-		if (a) {
-			a = this.parseTab(a);
-			r = {};
-
-			// 模板检查
-			for (i = 0; i < 16; i ++) {
-				if (tmp[j].length) {
-					if (a[i][0] !== tmp[j][0]) {
-						r = 302;	// 模板不一致
-						break;
-					}
-				}
-			}
-
-			if (r !== 302) {
-				r = [];
-				for (i = 1; i < a[0].length; i ++) {
-					k = this.utTim.getDayTimestamp(a[0][i] + " 0:0");
-					if (k) {
-						r.push({
-							tim: k,
-							nam: n
-						});
-					}
-				}
-				if (r.length) {
-					r[0].eps = a[2][]
-				}
-			}
-		}
+	i = htm.indexOf("<title>");
+	j = htm.indexOf("(", i);
+	n = htm.substring(i + 7 , j);
+	a = this.parseHTML(htm, "reportA");
+	if (a) {
+		a = this.parseTab(a);
+		r = {
+			nam: n,
+			dat: a
+		};
 	}
 	return r;
 };

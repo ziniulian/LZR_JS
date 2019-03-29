@@ -15,6 +15,9 @@ LZR.Node.Router.ComTmp = function (obj) {
 	// 需要获取域名的ID集合
 	this.dmIds = "";	/*as:string*/
 
+	// 模板用工具包
+	this.tools = null;	/*as:Object*/
+
 	// 路由器
 	this.ro/*m*/ = null;	/*as:LZR.Node.Router*/
 
@@ -58,6 +61,9 @@ LZR.Node.Router.ComTmp.prototype.initTmp = function (nam/*as:string*/, dir/*as:s
 	if (!dir) {
 		dir = "tmp";
 	}
+	if (tools) {
+		this.tools = tools;
+	}
 
 	// 创建doT模板
 	this.ro.crtTmp (dir);
@@ -77,27 +83,40 @@ LZR.Node.Router.ComTmp.prototype.initTmp = function (nam/*as:string*/, dir/*as:s
 	});
 
 	// 模板调用
-	this.ro.use (nam + ":dotNam", LZR.bind(this, function (req, res, next) {
-		var o = LZR.fillPro(req, "qpobj.tmpo");
-		o.url = {
-			base: req.baseUrl,
-			rout: req.baseUrl.substr(0, (req.baseUrl.length - req.params.dotNam.length)),
-			dot: req.params.dotNam
-		};
-		o.dms = this.dms.ds;
-		if (tools) {
-			o = LZR.fillPro(o, "tls");
-			LZR.megPro(o, tools);
-		}
-		var t = this.ro.getTmp(req.params.dotNam, req.qpobj);
-		if (t) {
-			res.send(t);
-		} else {
-			next();
-		}
-	}));
+	this.ro.use (nam + ":dotNam", LZR.bind(this, this.sendTmp));
 };
 LZR.Node.Router.ComTmp.prototype.initTmp.lzrClass_ = LZR.Node.Router.ComTmp;
+
+// 模板调用
+LZR.Node.Router.ComTmp.prototype.sendTmp = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/, dotNam/*as:string*/) {
+	var n, o = LZR.fillPro(req, "qpobj.tmpo");
+	if (!dotNam) {
+		dotNam = req.params.dotNam;
+	}
+	o.url = {
+		base: req.baseUrl,
+		dot: dotNam
+	};
+	n = req.baseUrl.indexOf("/" + dotNam);
+	if (n > 0) {
+		o.url.rout = req.baseUrl.substr(0, n + 1);
+	} else {
+		o.url.rout = req.baseUrl + "/";
+		o.url.base = o.url.rout + dotNam;
+	}
+	o.dms = this.dms.ds;
+	if (this.tools) {
+		o = LZR.fillPro(o, "tls");
+		LZR.megPro(o, this.tools);
+	}
+	var t = this.ro.getTmp(dotNam, req.qpobj);
+	if (t) {
+		res.send(t);
+	} else {
+		next();
+	}
+};
+LZR.Node.Router.ComTmp.prototype.sendTmp.lzrClass_ = LZR.Node.Router.ComTmp;
 
 // 初始化域名服务
 LZR.Node.Router.ComTmp.prototype.initDms = function (ids/*as:string*/, srvNam/*as:string*/) {

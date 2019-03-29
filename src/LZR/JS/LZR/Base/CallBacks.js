@@ -34,9 +34,6 @@ LZR.Base.CallBacks = function (obj) {
 	// 回调函数集合
 	this.funs/*m*/ = {};	/*as:LZR.Base.CallBacks.CallBack*/
 
-	// 通用工具
-	this.utLzr/*m*/ = LZR.getSingleton(LZR.Util);	/*as:LZR.Util*/
-
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
@@ -47,6 +44,22 @@ LZR.Base.CallBacks.prototype.className_ = "LZR.Base.CallBacks";
 LZR.Base.CallBacks.prototype.version_ = "1.0";
 
 LZR.load(null, "LZR.Base.CallBacks");
+
+// 构造器
+LZR.Base.CallBacks.prototype.init_ = function (obj/*as:Object*/) {
+	this.exe = LZR.bind (this, this.execute);
+	if (obj) {
+		LZR.setObj (this, obj);
+		this.hdObj_(obj);
+	}
+};
+LZR.Base.CallBacks.prototype.init_.lzrClass_ = LZR.Base.CallBacks;
+
+// 对构造参数的特殊处理
+LZR.Base.CallBacks.prototype.hdObj_ = function (obj/*as:Object*/) {
+
+};
+LZR.Base.CallBacks.prototype.hdObj_.lzrClass_ = LZR.Base.CallBacks;
 
 // 添加回调函数
 LZR.Base.CallBacks.prototype.add = function (fun/*as:fun*/, name/*as:LZR.Base.Str*/, self/*as:boolean*/)/*as:string*/ {
@@ -118,19 +131,3 @@ LZR.Base.CallBacks.prototype.execute = function ()/*as:boolean*/ {
 	return b;
 };
 LZR.Base.CallBacks.prototype.execute.lzrClass_ = LZR.Base.CallBacks;
-
-// 构造器
-LZR.Base.CallBacks.prototype.init_ = function (obj/*as:Object*/) {
-	this.exe = this.utLzr.bind (this, this.execute);
-	if (obj) {
-		LZR.setObj (this, obj);
-		this.hdObj_(obj);
-	}
-};
-LZR.Base.CallBacks.prototype.init_.lzrClass_ = LZR.Base.CallBacks;
-
-// 对构造参数的特殊处理
-LZR.Base.CallBacks.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
-};
-LZR.Base.CallBacks.prototype.hdObj_.lzrClass_ = LZR.Base.CallBacks;

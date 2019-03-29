@@ -276,7 +276,7 @@ LZR.Base.Time.prototype.getTim.lzrClass_ = LZR.Base.Time;
 LZR.Base.Time.prototype.getUTCTim = function (d/*as:Object*/)/*as:int*/ {
 	var t;
 	if (!d) {
-		t = new Date();
+		return Date.now();
 	} else if (LZR.getClassName(d) !== "Date") {
 		t = new Date(d);
 	} else {
@@ -324,7 +324,7 @@ LZR.Base.Time.prototype.parseDayTimestamp.lzrClass_ = LZR.Base.Time;
 
 // 解析以秒为单位的时间戳
 LZR.Base.Time.prototype.parseTimestamp = function (tmp/*as:int*/)/*as:int*/ {
-	return this.parseUTCTimestamp(tmp, true);
+	return this.parseUTCTimestamp(tmp * 1000, true);
 };
 LZR.Base.Time.prototype.parseTimestamp.lzrClass_ = LZR.Base.Time;
 
@@ -353,3 +353,26 @@ LZR.Base.Time.prototype.dayAreaStamp = function (y/*as:int*/, m/*as:int*/, max/*
 	return r;
 };
 LZR.Base.Time.prototype.dayAreaStamp.lzrClass_ = LZR.Base.Time;
+
+// UTC时间戳转换为字符串
+LZR.Base.Time.prototype.formatUTC = function (tmp/*as:int*/, typ/*as:int*/, format/*as:string*/)/*as:string*/ {
+	var d = false, r = "";
+	if (tmp) {
+		switch (typ) {
+			case 1:	// 日时间戳
+				d = this.getDate(this.parseDayTimestamp(tmp));
+				break;
+			case 2:	// 秒时间戳
+				d = this.getDate(this.parseTimestamp(tmp));
+				break;
+			case 3:	// 时间戳
+				d = this.getDate(this.parseUTCTimestamp(tmp, true));
+				break;
+		}
+		if (d !== false) {
+			r = this.format(d, format);
+		}
+	}
+	return r;
+};
+LZR.Base.Time.prototype.formatUTC.lzrClass_ = LZR.Base.Time;

@@ -138,17 +138,8 @@ LZR.Node.Router.QryTmp.prototype.hdGet.lzrClass_ = LZR.Node.Router.QryTmp;
 LZR.Node.Router.QryTmp.prototype.hdPost = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	var o = LZR.fillPro(req, "qpobj.tmpo.qry");
 	if (!o.mt) {
-		o.mt = req.body.mt;
-		o.tn = req.body.tn;
-		o.size = req.body.size - 0;
-		o.sort = req.body.sort - 0;
-		o.k = req.body.k;
-		o.v = req.body.v;
-		o.sm = req.body.sm - 0;
-		o.total = req.body.total - 0;
-		o.cond = req.body.cond;
+		this.copyQryPro(req, o);
 		o.cont = req.body.cont;
-		o.mark = req.body.mark;
 	}
 
 	if (o.sm === -1) {
@@ -162,7 +153,7 @@ LZR.Node.Router.QryTmp.prototype.hdPost = function (req/*as:Object*/, res/*as:Ob
 	// TODO: 未来可在此进行权限管控
 	switch (o.mt) {
 		case "pag":
-			this.db.qry( req, res, next, o.k, this.parsV(o.k, o.v), this.utJson.toObj(o.cond), this.utJson.toObj(o.mark), true );
+			this.qry(req, res, next, o);
 			break;
 		case "count":
 			this.db.count( req, res, next, this.utJson.toObj(o.cond), true );
@@ -248,7 +239,6 @@ LZR.Node.Router.QryTmp.prototype.pagQry = function (req/*as:Object*/, res/*as:Ob
 			if (o.ok) {
 				o.v = "";
 				o.sm = 0;
-				o.cond = "{}";
 			}
 			break;
 		case "add":
@@ -257,7 +247,6 @@ LZR.Node.Router.QryTmp.prototype.pagQry = function (req/*as:Object*/, res/*as:Ob
 				var obj = r.ops[0];
 				o.v = obj[o.k];
 				o.sm = -1;
-				o.cond = "{}";
 				req.body.sort = -o.sort;
 			}
 			break;
@@ -285,7 +274,7 @@ LZR.Node.Router.QryTmp.prototype.pagQry = function (req/*as:Object*/, res/*as:Ob
 
 	switch (redo) {
 		case 1:
-			this.db.qry( req, res, next, o.k, this.parsV(o.k, o.v), this.utJson.toObj(o.cond), this.utJson.toObj(o.mark), true );
+			this.qry(req, res, next, o);
 			break;
 		case 2:
 			next();
@@ -311,7 +300,7 @@ LZR.Node.Router.QryTmp.prototype.hdAddQry = function (req/*as:Object*/, res/*as:
 		}
 		req.body.sort = o.sort;
 		req.body.size = o.size;
-		this.db.qry( req, res, next, o.k, this.parsV(o.k, o.v), this.utJson.toObj(o.cond), this.utJson.toObj(o.mark), true );
+		this.qry(req, res, next, o);
 	} else {
 		next();
 	}
@@ -321,16 +310,7 @@ LZR.Node.Router.QryTmp.prototype.hdAddQry.lzrClass_ = LZR.Node.Router.QryTmp;
 // 添加或修改
 LZR.Node.Router.QryTmp.prototype.hdAdd = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	var o = LZR.fillPro(req, "qpobj.tmpo.qry");
-	o.mt = req.body.mt;
-	o.tn = req.body.tn;
-	o.size = req.body.size - 0;
-	o.sort = req.body.sort - 0;
-	o.k = req.body.k;
-	o.v = req.body.v;
-	o.sm = req.body.sm - 0;
-	o.total = req.body.total - 0;
-	o.cond = req.body.cond;
-	o.mark = req.body.mark;
+	this.copyQryPro(req, o);
 	o.id = req.body.cont;
 	o.bck = req.params.bck;
 
@@ -358,3 +338,34 @@ LZR.Node.Router.QryTmp.prototype.parsV = function (k/*as:string*/, v/*as:string*
 	return r;
 };
 LZR.Node.Router.QryTmp.prototype.parsV.lzrClass_ = LZR.Node.Router.QryTmp;
+
+// 复制查询参数
+LZR.Node.Router.QryTmp.prototype.copyQryPro = function (req/*as:Object*/, o/*as:Object*/) {
+	if (!o) {
+		o = {};
+	}
+	o.mt = req.body.mt;
+	o.tn = req.body.tn;
+	o.size = req.body.size - 0;
+	o.sort = req.body.sort - 0;
+	o.k = req.body.k;
+	o.v = req.body.v;
+	o.sm = req.body.sm - 0;
+	o.total = req.body.total - 0;
+	o.cond = req.body.cond;
+	o.mark = req.body.mark;
+	return o;
+};
+LZR.Node.Router.QryTmp.prototype.copyQryPro.lzrClass_ = LZR.Node.Router.QryTmp;
+
+// 触发分页查询
+LZR.Node.Router.QryTmp.prototype.qry = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/, o/*as:Object*/) {
+	if (!o) {
+		o = LZR.fillPro(req, "qpobj.tmpo.qry");
+	}
+	if (!o.mt) {
+		this.copyQryPro(req, o);
+	}
+	this.db.qry( req, res, next, o.k, this.parsV(o.k, o.v), this.utJson.toObj(o.cond), this.utJson.toObj(o.mark), true );
+};
+LZR.Node.Router.QryTmp.prototype.qry.lzrClass_ = LZR.Node.Router.QryTmp;
