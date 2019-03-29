@@ -65,6 +65,9 @@ LZR.Node.Db.NodeAjax.prototype.qry = function (sqlNam/*as:string*/, req/*as:Obje
 
 	// URL 数据替换
 	hs = this.utUrl.parseUrl(url, args);
+	if (hs.encod) {
+		e = hs.encod;
+	}
 
 	// 判断是否使用 HTTPS 协议
 	if (hs.protocol === "https") {
