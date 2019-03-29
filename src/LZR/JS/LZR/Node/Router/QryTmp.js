@@ -172,7 +172,7 @@ LZR.Node.Router.QryTmp.prototype.hdPost = function (req/*as:Object*/, res/*as:Ob
 			this.db.del( req, res, next, {"_id": this.parsV("_id", o.cont)}, true );
 			break;
 		case "clear":	// 清空符合查询条件的所有记录
-			this.db.del( req, res, next, this.utJson.toObj(o.cond), true );
+			this.db.del( req, res, next, this.utJson.toObj(o.cont), true );
 			break;
 		case "drop":
 			this.db.drop( req, res, next, true );
