@@ -59,12 +59,12 @@ LZR.Node.Router.QryTmp.prototype.init_ = function (obj/*as:Object*/) {
 		this.hdObj_(obj);
 		// 模板的分页查询数据结构：
 		// {
-		//     mt: 方法,		pag,count,drop,add,clear,del,set
+		//     mt: 方法,		pag,mpag,count,drop,add,clear,del,set
 		//     tn: 表名,
 		//     size: 每页显示个数,
 		//     sort: 排序方式,		1:从小到大,-1:从大到小
-		//     k: 排序键,
-		//     v: 排序值,
+		//     k: 排序键,	|| 聚合排序条件
+		//     v: 排序值,	|| 聚合排序的页码
 		//     sm: 上下页,		0:第一页,1:下一页,-1:上一页
 		//     cond: 查询条件(JSON),
 		//     cont: 内容(JSON),
@@ -118,14 +118,20 @@ LZR.Node.Router.QryTmp.prototype.hdGet = function (req/*as:Object*/, res/*as:Obj
 	if (req.params.k === "null") {
 		req.params.k = null;
 	}
-	o.mt = "pag";
+	o.mt = o.mt || "pag";
 	o.tn = req.params.tn || o.tn || this.defTnam;
 	o.size = (req.params.size - 0) || o.size || 10;
 	o.sort = (req.params.sort - 0) || o.sort || 1;
-	o.k = req.params.k || o.k || "_id";
-	o.v = "";
+	if (o.mt === "mpag") {
+		o.k = req.params.k || o.k || "{}";
+		o.v = 0;
+		o.total = -1;
+	} else {
+		o.k = req.params.k || o.k || "_id";
+		o.v = "";
+		o.total = 0;
+	}
 	o.sm = 0;
-	o.total = 0;
 	o.cond = o.cond || "{}";
 	o.mark = o.mark || "{}";
 	req.body = {};		// GET请求不会自动生成 body
@@ -154,6 +160,12 @@ LZR.Node.Router.QryTmp.prototype.hdPost = function (req/*as:Object*/, res/*as:Ob
 	switch (o.mt) {
 		case "pag":
 			this.qry(req, res, next, o);
+			break;
+		case "mpag":	// 带聚合排序的分页查询
+			o.v -= 0;
+			this.db.mqry( req, res, next, this.utJson.toObj(o.k),
+				this.utJson.toObj(o.cond), this.utJson.toObj(o.mark),
+				((o.total === -1) ? -1 : (o.v * o.size)), true );
 			break;
 		case "count":
 			this.db.count( req, res, next, this.utJson.toObj(o.cond), true );
@@ -219,6 +231,16 @@ LZR.Node.Router.QryTmp.prototype.pagQry = function (req/*as:Object*/, res/*as:Ob
 				} else {
 					redo = 2;
 				}
+			}
+			break;
+		case "mpag":
+			if (r.ErrQryTmp) {
+				redo = 0;
+			} else {
+				if (o.total === -1) {
+					o.total = r.total;
+				}
+				redo = 2;
 			}
 			break;
 		case "count":

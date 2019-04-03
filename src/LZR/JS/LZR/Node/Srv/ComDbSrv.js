@@ -99,6 +99,17 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 			}
 		},
 
+		mqry: {
+			tnam: tabnam,
+			funs: {
+				find: ["<0>", "<1>"],
+				sort: ["<2>"],
+				skip: ["<3>"],
+				limit: ["<4>"],
+				toArray: []
+			}
+		},
+
 		count: {
 			tnam: tabnam,
 			funs: {
@@ -223,14 +234,46 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 		}
 	}));
 	this.mdb.evt.count.add(LZR.bind(this, function (r, req, res, next) {
+		switch (req.qpobj.comDbSrvTyp) {
+			case "mqry":
+				if (r) {
+					req.qpobj.comDbSrvCond.total = r;
+					this.mdb.qry("mqry", req, res, next, req.qpobj.comDbSrvCond.cond,);
+				} else {
+					if (req.qpobj.comDbSrvNoRes) {
+						req.qpobj.comDbSrvReturn = [];
+						next();
+					} else {
+						res.json(this.clsR.get(null, "暂无数据"));
+					}
+				}
+				break;
+			default:
+				if (req.qpobj.comDbSrvNoRes) {
+					req.qpobj.comDbSrvReturn = r;
+					next();
+				} else {
+					if (r === 0) {
+						res.json(this.clsR.get(r, "count", true));
+					} else {
+						res.json(this.clsR.get(r));
+					}
+				}
+				break;
+		}
+	}));
+	this.mdb.evt.mqry.add(LZR.bind(this, function (r, req, res, next) {
+		if (req.qpobj.comDbSrvCond) {
+			r.total = req.qpobj.comDbSrvCond.total;
+		}
 		if (req.qpobj.comDbSrvNoRes) {
 			req.qpobj.comDbSrvReturn = r;
 			next();
 		} else {
-			if (r === 0) {
-				res.json(this.clsR.get(r, "count", true));
-			} else {
+			if (r.length) {
 				res.json(this.clsR.get(r));
+			} else {
+				res.json(this.clsR.get(null, "暂无数据"));
 			}
 		}
 	}));
@@ -358,6 +401,24 @@ LZR.Node.Srv.ComDbSrv.prototype.qry = function (req/*as:Object*/, res/*as:Object
 	}
 };
 LZR.Node.Srv.ComDbSrv.prototype.qry.lzrClass_ = LZR.Node.Srv.ComDbSrv;
+
+// 聚合排序式分页查询
+LZR.Node.Srv.ComDbSrv.prototype.mqry = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/, sort/*as:Object*/, cond/*as:Object*/, mark/*as:Object*/, skip/*as:int*/, noRes/*as:boolean*/) {
+	this.setPro (req, "mqry", noRes);
+	var n = (req.body.size - 0) || (req.params.size - 0) || this.qrySize;
+	var d = [cond, mark, sort, skip, n];
+	if (skip < 0) {
+		d[3] = 0;
+		req.qpobj.comDbSrvCond = {
+			method: "mqry",
+			cond: d
+		};
+		this.mdb.qry("count", req, res, next, [cond]);
+	} else {
+		this.mdb.qry("mqry", req, res, next, d);
+	}
+};
+LZR.Node.Srv.ComDbSrv.prototype.mqry.lzrClass_ = LZR.Node.Srv.ComDbSrv;
 
 // 获取总数
 LZR.Node.Srv.ComDbSrv.prototype.count = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/, cond/*as:Object*/, noRes/*as:boolean*/) {

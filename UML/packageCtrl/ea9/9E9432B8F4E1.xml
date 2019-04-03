@@ -47,7 +47,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_7CB36E13_23B5_43a1_9D79_9E9432B8F4E1"/>
 								<UML:TaggedValue tag="date_created" value="2018-02-05 14:47:40"/>
-								<UML:TaggedValue tag="date_modified" value="2019-01-25 09:48:22"/>
+								<UML:TaggedValue tag="date_modified" value="2019-04-03 14:13:02"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\Node\Srv\ComDbSrv.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -60,7 +60,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="370"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=5fc4;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=13f4;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -263,7 +263,7 @@
 										<UML:TaggedValue tag="style" value="&#21021;&#22987;&#21270;&#25968;&#25454;&#24211;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_E38214FF_74B9_4b49_9352_2B3E37F28219">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="this.mdb.conf = conf;&#xA;	this.mdb.autoErr = !noErr;&#xA;	this.mdb.crtEvt({&#xA;		get: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				find: [&quot;&lt;0&gt;&quot;, &quot;&lt;1&gt;&quot;],&#xA;				toArray: []&#xA;			}&#xA;		},&#xA;&#xA;		add: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				insertMany: [&quot;&lt;0&gt;&quot;]&#xA;			}&#xA;		},&#xA;&#xA;		qry: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				find: [&quot;&lt;0&gt;&quot;, &quot;&lt;1&gt;&quot;],&#xA;				sort: [&quot;&lt;2&gt;&quot;],&#xA;				limit: [&quot;&lt;3&gt;&quot;],&#xA;				toArray: []&#xA;			}&#xA;		},&#xA;&#xA;		count: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				count: [&quot;&lt;0&gt;&quot;]&#xA;			}&#xA;		},&#xA;&#xA;		set: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				updateMany: [&quot;&lt;0&gt;&quot;, &quot;&lt;1&gt;&quot;]&#xA;			}&#xA;		},&#xA;&#xA;		del: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				deleteMany: [&quot;&lt;0&gt;&quot;]&#xA;			}&#xA;		},&#xA;&#xA;		drop: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				drop: []&#xA;			}&#xA;		},&#xA;&#xA;		// &#26085;&#24535;&#35760;&#24405;&#xA;		vs: {&#xA;			tnam: &quot;vs&quot;,&#xA;			funs: {&#xA;				insert: [&quot;&lt;0&gt;&quot;]&#xA;			}&#xA;		}&#xA;	});&#xA;&#xA;	// &#25968;&#25454;&#24211;&#20107;&#20214;&#22788;&#29702;&#xA;	this.mdb.evt.get.add(LZR.bind(this, function (r, req, res, next) {&#xA;		switch (req.qpobj.comDbSrvTyp) {&#xA;			case &quot;get&quot;:&#xA;				if (req.qpobj.comDbSrvNoRes) {&#xA;					req.qpobj.comDbSrvReturn = r;&#xA;					next();&#xA;				} else {&#xA;					if (r.length) {&#xA;						res.json(this.clsR.get(r));&#xA;					} else {&#xA;						res.json(this.clsR.get(null, &quot;&#26242;&#26080;&#25968;&#25454;&quot;));&#xA;					}&#xA;				}&#xA;				break;&#xA;			case &quot;add&quot;:&#xA;				if (r.length) {&#xA;					if (req.qpobj.comDbSrvNoRes) {&#xA;						req.qpobj.comDbSrvReturn = {&#xA;							result: {&#xA;								ok: false,&#xA;								n: 0&#xA;							}&#xA;						};&#xA;						next();&#xA;					} else {&#xA;						res.json(this.clsR.get(0, &quot;&#25968;&#25454;&#24050;&#23384;&#22312;&quot;, false));&#xA;					}&#xA;				} else {&#xA;					this.mdb.qry(&quot;add&quot;, req, res, next, [req.qpobj.comDbSrvObjs]);&#xA;				}&#xA;				break;&#xA;			case &quot;meg&quot;:&#xA;				// &#21512;&#24182;&#xA;				if (r.length) {&#xA;					this.mdb.qry(&quot;set&quot;, req, res, next, [&#xA;						req.qpobj.comDbSrvCond.cond,&#xA;						{&quot;$set&quot;: req.qpobj.comDbSrvObjs}&#xA;					]);&#xA;				} else {&#xA;					var c = req.qpobj.comDbSrvCond.cond;&#xA;					var o = req.qpobj.comDbSrvObjs;&#xA;					var s;&#xA;					for (s in o) {&#xA;						c[s] = o[s];&#xA;					}&#xA;					this.mdb.qry(&quot;add&quot;, req, res, next, [[c]]);&#xA;				}&#xA;				break;&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.add.add(LZR.bind(this, function (r, req, res, next) {&#xA;		var b = (r.result.ok === 1 &amp;&amp; r.result.n &gt; 0);&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r;&#xA;			next();&#xA;		} else {&#xA;			res.json(this.clsR.get(r.result.n, &quot;add&quot;, b));&#xA;		}&#xA;&#xA;		// &#35760;&#24405;&#25805;&#20316;&#26085;&#24535;&#xA;		if (b &amp;&amp; (this.logAble &amp; 2)) {&#xA;			this.mdb.qry(&quot;vs&quot;, req, res, next, [{&#xA;				// url: req.protocol + &quot;://&quot; + req.hostname + req.originalUrl,&#xA;				url: req.originalUrl,&#xA;				ip: this.utNode.getClientIp(req),&#xA;				tim: this.utTim.getTim(),&#xA;				dbLog:  this.utJson.toJson({&#xA;					method: &quot;add&quot;,&#xA;					cond: r.insertedIds&#xA;				})&#xA;			}]);&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.qry.add(LZR.bind(this, function (r, req, res, next) {&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r;&#xA;			next();&#xA;		} else {&#xA;			if (r.length) {&#xA;				res.json(this.clsR.get(r));&#xA;			} else {&#xA;				res.json(this.clsR.get(null, &quot;&#26242;&#26080;&#25968;&#25454;&quot;));&#xA;			}&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.count.add(LZR.bind(this, function (r, req, res, next) {&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r;&#xA;			next();&#xA;		} else {&#xA;			if (r === 0) {&#xA;				res.json(this.clsR.get(r, &quot;count&quot;, true));&#xA;			} else {&#xA;				res.json(this.clsR.get(r));&#xA;			}&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.set.add(LZR.bind(this, function (r, req, res, next) {&#xA;		var b = (r.result.ok === 1 &amp;&amp; r.result.nModified &gt; 0);&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r.result;&#xA;			next();&#xA;		} else {&#xA;			res.json(this.clsR.get(r.result.nModified, &quot;set&quot;, b));&#xA;		}&#xA;&#xA;		// &#35760;&#24405;&#25805;&#20316;&#26085;&#24535;&#xA;		if (b &amp;&amp; (this.logAble &amp; 4)) {&#xA;			this.mdb.qry(&quot;vs&quot;, req, res, next, [{&#xA;				url: req.originalUrl,&#xA;				ip: this.utNode.getClientIp(req),&#xA;				tim: this.utTim.getTim(),&#xA;				dbLog: this.utJson.toJson(req.qpobj.comDbSrvCond)&#xA;			}]);&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.del.add(LZR.bind(this, function (r, req, res, next) {&#xA;		var b = (r.result.ok === 1 &amp;&amp; r.result.n &gt; 0);&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r.result;&#xA;			next();&#xA;		} else {&#xA;			res.json(this.clsR.get(r.result.n, &quot;del&quot;, b));&#xA;		}&#xA;&#xA;		// &#35760;&#24405;&#25805;&#20316;&#26085;&#24535;&#xA;		if (b &amp;&amp; (this.logAble &amp; 1)) {&#xA;			this.mdb.qry(&quot;vs&quot;, req, res, next, [{&#xA;				url: req.originalUrl,&#xA;				ip: this.utNode.getClientIp(req),&#xA;				tim: this.utTim.getTim(),&#xA;				dbLog:  this.utJson.toJson(req.qpobj.comDbSrvCond)&#xA;			}]);&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.drop.add(LZR.bind(this, function (r, req, res, next) {&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r;&#xA;			next();&#xA;		} else {&#xA;			res.json(this.clsR.get(&quot;&quot;, &quot;drop&quot;, r));&#xA;		}&#xA;&#xA;		// &#35760;&#24405;&#25805;&#20316;&#26085;&#24535;&#xA;		if (r &amp;&amp; (this.logAble &amp; 1)) {&#xA;			this.mdb.qry(&quot;vs&quot;, req, res, next, [{&#xA;				url: req.originalUrl,&#xA;				ip: this.utNode.getClientIp(req),&#xA;				tim: this.utTim.getTim(),&#xA;				dbLog:  this.utJson.toJson(req.qpobj.comDbSrvCond)&#xA;			}]);&#xA;		}&#xA;	}));"/>
+												<UML:Comment name="this.mdb.conf = conf;&#xA;	this.mdb.autoErr = !noErr;&#xA;	this.mdb.crtEvt({&#xA;		get: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				find: [&quot;&lt;0&gt;&quot;, &quot;&lt;1&gt;&quot;],&#xA;				toArray: []&#xA;			}&#xA;		},&#xA;&#xA;		add: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				insertMany: [&quot;&lt;0&gt;&quot;]&#xA;			}&#xA;		},&#xA;&#xA;		qry: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				find: [&quot;&lt;0&gt;&quot;, &quot;&lt;1&gt;&quot;],&#xA;				sort: [&quot;&lt;2&gt;&quot;],&#xA;				limit: [&quot;&lt;3&gt;&quot;],&#xA;				toArray: []&#xA;			}&#xA;		},&#xA;&#xA;		mqry: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				find: [&quot;&lt;0&gt;&quot;, &quot;&lt;1&gt;&quot;],&#xA;				sort: [&quot;&lt;2&gt;&quot;],&#xA;				skip: [&quot;&lt;3&gt;&quot;],&#xA;				limit: [&quot;&lt;4&gt;&quot;],&#xA;				toArray: []&#xA;			}&#xA;		},&#xA;&#xA;		count: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				count: [&quot;&lt;0&gt;&quot;]&#xA;			}&#xA;		},&#xA;&#xA;		set: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				updateMany: [&quot;&lt;0&gt;&quot;, &quot;&lt;1&gt;&quot;]&#xA;			}&#xA;		},&#xA;&#xA;		del: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				deleteMany: [&quot;&lt;0&gt;&quot;]&#xA;			}&#xA;		},&#xA;&#xA;		drop: {&#xA;			tnam: tabnam,&#xA;			funs: {&#xA;				drop: []&#xA;			}&#xA;		},&#xA;&#xA;		// &#26085;&#24535;&#35760;&#24405;&#xA;		vs: {&#xA;			tnam: &quot;vs&quot;,&#xA;			funs: {&#xA;				insert: [&quot;&lt;0&gt;&quot;]&#xA;			}&#xA;		}&#xA;	});&#xA;&#xA;	// &#25968;&#25454;&#24211;&#20107;&#20214;&#22788;&#29702;&#xA;	this.mdb.evt.get.add(LZR.bind(this, function (r, req, res, next) {&#xA;		switch (req.qpobj.comDbSrvTyp) {&#xA;			case &quot;get&quot;:&#xA;				if (req.qpobj.comDbSrvNoRes) {&#xA;					req.qpobj.comDbSrvReturn = r;&#xA;					next();&#xA;				} else {&#xA;					if (r.length) {&#xA;						res.json(this.clsR.get(r));&#xA;					} else {&#xA;						res.json(this.clsR.get(null, &quot;&#26242;&#26080;&#25968;&#25454;&quot;));&#xA;					}&#xA;				}&#xA;				break;&#xA;			case &quot;add&quot;:&#xA;				if (r.length) {&#xA;					if (req.qpobj.comDbSrvNoRes) {&#xA;						req.qpobj.comDbSrvReturn = {&#xA;							result: {&#xA;								ok: false,&#xA;								n: 0&#xA;							}&#xA;						};&#xA;						next();&#xA;					} else {&#xA;						res.json(this.clsR.get(0, &quot;&#25968;&#25454;&#24050;&#23384;&#22312;&quot;, false));&#xA;					}&#xA;				} else {&#xA;					this.mdb.qry(&quot;add&quot;, req, res, next, [req.qpobj.comDbSrvObjs]);&#xA;				}&#xA;				break;&#xA;			case &quot;meg&quot;:&#xA;				// &#21512;&#24182;&#xA;				if (r.length) {&#xA;					this.mdb.qry(&quot;set&quot;, req, res, next, [&#xA;						req.qpobj.comDbSrvCond.cond,&#xA;						{&quot;$set&quot;: req.qpobj.comDbSrvObjs}&#xA;					]);&#xA;				} else {&#xA;					var c = req.qpobj.comDbSrvCond.cond;&#xA;					var o = req.qpobj.comDbSrvObjs;&#xA;					var s;&#xA;					for (s in o) {&#xA;						c[s] = o[s];&#xA;					}&#xA;					this.mdb.qry(&quot;add&quot;, req, res, next, [[c]]);&#xA;				}&#xA;				break;&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.add.add(LZR.bind(this, function (r, req, res, next) {&#xA;		var b = (r.result.ok === 1 &amp;&amp; r.result.n &gt; 0);&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r;&#xA;			next();&#xA;		} else {&#xA;			res.json(this.clsR.get(r.result.n, &quot;add&quot;, b));&#xA;		}&#xA;&#xA;		// &#35760;&#24405;&#25805;&#20316;&#26085;&#24535;&#xA;		if (b &amp;&amp; (this.logAble &amp; 2)) {&#xA;			this.mdb.qry(&quot;vs&quot;, req, res, next, [{&#xA;				// url: req.protocol + &quot;://&quot; + req.hostname + req.originalUrl,&#xA;				url: req.originalUrl,&#xA;				ip: this.utNode.getClientIp(req),&#xA;				tim: this.utTim.getTim(),&#xA;				dbLog:  this.utJson.toJson({&#xA;					method: &quot;add&quot;,&#xA;					cond: r.insertedIds&#xA;				})&#xA;			}]);&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.qry.add(LZR.bind(this, function (r, req, res, next) {&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r;&#xA;			next();&#xA;		} else {&#xA;			if (r.length) {&#xA;				res.json(this.clsR.get(r));&#xA;			} else {&#xA;				res.json(this.clsR.get(null, &quot;&#26242;&#26080;&#25968;&#25454;&quot;));&#xA;			}&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.count.add(LZR.bind(this, function (r, req, res, next) {&#xA;		switch (req.qpobj.comDbSrvTyp) {&#xA;			case &quot;mqry&quot;:&#xA;				if (r) {&#xA;					req.qpobj.comDbSrvCond.total = r;&#xA;					this.mdb.qry(&quot;mqry&quot;, req, res, next, req.qpobj.comDbSrvCond.cond,);&#xA;				} else {&#xA;					if (req.qpobj.comDbSrvNoRes) {&#xA;						req.qpobj.comDbSrvReturn = [];&#xA;						next();&#xA;					} else {&#xA;						res.json(this.clsR.get(null, &quot;&#26242;&#26080;&#25968;&#25454;&quot;));&#xA;					}&#xA;				}&#xA;				break;&#xA;			default:&#xA;				if (req.qpobj.comDbSrvNoRes) {&#xA;					req.qpobj.comDbSrvReturn = r;&#xA;					next();&#xA;				} else {&#xA;					if (r === 0) {&#xA;						res.json(this.clsR.get(r, &quot;count&quot;, true));&#xA;					} else {&#xA;						res.json(this.clsR.get(r));&#xA;					}&#xA;				}&#xA;				break;&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.mqry.add(LZR.bind(this, function (r, req, res, next) {&#xA;		if (req.qpobj.comDbSrvCond) {&#xA;			r.total = req.qpobj.comDbSrvCond.total;&#xA;		}&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r;&#xA;			next();&#xA;		} else {&#xA;			if (r.length) {&#xA;				res.json(this.clsR.get(r));&#xA;			} else {&#xA;				res.json(this.clsR.get(null, &quot;&#26242;&#26080;&#25968;&#25454;&quot;));&#xA;			}&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.set.add(LZR.bind(this, function (r, req, res, next) {&#xA;		var b = (r.result.ok === 1 &amp;&amp; r.result.nModified &gt; 0);&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r.result;&#xA;			next();&#xA;		} else {&#xA;			res.json(this.clsR.get(r.result.nModified, &quot;set&quot;, b));&#xA;		}&#xA;&#xA;		// &#35760;&#24405;&#25805;&#20316;&#26085;&#24535;&#xA;		if (b &amp;&amp; (this.logAble &amp; 4)) {&#xA;			this.mdb.qry(&quot;vs&quot;, req, res, next, [{&#xA;				url: req.originalUrl,&#xA;				ip: this.utNode.getClientIp(req),&#xA;				tim: this.utTim.getTim(),&#xA;				dbLog: this.utJson.toJson(req.qpobj.comDbSrvCond)&#xA;			}]);&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.del.add(LZR.bind(this, function (r, req, res, next) {&#xA;		var b = (r.result.ok === 1 &amp;&amp; r.result.n &gt; 0);&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r.result;&#xA;			next();&#xA;		} else {&#xA;			res.json(this.clsR.get(r.result.n, &quot;del&quot;, b));&#xA;		}&#xA;&#xA;		// &#35760;&#24405;&#25805;&#20316;&#26085;&#24535;&#xA;		if (b &amp;&amp; (this.logAble &amp; 1)) {&#xA;			this.mdb.qry(&quot;vs&quot;, req, res, next, [{&#xA;				url: req.originalUrl,&#xA;				ip: this.utNode.getClientIp(req),&#xA;				tim: this.utTim.getTim(),&#xA;				dbLog:  this.utJson.toJson(req.qpobj.comDbSrvCond)&#xA;			}]);&#xA;		}&#xA;	}));&#xA;	this.mdb.evt.drop.add(LZR.bind(this, function (r, req, res, next) {&#xA;		if (req.qpobj.comDbSrvNoRes) {&#xA;			req.qpobj.comDbSrvReturn = r;&#xA;			next();&#xA;		} else {&#xA;			res.json(this.clsR.get(&quot;&quot;, &quot;drop&quot;, r));&#xA;		}&#xA;&#xA;		// &#35760;&#24405;&#25805;&#20316;&#26085;&#24535;&#xA;		if (r &amp;&amp; (this.logAble &amp; 1)) {&#xA;			this.mdb.qry(&quot;vs&quot;, req, res, next, [{&#xA;				url: req.originalUrl,&#xA;				ip: this.utNode.getClientIp(req),&#xA;				tim: this.utTim.getTim(),&#xA;				dbLog:  this.utJson.toJson(req.qpobj.comDbSrvCond)&#xA;			}]);&#xA;		}&#xA;	}));"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -727,12 +727,165 @@
 										</UML:Parameter>
 									</UML:BehavioralFeature.parameter>
 								</UML:Operation>
-								<UML:Operation name="count" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+								<UML:Operation name="mqry" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
 									<UML:ModelElement.taggedValue>
 										<UML:TaggedValue tag="const" value="false"/>
 										<UML:TaggedValue tag="synchronised" value="0"/>
 										<UML:TaggedValue tag="concurrency" value="Sequential"/>
 										<UML:TaggedValue tag="position" value="6"/>
+										<UML:TaggedValue tag="returnarray" value="0"/>
+										<UML:TaggedValue tag="pure" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{58328940-AD50-4cd2-B741-4A68C2956721}"/>
+										<UML:TaggedValue tag="ea_localid" value="1457"/>
+										<UML:TaggedValue tag="style" value="&#32858;&#21512;&#25490;&#24207;&#24335;&#20998;&#39029;&#26597;&#35810;"/>
+										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_DC1504D1_FF74_42f0_97E8_380EA6CB90CA">
+											<XMI.extension xmi.extender="Enterprise Architect 2.5">
+												<UML:Comment name="this.setPro (req, &quot;mqry&quot;, noRes);&#xA;	var n = (req.body.size - 0) || (req.params.size - 0) || this.qrySize;&#xA;	var d = [cond, mark, sort, skip, n];&#xA;	if (skip &lt; 0) {&#xA;		d[3] = 0;&#xA;		req.qpobj.comDbSrvCond = {&#xA;			method: &quot;mqry&quot;,&#xA;			cond: d&#xA;		};&#xA;		this.mdb.qry(&quot;count&quot;, req, res, next, [cond]);&#xA;	} else {&#xA;		this.mdb.qry(&quot;mqry&quot;, req, res, next, d);&#xA;	}"/>
+											</XMI.extension>
+										</UML:TaggedValue>
+									</UML:ModelElement.taggedValue>
+									<UML:BehavioralFeature.parameter>
+										<UML:Parameter kind="return" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid2"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{RETURNID-AD50-4cd2-B741-4A68C2956721}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="req" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid3"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#35831;&#27714;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{C81BF0B8-B987-4c45-9D85-B0572043F343}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="res" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid3"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="1"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#24212;&#31572;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{BAA98E1B-52C5-4864-8E19-AC46D16744D9}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="next" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid5"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="2"/>
+												<UML:TaggedValue tag="type" value="fun"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#32487;&#32493;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{B8633CD6-7493-40a5-B5D2-8A258E219E24}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="sort" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid3"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="3"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#32858;&#21512;&#25490;&#24207;&#26465;&#20214;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{965F6CF6-465D-4355-B573-CE5362B3A319}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="cond" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid3"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="4"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#38468;&#21152;&#26465;&#20214;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{21AA8C6B-3F29-4979-A77D-9A290E274706}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="mark" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid3"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="5"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#36974;&#32617;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{C49F5C66-98AE-48e4-9A0F-F314A3E38C76}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="skip" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid0"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="6"/>
+												<UML:TaggedValue tag="type" value="int"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#36339;&#36291;&#20010;&#25968;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{69CCC8B8-6515-4528-9184-D4FD91447E65}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="noRes" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid1"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="7"/>
+												<UML:TaggedValue tag="type" value="boolean"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#19981;&#24212;&#31572;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{1C7F8A2F-2315-4127-B971-00E2E973E9F5}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+									</UML:BehavioralFeature.parameter>
+								</UML:Operation>
+								<UML:Operation name="count" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="const" value="false"/>
+										<UML:TaggedValue tag="synchronised" value="0"/>
+										<UML:TaggedValue tag="concurrency" value="Sequential"/>
+										<UML:TaggedValue tag="position" value="7"/>
 										<UML:TaggedValue tag="returnarray" value="0"/>
 										<UML:TaggedValue tag="pure" value="0"/>
 										<UML:TaggedValue tag="ea_guid" value="{EEAD9F20-F683-415c-9E34-F7FA7D9E7FA3}"/>
@@ -840,7 +993,7 @@
 										<UML:TaggedValue tag="const" value="false"/>
 										<UML:TaggedValue tag="synchronised" value="0"/>
 										<UML:TaggedValue tag="concurrency" value="Sequential"/>
-										<UML:TaggedValue tag="position" value="7"/>
+										<UML:TaggedValue tag="position" value="8"/>
 										<UML:TaggedValue tag="returnarray" value="0"/>
 										<UML:TaggedValue tag="pure" value="0"/>
 										<UML:TaggedValue tag="ea_guid" value="{8EC35AA3-EE01-4695-B8C1-4F503DC5135D}"/>
@@ -963,7 +1116,7 @@
 										<UML:TaggedValue tag="const" value="false"/>
 										<UML:TaggedValue tag="synchronised" value="0"/>
 										<UML:TaggedValue tag="concurrency" value="Sequential"/>
-										<UML:TaggedValue tag="position" value="8"/>
+										<UML:TaggedValue tag="position" value="9"/>
 										<UML:TaggedValue tag="returnarray" value="0"/>
 										<UML:TaggedValue tag="pure" value="0"/>
 										<UML:TaggedValue tag="ea_guid" value="{3019DD11-0FC4-4e37-9437-00E27D740D95}"/>
@@ -1072,7 +1225,7 @@
 										<UML:TaggedValue tag="const" value="false"/>
 										<UML:TaggedValue tag="synchronised" value="0"/>
 										<UML:TaggedValue tag="concurrency" value="Sequential"/>
-										<UML:TaggedValue tag="position" value="9"/>
+										<UML:TaggedValue tag="position" value="10"/>
 										<UML:TaggedValue tag="returnarray" value="0"/>
 										<UML:TaggedValue tag="pure" value="0"/>
 										<UML:TaggedValue tag="ea_guid" value="{96E2820C-4E39-4822-9B73-D827B42BECBD}"/>
@@ -1195,7 +1348,7 @@
 										<UML:TaggedValue tag="const" value="false"/>
 										<UML:TaggedValue tag="synchronised" value="0"/>
 										<UML:TaggedValue tag="concurrency" value="Sequential"/>
-										<UML:TaggedValue tag="position" value="10"/>
+										<UML:TaggedValue tag="position" value="11"/>
 										<UML:TaggedValue tag="returnarray" value="0"/>
 										<UML:TaggedValue tag="pure" value="0"/>
 										<UML:TaggedValue tag="ea_guid" value="{4709D2DC-29AF-472c-BEFC-38DE62FD114F}"/>
@@ -1288,7 +1441,7 @@
 										<UML:TaggedValue tag="const" value="false"/>
 										<UML:TaggedValue tag="synchronised" value="0"/>
 										<UML:TaggedValue tag="concurrency" value="Sequential"/>
-										<UML:TaggedValue tag="position" value="11"/>
+										<UML:TaggedValue tag="position" value="12"/>
 										<UML:TaggedValue tag="returnarray" value="0"/>
 										<UML:TaggedValue tag="pure" value="0"/>
 										<UML:TaggedValue tag="ea_guid" value="{74D5FD63-38AF-4c9d-AF77-44ABEF1B0F7F}"/>
@@ -1382,7 +1535,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="370"/>
 								<UML:TaggedValue tag="ea_targetID" value="412"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=8;SY=22;EX=8;EY=29;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="0"/>
 								<UML:TaggedValue tag="lt" value="+db"/>
@@ -1506,7 +1658,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="284"/>
 								<UML:TaggedValue tag="ea_targetID" value="370"/>
-								<UML:TaggedValue tag="privatedata5" value="EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+utJson"/>
@@ -1589,7 +1740,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="370"/>
 								<UML:TaggedValue tag="ea_targetID" value="412"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=-2;SY=-41;EX=-2;EY=-34;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1.."/>
 								<UML:TaggedValue tag="lt" value="+clsDbSrv"/>
@@ -2213,7 +2363,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="284"/>
 								<UML:TaggedValue tag="ea_targetID" value="390"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+utJson"/>
@@ -2516,7 +2665,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="314"/>
 								<UML:TaggedValue tag="ea_targetID" value="368"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+ajx"/>
 							</UML:ModelElement.taggedValue>
@@ -2557,7 +2705,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="368"/>
 								<UML:TaggedValue tag="ea_targetID" value="401"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+dms"/>
 							</UML:ModelElement.taggedValue>
@@ -2598,7 +2745,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="415"/>
 								<UML:TaggedValue tag="ea_targetID" value="368"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=2;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1.."/>
 								<UML:TaggedValue tag="lt" value="+clsHtml"/>
@@ -2640,7 +2786,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="284"/>
 								<UML:TaggedValue tag="ea_targetID" value="368"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+utJson"/>
@@ -5396,7 +5541,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="366"/>
 								<UML:TaggedValue tag="ea_targetID" value="355"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1.."/>
 								<UML:TaggedValue tag="lt" value="+clsR"/>
@@ -5438,7 +5582,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="305"/>
 								<UML:TaggedValue tag="ea_targetID" value="355"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+db"/>
 							</UML:ModelElement.taggedValue>
@@ -5782,7 +5925,6 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="366"/>
 								<UML:TaggedValue tag="ea_targetID" value="401"/>
-								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1.."/>
 								<UML:TaggedValue tag="lt" value="+clsR"/>
@@ -5852,22 +5994,22 @@
 				<UML:TaggedValue tag="version" value="1.0"/>
 				<UML:TaggedValue tag="author" value="LZR"/>
 				<UML:TaggedValue tag="created_date" value="2018-02-05 14:47:48"/>
-				<UML:TaggedValue tag="modified_date" value="2019-01-25 09:42:34"/>
+				<UML:TaggedValue tag="modified_date" value="2019-04-03 11:42:15"/>
 				<UML:TaggedValue tag="package" value="EAPK_7CB36E13_23B5_43a1_9D79_9E9432B8F4E1"/>
 				<UML:TaggedValue tag="type" value="Logical"/>
 				<UML:TaggedValue tag="swimlanes" value="locked=false;orientation=0;width=0;inbar=false;names=false;color=-1;bold=false;fcol=0;tcol=-1;ofCol=-1;hl=1;cls=0;"/>
 				<UML:TaggedValue tag="matrixitems" value="locked=false;matrixactive=false;swimlanesactive=true;kanbanactive=false;width=1;"/>
 				<UML:TaggedValue tag="ea_localid" value="78"/>
 				<UML:TaggedValue tag="EAStyle" value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=2;PPgs.cy=1;DocSize.cx=780;DocSize.cy=1134;ShowDetails=0;Orientation=P;Zoom=141;ShowTags=0;OpParams=2;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=9;HideParents=0;UseAlias=1;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
-				<UML:TaggedValue tag="styleex" value="SaveTag=CCFAA2EC;ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ProfileData=;MDGDgm=;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;"/>
+				<UML:TaggedValue tag="styleex" value="SaveTag=22F8EE9D;ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ProfileData=;MDGDgm=;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;"/>
 			</UML:ModelElement.taggedValue>
 			<UML:Diagram.element>
-				<UML:DiagramElement geometry="Left=830;Top=464;Right=1083;Bottom=573;" subject="EAID_92FE47D4_06A6_44d2_BAB9_60161CF4A212" seqno="1" style="DUID=061EB2BE;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
-				<UML:DiagramElement geometry="Left=203;Top=676;Right=654;Bottom=954;" subject="EAID_3DE66E1E_BE21_442d_BF29_D652DAA9D4C9" seqno="2" style="DUID=493997FC;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
-				<UML:DiagramElement geometry="Left=845;Top=268;Right=1055;Bottom=338;" subject="EAID_CC5612D3_6196_4eb6_A360_FBC8FEFC0C19" seqno="3" style="DUID=A6B5A199;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=1040;Top=519;Right=1293;Bottom=628;" subject="EAID_92FE47D4_06A6_44d2_BAB9_60161CF4A212" seqno="1" style="DUID=061EB2BE;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=244;Top=664;Right=695;Bottom=955;" subject="EAID_3DE66E1E_BE21_442d_BF29_D652DAA9D4C9" seqno="2" style="DUID=493997FC;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=1034;Top=265;Right=1244;Bottom=335;" subject="EAID_CC5612D3_6196_4eb6_A360_FBC8FEFC0C19" seqno="3" style="DUID=A6B5A199;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
 				<UML:DiagramElement geometry="Left=545;Top=53;Right=920;Bottom=188;" subject="EAID_E90A0294_B3E5_440e_A5DF_E66D36F3BEFB" seqno="4" style="DUID=D8E741F7;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
 				<UML:DiagramElement geometry="Left=60;Top=58;Right=467;Bottom=190;" subject="EAID_F526B73A_D19E_406c_95F5_4FEFF13B8D4A" seqno="5" style="DUID=00BDE5D2;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
-				<UML:DiagramElement geometry="Left=122;Top=295;Right=729;Bottom=560;" subject="EAID_063BCCB6_41A6_4364_8C1A_7612B5AB1DDA" seqno="6" style="DUID=D5536125;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+				<UML:DiagramElement geometry="Left=123;Top=295;Right=817;Bottom=560;" subject="EAID_063BCCB6_41A6_4364_8C1A_7612B5AB1DDA" seqno="6" style="DUID=D5536125;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
 				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=4;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=41:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_6F91A607_7F29_4536_9376_FA30249BCEAC" style="Mode=3;EOID=D5536125;SOID=061EB2BE;Color=-1;LWidth=0;Hidden=0;"/>
 				<UML:DiagramElement geometry="EDGE=1;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=61:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_387104A9_510B_4117_AE03_4C4B9FC3B1F3" style="Mode=3;EOID=00BDE5D2;SOID=061EB2BE;Color=-1;LWidth=0;Hidden=1;"/>
 				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=40:CY=13:OX=0:OY=1:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_5910AD6A_FC2C_4154_BD7D_4956F233FB85" style="Mode=3;EOID=D5536125;SOID=493997FC;Color=-1;LWidth=0;Hidden=0;"/>
@@ -5902,7 +6044,7 @@
 				<UML:TaggedValue tag="diagram_guid" value="EAID_C77D0B28_0C51_4bfe_A9F0_2AC7F5229F21"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
-		<UML:DiagramElement geometry="Left=479;Top=420;Right=1086;Bottom=685;" subject="EAID_063BCCB6_41A6_4364_8C1A_7612B5AB1DDA" seqno="3" style="DUID=394EBE4C;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;">
+		<UML:DiagramElement geometry="Left=488;Top=426;Right=1095;Bottom=691;" subject="EAID_063BCCB6_41A6_4364_8C1A_7612B5AB1DDA" seqno="3" style="DUID=394EBE4C;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_67F01C5A_56FD_436f_925E_247F4046EB34"/>
 			</UML:ModelElement.taggedValue>
