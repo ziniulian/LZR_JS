@@ -238,7 +238,7 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 			case "mqry":
 				if (r) {
 					req.qpobj.comDbSrvCond.total = r;
-					this.mdb.qry("mqry", req, res, next, req.qpobj.comDbSrvCond.cond,);
+					this.mdb.qry("mqry", req, res, next, req.qpobj.comDbSrvCond.cond);
 				} else {
 					if (req.qpobj.comDbSrvNoRes) {
 						req.qpobj.comDbSrvReturn = [];
