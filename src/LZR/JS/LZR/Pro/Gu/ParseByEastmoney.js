@@ -136,10 +136,11 @@ LZR.Pro.Gu.ParseByEastmoney.prototype.setCop.lzrClass_ = LZR.Pro.Gu.ParseByEastm
 // 解析新浪实时日线
 LZR.Pro.Gu.ParseByEastmoney.prototype.parseK = function (a/*as:string*/, sr/*as:Array*/)/*as:Object*/ {
 	var i, j, r, d, t;
-	a = r.split(";");
+	a = a.split(";");
 	a.pop();
 	t = this.utTim.getDayTimestamp();
 	r = {
+		tim: t,
 		ok: [],	// 需要更新的ID
 		nam: [],	// 需要变动名称的
 		stop: [],	// 停牌的
