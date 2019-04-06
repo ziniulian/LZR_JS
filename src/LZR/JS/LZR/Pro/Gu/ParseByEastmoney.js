@@ -135,14 +135,11 @@ LZR.Pro.Gu.ParseByEastmoney.prototype.setCop.lzrClass_ = LZR.Pro.Gu.ParseByEastm
 
 // 解析新浪实时日线
 LZR.Pro.Gu.ParseByEastmoney.prototype.parseK = function (a/*as:string*/, sr/*as:Array*/)/*as:Object*/ {
-	var i, j, r, d, t;
+	var i, j, r, d, t, o, k;
 	a = a.split(";");
 	a.pop();
-	t = this.utTim.getDayTimestamp();
 	r = {
-		tim: t,
 		ok: [],	// 需要更新的ID
-		nam: [],	// 需要变动名称的
 		stop: [],	// 停牌的
 		err: [],	// 错误的
 		miss: [],	// 已更新过无需再次提交的
@@ -154,20 +151,24 @@ LZR.Pro.Gu.ParseByEastmoney.prototype.parseK = function (a/*as:string*/, sr/*as:
 		if (d.length < 10) {
 			r.err.push(sr[i]);
 		} else {
+			o = null;
 			// 名称检查
 			j = d[0].indexOf("\"") + 1;
 			j = d[0].substring(j, d[0].length);
 			if (sr[i].nam !== j) {
-				r.nam.push([
-					{typ: "info", id: sr[i].id},
-					{"$set": {nam: j}}
-				]);
+				o = {nam: j};
+			}
+
+			if (!t) {
+				// t = this.utTim.getDayTimestamp();
+				t = this.getVal(d[30], 4);
+				r.tim = t;
 			}
 
 			if (sr[i].daye < t) {
 				if (this.getVal(d[1], 1)) {
-					j = sr[i].eps;
-					r.adds.push({
+					j = sr[i].nt / sr[i].num;
+					k = {
 						id: sr[i].id,
 						tim: t,
 						c: this.getVal(d[3], 1),
@@ -179,13 +180,30 @@ LZR.Pro.Gu.ParseByEastmoney.prototype.parseK = function (a/*as:string*/, sr/*as:
 						t: this.getVal(d[9], 1),
 						cc: d[9] / d[8],
 						p: (j && j > 0.003) ? (d[9] / d[8] / j) : 0,
-					});
-					r.ok.push(sr[i].id);
+					};
+					r.adds.push(k);
+					if (!o) {
+						o = {};
+					}
+					o.daye = t;
+					o.p = k.c;
+					j = sr[i].wc.nt5 / sr[i].num;
+					o.pe = {
+						nt: k.p,
+						nt5: (j && j > 0.003) ? (k.cc / j) : 0
+					};
 				} else {
 					r.stop.push(sr[i]);
 				}
 			} else {
 				r.miss.push(sr[i].id);
+			}
+
+			if (o) {
+				r.ok.push([
+					{typ: "info", id: sr[i].id},
+					{"$set": o}
+				]);
 			}
 		}
 	}

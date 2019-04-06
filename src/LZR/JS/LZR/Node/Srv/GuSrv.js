@@ -91,6 +91,10 @@ LZR.Node.Srv.GuSrv.prototype.init = function () {
 		this.ro.post("/qry_mgInfo/update/:id/:init?/", LZR.bind(this, this.updateEnd));	// 结束更新
 		this.ro.get("/closing/", this.exeGetAllId);
 		this.ro.get("/closing/", LZR.bind(this, this.closing));
+		this.ro.get("/chart/:id/:y?/", LZR.bind(this, this.qryChartDat));
+		this.ro.get("/chart/:id/:y?/", LZR.bind(this, this.crtChart));
+		this.ro.get("/calcNt5/", LZR.bind(this, this.qryReport5));
+		this.ro.get("/calcNt5/", LZR.bind(this, this.calcNt5));
 	}
 };
 LZR.Node.Srv.GuSrv.prototype.init.lzrClass_ = LZR.Node.Srv.GuSrv;
@@ -248,9 +252,9 @@ LZR.Node.Srv.GuSrv.prototype.ajaxHdSinaK = function (r/*as:string*/, req/*as:Obj
 			"</td></tr><tr><td>ok</td><td>" + r.ok.length +
 			"</td></tr><tr><td>miss</td><td>" + r.miss.length +
 			"</td></tr><tr><td>stop</td><td>" + r.stop.length +
-			"</td></tr><tr><td>nam</td><td>" + r.nam.length +
 			"</td></tr><tr><td>err</td><td>" + r.err.length + "</td></tr></table>" +
-			"<script>console.log(" + this.utJson.toJson(r) + ");</script>"
+			"<script>console.log(" + this.utJson.toJson(r.stop) +
+			");console.log(" + this.utJson.toJson(r.err) + ");</script>"
 		);
 	}
 };
@@ -401,7 +405,7 @@ LZR.Node.Srv.GuSrv.prototype.hdErr.lzrClass_ = LZR.Node.Srv.GuSrv;
 
 // 数据整理
 LZR.Node.Srv.GuSrv.prototype.arrange = function (d/*as:Object*/)/*as:Array*/ {
-	var i, s, o, ni, nmt, r = [], nt;
+	var i, s, o, ni, nmt, r = [];
 	ni = d.num.length - 1;	// 股本指针
 	nmt = d.num[ni].tim;	// 最小股本记录日
 	for (s in d.report) {
@@ -454,10 +458,12 @@ LZR.Node.Srv.GuSrv.prototype.arrange = function (d/*as:Object*/)/*as:Array*/ {
 			}
 			if (o.num) {
 				if (o.quarter === 4 && o.profit && o.profit.np.nt) {
-					nt = o.profit.np.nt.t;
+					d.info.nt = o.profit.np.nt.t;
 				}
-				if (nt) {
-					o.pe = {p: (nt / o.num)};
+				if (d.info.nt) {
+					o.pe = {
+						p: (d.info.nt / o.num),
+					};
 					r.push(o);
 				}
 			}
@@ -469,7 +475,6 @@ LZR.Node.Srv.GuSrv.prototype.arrange = function (d/*as:Object*/)/*as:Array*/ {
 	// 补充基本信息-最新报告期
 	if (o && d.info.rpTim < o.tim) {
 		d.info.rpTim = o.tim;
-		d.info.eps = o.pe.p;
 	}
 
 	return r;
@@ -573,7 +578,7 @@ LZR.Node.Srv.GuSrv.prototype.calcEps.lzrClass_ = LZR.Node.Srv.GuSrv;
 LZR.Node.Srv.GuSrv.prototype.getAllId = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	this.db.get(req, res, next,
 		{typ: "info"},
-		{"_id": 0, "id": 1, "nam": 1, "ec": 1, "eps": 1, "rpTim": 1, "daye": 1},
+		{"_id": 0, id: 1, nam: 1, ec: 1, p: 1, pe: 1, nt: 1, num: 1, rpTim: 1, daye: 1, wc:1},
 	true);
 };
 LZR.Node.Srv.GuSrv.prototype.getAllId.lzrClass_ = LZR.Node.Srv.GuSrv;
@@ -646,7 +651,7 @@ LZR.Node.Srv.GuSrv.prototype.updateGetInfo = function (req/*as:Object*/, res/*as
 		} else {
 			this.db.get(req, res, next,
 				{typ: "info", id: req.params.id},
-				{_id:0, nam:1, eps:1, num:1, numA:1, numTim:1, dvdTim:1, rpTim:1, days:1, daye:1},
+				{_id:0, nam:1, nt:1, num:1, numA:1, numTim:1, dvdTim:1, rpTim:1, days:1, daye:1},
 			true);
 		}
 	} else {
@@ -665,7 +670,7 @@ LZR.Node.Srv.GuSrv.prototype.updateGetNum = function (req/*as:Object*/, res/*as:
 		if (req.params.init) {
 			o.dat.info.ec = o.dat.sid[0].substr(0, 2);
 			o = o.dat.info;
-			o.eps = 0;
+			o.nt = 0;
 			o.num = 0;
 			o.numA = 0;
 			o.numTim = 0;
@@ -816,16 +821,307 @@ LZR.Node.Srv.GuSrv.prototype.closingSav = function (r/*as:Object*/) {
 	if (r.adds.length) {
 		this.db.mdb.qry("addK", null, null, null, [r.adds]);
 	}
-	if (r.ok.length) {
-		this.db.mdb.qry("setGu", null, null, null, [
-			{typ:"info", id: {"$in": r.ok}},
-			{"$set": {daye: r.tim}}
-		]);
-	}
-	if (r.nam.length) {
-		for (i = 0; i < r.nam.length; i ++) {
-			this.db.mdb.qry("setGu", null, null, null, r.nam[i]);
-		}
+	for (i = 0; i < r.ok.length; i ++) {
+		this.db.mdb.qry("setGu", null, null, null, r.ok[i]);
 	}
 };
 LZR.Node.Srv.GuSrv.prototype.closingSav.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 获取图表相关数据
+LZR.Node.Srv.GuSrv.prototype.qryChartDat = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	var c = {id: req.params.id, typ: "report"};
+	if (req.params.y) {
+		c.quarter = 4;
+	}
+	this.db.get (req, res, next, c,
+		{"_id": 0, nam: 1, num: 1, tim: 1, year: 1, quarter: 1, pe: 1,
+			"profit.inc.otyoy": 1,	// 营业收入同比变化
+			"profit.np.nt.yoy": 1,	// 扣非净利润同比变化
+			// "profit.gpm": 1,	// 毛利率
+			// "balance.dar": 1,	// 资产负债率
+			"balance.equity.t": 1,	// 净资产
+			"profit.np.t": 1,		// 净利润
+			"profit.np.nt.t": 1,	// 扣非净利润
+			"profit.inc.ot": 1	// 营业收入
+		},
+	true);
+};
+LZR.Node.Srv.GuSrv.prototype.qryChartDat.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 生成图表数据
+LZR.Node.Srv.GuSrv.prototype.crtChart = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	var i, j, o, r = req.qpobj.comDbSrvReturn;
+	if (r.length) {
+		o = LZR.fillPro(req, "qpobj.chart");
+		o.pro = req.params;
+		o.dat = {	// 基础数据
+			x: [],	// X轴坐标
+			k: [],	// K线市盈率
+			m: [],	// 平均市盈率
+			r: [],	// 安全市盈率
+			yoy: {	// 同比信息
+				pe: [],	// 市盈率安全边际同比变化
+				inc: [],	// 营业收入同比变化
+				nt: []	// 扣非净利润同比变化
+			},
+			t: {	// 总值
+				e: [],	// 净资产
+				np: [],	// 净利润
+				nt: [],	// 扣非净利润
+				inc: [],	// 营业收入
+			}
+		};
+
+		for (i = 0; i < r.length; i ++) {
+			o.dat.x[i] = r[i].year + "年" + r[i].quarter + "季";
+			if (r[i].pe && r[i].pe.r) {
+				o.dat.k[i] = [ r[i].pe.o.toFixed(2), r[i].pe.c.toFixed(2), r[i].pe.l.toFixed(2), r[i].pe.h.toFixed(2) ];
+				o.dat.m[i] = r[i].pe.m.toFixed(2);
+				o.dat.r[i] = r[i].pe.r.toFixed(2);
+				j = r[i].pe.ry;
+				o.dat.yoy.pe[i] = j ? j.toFixed(2) : j;
+			} else {
+				o.dat.k[i] = [];
+			}
+			j = LZR.fillPro(r[i], "profit.inc.otyoy", true);
+			o.dat.yoy.inc[i] = j ? j.toFixed(2) : j;
+			j = LZR.fillPro(r[i], "profit.np.nt.yoy", true);
+			o.dat.yoy.nt[i] = j ? j.toFixed(2) : j;
+			j = LZR.fillPro(r[i], "balance.equity.t", true);
+			o.dat.t.e[i] = j ? j.toFixed(0) : j;
+			j = LZR.fillPro(r[i], "profit.np.t", true);
+			o.dat.t.np[i] = j ? j.toFixed(0) : j;
+			j = LZR.fillPro(r[i], "profit.np.nt.t", true);
+			o.dat.t.nt[i] = j ? j.toFixed(0) : j;
+			j = LZR.fillPro(r[i], "profit.inc.ot", true);
+			o.dat.t.inc[i] = j ? j.toFixed(0) : j;
+		}
+
+		o.op = this.crtChartOp(o.dat);
+		o.op.k.title.text = r[0].nam + (o.pro.y ? "（年报）" : "（季度报）");
+	}
+	next();
+};
+LZR.Node.Srv.GuSrv.prototype.crtChart.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 生成图表参数
+LZR.Node.Srv.GuSrv.prototype.crtChartOp = function (d/*as:Object*/) {
+	return {
+		k: {	// K线图
+			title: {	//标题
+				text: "",
+				left: 0
+			},
+			tooltip: {	//提示框
+				trigger: "axis",	//触发类型：坐标轴触发
+				axisPointer: {	//坐标轴指示器配置项
+					type: "cross"	//指示器类型，十字准星
+				}
+			},
+			grid: {	//直角坐标系
+				show: true,
+				left: "10%",	//grid组件离容器左侧的距离
+				right: "10%",
+				bottom: "15%",
+				//backgroundColor:"#ccc"
+			},
+			xAxis: {
+				type: "category",	//坐标轴类型，类目轴
+				data: d.x,
+				//scale: true,	//只在数字轴中有效
+				boundaryGap : true,	//刻度作为分割线，标签和数据点会在两个刻度上
+				axisLine: {onZero: false},
+				splitLine: {show: false},	//是否显示坐标轴轴线
+				//splitNumber: 20,	//坐标轴的分割段数，预估值，在类目轴中无效
+				min: "dataMin",	//特殊值，数轴上的最小值作为最小刻度
+				max: "dataMax"	//特殊值，数轴上的最大值作为最大刻度
+			},
+			yAxis: {
+				scale: true,	//坐标刻度不强制包含零刻度
+				splitArea: {
+					show: true	//显示分割区域
+				}
+			},
+			dataZoom: [	//用于区域缩放
+				{
+					filterMode:"filter",	//当前数据窗口外的数据被过滤掉来达到数据窗口缩放的效果  默认值filter
+					type: "inside",	//内置型数据区域缩放组件
+					start: 50,	//数据窗口范围的起始百分比
+					end: 100	//数据窗口范围的结束百分比
+				},
+				{
+					show: true,
+					type: "slider"	//滑动条型数据区域缩放组件
+				}
+			],
+			legend: {	//图例控件，点击图例控制哪些系列不现实
+				data: ["K线", "均线", "安全边际"]
+			},
+			series: [	//图表类型
+				{
+					name: "K线",
+					type: "candlestick",	//K线图
+					data: d.k,	//y轴对应的数据
+				},{
+					name: "均线",
+					type: "line",
+					data: d.m,
+					smooth: true,	// 平滑曲线
+					symbol: "none"	// 取消折线图上的小圆点
+				},{
+					name: "安全边际",
+					type: "line",
+					data: d.r,
+					smooth: true,
+					symbol: "none"
+				}
+			]
+		},
+		yoy: {	// 同比图
+			tooltip: {
+				trigger: "axis"
+			},
+			xAxis: {
+				boundaryGap : true,
+				data: d.x
+			},
+			yAxis: {
+				scale: true,
+				splitArea: {
+					show: true
+				}
+			},
+			dataZoom: [
+				{
+					filterMode:"filter",
+					type: "inside",
+					start: 50,
+					end: 100
+				},
+				{
+					show: false
+				}
+			],
+			legend: {
+				data: ["扣非净利润同比变化", "营业收入同比变化", "市盈率同比变化"]
+			},
+			series: [
+				{
+					name: "扣非净利润同比变化",
+					type: "line",
+					smooth: true,
+					data: d.yoy.nt
+				},
+				{
+					name: "营业收入同比变化",
+					type: "line",
+					smooth: true,
+					data: d.yoy.inc
+				},
+				{
+					name: "市盈率同比变化",
+					type: "line",
+					smooth: true,
+					data: d.yoy.pe
+				}
+			]
+		},
+		t: {	// 总值图
+			tooltip: {
+				trigger: "axis"
+			},
+			xAxis: {
+				boundaryGap : true,
+				data: d.x
+			},
+			yAxis: {
+				scale: true,
+				splitArea: {
+					show: true
+				}
+			},
+			dataZoom: [
+				{
+					filterMode:"filter",
+					type: "inside",
+					start: 50,
+					end: 100
+				},
+				{
+					show: false
+				}
+			],
+			legend: {
+				data: ["营业收入", "净资产", "净利润", "扣非净利润"]
+			},
+			series: [
+				{
+					name: "营业收入",
+					type: "line",
+					smooth: true,
+					data: d.t.inc
+				},
+				{
+					name: "净资产",
+					type: "line",
+					smooth: true,
+					data: d.t.e
+				},
+				{
+					name: "净利润",
+					type: "line",
+					smooth: true,
+					data: d.t.np
+				},
+				{
+					name: "扣非净利润",
+					type: "line",
+					smooth: true,
+					data: d.t.nt
+				}
+			]
+		},
+		v: {}	// 成交量图
+	};
+};
+LZR.Node.Srv.GuSrv.prototype.crtChartOp.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 获取近五年年报
+LZR.Node.Srv.GuSrv.prototype.qryReport5 = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	this.db.get (req, res, next,
+		{typ: "report", quarter: 4, year: {"$gte": new Date().getFullYear() - 6}},
+		{"_id": 0, id: 1, year: 1, "profit.np.nt.t": 1},
+	true);
+};
+LZR.Node.Srv.GuSrv.prototype.qryReport5.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 计算并更新近5年平均净利润
+LZR.Node.Srv.GuSrv.prototype.calcNt5 = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	var i, o, s, d = {}, a = req.qpobj.comDbSrvReturn;
+	for (i = 0; i < a.length; i ++) {
+		o = d[a[i].id];
+		if (!o) {
+			o = [];
+			d[a[i].id] = o;
+		}
+		if (a[i].profit.np.nt.t) {
+			o.push(a[i].profit.np.nt.t);
+			if (o.length > 5) {
+				o.shift();
+			}
+		}
+	}
+	for (s in d) {
+		if (d[s].length) {
+			o = 0;
+			for (i = 0; i < d[s].length; i ++) {
+				o += d[s][i];
+			}
+			this.db.mdb.qry("setGu", null, null, null, [{typ:"info", id:s}, {"$set": {
+				wc:{nt5: o / d[s].length}
+			}}]);
+		}
+	}
+	res.send("OK!");
+};
+LZR.Node.Srv.GuSrv.prototype.calcNt5.lzrClass_ = LZR.Node.Srv.GuSrv;

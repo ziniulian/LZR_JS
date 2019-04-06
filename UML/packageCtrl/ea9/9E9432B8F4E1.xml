@@ -6193,7 +6193,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_7CB36E13_23B5_43a1_9D79_9E9432B8F4E1"/>
 								<UML:TaggedValue tag="date_created" value="2019-04-04 16:19:33"/>
-								<UML:TaggedValue tag="date_modified" value="2019-04-04 21:33:47"/>
+								<UML:TaggedValue tag="date_modified" value="2019-04-06 12:34:32"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\Node\Srv\GuSrv.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -6206,7 +6206,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="472"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=2480;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=2ce0;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -6340,7 +6340,7 @@
 										<UML:TaggedValue tag="style" value="&#21021;&#22987;&#21270;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_77C3D523_D480_40bd_9D2C_2AF720FD296C">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="if (this.tmpRo) {&#xA;		this.ro = this.tmpRo.ro;&#xA;		this.initAjax();&#xA;&#xA;		this.ro.hdPost(&quot;*&quot;);&#xA;		this.ro.post(&quot;/add/&quot;, LZR.bind(this, this.addInit));&#xA;		this.ro.post(&quot;/add/&quot;, LZR.bind(this, this.addSav));&#xA;		this.ro.post(&quot;/add/&quot;, LZR.bind(this, this.addEnd));&#xA;		this.ro.post(&quot;/qry_mgInfo/update/:id/:init?/&quot;, LZR.bind(this, this.updateGetInfo));	// &#33719;&#21462;&#22522;&#30784;&#25968;&#25454;&#xA;		this.ro.post(&quot;/qry_mgInfo/update/:id/:init?/&quot;, LZR.bind(this, this.updateGetNum));	// &#26597;&#35810;&#32929;&#26412;&#xA;		this.ro.post(&quot;/qry_mgInfo/update/:id/:init?/&quot;, LZR.bind(this, this.updateEnd));	// &#32467;&#26463;&#26356;&#26032;&#xA;		this.ro.get(&quot;/closing/&quot;, this.exeGetAllId);&#xA;		this.ro.get(&quot;/closing/&quot;, LZR.bind(this, this.closing));&#xA;	}"/>
+												<UML:Comment name="if (this.tmpRo) {&#xA;		this.ro = this.tmpRo.ro;&#xA;		this.initAjax();&#xA;&#xA;		this.ro.hdPost(&quot;*&quot;);&#xA;		this.ro.post(&quot;/add/&quot;, LZR.bind(this, this.addInit));&#xA;		this.ro.post(&quot;/add/&quot;, LZR.bind(this, this.addSav));&#xA;		this.ro.post(&quot;/add/&quot;, LZR.bind(this, this.addEnd));&#xA;		this.ro.post(&quot;/qry_mgInfo/update/:id/:init?/&quot;, LZR.bind(this, this.updateGetInfo));	// &#33719;&#21462;&#22522;&#30784;&#25968;&#25454;&#xA;		this.ro.post(&quot;/qry_mgInfo/update/:id/:init?/&quot;, LZR.bind(this, this.updateGetNum));	// &#26597;&#35810;&#32929;&#26412;&#xA;		this.ro.post(&quot;/qry_mgInfo/update/:id/:init?/&quot;, LZR.bind(this, this.updateEnd));	// &#32467;&#26463;&#26356;&#26032;&#xA;		this.ro.get(&quot;/closing/&quot;, this.exeGetAllId);&#xA;		this.ro.get(&quot;/closing/&quot;, LZR.bind(this, this.closing));&#xA;		this.ro.get(&quot;/chart/:id/:y?/&quot;, LZR.bind(this, this.qryChartDat));&#xA;		this.ro.get(&quot;/chart/:id/:y?/&quot;, LZR.bind(this, this.crtChart));&#xA;		this.ro.get(&quot;/calcNt5/&quot;, LZR.bind(this, this.qryReport5));&#xA;		this.ro.get(&quot;/calcNt5/&quot;, LZR.bind(this, this.calcNt5));&#xA;	}"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -6394,7 +6394,7 @@
 										<UML:TaggedValue tag="style" value="&#26032;&#28010;&#23454;&#26102;&#25968;&#25454;&#30340;ajax&#22238;&#35843;&#22788;&#29702;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_3F30EC4D_5B85_455d_BB76_8D880FA2C4FF">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="if (req.qpobj &amp;&amp; req.qpobj.gu) {&#xA;		// &#26356;&#26032;&#25968;&#25454;&#21021;&#22987;&#21270; —— &#33719;&#21462;&#26032;&#21152;&#20195;&#30721;&#30340;&#21517;&#31216;&#xA;		var i, j, a, o = LZR.fillPro(req, &quot;qpobj.gu&quot;);&#xA;		if (r.indexOf(&quot;var hq_str_&quot;)) {&#xA;			o.ok = false;&#xA;			o.msg = &quot;ajax_sinaK : &#25968;&#25454;&#26684;&#24335;&#38169;&#35823;&#65281;&quot;;&#xA;		} else {&#xA;			i = r.indexOf(&quot;\&quot;&quot;) + 1;&#xA;			j = r.indexOf(&quot;\&quot;&quot;, i);&#xA;			if (j &gt; i) {&#xA;				o.dat.info = {&#xA;					nam: r.substring(i, j).split(&quot;,&quot;)[0]&#xA;				};&#xA;			} else {&#xA;				o.ok = false;&#xA;				o.msg = &quot;&#27809;&#26377;&#30456;&#20851;&#20195;&#30721;&#30340;&#20449;&#24687;&quot;;&#xA;			}&#xA;		}&#xA;		next();&#xA;	} else {&#xA;		// &#25910;&#30424;&#xA;		r = this.parser.parseK(r, LZR.fillPro(req, &quot;qpobj.comDbSrvReturn&quot;));&#xA;		this.closingSav(r);&#xA;		res.send(&#xA;			&quot;&lt;table width=\&quot;50%\&quot;&gt;&lt;tr&gt;&lt;td&gt;tim&lt;/td&gt;&lt;td&gt;&quot; + r.tim +&#xA;			&quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;ok&lt;/td&gt;&lt;td&gt;&quot; + r.ok.length +&#xA;			&quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;miss&lt;/td&gt;&lt;td&gt;&quot; + r.miss.length +&#xA;			&quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;stop&lt;/td&gt;&lt;td&gt;&quot; + r.stop.length +&#xA;			&quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;nam&lt;/td&gt;&lt;td&gt;&quot; + r.nam.length +&#xA;			&quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;err&lt;/td&gt;&lt;td&gt;&quot; + r.err.length + &quot;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&quot; +&#xA;			&quot;&lt;script&gt;console.log(&quot; + this.utJson.toJson(r) + &quot;);&lt;/script&gt;&quot;&#xA;		);&#xA;	}"/>
+												<UML:Comment name="if (req.qpobj &amp;&amp; req.qpobj.gu) {&#xA;		// &#26356;&#26032;&#25968;&#25454;&#21021;&#22987;&#21270; —— &#33719;&#21462;&#26032;&#21152;&#20195;&#30721;&#30340;&#21517;&#31216;&#xA;		var i, j, a, o = LZR.fillPro(req, &quot;qpobj.gu&quot;);&#xA;		if (r.indexOf(&quot;var hq_str_&quot;)) {&#xA;			o.ok = false;&#xA;			o.msg = &quot;ajax_sinaK : &#25968;&#25454;&#26684;&#24335;&#38169;&#35823;&#65281;&quot;;&#xA;		} else {&#xA;			i = r.indexOf(&quot;\&quot;&quot;) + 1;&#xA;			j = r.indexOf(&quot;\&quot;&quot;, i);&#xA;			if (j &gt; i) {&#xA;				o.dat.info = {&#xA;					nam: r.substring(i, j).split(&quot;,&quot;)[0]&#xA;				};&#xA;			} else {&#xA;				o.ok = false;&#xA;				o.msg = &quot;&#27809;&#26377;&#30456;&#20851;&#20195;&#30721;&#30340;&#20449;&#24687;&quot;;&#xA;			}&#xA;		}&#xA;		next();&#xA;	} else {&#xA;		// &#25910;&#30424;&#xA;		r = this.parser.parseK(r, LZR.fillPro(req, &quot;qpobj.comDbSrvReturn&quot;));&#xA;		this.closingSav(r);&#xA;		res.send(&#xA;			&quot;&lt;table width=\&quot;50%\&quot;&gt;&lt;tr&gt;&lt;td&gt;tim&lt;/td&gt;&lt;td&gt;&quot; + r.tim +&#xA;			&quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;ok&lt;/td&gt;&lt;td&gt;&quot; + r.ok.length +&#xA;			&quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;miss&lt;/td&gt;&lt;td&gt;&quot; + r.miss.length +&#xA;			&quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;stop&lt;/td&gt;&lt;td&gt;&quot; + r.stop.length +&#xA;			&quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;err&lt;/td&gt;&lt;td&gt;&quot; + r.err.length + &quot;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&quot; +&#xA;			&quot;&lt;script&gt;console.log(&quot; + this.utJson.toJson(r.stop) +&#xA;			&quot;);console.log(&quot; + this.utJson.toJson(r.err) + &quot;);&lt;/script&gt;&quot;&#xA;		);&#xA;	}"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -7187,7 +7187,7 @@
 										<UML:TaggedValue tag="style" value="&#25968;&#25454;&#25972;&#29702;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_82581E61_4501_48ca_9F89_6D71018EF43B">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var i, s, o, ni, nmt, r = [], nt;&#xA;	ni = d.num.length - 1;	// &#32929;&#26412;&#25351;&#38024;&#xA;	nmt = d.num[ni].tim;	// &#26368;&#23567;&#32929;&#26412;&#35760;&#24405;&#26085;&#xA;	for (s in d.report) {&#xA;		// &#27492;&#24490;&#29615;&#40664;&#35748;&#25253;&#21578;&#26399;&#26159;&#20174;&#23567;&#21040;&#22823;&#36941;&#21382;&#30340;&#xA;		if (s &gt; d.info.rpTim) {&#xA;			o = d.report[s];&#xA;			o.typ = &quot;report&quot;;&#xA;			o.id = d.id;&#xA;			o.tim = s - 0;&#xA;			o.nam = d.info.nam;&#xA;&#xA;			// &#21028;&#26029;&#32929;&#26412;&#xA;			if (o.tim &lt; nmt) {&#xA;				if (o.profit &amp;&amp; o.profit.np.parent &amp;&amp; o.profit.eps) {&#xA;					o.num = Math.floor(o.profit.np.parent / o.profit.eps.base);&#xA;				}&#xA;			} else {&#xA;				while (ni &amp;&amp; o.tim &gt;= d.num[ni - 1].tim) {&#xA;					ni --;&#xA;				}&#xA;				o.num = d.num[ni].t;&#xA;			}&#xA;&#xA;			// &#24180;&#12289;&#23395;&#xA;			i = this.utTim.getDate(this.utTim.parseDayTimestamp(o.tim));&#xA;			o.year = i.getFullYear();&#xA;			o.quarter = Math.floor( i.getMonth() / 3 ) + 1;&#xA;&#xA;			// &#34917;&#20805;&#36164;&#20135;&#36127;&#20538;&#29575;&#xA;			if (o.balance) {&#xA;				if (!o.balance.liability) {&#xA;					o.balance.liability = {&#xA;						t: 0&#xA;					};&#xA;				}&#xA;				if (o.balance.assets) {&#xA;					o.balance.dar = o.balance.liability.t / o.balance.assets.t * 100;&#xA;				}&#xA;			}&#xA;&#xA;			// &#34917;&#20805;&#27611;&#21033;&#29575;&#xA;			if (o.profit &amp;&amp; o.profit.inc &amp;&amp; o.profit.cost) {&#xA;				o.profit.gpm = (o.profit.inc.ot - o.profit.cost.ot) / o.profit.inc.ot * 100;&#xA;			}&#xA;&#xA;			// &#34917;&#20805;&#24180;&#21270;&#25187;&#38750;&#27599;&#32929;&#25910;&#30410;&#xA;			if (!o.num &amp;&amp; r.length) {&#xA;				// &#32929;&#26412;&#25512;&#31639;&#xA;				o.num = r[r.length - 1].num;&#xA;			}&#xA;			if (o.num) {&#xA;				if (o.quarter === 4 &amp;&amp; o.profit &amp;&amp; o.profit.np.nt) {&#xA;					nt = o.profit.np.nt.t;&#xA;				}&#xA;				if (nt) {&#xA;					o.pe = {p: (nt / o.num)};&#xA;					r.push(o);&#xA;				}&#xA;			}&#xA;		} else {&#xA;			LZR.del(d.report, s);&#xA;		}&#xA;	}&#xA;&#xA;	// &#34917;&#20805;&#22522;&#26412;&#20449;&#24687;-&#26368;&#26032;&#25253;&#21578;&#26399;&#xA;	if (o &amp;&amp; d.info.rpTim &lt; o.tim) {&#xA;		d.info.rpTim = o.tim;&#xA;		d.info.eps = o.pe.p;&#xA;	}&#xA;&#xA;	return r;"/>
+												<UML:Comment name="var i, s, o, ni, nmt, r = [];&#xA;	ni = d.num.length - 1;	// &#32929;&#26412;&#25351;&#38024;&#xA;	nmt = d.num[ni].tim;	// &#26368;&#23567;&#32929;&#26412;&#35760;&#24405;&#26085;&#xA;	for (s in d.report) {&#xA;		// &#27492;&#24490;&#29615;&#40664;&#35748;&#25253;&#21578;&#26399;&#26159;&#20174;&#23567;&#21040;&#22823;&#36941;&#21382;&#30340;&#xA;		if (s &gt; d.info.rpTim) {&#xA;			o = d.report[s];&#xA;			o.typ = &quot;report&quot;;&#xA;			o.id = d.id;&#xA;			o.tim = s - 0;&#xA;			o.nam = d.info.nam;&#xA;&#xA;			// &#21028;&#26029;&#32929;&#26412;&#xA;			if (o.tim &lt; nmt) {&#xA;				if (o.profit &amp;&amp; o.profit.np.parent &amp;&amp; o.profit.eps) {&#xA;					o.num = Math.floor(o.profit.np.parent / o.profit.eps.base);&#xA;				}&#xA;			} else {&#xA;				while (ni &amp;&amp; o.tim &gt;= d.num[ni - 1].tim) {&#xA;					ni --;&#xA;				}&#xA;				o.num = d.num[ni].t;&#xA;			}&#xA;&#xA;			// &#24180;&#12289;&#23395;&#xA;			i = this.utTim.getDate(this.utTim.parseDayTimestamp(o.tim));&#xA;			o.year = i.getFullYear();&#xA;			o.quarter = Math.floor( i.getMonth() / 3 ) + 1;&#xA;&#xA;			// &#34917;&#20805;&#36164;&#20135;&#36127;&#20538;&#29575;&#xA;			if (o.balance) {&#xA;				if (!o.balance.liability) {&#xA;					o.balance.liability = {&#xA;						t: 0&#xA;					};&#xA;				}&#xA;				if (o.balance.assets) {&#xA;					o.balance.dar = o.balance.liability.t / o.balance.assets.t * 100;&#xA;				}&#xA;			}&#xA;&#xA;			// &#34917;&#20805;&#27611;&#21033;&#29575;&#xA;			if (o.profit &amp;&amp; o.profit.inc &amp;&amp; o.profit.cost) {&#xA;				o.profit.gpm = (o.profit.inc.ot - o.profit.cost.ot) / o.profit.inc.ot * 100;&#xA;			}&#xA;&#xA;			// &#34917;&#20805;&#24180;&#21270;&#25187;&#38750;&#27599;&#32929;&#25910;&#30410;&#xA;			if (!o.num &amp;&amp; r.length) {&#xA;				// &#32929;&#26412;&#25512;&#31639;&#xA;				o.num = r[r.length - 1].num;&#xA;			}&#xA;			if (o.num) {&#xA;				if (o.quarter === 4 &amp;&amp; o.profit &amp;&amp; o.profit.np.nt) {&#xA;					d.info.nt = o.profit.np.nt.t;&#xA;				}&#xA;				if (d.info.nt) {&#xA;					o.pe = {&#xA;						p: (d.info.nt / o.num),&#xA;					};&#xA;					r.push(o);&#xA;				}&#xA;			}&#xA;		} else {&#xA;			LZR.del(d.report, s);&#xA;		}&#xA;	}&#xA;&#xA;	// &#34917;&#20805;&#22522;&#26412;&#20449;&#24687;-&#26368;&#26032;&#25253;&#21578;&#26399;&#xA;	if (o &amp;&amp; d.info.rpTim &lt; o.tim) {&#xA;		d.info.rpTim = o.tim;&#xA;	}&#xA;&#xA;	return r;"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -7299,7 +7299,7 @@
 										<UML:TaggedValue tag="style" value="&#33719;&#21462;&#20840;&#37096;&#20195;&#30721;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_F99E78A8_77C6_4173_8B21_FDD2EA880061">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="this.db.get(req, res, next,&#xA;		{typ: &quot;info&quot;},&#xA;		{&quot;_id&quot;: 0, &quot;id&quot;: 1, &quot;nam&quot;: 1, &quot;ec&quot;: 1, &quot;eps&quot;: 1, &quot;rpTim&quot;: 1, &quot;daye&quot;: 1},&#xA;	true);"/>
+												<UML:Comment name="this.db.get(req, res, next,&#xA;		{typ: &quot;info&quot;},&#xA;		{&quot;_id&quot;: 0, id: 1, nam: 1, ec: 1, p: 1, pe: 1, nt: 1, num: 1, rpTim: 1, daye: 1, wc:1},&#xA;	true);"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -7611,7 +7611,7 @@
 										<UML:TaggedValue tag="style" value="&#26356;&#26032;&#33719;&#21462;&#22522;&#30784;&#25968;&#25454;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_6F034670_C981_4dd0_9449_C289DBB4A962">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="LZR.fillPro(req, &quot;qpobj&quot;).gu = this.clsR.get({&#xA;		id: req.params.id,&#xA;		sid: [this.parser.getEc(req.params.id) + req.params.id]&#xA;	});&#xA;	if (this.tmp) {&#xA;		if (req.params.init) {&#xA;			this.ajax.qry(&quot;sinaK&quot;, req, res, next, req.qpobj.gu.dat.sid);&#xA;		} else {&#xA;			this.db.get(req, res, next,&#xA;				{typ: &quot;info&quot;, id: req.params.id},&#xA;				{_id:0, nam:1, eps:1, num:1, numA:1, numTim:1, dvdTim:1, rpTim:1, days:1, daye:1},&#xA;			true);&#xA;		}&#xA;	} else {&#xA;		req.qpobj.gu.ok = false;&#xA;		req.qpobj.gu.msg = &quot;&#32570;&#23569;&#27169;&#26495;&#65281;&quot;;&#xA;		next();&#xA;	}"/>
+												<UML:Comment name="LZR.fillPro(req, &quot;qpobj&quot;).gu = this.clsR.get({&#xA;		id: req.params.id,&#xA;		sid: [this.parser.getEc(req.params.id) + req.params.id]&#xA;	});&#xA;	if (this.tmp) {&#xA;		if (req.params.init) {&#xA;			this.ajax.qry(&quot;sinaK&quot;, req, res, next, req.qpobj.gu.dat.sid);&#xA;		} else {&#xA;			this.db.get(req, res, next,&#xA;				{typ: &quot;info&quot;, id: req.params.id},&#xA;				{_id:0, nam:1, nt:1, num:1, numA:1, numTim:1, dvdTim:1, rpTim:1, days:1, daye:1},&#xA;			true);&#xA;		}&#xA;	} else {&#xA;		req.qpobj.gu.ok = false;&#xA;		req.qpobj.gu.msg = &quot;&#32570;&#23569;&#27169;&#26495;&#65281;&quot;;&#xA;		next();&#xA;	}"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -7689,7 +7689,7 @@
 										<UML:TaggedValue tag="style" value="&#26356;&#26032;&#33719;&#21462;&#32929;&#26412;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_387DABD3_1F14_4bd0_AAC6_343F2227D7AD">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var o = LZR.fillPro(req, &quot;qpobj.gu&quot;);&#xA;	if (o.ok) {&#xA;		// &#25972;&#29702;&#22909;&#22522;&#26412;&#20449;&#24687;&#xA;		if (req.params.init) {&#xA;			o.dat.info.ec = o.dat.sid[0].substr(0, 2);&#xA;			o = o.dat.info;&#xA;			o.eps = 0;&#xA;			o.num = 0;&#xA;			o.numA = 0;&#xA;			o.numTim = 0;&#xA;			o.dvdTim = 0;&#xA;			o.rpTim = 0;&#xA;			o.days = 0;&#xA;			o.daye = 0;&#xA;		} else {&#xA;			if (req.qpobj.comDbSrvReturn.length) {&#xA;				o.dat.info = req.qpobj.comDbSrvReturn[0];&#xA;			} else {&#xA;				o.ok = false;&#xA;				o.msg = &quot;&#20195;&#30721;&#19981;&#23384;&#22312;&#65281;&quot;;&#xA;				next();&#xA;				return;&#xA;			}&#xA;		}&#xA;&#xA;		o = req.qpobj.gu.dat;&#xA;		console.log (o.info.nam + &quot; : 1. &#24050;&#33719;&#21462;&#22522;&#30784;&#25968;&#25454;&quot;);&#xA;		o.sid[0] = o.sid[0].toLocaleUpperCase();&#xA;		this.ajax.qry(&quot;eastNum&quot;, req, res, next, o.sid);&#xA;	} else {&#xA;		next();&#xA;	}"/>
+												<UML:Comment name="var o = LZR.fillPro(req, &quot;qpobj.gu&quot;);&#xA;	if (o.ok) {&#xA;		// &#25972;&#29702;&#22909;&#22522;&#26412;&#20449;&#24687;&#xA;		if (req.params.init) {&#xA;			o.dat.info.ec = o.dat.sid[0].substr(0, 2);&#xA;			o = o.dat.info;&#xA;			o.nt = 0;&#xA;			o.num = 0;&#xA;			o.numA = 0;&#xA;			o.numTim = 0;&#xA;			o.dvdTim = 0;&#xA;			o.rpTim = 0;&#xA;			o.days = 0;&#xA;			o.daye = 0;&#xA;		} else {&#xA;			if (req.qpobj.comDbSrvReturn.length) {&#xA;				o.dat.info = req.qpobj.comDbSrvReturn[0];&#xA;			} else {&#xA;				o.ok = false;&#xA;				o.msg = &quot;&#20195;&#30721;&#19981;&#23384;&#22312;&#65281;&quot;;&#xA;				next();&#xA;				return;&#xA;			}&#xA;		}&#xA;&#xA;		o = req.qpobj.gu.dat;&#xA;		console.log (o.info.nam + &quot; : 1. &#24050;&#33719;&#21462;&#22522;&#30784;&#25968;&#25454;&quot;);&#xA;		o.sid[0] = o.sid[0].toLocaleUpperCase();&#xA;		this.ajax.qry(&quot;eastNum&quot;, req, res, next, o.sid);&#xA;	} else {&#xA;		next();&#xA;	}"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -7971,7 +7971,7 @@
 										<UML:TaggedValue tag="style" value="&#25910;&#30424;&#20445;&#23384;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_0349910B_6E67_4b0b_8D59_44FFA9E61F32">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="if (r.adds.length) {&#xA;		this.db.mdb.qry(&quot;addK&quot;, null, null, null, [r.adds]);&#xA;	}&#xA;	if (r.ok.length) {&#xA;		this.db.mdb.qry(&quot;setGu&quot;, null, null, null, [&#xA;			{typ:&quot;info&quot;, id: {&quot;$in&quot;: r.ok}},&#xA;			{&quot;$set&quot;: {daye: r.tim}}&#xA;		]);&#xA;	}&#xA;	if (r.nam.length) {&#xA;		for (i = 0; i &lt; r.nam.length; i ++) {&#xA;			this.db.mdb.qry(&quot;setGu&quot;, null, null, null, r.nam[i]);&#xA;		}&#xA;	}"/>
+												<UML:Comment name="if (r.adds.length) {&#xA;		this.db.mdb.qry(&quot;addK&quot;, null, null, null, [r.adds]);&#xA;	}&#xA;	for (i = 0; i &lt; r.ok.length; i ++) {&#xA;		this.db.mdb.qry(&quot;setGu&quot;, null, null, null, r.ok[i]);&#xA;	}"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -7999,6 +7999,366 @@
 												<UML:TaggedValue tag="const" value="0"/>
 												<UML:TaggedValue tag="styleex" value="alias=&#26085;&#32447;&#35299;&#26512;&#32467;&#26524;;"/>
 												<UML:TaggedValue tag="ea_guid" value="{1DBDFC62-EB80-42f0-A986-FEFA68E7307C}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+									</UML:BehavioralFeature.parameter>
+								</UML:Operation>
+								<UML:Operation name="qryChartDat" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="const" value="false"/>
+										<UML:TaggedValue tag="synchronised" value="0"/>
+										<UML:TaggedValue tag="concurrency" value="Sequential"/>
+										<UML:TaggedValue tag="position" value="25"/>
+										<UML:TaggedValue tag="returnarray" value="0"/>
+										<UML:TaggedValue tag="pure" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{3AC4D099-31F7-4dbc-BB76-81DFB4BE0832}"/>
+										<UML:TaggedValue tag="ea_localid" value="1821"/>
+										<UML:TaggedValue tag="style" value="&#33719;&#21462;&#22270;&#34920;&#30456;&#20851;&#25968;&#25454;"/>
+										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_04DFAE1F_FD41_4a41_A32C_45C4708E3548">
+											<XMI.extension xmi.extender="Enterprise Architect 2.5">
+												<UML:Comment name="var c = {id: req.params.id, typ: &quot;report&quot;};&#xA;	if (req.params.y) {&#xA;		c.quarter = 4;&#xA;	}&#xA;	this.db.get (req, res, next, c,&#xA;		{&quot;_id&quot;: 0, nam: 1, num: 1, tim: 1, year: 1, quarter: 1, pe: 1,&#xA;			&quot;profit.inc.otyoy&quot;: 1,	// &#33829;&#19994;&#25910;&#20837;&#21516;&#27604;&#21464;&#21270;&#xA;			&quot;profit.np.nt.yoy&quot;: 1,	// &#25187;&#38750;&#20928;&#21033;&#28070;&#21516;&#27604;&#21464;&#21270;&#xA;			// &quot;profit.gpm&quot;: 1,	// &#27611;&#21033;&#29575;&#xA;			// &quot;balance.dar&quot;: 1,	// &#36164;&#20135;&#36127;&#20538;&#29575;&#xA;			&quot;balance.equity.t&quot;: 1,	// &#20928;&#36164;&#20135;&#xA;			&quot;profit.np.t&quot;: 1,		// &#20928;&#21033;&#28070;&#xA;			&quot;profit.np.nt.t&quot;: 1,	// &#25187;&#38750;&#20928;&#21033;&#28070;&#xA;			&quot;profit.inc.ot&quot;: 1	// &#33829;&#19994;&#25910;&#20837;&#xA;		},&#xA;	true);"/>
+											</XMI.extension>
+										</UML:TaggedValue>
+									</UML:ModelElement.taggedValue>
+									<UML:BehavioralFeature.parameter>
+										<UML:Parameter kind="return" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid2"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{RETURNID-31F7-4dbc-BB76-81DFB4BE0832}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="req" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid3"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#35831;&#27714;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{A0BF2612-B72B-4c46-A9D9-56803964258E}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="res" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid3"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="1"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#24212;&#31572;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{44D1BFA3-15D3-470a-81DC-748D91E4B67F}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="next" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid5"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="2"/>
+												<UML:TaggedValue tag="type" value="fun"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#32487;&#32493;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{F0CE8A10-7FE5-4a7e-A145-C46628E65D41}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+									</UML:BehavioralFeature.parameter>
+								</UML:Operation>
+								<UML:Operation name="crtChart" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="const" value="false"/>
+										<UML:TaggedValue tag="synchronised" value="0"/>
+										<UML:TaggedValue tag="concurrency" value="Sequential"/>
+										<UML:TaggedValue tag="position" value="26"/>
+										<UML:TaggedValue tag="returnarray" value="0"/>
+										<UML:TaggedValue tag="pure" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{626D0D56-A6C2-4a24-BAE2-371799D87726}"/>
+										<UML:TaggedValue tag="ea_localid" value="1820"/>
+										<UML:TaggedValue tag="style" value="&#29983;&#25104;&#22270;&#34920;&#25968;&#25454;"/>
+										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_05B4221B_0920_4210_A87D_DDC09C895518">
+											<XMI.extension xmi.extender="Enterprise Architect 2.5">
+												<UML:Comment name="var i, j, o, r = req.qpobj.comDbSrvReturn;&#xA;	if (r.length) {&#xA;		o = LZR.fillPro(req, &quot;qpobj.chart&quot;);&#xA;		o.pro = req.params;&#xA;		o.dat = {	// &#22522;&#30784;&#25968;&#25454;&#xA;			x: [],	// X&#36724;&#22352;&#26631;&#xA;			k: [],	// K&#32447;&#24066;&#30408;&#29575;&#xA;			m: [],	// &#24179;&#22343;&#24066;&#30408;&#29575;&#xA;			r: [],	// &#23433;&#20840;&#24066;&#30408;&#29575;&#xA;			yoy: {	// &#21516;&#27604;&#20449;&#24687;&#xA;				pe: [],	// &#24066;&#30408;&#29575;&#23433;&#20840;&#36793;&#38469;&#21516;&#27604;&#21464;&#21270;&#xA;				inc: [],	// &#33829;&#19994;&#25910;&#20837;&#21516;&#27604;&#21464;&#21270;&#xA;				nt: []	// &#25187;&#38750;&#20928;&#21033;&#28070;&#21516;&#27604;&#21464;&#21270;&#xA;			},&#xA;			t: {	// &#24635;&#20540;&#xA;				e: [],	// &#20928;&#36164;&#20135;&#xA;				np: [],	// &#20928;&#21033;&#28070;&#xA;				nt: [],	// &#25187;&#38750;&#20928;&#21033;&#28070;&#xA;				inc: [],	// &#33829;&#19994;&#25910;&#20837;&#xA;			}&#xA;		};&#xA;&#xA;		for (i = 0; i &lt; r.length; i ++) {&#xA;			o.dat.x[i] = r[i].year + &quot;&#24180;&quot; + r[i].quarter + &quot;&#23395;&quot;;&#xA;			if (r[i].pe &amp;&amp; r[i].pe.r) {&#xA;				o.dat.k[i] = [ r[i].pe.o.toFixed(2), r[i].pe.c.toFixed(2), r[i].pe.l.toFixed(2), r[i].pe.h.toFixed(2) ];&#xA;				o.dat.m[i] = r[i].pe.m.toFixed(2);&#xA;				o.dat.r[i] = r[i].pe.r.toFixed(2);&#xA;				j = r[i].pe.ry;&#xA;				o.dat.yoy.pe[i] = j ? j.toFixed(2) : j;&#xA;			} else {&#xA;				o.dat.k[i] = [];&#xA;			}&#xA;			j = LZR.fillPro(r[i], &quot;profit.inc.otyoy&quot;, true);&#xA;			o.dat.yoy.inc[i] = j ? j.toFixed(2) : j;&#xA;			j = LZR.fillPro(r[i], &quot;profit.np.nt.yoy&quot;, true);&#xA;			o.dat.yoy.nt[i] = j ? j.toFixed(2) : j;&#xA;			j = LZR.fillPro(r[i], &quot;balance.equity.t&quot;, true);&#xA;			o.dat.t.e[i] = j ? j.toFixed(0) : j;&#xA;			j = LZR.fillPro(r[i], &quot;profit.np.t&quot;, true);&#xA;			o.dat.t.np[i] = j ? j.toFixed(0) : j;&#xA;			j = LZR.fillPro(r[i], &quot;profit.np.nt.t&quot;, true);&#xA;			o.dat.t.nt[i] = j ? j.toFixed(0) : j;&#xA;			j = LZR.fillPro(r[i], &quot;profit.inc.ot&quot;, true);&#xA;			o.dat.t.inc[i] = j ? j.toFixed(0) : j;&#xA;		}&#xA;&#xA;		o.op = this.crtChartOp(o.dat);&#xA;		o.op.k.title.text = r[0].nam + (o.pro.y ? &quot;&#65288;&#24180;&#25253;&#65289;&quot; : &quot;&#65288;&#23395;&#24230;&#25253;&#65289;&quot;);&#xA;	}&#xA;	next();"/>
+											</XMI.extension>
+										</UML:TaggedValue>
+									</UML:ModelElement.taggedValue>
+									<UML:BehavioralFeature.parameter>
+										<UML:Parameter kind="return" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid2"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{RETURNID-A6C2-4a24-BAE2-371799D87726}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="req" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid3"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#35831;&#27714;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{7B488DC3-2C0C-44dc-9FD1-88AD22B92864}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="res" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid3"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="1"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#24212;&#31572;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{CAB0514A-5D68-431a-852A-5BBE33B22DAC}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="next" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid5"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="2"/>
+												<UML:TaggedValue tag="type" value="fun"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#32487;&#32493;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{094406EC-E596-45ca-AC74-37B83170570C}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+									</UML:BehavioralFeature.parameter>
+								</UML:Operation>
+								<UML:Operation name="crtChartOp" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="const" value="false"/>
+										<UML:TaggedValue tag="synchronised" value="0"/>
+										<UML:TaggedValue tag="concurrency" value="Sequential"/>
+										<UML:TaggedValue tag="position" value="27"/>
+										<UML:TaggedValue tag="returnarray" value="0"/>
+										<UML:TaggedValue tag="pure" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{BC2899B0-48F8-4281-839B-940CAAF47726}"/>
+										<UML:TaggedValue tag="ea_localid" value="1819"/>
+										<UML:TaggedValue tag="style" value="&#29983;&#25104;&#22270;&#34920;&#21442;&#25968;"/>
+										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_EA0EE73A_216C_4136_9714_AC670E1C1C68">
+											<XMI.extension xmi.extender="Enterprise Architect 2.5">
+												<UML:Comment name="return {&#xA;		k: {	// K&#32447;&#22270;&#xA;			title: {	//&#26631;&#39064;&#xA;				text: &quot;&quot;,&#xA;				left: 0&#xA;			},&#xA;			tooltip: {	//&#25552;&#31034;&#26694;&#xA;				trigger: &quot;axis&quot;,	//&#35302;&#21457;&#31867;&#22411;&#65306;&#22352;&#26631;&#36724;&#35302;&#21457;&#xA;				axisPointer: {	//&#22352;&#26631;&#36724;&#25351;&#31034;&#22120;&#37197;&#32622;&#39033;&#xA;					type: &quot;cross&quot;	//&#25351;&#31034;&#22120;&#31867;&#22411;&#65292;&#21313;&#23383;&#20934;&#26143;&#xA;				}&#xA;			},&#xA;			grid: {	//&#30452;&#35282;&#22352;&#26631;&#31995;&#xA;				show: true,&#xA;				left: &quot;10%&quot;,	//grid&#32452;&#20214;&#31163;&#23481;&#22120;&#24038;&#20391;&#30340;&#36317;&#31163;&#xA;				right: &quot;10%&quot;,&#xA;				bottom: &quot;15%&quot;,&#xA;				//backgroundColor:&quot;#ccc&quot;&#xA;			},&#xA;			xAxis: {&#xA;				type: &quot;category&quot;,	//&#22352;&#26631;&#36724;&#31867;&#22411;&#65292;&#31867;&#30446;&#36724;&#xA;				data: d.x,&#xA;				//scale: true,	//&#21482;&#22312;&#25968;&#23383;&#36724;&#20013;&#26377;&#25928;&#xA;				boundaryGap : true,	//&#21051;&#24230;&#20316;&#20026;&#20998;&#21106;&#32447;&#65292;&#26631;&#31614;&#21644;&#25968;&#25454;&#28857;&#20250;&#22312;&#20004;&#20010;&#21051;&#24230;&#19978;&#xA;				axisLine: {onZero: false},&#xA;				splitLine: {show: false},	//&#26159;&#21542;&#26174;&#31034;&#22352;&#26631;&#36724;&#36724;&#32447;&#xA;				//splitNumber: 20,	//&#22352;&#26631;&#36724;&#30340;&#20998;&#21106;&#27573;&#25968;&#65292;&#39044;&#20272;&#20540;&#65292;&#22312;&#31867;&#30446;&#36724;&#20013;&#26080;&#25928;&#xA;				min: &quot;dataMin&quot;,	//&#29305;&#27530;&#20540;&#65292;&#25968;&#36724;&#19978;&#30340;&#26368;&#23567;&#20540;&#20316;&#20026;&#26368;&#23567;&#21051;&#24230;&#xA;				max: &quot;dataMax&quot;	//&#29305;&#27530;&#20540;&#65292;&#25968;&#36724;&#19978;&#30340;&#26368;&#22823;&#20540;&#20316;&#20026;&#26368;&#22823;&#21051;&#24230;&#xA;			},&#xA;			yAxis: {&#xA;				scale: true,	//&#22352;&#26631;&#21051;&#24230;&#19981;&#24378;&#21046;&#21253;&#21547;&#38646;&#21051;&#24230;&#xA;				splitArea: {&#xA;					show: true	//&#26174;&#31034;&#20998;&#21106;&#21306;&#22495;&#xA;				}&#xA;			},&#xA;			dataZoom: [	//&#29992;&#20110;&#21306;&#22495;&#32553;&#25918;&#xA;				{&#xA;					filterMode:&quot;filter&quot;,	//&#24403;&#21069;&#25968;&#25454;&#31383;&#21475;&#22806;&#30340;&#25968;&#25454;&#34987;&#36807;&#28388;&#25481;&#26469;&#36798;&#21040;&#25968;&#25454;&#31383;&#21475;&#32553;&#25918;&#30340;&#25928;&#26524;  &#40664;&#35748;&#20540;filter&#xA;					type: &quot;inside&quot;,	//&#20869;&#32622;&#22411;&#25968;&#25454;&#21306;&#22495;&#32553;&#25918;&#32452;&#20214;&#xA;					start: 50,	//&#25968;&#25454;&#31383;&#21475;&#33539;&#22260;&#30340;&#36215;&#22987;&#30334;&#20998;&#27604;&#xA;					end: 100	//&#25968;&#25454;&#31383;&#21475;&#33539;&#22260;&#30340;&#32467;&#26463;&#30334;&#20998;&#27604;&#xA;				},&#xA;				{&#xA;					show: true,&#xA;					type: &quot;slider&quot;	//&#28369;&#21160;&#26465;&#22411;&#25968;&#25454;&#21306;&#22495;&#32553;&#25918;&#32452;&#20214;&#xA;				}&#xA;			],&#xA;			legend: {	//&#22270;&#20363;&#25511;&#20214;&#65292;&#28857;&#20987;&#22270;&#20363;&#25511;&#21046;&#21738;&#20123;&#31995;&#21015;&#19981;&#29616;&#23454;&#xA;				data: [&quot;K&#32447;&quot;, &quot;&#22343;&#32447;&quot;, &quot;&#23433;&#20840;&#36793;&#38469;&quot;]&#xA;			},&#xA;			series: [	//&#22270;&#34920;&#31867;&#22411;&#xA;				{&#xA;					name: &quot;K&#32447;&quot;,&#xA;					type: &quot;candlestick&quot;,	//K&#32447;&#22270;&#xA;					data: d.k,	//y&#36724;&#23545;&#24212;&#30340;&#25968;&#25454;&#xA;				},{&#xA;					name: &quot;&#22343;&#32447;&quot;,&#xA;					type: &quot;line&quot;,&#xA;					data: d.m,&#xA;					smooth: true,	// &#24179;&#28369;&#26354;&#32447;&#xA;					symbol: &quot;none&quot;	// &#21462;&#28040;&#25240;&#32447;&#22270;&#19978;&#30340;&#23567;&#22278;&#28857;&#xA;				},{&#xA;					name: &quot;&#23433;&#20840;&#36793;&#38469;&quot;,&#xA;					type: &quot;line&quot;,&#xA;					data: d.r,&#xA;					smooth: true,&#xA;					symbol: &quot;none&quot;&#xA;				}&#xA;			]&#xA;		},&#xA;		yoy: {	// &#21516;&#27604;&#22270;&#xA;			tooltip: {&#xA;				trigger: &quot;axis&quot;&#xA;			},&#xA;			xAxis: {&#xA;				boundaryGap : true,&#xA;				data: d.x&#xA;			},&#xA;			yAxis: {&#xA;				scale: true,&#xA;				splitArea: {&#xA;					show: true&#xA;				}&#xA;			},&#xA;			dataZoom: [&#xA;				{&#xA;					filterMode:&quot;filter&quot;,&#xA;					type: &quot;inside&quot;,&#xA;					start: 50,&#xA;					end: 100&#xA;				},&#xA;				{&#xA;					show: false&#xA;				}&#xA;			],&#xA;			legend: {&#xA;				data: [&quot;&#25187;&#38750;&#20928;&#21033;&#28070;&#21516;&#27604;&#21464;&#21270;&quot;, &quot;&#33829;&#19994;&#25910;&#20837;&#21516;&#27604;&#21464;&#21270;&quot;, &quot;&#24066;&#30408;&#29575;&#21516;&#27604;&#21464;&#21270;&quot;]&#xA;			},&#xA;			series: [&#xA;				{&#xA;					name: &quot;&#25187;&#38750;&#20928;&#21033;&#28070;&#21516;&#27604;&#21464;&#21270;&quot;,&#xA;					type: &quot;line&quot;,&#xA;					smooth: true,&#xA;					data: d.yoy.nt&#xA;				},&#xA;				{&#xA;					name: &quot;&#33829;&#19994;&#25910;&#20837;&#21516;&#27604;&#21464;&#21270;&quot;,&#xA;					type: &quot;line&quot;,&#xA;					smooth: true,&#xA;					data: d.yoy.inc&#xA;				},&#xA;				{&#xA;					name: &quot;&#24066;&#30408;&#29575;&#21516;&#27604;&#21464;&#21270;&quot;,&#xA;					type: &quot;line&quot;,&#xA;					smooth: true,&#xA;					data: d.yoy.pe&#xA;				}&#xA;			]&#xA;		},&#xA;		t: {	// &#24635;&#20540;&#22270;&#xA;			tooltip: {&#xA;				trigger: &quot;axis&quot;&#xA;			},&#xA;			xAxis: {&#xA;				boundaryGap : true,&#xA;				data: d.x&#xA;			},&#xA;			yAxis: {&#xA;				scale: true,&#xA;				splitArea: {&#xA;					show: true&#xA;				}&#xA;			},&#xA;			dataZoom: [&#xA;				{&#xA;					filterMode:&quot;filter&quot;,&#xA;					type: &quot;inside&quot;,&#xA;					start: 50,&#xA;					end: 100&#xA;				},&#xA;				{&#xA;					show: false&#xA;				}&#xA;			],&#xA;			legend: {&#xA;				data: [&quot;&#33829;&#19994;&#25910;&#20837;&quot;, &quot;&#20928;&#36164;&#20135;&quot;, &quot;&#20928;&#21033;&#28070;&quot;, &quot;&#25187;&#38750;&#20928;&#21033;&#28070;&quot;]&#xA;			},&#xA;			series: [&#xA;				{&#xA;					name: &quot;&#33829;&#19994;&#25910;&#20837;&quot;,&#xA;					type: &quot;line&quot;,&#xA;					smooth: true,&#xA;					data: d.t.inc&#xA;				},&#xA;				{&#xA;					name: &quot;&#20928;&#36164;&#20135;&quot;,&#xA;					type: &quot;line&quot;,&#xA;					smooth: true,&#xA;					data: d.t.e&#xA;				},&#xA;				{&#xA;					name: &quot;&#20928;&#21033;&#28070;&quot;,&#xA;					type: &quot;line&quot;,&#xA;					smooth: true,&#xA;					data: d.t.np&#xA;				},&#xA;				{&#xA;					name: &quot;&#25187;&#38750;&#20928;&#21033;&#28070;&quot;,&#xA;					type: &quot;line&quot;,&#xA;					smooth: true,&#xA;					data: d.t.nt&#xA;				}&#xA;			]&#xA;		},&#xA;		v: {}	// &#25104;&#20132;&#37327;&#22270;&#xA;	};"/>
+											</XMI.extension>
+										</UML:TaggedValue>
+									</UML:ModelElement.taggedValue>
+									<UML:BehavioralFeature.parameter>
+										<UML:Parameter kind="return" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid2"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{RETURNID-48F8-4281-839B-940CAAF47726}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="d" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid3"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#25968;&#25454;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{4B264A21-5EA1-45e0-AD71-C61F84EE28CD}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+									</UML:BehavioralFeature.parameter>
+								</UML:Operation>
+								<UML:Operation name="qryReport5" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="const" value="false"/>
+										<UML:TaggedValue tag="synchronised" value="0"/>
+										<UML:TaggedValue tag="concurrency" value="Sequential"/>
+										<UML:TaggedValue tag="position" value="28"/>
+										<UML:TaggedValue tag="returnarray" value="0"/>
+										<UML:TaggedValue tag="pure" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{D6FD3752-DBA9-4557-82F2-5446F8D42F73}"/>
+										<UML:TaggedValue tag="ea_localid" value="1818"/>
+										<UML:TaggedValue tag="style" value="&#33719;&#21462;&#36817;&#20116;&#24180;&#24180;&#25253;"/>
+										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_FD7B61B1_B535_408c_BEFF_DDCBC9F5AF05">
+											<XMI.extension xmi.extender="Enterprise Architect 2.5">
+												<UML:Comment name="this.db.get (req, res, next,&#xA;		{typ: &quot;report&quot;, quarter: 4, year: {&quot;$gte&quot;: new Date().getFullYear() - 6}},&#xA;		{&quot;_id&quot;: 0, id: 1, year: 1, &quot;profit.np.nt.t&quot;: 1},&#xA;	true);"/>
+											</XMI.extension>
+										</UML:TaggedValue>
+									</UML:ModelElement.taggedValue>
+									<UML:BehavioralFeature.parameter>
+										<UML:Parameter kind="return" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid2"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{RETURNID-DBA9-4557-82F2-5446F8D42F73}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="req" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid3"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#35831;&#27714;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{2F04CFF7-9B9F-4189-95F1-37979F583BA7}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="res" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid3"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="1"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#24212;&#31572;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{9FFEBB05-2759-4e5b-8997-5F31797F7AA2}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="next" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid5"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="2"/>
+												<UML:TaggedValue tag="type" value="fun"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#32487;&#32493;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{96E554D9-83A0-4d0e-A2CF-363E685D07CD}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+									</UML:BehavioralFeature.parameter>
+								</UML:Operation>
+								<UML:Operation name="calcNt5" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="const" value="false"/>
+										<UML:TaggedValue tag="synchronised" value="0"/>
+										<UML:TaggedValue tag="concurrency" value="Sequential"/>
+										<UML:TaggedValue tag="position" value="29"/>
+										<UML:TaggedValue tag="returnarray" value="0"/>
+										<UML:TaggedValue tag="pure" value="0"/>
+										<UML:TaggedValue tag="ea_guid" value="{6AE2C617-9AE2-4811-86BE-EA4801EAA5D3}"/>
+										<UML:TaggedValue tag="ea_localid" value="1817"/>
+										<UML:TaggedValue tag="style" value="&#35745;&#31639;&#24182;&#26356;&#26032;&#36817;5&#24180;&#24179;&#22343;&#20928;&#21033;&#28070;"/>
+										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_D59BCCF4_4A9D_4441_97E5_FD417594883F">
+											<XMI.extension xmi.extender="Enterprise Architect 2.5">
+												<UML:Comment name="var i, o, s, d = {}, a = req.qpobj.comDbSrvReturn;&#xA;	for (i = 0; i &lt; a.length; i ++) {&#xA;		o = d[a[i].id];&#xA;		if (!o) {&#xA;			o = [];&#xA;			d[a[i].id] = o;&#xA;		}&#xA;		if (a[i].profit.np.nt.t) {&#xA;			o.push(a[i].profit.np.nt.t);&#xA;			if (o.length &gt; 5) {&#xA;				o.shift();&#xA;			}&#xA;		}&#xA;	}&#xA;	for (s in d) {&#xA;		if (d[s].length) {&#xA;			o = 0;&#xA;			for (i = 0; i &lt; d[s].length; i ++) {&#xA;				o += d[s][i];&#xA;			}&#xA;			this.db.mdb.qry(&quot;setGu&quot;, null, null, null, [{typ:&quot;info&quot;, id:s}, {&quot;$set&quot;: {&#xA;				wc:{nt5: o / d[s].length}&#xA;			}}]);&#xA;		}&#xA;	}&#xA;	res.send(&quot;OK!&quot;);"/>
+											</XMI.extension>
+										</UML:TaggedValue>
+									</UML:ModelElement.taggedValue>
+									<UML:BehavioralFeature.parameter>
+										<UML:Parameter kind="return" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid2"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="ea_guid" value="{RETURNID-9AE2-4811-86BE-EA4801EAA5D3}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="req" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid3"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="0"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#35831;&#27714;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{7849130B-0FEF-4f76-B0A7-EBD68C968EB7}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="res" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid3"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="1"/>
+												<UML:TaggedValue tag="type" value="Object"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#24212;&#31572;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{850A90F0-5774-42f3-A3CC-153E28B3D824}"/>
+											</UML:ModelElement.taggedValue>
+											<UML:Parameter.defaultValue>
+												<UML:Expression/>
+											</UML:Parameter.defaultValue>
+										</UML:Parameter>
+										<UML:Parameter name="next" kind="in" visibility="public">
+											<UML:Parameter.type>
+												<UML:Classifier xmi.idref="eaxmiid5"/>
+											</UML:Parameter.type>
+											<UML:ModelElement.taggedValue>
+												<UML:TaggedValue tag="pos" value="2"/>
+												<UML:TaggedValue tag="type" value="fun"/>
+												<UML:TaggedValue tag="const" value="0"/>
+												<UML:TaggedValue tag="styleex" value="alias=&#32487;&#32493;;"/>
+												<UML:TaggedValue tag="ea_guid" value="{124A3E98-746F-47c9-B678-9F70CDD592A2}"/>
 											</UML:ModelElement.taggedValue>
 											<UML:Parameter.defaultValue>
 												<UML:Expression/>

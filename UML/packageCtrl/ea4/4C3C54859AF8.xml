@@ -46,7 +46,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_AAD5E4E2_3BC0_4c9e_9D46_4C3C54859AF8"/>
 								<UML:TaggedValue tag="date_created" value="2019-04-04 15:28:40"/>
-								<UML:TaggedValue tag="date_modified" value="2019-04-04 21:31:28"/>
+								<UML:TaggedValue tag="date_modified" value="2019-04-06 12:32:19"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\Pro\Gu\ParseByEastmoney.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -59,7 +59,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="542"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=247e;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=2cde;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -413,7 +413,7 @@
 								</UML:Operation>
 								<UML:Operation name="parseK" visibility="public" ownerScope="instance" isQuery="false" concurrency="sequential">
 									<UML:ModelElement.taggedValue>
-										<UML:TaggedValue tag="documentation" value="&#36820;&#22238;&#32467;&#26524;&#26684;&#24335;&#65306;&#xA;{&#xA;                ok: [],      // &#38656;&#35201;&#26356;&#26032;&#30340;ID&#xA;                nam: [],  // &#38656;&#35201;&#21464;&#21160;&#21517;&#31216;&#30340;&#xA;                stop: [],   // &#20572;&#29260;&#30340;&#xA;                err: [],      // &#38169;&#35823;&#30340;&#xA;                miss: [],  // &#24050;&#26356;&#26032;&#36807;&#26080;&#38656;&#20877;&#27425;&#25552;&#20132;&#30340;&#xA;                adds: []   // &#38656;&#35201;&#26356;&#26032;&#30340;&#20855;&#20307;&#25968;&#25454;&#xA;}"/>
+										<UML:TaggedValue tag="documentation" value="&#36820;&#22238;&#32467;&#26524;&#26684;&#24335;&#65306;&#xA;{&#xA;                ok: [],      // &#38656;&#35201;&#26356;&#26032;&#30340;ID&#xA;                stop: [],   // &#20572;&#29260;&#30340;&#xA;                err: [],      // &#38169;&#35823;&#30340;&#xA;                miss: [],  // &#24050;&#26356;&#26032;&#36807;&#26080;&#38656;&#20877;&#27425;&#25552;&#20132;&#30340;&#xA;                adds: []   // &#38656;&#35201;&#26356;&#26032;&#30340;&#20855;&#20307;&#25968;&#25454;&#xA;}"/>
 										<UML:TaggedValue tag="type" value="Object"/>
 										<UML:TaggedValue tag="const" value="false"/>
 										<UML:TaggedValue tag="synchronised" value="0"/>
@@ -426,7 +426,7 @@
 										<UML:TaggedValue tag="style" value="&#35299;&#26512;&#26032;&#28010;&#23454;&#26102;&#26085;&#32447;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_F256668B_A152_4487_9D3C_DD5536B25AF2">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var i, j, r, d, t;&#xA;	a = a.split(&quot;;&quot;);&#xA;	a.pop();&#xA;	t = this.utTim.getDayTimestamp();&#xA;	r = {&#xA;		tim: t,&#xA;		ok: [],	// &#38656;&#35201;&#26356;&#26032;&#30340;ID&#xA;		nam: [],	// &#38656;&#35201;&#21464;&#21160;&#21517;&#31216;&#30340;&#xA;		stop: [],	// &#20572;&#29260;&#30340;&#xA;		err: [],	// &#38169;&#35823;&#30340;&#xA;		miss: [],	// &#24050;&#26356;&#26032;&#36807;&#26080;&#38656;&#20877;&#27425;&#25552;&#20132;&#30340;&#xA;		adds: []	// &#38656;&#35201;&#26356;&#26032;&#30340;&#20855;&#20307;&#25968;&#25454;&#xA;	};&#xA;&#xA;	for (i = 0; i &lt; a.length; i ++) {&#xA;		d = a[i].split(&quot;,&quot;);&#xA;		if (d.length &lt; 10) {&#xA;			r.err.push(sr[i]);&#xA;		} else {&#xA;			// &#21517;&#31216;&#26816;&#26597;&#xA;			j = d[0].indexOf(&quot;\&quot;&quot;) + 1;&#xA;			j = d[0].substring(j, d[0].length);&#xA;			if (sr[i].nam !== j) {&#xA;				r.nam.push([&#xA;					{typ: &quot;info&quot;, id: sr[i].id},&#xA;					{&quot;$set&quot;: {nam: j}}&#xA;				]);&#xA;			}&#xA;&#xA;			if (sr[i].daye &lt; t) {&#xA;				if (this.getVal(d[1], 1)) {&#xA;					j = sr[i].eps;&#xA;					r.adds.push({&#xA;						id: sr[i].id,&#xA;						tim: t,&#xA;						c: this.getVal(d[3], 1),&#xA;						o: this.getVal(d[1], 1),&#xA;						h: this.getVal(d[4], 1),&#xA;						l: this.getVal(d[5], 1),&#xA;						f: (d[3] - d[2]) / d[2] * 100,&#xA;						v: this.getVal(d[8], 1),&#xA;						t: this.getVal(d[9], 1),&#xA;						cc: d[9] / d[8],&#xA;						p: (j &amp;&amp; j &gt; 0.003) ? (d[9] / d[8] / j) : 0,&#xA;					});&#xA;					r.ok.push(sr[i].id);&#xA;				} else {&#xA;					r.stop.push(sr[i]);&#xA;				}&#xA;			} else {&#xA;				r.miss.push(sr[i].id);&#xA;			}&#xA;		}&#xA;	}&#xA;&#xA;	return r;"/>
+												<UML:Comment name="var i, j, r, d, t, o, k;&#xA;	a = a.split(&quot;;&quot;);&#xA;	a.pop();&#xA;	r = {&#xA;		ok: [],	// &#38656;&#35201;&#26356;&#26032;&#30340;ID&#xA;		stop: [],	// &#20572;&#29260;&#30340;&#xA;		err: [],	// &#38169;&#35823;&#30340;&#xA;		miss: [],	// &#24050;&#26356;&#26032;&#36807;&#26080;&#38656;&#20877;&#27425;&#25552;&#20132;&#30340;&#xA;		adds: []	// &#38656;&#35201;&#26356;&#26032;&#30340;&#20855;&#20307;&#25968;&#25454;&#xA;	};&#xA;&#xA;	for (i = 0; i &lt; a.length; i ++) {&#xA;		d = a[i].split(&quot;,&quot;);&#xA;		if (d.length &lt; 10) {&#xA;			r.err.push(sr[i]);&#xA;		} else {&#xA;			o = null;&#xA;			// &#21517;&#31216;&#26816;&#26597;&#xA;			j = d[0].indexOf(&quot;\&quot;&quot;) + 1;&#xA;			j = d[0].substring(j, d[0].length);&#xA;			if (sr[i].nam !== j) {&#xA;				o = {nam: j};&#xA;			}&#xA;&#xA;			if (!t) {&#xA;				// t = this.utTim.getDayTimestamp();&#xA;				t = this.getVal(d[30], 4);&#xA;				r.tim = t;&#xA;			}&#xA;&#xA;			if (sr[i].daye &lt; t) {&#xA;				if (this.getVal(d[1], 1)) {&#xA;					j = sr[i].nt / sr[i].num;&#xA;					k = {&#xA;						id: sr[i].id,&#xA;						tim: t,&#xA;						c: this.getVal(d[3], 1),&#xA;						o: this.getVal(d[1], 1),&#xA;						h: this.getVal(d[4], 1),&#xA;						l: this.getVal(d[5], 1),&#xA;						f: (d[3] - d[2]) / d[2] * 100,&#xA;						v: this.getVal(d[8], 1),&#xA;						t: this.getVal(d[9], 1),&#xA;						cc: d[9] / d[8],&#xA;						p: (j &amp;&amp; j &gt; 0.003) ? (d[9] / d[8] / j) : 0,&#xA;					};&#xA;					r.adds.push(k);&#xA;					if (!o) {&#xA;						o = {};&#xA;					}&#xA;					o.daye = t;&#xA;					o.p = k.c;&#xA;					j = sr[i].wc.nt5 / sr[i].num;&#xA;					o.pe = {&#xA;						nt: k.p,&#xA;						nt5: (j &amp;&amp; j &gt; 0.003) ? (k.cc / j) : 0&#xA;					};&#xA;				} else {&#xA;					r.stop.push(sr[i]);&#xA;				}&#xA;			} else {&#xA;				r.miss.push(sr[i].id);&#xA;			}&#xA;&#xA;			if (o) {&#xA;				r.ok.push([&#xA;					{typ: &quot;info&quot;, id: sr[i].id},&#xA;					{&quot;$set&quot;: o}&#xA;				]);&#xA;			}&#xA;		}&#xA;	}&#xA;&#xA;	return r;"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
