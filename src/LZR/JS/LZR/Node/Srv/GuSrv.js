@@ -95,6 +95,9 @@ LZR.Node.Srv.GuSrv.prototype.init = function () {
 		this.ro.get("/chart/:id/:y?/", LZR.bind(this, this.crtChart));
 		this.ro.get("/calcNt5/", LZR.bind(this, this.qryReport5));
 		this.ro.get("/calcNt5/", LZR.bind(this, this.calcNt5));
+		this.ro.get("/stockSelecter/:y?/:m?/", this.exeGetAllId);
+		this.ro.get("/stockSelecter/:y?/:m?/", LZR.bind(this, this.qrySelecterDat));
+		this.ro.get("/stockSelecter/:y?/:m?/", LZR.bind(this, this.hdSelecterDat));
 	}
 };
 LZR.Node.Srv.GuSrv.prototype.init.lzrClass_ = LZR.Node.Srv.GuSrv;
@@ -176,31 +179,28 @@ LZR.Node.Srv.GuSrv.prototype.initAjax = function () {
 
 	// 东方财富——资产负债表
 	this.ajax.evt.eastBlc.add (LZR.bind(this, function (r, req, res, next) {
+		console.log (req.qpobj.gu.dat.info.nam + " : 5. 资产负债表 - " + req.qpobj.gu.dat.sid[1]);
 		if (this.qryRun(r, req, res, next, "balance", "eastBlc", "资产负债表")) {
 			req.qpobj.gu.dat.sid[1] = "&a=";
 			this.ajax.qry("eastPf", req, res, next, req.qpobj.gu.dat.sid);
-		} else {
-			console.log (req.qpobj.gu.dat.info.nam + " : 5. 资产负债表 - " + req.qpobj.gu.dat.sid[1]);
 		}
 	}));
 
 	// 东方财富——利润表
 	this.ajax.evt.eastPf.add (LZR.bind(this, function (r, req, res, next) {
+		console.log (req.qpobj.gu.dat.info.nam + " : 6. 利润表 - " + req.qpobj.gu.dat.sid[1]);
 		if (this.qryRun(r, req, res, next, "profit", "eastPf", "利润表")) {
 			req.qpobj.gu.dat.sid[1] = "&a=";
 			this.ajax.qry("eastCash", req, res, next, req.qpobj.gu.dat.sid);
-		} else {
-			console.log (req.qpobj.gu.dat.info.nam + " : 6. 利润表 - " + req.qpobj.gu.dat.sid[1]);
 		}
 	}));
 
 	// 东方财富——现金流量表
 	this.ajax.evt.eastCash.add (LZR.bind(this, function (r, req, res, next) {
+		console.log (req.qpobj.gu.dat.info.nam + " : 7. 现金流量表 - " + req.qpobj.gu.dat.sid[1]);
 		if (this.qryRun(r, req, res, next, "cash", "eastCash", "现金流量表")) {
 			req.qpobj.gu.dat.sid[1] = "";
 			this.ajax.qry("eastCop", req, res, next, req.qpobj.gu.dat.sid);
-		} else {
-			console.log (req.qpobj.gu.dat.info.nam + " : 7. 现金流量表 - " + req.qpobj.gu.dat.sid[1]);
 		}
 	}));
 
@@ -578,7 +578,7 @@ LZR.Node.Srv.GuSrv.prototype.calcEps.lzrClass_ = LZR.Node.Srv.GuSrv;
 LZR.Node.Srv.GuSrv.prototype.getAllId = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	this.db.get(req, res, next,
 		{typ: "info"},
-		{"_id": 0, id: 1, nam: 1, ec: 1, p: 1, pe: 1, nt: 1, num: 1, rpTim: 1, daye: 1, wc:1},
+		{"_id": 0, id: 1, nam: 1, ec: 1, p: 1, pe: 1, nt: 1, num: 1, rpTim: 1, daye: 1, wc:1, sim:1, dvd:1},
 	true);
 };
 LZR.Node.Srv.GuSrv.prototype.getAllId.lzrClass_ = LZR.Node.Srv.GuSrv;
@@ -737,8 +737,8 @@ LZR.Node.Srv.GuSrv.prototype.updateSav = function (o/*as:Object*/) {
 		}
 	}
 	k = o.dvd[0];
-	if (k && (k.tim > o.info.dvdTim) && (k.regTim === 0 || k.regTim > t)) {
-		o.info.dvdTim = k.tim;
+	o.info.dvdTim = k.tim;
+	if (k && (k.regTim === 0 || k.regTim > t)) {
 		o.info.dvd = {
 			cn: k.cn
 		};
@@ -756,7 +756,6 @@ LZR.Node.Srv.GuSrv.prototype.updateSav = function (o/*as:Object*/) {
 		}
 	} else {
 		o.info.dvd = null;
-		o.info.dvdTim = 0;
 	}
 
 	// 年报
@@ -986,7 +985,6 @@ LZR.Node.Srv.GuSrv.prototype.crtChartOp = function (d/*as:Object*/) {
 				data: d.x
 			},
 			yAxis: {
-				scale: true,
 				splitArea: {
 					show: true
 				}
@@ -1035,7 +1033,6 @@ LZR.Node.Srv.GuSrv.prototype.crtChartOp = function (d/*as:Object*/) {
 				data: d.x
 			},
 			yAxis: {
-				scale: true,
 				splitArea: {
 					show: true
 				}
@@ -1090,7 +1087,7 @@ LZR.Node.Srv.GuSrv.prototype.crtChartOp.lzrClass_ = LZR.Node.Srv.GuSrv;
 LZR.Node.Srv.GuSrv.prototype.qryReport5 = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	this.db.get (req, res, next,
 		{typ: "report", quarter: 4, year: {"$gte": new Date().getFullYear() - 6}},
-		{"_id": 0, id: 1, year: 1, "profit.np.nt.t": 1},
+		{"_id": 0, id: 1, year: 1, "profit.np.nt": 1, "profit.inc.otyoy": 1},
 	true);
 };
 LZR.Node.Srv.GuSrv.prototype.qryReport5.lzrClass_ = LZR.Node.Srv.GuSrv;
@@ -1101,27 +1098,187 @@ LZR.Node.Srv.GuSrv.prototype.calcNt5 = function (req/*as:Object*/, res/*as:Objec
 	for (i = 0; i < a.length; i ++) {
 		o = d[a[i].id];
 		if (!o) {
-			o = [];
+			o = {
+				nt: [],	// 扣非净利润
+				nty: [],		// 扣非净利润同比
+				ntymin: 0,	// 扣非净利润同比最小值
+				oty: [],	// 营业收入同比
+				otymin: 0	// 营业收入同比最小值
+			};
 			d[a[i].id] = o;
 		}
-		if (a[i].profit.np.nt.t) {
-			o.push(a[i].profit.np.nt.t);
-			if (o.length > 5) {
-				o.shift();
+
+		// 扣非净利润
+		s = LZR.fillPro(a[i], "profit.np.nt.t", true);
+		if (s) {
+			o.nt.push(s);
+			if (o.nt.length > 5) {
+				o.nt.shift();
+			}
+		}
+
+		// 扣非净利润同比
+		s = LZR.fillPro(a[i], "profit.np.nt.yoy", true);
+		if (s) {
+			o.nty.push(s);
+			if (o.nty.length > 5) {
+				o.nty.shift();
+			}
+			if (!o.ntymin) {
+				o.ntymin = s;
+			} else if (s < o.ntymin) {
+				o.ntymin = s;
+			}
+		}
+
+		// 营业收入同比
+		s = LZR.fillPro(a[i], "profit.inc.otyoy", true);
+		if (s) {
+			o.oty.push(s);
+			if (o.oty.length > 5) {
+				o.oty.shift();
+			}
+			if (!o.otymin) {
+				o.otymin = s;
+			} else if (s < o.otymin) {
+				o.otymin = s;
 			}
 		}
 	}
 	for (s in d) {
-		if (d[s].length) {
-			o = 0;
-			for (i = 0; i < d[s].length; i ++) {
-				o += d[s][i];
-			}
-			this.db.mdb.qry("setGu", null, null, null, [{typ:"info", id:s}, {"$set": {
-				wc:{nt5: o / d[s].length}
-			}}]);
+		o = [0, 0, 0];
+		for (i = 0; i < d[s].nt.length; i ++) {
+			o[0] += d[s].nt[i];
 		}
+		for (i = 0; i < d[s].nty.length; i ++) {
+			o[1] += d[s].nty[i];
+		}
+		for (i = 0; i < d[s].oty.length; i ++) {
+			o[2] += d[s].oty[i];
+		}
+		this.db.mdb.qry("setGu", null, null, null, [{typ:"info", id:s}, {"$set": {
+			wc:{
+				nt5: o[0] / d[s].nt.length,
+				nt5yoy: o[1] / d[s].nty.length,
+				nt5yoyMin: d[s].ntymin,
+				ot5yoy: o[2] / d[s].oty.length,
+				ot5yoyMin: d[s].otymin
+			}
+		}}]);
 	}
 	res.send("OK!");
 };
 LZR.Node.Srv.GuSrv.prototype.calcNt5.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 年报查询器数据查询
+LZR.Node.Srv.GuSrv.prototype.qrySelecterDat = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	var y, m, d, o, i;
+	if (req.params.y) {
+		y = req.params.y - 0;
+		m = req.params.m ? (req.params.m - 0) : 1;
+	} else {
+		d = new Date();
+		y = d.getFullYear();
+		m = d.getMonth();
+		if (m < 4) {
+			y --;
+			m = 4;
+		} else {
+			m = math.floor(m / 3);
+		}
+	}
+
+	d = LZR.fillPro(req, "qpobj.comDbSrvReturn");
+	o = LZR.fillPro(req, "qpobj.ssdat");
+
+	for (i = 0; i < d.length; i ++) {
+		o[d[i].id] = {
+			id: d[i].id,
+			p: d[i].p,	// 当前价
+			pe: d[i].pe.nt.toFixed(2),	// 相对上年度年报扣非净利润的市盈率
+			pe5: d[i].pe.nt5.toFixed(2),	// 近5年平均扣非净利润的市盈率
+			nt5: (d[i].wc.nt5 / d[i].num).toFixed(2),	// 近5年平均扣非每股收益
+			nt5yoy: d[i].wc.nt5yoy.toFixed(2),	// 近5年平均扣非净利润同比
+			nt5yoyMin: d[i].wc.nt5yoyMin.toFixed(2),	// 近5年扣非净利润同比最小值
+			ot5yoy: d[i].wc.ot5yoy.toFixed(2),	// 近5年平均营业收入同比
+			ot5yoyMin: d[i].wc.ot5yoyMin.toFixed(2),	// 近5年营业收入同比最小值
+			safe: d[i].pe.safe,	// 安全值
+			sim: d[i].sim[0],
+			dvd: d[i].dvd ? ((d[i].dvd.gift ? "送" + d[i].dvd.gift : "") + (d[i].dvd.transfer ? "转" + d[i].dvd.transfer : "") + (d[i].dvd.dividend ? "派息" + d[i].dvd.dividend : "")) : ""
+		};
+	}
+	o = LZR.fillPro(req, "qpobj.tim");
+	o.y = y;
+	o.m = m;
+
+	this.db.get (req, res, next, { typ: "report", year: y, quarter: m },
+		{_id:0, id:1, nam:1, num:1, "main.per.jbmgsy":1,	// 基本每股收益
+			"main.per.mgjzc":1,	// 每股净资产
+			"balance.equity.t":1,	// 净资产
+			"main.per.mggjj":1,	// 每股公积金
+			"balance.equity.parent.CAPITALRESERVE":1,	// 公积金
+			"main.per.mgwfply":1,	// 每股未分配利润
+			"balance.equity.parent.RETAINEDEARNING":1,	// 未分配利润
+			"profit.inc.otyoy":1,	// 营业总收入同比增长
+			"main.grop.gsjlrtbzz":1,	// 归属净利润同比增长
+			"profit.np.nt":1,	// 扣非净利润同比增长
+			"main.profit.jqjzcsyl":1,	// 加权净资产收益率
+			"main.profit.tbjzcsyl":1,	// 摊薄净资产收益率
+			"profit.gpm":1,	// 毛利率
+			"balance.dar":1	// 资产负债率
+		},
+	true);
+};
+LZR.Node.Srv.GuSrv.prototype.qrySelecterDat.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 年报查询器数据整理
+LZR.Node.Srv.GuSrv.prototype.hdSelecterDat = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	// 数据整理
+	var i, d, o;
+	var a = LZR.fillPro(req, "qpobj.ssdat");
+	var b = LZR.fillPro(req, "qpobj.comDbSrvReturn");
+	var fVal = function (o, pro, f) {
+		var r = LZR.fillPro(o, pro, true);
+		return isNaN(r) ? 0 : r.toFixed(f);
+	};
+
+	req.qpobj.ssdat = [];
+	for (i = 0; i < b.length; i ++) {
+		d = b[i];
+		o = a[d.id];
+		o.nam = d.nam;
+		o.num = Math.floor(d.num);
+		o.epsb = fVal(d, "main.per.jbmgsy", 2);	// 基本每股收益
+		o.etp = fVal(d, "main.per.mgjzc", 2);	// 每股净资产
+		o.et = fVal(d, "balance.equity.t", 0);	// 净资产
+		o.nt = fVal(d, "profit.np.nt.t", 2);	// 扣非净利润同比增长
+		o.eps = (o.nt / o.num).toFixed(2);	// 扣非每股收益
+		if (!o.etp) {
+			o.etp = (o.et / o.num).toFixed(2);
+		}
+		o.cap = fVal(d, "main.per.mggjj", 2);	// 每股公积金
+		o.ca = fVal(d, "balance.equity.parent.CAPITALRESERVE", 0);	// 公积金
+		if (!o.cap) {
+			o.cap = (o.ca / o.num).toFixed(2);
+		}
+		o.rtp = fVal(d, "main.per.mgwfply", 2);	// 每股未分配利润
+		o.rt = fVal(d, "balance.equity.parent.RETAINEDEARNING", 0);	// 未分配利润
+		if (!o.rtp) {
+			o.rtp = (o.rt / o.num).toFixed(2);
+		}
+		o.incyoy = fVal(d, "profit.inc.otyoy", 2);	// 营业总收入同比增长
+		o.npyoy = fVal(d, "main.grop.gsjlrtbzz", 2);	// 归属净利润同比增长
+		o.ntyoy = fVal(d, "profit.np.nt.yoy", 2);	// 扣非净利润同比增长
+		o.roe = fVal(d, "main.profit.jqjzcsyl", 2);	// 加权净资产收益率	ROE
+		o.roet = fVal(d, "main.profit.tbjzcsyl", 2);	// 摊薄净资产收益率
+		o.gpm = fVal(d, "profit.gpm", 2);	// 毛利率
+		o.dar = fVal(d, "balance.dar", 2);	// 资产负债率
+
+		o.safe = fVal(o, "safe", 2);
+		o.scd = false;	// 是否选中
+		req.qpobj.ssdat.push(o);
+	}
+
+	next();
+};
+LZR.Node.Srv.GuSrv.prototype.hdSelecterDat.lzrClass_ = LZR.Node.Srv.GuSrv;
