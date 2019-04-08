@@ -1126,8 +1126,6 @@ LZR.Node.Srv.GuSrv.prototype.calcNt5 = function (req/*as:Object*/, res/*as:Objec
 			}
 			if (!o.ntymin) {
 				o.ntymin = s;
-			} else if (s < o.ntymin) {
-				o.ntymin = s;
 			}
 		}
 
@@ -1140,8 +1138,6 @@ LZR.Node.Srv.GuSrv.prototype.calcNt5 = function (req/*as:Object*/, res/*as:Objec
 			}
 			if (!o.otymin) {
 				o.otymin = s;
-			} else if (s < o.otymin) {
-				o.otymin = s;
 			}
 		}
 	}
@@ -1151,10 +1147,18 @@ LZR.Node.Srv.GuSrv.prototype.calcNt5 = function (req/*as:Object*/, res/*as:Objec
 			o[0] += d[s].nt[i];
 		}
 		for (i = 0; i < d[s].nty.length; i ++) {
-			o[1] += d[s].nty[i];
+			a = d[s].nty[i];
+			o[1] += a;
+			if (a < d[s].ntymin) {
+				d[s].ntymin = a;
+			}
 		}
 		for (i = 0; i < d[s].oty.length; i ++) {
-			o[2] += d[s].oty[i];
+			a = d[s].oty[i];
+			o[2] += a;
+			if (a < d[s].otymin) {
+				d[s].otymin = a;
+			}
 		}
 		this.db.mdb.qry("setGu", null, null, null, [{typ:"info", id:s}, {"$set": {
 			wc:{
