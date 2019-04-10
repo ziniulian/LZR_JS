@@ -133,8 +133,8 @@ LZR.Pro.Gu.ParseByEastmoney.prototype.setCop = function (o/*as:Array*/, d/*as:Ob
 };
 LZR.Pro.Gu.ParseByEastmoney.prototype.setCop.lzrClass_ = LZR.Pro.Gu.ParseByEastmoney;
 
-// 解析新浪实时日线
-LZR.Pro.Gu.ParseByEastmoney.prototype.parseK = function (a/*as:string*/, sr/*as:Array*/)/*as:Object*/ {
+// 解析用于收盘的新浪实时日线
+LZR.Pro.Gu.ParseByEastmoney.prototype.parseClosingK = function (a/*as:string*/, sr/*as:Array*/)/*as:Object*/ {
 	var i, j, r, d, t, o, k;
 	a = a.split(";");
 	a.pop();
@@ -152,24 +152,23 @@ LZR.Pro.Gu.ParseByEastmoney.prototype.parseK = function (a/*as:string*/, sr/*as:
 			r.err.push(sr[i]);
 		} else {
 			o = null;
-			// 名称检查
-			j = d[0].indexOf("\"") + 1;
-			j = d[0].substring(j, d[0].length);
-			if (sr[i].nam !== j) {
-				o = {nam: j};
+			if (sr[i].id) {
+				// 名称检查
+				j = d[0].indexOf("\"") + 1;
+				j = d[0].substring(j, d[0].length);
+				if (sr[i].nam !== j) {
+					o = {nam: j};
+				}
 			}
 
 			if (!t) {
-				// t = this.utTim.getDayTimestamp();
 				t = this.getVal(d[30], 4);
 				r.tim = t;
 			}
 
 			if (sr[i].daye < t) {
 				if (this.getVal(d[1], 1)) {
-					j = sr[i].nt / sr[i].num;
 					k = {
-						id: sr[i].id,
 						tim: t,
 						c: this.getVal(d[3], 1),
 						o: this.getVal(d[1], 1),
@@ -178,36 +177,77 @@ LZR.Pro.Gu.ParseByEastmoney.prototype.parseK = function (a/*as:string*/, sr/*as:
 						f: (d[3] - d[2]) / d[2] * 100,
 						v: this.getVal(d[8], 1),
 						t: this.getVal(d[9], 1),
-						cc: d[9] / d[8],
-						p: (j && j > 0.003) ? (d[9] / d[8] / j) : 0,
+						cc: d[9] / d[8]
 					};
-					r.adds.push(k);
 					if (!o) {
 						o = {};
 					}
 					o.daye = t;
 					o.p = k.c;
-					j = sr[i].wc.nt5 / sr[i].num;
-					o.pe = {
-						nt: k.p,
-						nt5: (j && j > 0.003) ? (k.cc / j) : 0
-					};
+					if (sr[i].id) {
+						k.id = sr[i].id;
+						// 计算市盈率
+						j = sr[i].nt / sr[i].num;
+						k.p = (j && j > 0.003) ? (k.cc / j) : 0,
+						j = sr[i].wc.nt5 / sr[i].num;
+						o.pe = {
+							nt: k.p,
+							nt5: (j && j > 0.003) ? (k.cc / j) : 0
+						};
+						r.ok.push([
+							{typ: "info", id: sr[i].id},
+							{"$set": o}
+						]);
+					} else {
+						// 指数收盘
+						k.pid = sr[i].pid;
+						r.ok.push([
+							{typ: "infoP", pid: sr[i].pid},
+							{"$set": o}
+						]);
+					}
+					r.adds.push(k);
 				} else {
 					r.stop.push(sr[i]);
 				}
 			} else {
 				r.miss.push(sr[i].id);
 			}
-
-			if (o) {
-				r.ok.push([
-					{typ: "info", id: sr[i].id},
-					{"$set": o}
-				]);
-			}
 		}
 	}
 
+	return r;
+};
+LZR.Pro.Gu.ParseByEastmoney.prototype.parseClosingK.lzrClass_ = LZR.Pro.Gu.ParseByEastmoney;
+
+// 解析新浪实时日线
+LZR.Pro.Gu.ParseByEastmoney.prototype.parseK = function (r/*as:string*/)/*as:Object*/ {
+	var a, i, j, k, d, t;
+	a = r.split(";");
+	a.pop();
+	r = {length: 0};
+	for (i = 0; i < a.length; i ++) {
+		d = a[i].split(",");
+		if (d.length > 10) {
+			j = d[0].indexOf("=\"");
+			k = d[0].substring(j - 8, j);
+			if (!t) {
+				t = this.getVal(d[30], 4);
+				r.tim = t;
+			}
+			r[k] = {
+				c: this.getVal(d[3], 1),
+				o: this.getVal(d[1], 1),
+				h: this.getVal(d[4], 1),
+				l: this.getVal(d[5], 1),
+				f: (d[3] - d[2]) / d[2] * 100,
+				v: this.getVal(d[8], 1),
+				t: this.getVal(d[9], 1),
+				cc: d[9] / d[8]
+			};
+			r.length ++;
+		}
+	}
 	return r;
 };
 LZR.Pro.Gu.ParseByEastmoney.prototype.parseK.lzrClass_ = LZR.Pro.Gu.ParseByEastmoney;

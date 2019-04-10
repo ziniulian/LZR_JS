@@ -72,7 +72,7 @@ LZR.Node.Srv.GuSrv.prototype.init_.lzrClass_ = LZR.Node.Srv.GuSrv;
 
 // 对构造参数的特殊处理
 LZR.Node.Srv.GuSrv.prototype.hdObj_ = function (obj/*as:Object*/) {
-	
+
 };
 LZR.Node.Srv.GuSrv.prototype.hdObj_.lzrClass_ = LZR.Node.Srv.GuSrv;
 
@@ -82,6 +82,7 @@ LZR.Node.Srv.GuSrv.prototype.init = function () {
 		this.ro = this.tmpRo.ro;
 		this.initAjax();
 
+		var exeGetClosingIds = LZR.bind(this, this.getClosingIds);
 		this.ro.hdPost("*");
 		this.ro.post("/add/", LZR.bind(this, this.addInit));
 		this.ro.post("/add/", LZR.bind(this, this.addSav));
@@ -89,8 +90,8 @@ LZR.Node.Srv.GuSrv.prototype.init = function () {
 		this.ro.post("/qry_mgInfo/update/:id/:init?/", LZR.bind(this, this.updateGetInfo));	// 获取基础数据
 		this.ro.post("/qry_mgInfo/update/:id/:init?/", LZR.bind(this, this.updateGetNum));	// 查询股本
 		this.ro.post("/qry_mgInfo/update/:id/:init?/", LZR.bind(this, this.updateEnd));	// 结束更新
-		this.ro.get("/closing/", this.exeGetAllId);
-		this.ro.get("/closing/", LZR.bind(this, this.closing));
+		this.ro.get("/closing/", exeGetClosingIds);
+		this.ro.get("/closing/", LZR.bind(this, this.closing, "closing"));
 		this.ro.get("/chart/:id/:y?/", LZR.bind(this, this.qryChartDat));
 		this.ro.get("/chart/:id/:y?/", LZR.bind(this, this.crtChart));
 		this.ro.get("/calcNt5/", LZR.bind(this, this.qryReport5));
@@ -98,6 +99,12 @@ LZR.Node.Srv.GuSrv.prototype.init = function () {
 		this.ro.get("/stockSelecter/:y?/:m?/", this.exeGetAllId);
 		this.ro.get("/stockSelecter/:y?/:m?/", LZR.bind(this, this.qrySelecterDat));
 		this.ro.get("/stockSelecter/:y?/:m?/", LZR.bind(this, this.hdSelecterDat));
+		this.ro.get("/addP/:ec/:pid/:nam/", LZR.bind(this, this.addP));
+		this.ro.get("/addP/:ec/:pid/:nam/", LZR.bind(this, this.addHdP));
+		this.ro.get("/catcher/:days/", exeGetClosingIds);
+		this.ro.get("/catcher/:days/", LZR.bind(this, this.closing, "skCatcher"));
+		this.ro.get("/catcher/:days/", LZR.bind(this, this.catcherQryHistary));
+		this.ro.get("/catcher/:days/", LZR.bind(this, this.catcherStatistics));
 	}
 };
 LZR.Node.Srv.GuSrv.prototype.init.lzrClass_ = LZR.Node.Srv.GuSrv;
@@ -224,8 +231,8 @@ LZR.Node.Srv.GuSrv.prototype.initAjax.lzrClass_ = LZR.Node.Srv.GuSrv;
 
 // 新浪实时数据的ajax回调处理
 LZR.Node.Srv.GuSrv.prototype.ajaxHdSinaK = function (r/*as:string*/, req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
-	if (req.qpobj && req.qpobj.gu) {
-		// 更新数据初始化 —— 获取新加代码的名称
+	switch (req.qpobj.skTyp) {	// 新浪K线回调类型
+	case "update":	// 更新数据初始化 —— 获取新加代码的名称
 		var i, j, a, o = LZR.fillPro(req, "qpobj.gu");
 		if (r.indexOf("var hq_str_")) {
 			o.ok = false;
@@ -243,9 +250,9 @@ LZR.Node.Srv.GuSrv.prototype.ajaxHdSinaK = function (r/*as:string*/, req/*as:Obj
 			}
 		}
 		next();
-	} else {
-		// 收盘
-		r = this.parser.parseK(r, LZR.fillPro(req, "qpobj.comDbSrvReturn"));
+		break;
+	case "closing":	// 收盘
+		r = this.parser.parseClosingK(r, LZR.fillPro(req, "qpobj.comDbSrvReturn"));
 		this.closingSav(r);
 		res.send(
 			"<table width=\"50%\"><tr><td>tim</td><td>" + r.tim +
@@ -256,12 +263,19 @@ LZR.Node.Srv.GuSrv.prototype.ajaxHdSinaK = function (r/*as:string*/, req/*as:Obj
 			"<script>console.log(" + this.utJson.toJson(r.stop) +
 			");console.log(" + this.utJson.toJson(r.err) + ");</script>"
 		);
+		break;
+		case "skCatcher":
+			req.qpobj.skCatcher = this.parser.parseK(r);
+			next();
+			break;
 	}
 };
 LZR.Node.Srv.GuSrv.prototype.ajaxHdSinaK.lzrClass_ = LZR.Node.Srv.GuSrv;
 
 // 新浪历史数据的ajax回调处理
 LZR.Node.Srv.GuSrv.prototype.ajaxHdSinaH = function (r/*as:string*/, req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	switch (req.qpobj.skTyp) {
+	case "guH" :	// 股票历史数据
 	var o = LZR.fillPro(req, "qpobj.gu.dat");
 	r = this.parser.parseHistoryK(r, o.id, o.sid[2]);
 
@@ -277,6 +291,40 @@ LZR.Node.Srv.GuSrv.prototype.ajaxHdSinaH = function (r/*as:string*/, req/*as:Obj
 	}
 
 	next();
+	break;
+	case "addHdP" :		// 指数历史数据
+		var i, d, a, p, o;
+		d = eval(r);
+		a = [];
+		if (d && d.length) {
+			p = d[0].open - 0;
+			for (i = 0; i < d.length; i ++) {
+				o = {
+					pid: req.params.pid,
+					tim: this.parser.getVal(d[i].day, 4),
+					c: this.parser.getVal(d[i].close, 1),
+					o: this.parser.getVal(d[i].open, 1),
+					h: this.parser.getVal(d[i].high, 1),
+					l: this.parser.getVal(d[i].low, 1),
+					v: this.parser.getVal(d[i].volume, 1)
+				};
+				o.f = (o.c - p) / p * 100;
+				o.cc = o.c;
+				p = o.c;
+				a.push(o);
+			}
+			this.db.mdb.qry("setGu", null, null, null, [{
+				typ:"infoP", pid: req.params.pid
+			}, {"$set": {
+				days: a[0].tim, daye: o.tim, p: o.c
+			}}]);
+			this.db.mdb.qry("addK", null, null, null, [a]);
+			res.send("OK!");
+		} else {
+			res.send("历史数据获取失败！");
+		}
+		break;
+	}
 };
 LZR.Node.Srv.GuSrv.prototype.ajaxHdSinaH.lzrClass_ = LZR.Node.Srv.GuSrv;
 
@@ -349,6 +397,7 @@ LZR.Node.Srv.GuSrv.prototype.ajaxHdEastCop = function (r/*as:string*/, req/*as:O
 			o.sid[0] = o.sid[0].toLocaleLowerCase();
 			o.sid[1] = 4799;
 			o.sid.push(t);
+			req.qpobj.skTyp = "guH";
 			this.ajax.qry("sinaH", req, res, next, o.sid);
 		} else {
 			next();
@@ -647,6 +696,7 @@ LZR.Node.Srv.GuSrv.prototype.updateGetInfo = function (req/*as:Object*/, res/*as
 	});
 	if (this.tmp) {
 		if (req.params.init) {
+			req.qpobj.skTyp = "update";
 			this.ajax.qry("sinaK", req, res, next, req.qpobj.gu.dat.sid);
 		} else {
 			this.db.get(req, res, next,
@@ -799,15 +849,16 @@ LZR.Node.Srv.GuSrv.prototype.updateEnd = function (req/*as:Object*/, res/*as:Obj
 LZR.Node.Srv.GuSrv.prototype.updateEnd.lzrClass_ = LZR.Node.Srv.GuSrv;
 
 // 收盘
-LZR.Node.Srv.GuSrv.prototype.closing = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+LZR.Node.Srv.GuSrv.prototype.closing = function (typ/*as:string*/, req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	var d = LZR.fillPro(req, "qpobj.comDbSrvReturn");
 	if (d.length) {
 		var i, t, r, s = "";
 		for (i = 0; i < d.length; i ++) {
 			s += d[i].ec;
-			s += d[i].id;
+			s += d[i].id || d[i].pid;
 			s += ",";
 		}
+		req.qpobj.skTyp = typ;
 		this.ajax.qry("sinaK", req, res, next, [s]);
 	} else {
 		res.json(this.clsR.get(null, "缺少代码！"));
@@ -1286,3 +1337,142 @@ LZR.Node.Srv.GuSrv.prototype.hdSelecterDat = function (req/*as:Object*/, res/*as
 	next();
 };
 LZR.Node.Srv.GuSrv.prototype.hdSelecterDat.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 获取全部收盘代码
+LZR.Node.Srv.GuSrv.prototype.getClosingIds = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	this.db.get(req, res, next,
+		{typ: {"$in": ["info", "infoP"]}},
+		{"_id": 0, id: 1, pid: 1, nam: 1, num: 1, ec: 1, nt: 1, wc: 1, daye: 1},
+	true);
+};
+LZR.Node.Srv.GuSrv.prototype.getClosingIds.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 添加指数
+LZR.Node.Srv.GuSrv.prototype.addP = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	this.db.add(req, res, next, {
+		typ: "infoP",
+		pid: req.params.pid,
+	},{
+		typ: "infoP",
+		pid: req.params.pid,
+		nam: req.params.nam,
+		ec: req.params.ec
+	}, true);
+};
+LZR.Node.Srv.GuSrv.prototype.addP.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 补充指数历史数据
+LZR.Node.Srv.GuSrv.prototype.addHdP = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	var o = LZR.fillPro(req, "qpobj.comDbSrvReturn");
+	if (o.result.ok) {
+		req.qpobj.skTyp = "addHdP";
+		this.ajax.qry("sinaH", req, res, next, [req.params.ec + req.params.pid, 10]);
+	} else {
+		res.send(this.clsR.get(null, "添加失败！"));
+	}
+};
+LZR.Node.Srv.GuSrv.prototype.addHdP.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 趋势判断
+LZR.Node.Srv.GuSrv.prototype.calcTrend = function (v/*as:double*/, h/*as:double*/, l/*as:double*/, k/*as:double*/)/*as:string*/ {
+	if (!k) {
+		k = 3;
+	}
+	var d = (h - l) / k;
+	h -= d;
+	l += d;
+	if (v > h) {
+		return "升";
+	} else if (v < l) {
+		return "降";
+	} else {
+		return "平";
+	}
+};
+LZR.Node.Srv.GuSrv.prototype.calcTrend.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 量能抓取器查询历史数据
+LZR.Node.Srv.GuSrv.prototype.catcherQryHistary = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	var r = LZR.fillPro(req, "qpobj.comDbSrvReturn");
+	var d = LZR.fillPro(req, "qpobj.skCatcher");
+	var i, o, s, t, id;
+
+	// 数据整理
+	o = {p:{}, g:{}};
+	for (i = 0; i < r.length; i ++) {
+		if (r[i].id) {
+			t = o.g;
+			id = r[i].id;
+		} else if (r[i].pid) {
+			t = o.p;
+			id = r[i].pid;
+		}
+		s = r[i].ec + id;
+		t[id] = {
+			nam: r[i].nam,
+			num: r[i].num,
+			vMax: d[s].v,	// 最高量
+			vMin: d[s].v,	// 最低量
+			pMax: d[s].h,	// 最高价
+			pMin: d[s].l,	// 最低价
+			vp: 0,	// 平均量
+			vh: 0,	// 高倍率
+			vl: 0,	// 低倍率
+			vc: d[s].v,	// 当前量
+			vf: r[i].num ? d[s].v / r[i].num : 0,	// 换手率
+			c: d[s].c,	// 当前价
+			f: d[s].f,	// 涨幅
+			tc: this.calcTrend(d[s].c, d[s].h, d[s].l),	// 当前趋势
+			t: "平",	// 总趋势
+			dat: []
+		};
+	}
+
+	// 历史查询
+	LZR.fillPro(req, "qpobj.tmpo.qry");
+	req.qpobj.skCatcher = o;
+	req.qpobj.tmpo.qry.tn = "guk";
+	this.db.get(req, res, next, {tim: {"$gt": (d.tim - req.params.days)}}, {"_id":0}, true);
+};
+LZR.Node.Srv.GuSrv.prototype.catcherQryHistary.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 量能抓取器数据统计
+LZR.Node.Srv.GuSrv.prototype.catcherStatistics = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	var r = LZR.fillPro(req, "qpobj.comDbSrvReturn");
+	var d = LZR.fillPro(req, "qpobj.skCatcher");
+	var i, j, o, t, id;
+
+	for (i = 0; i < r.length; i ++) {
+		o = r[i];
+		if (o.id) {
+			t = d.g[o.id];
+		} else if (o.pid) {
+			t = d.p[o.pid];
+		}
+		if (o.v > t.vMax) {
+			t.vMax = o.v;
+		} else if (o.v < t.vMin) {
+			t.vMin = o.v;
+		}
+		if (o.c > t.pMax) {
+			t.pMax = o.c;
+		} else if (o.c < t.pMin) {
+			t.pMin = o.c;
+		}
+		t.vp += o.v;
+		t.dat.push(o);
+	}
+
+	for (i in d) {
+		for (j in d[i]) {
+			t = d[i][j];
+			t.vh = t.vc / t.vMax;
+			t.vl = t.vc / t.vMin;
+			t.vp = t.vp / t.dat.length;
+			t.t = this.calcTrend(t.c, t.pMax, t.pMin, 5);
+		}
+	}
+
+	res.json(d);
+};
+LZR.Node.Srv.GuSrv.prototype.catcherStatistics.lzrClass_ = LZR.Node.Srv.GuSrv;
