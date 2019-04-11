@@ -1395,6 +1395,7 @@ LZR.Node.Srv.GuSrv.prototype.calcTrend.lzrClass_ = LZR.Node.Srv.GuSrv;
 LZR.Node.Srv.GuSrv.prototype.catcherQryHistary = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	var r = LZR.fillPro(req, "qpobj.comDbSrvReturn");
 	var d = LZR.fillPro(req, "qpobj.skCatcher");
+	req.qpobj.days = req.params.days - 0;
 	var i, o, s, t, id;
 
 	// 数据整理
@@ -1409,6 +1410,8 @@ LZR.Node.Srv.GuSrv.prototype.catcherQryHistary = function (req/*as:Object*/, res
 		}
 		s = r[i].ec + id;
 		t[id] = {
+			ec: r[i].ec,
+			id: id,
 			nam: r[i].nam,
 			num: r[i].num,
 			vMax: d[s].v,	// 最高量
@@ -1419,9 +1422,9 @@ LZR.Node.Srv.GuSrv.prototype.catcherQryHistary = function (req/*as:Object*/, res
 			vh: 0,	// 高倍率
 			vl: 0,	// 低倍率
 			vc: d[s].v,	// 当前量
-			vf: r[i].num ? d[s].v / r[i].num : 0,	// 换手率
+			vf: r[i].num ? (d[s].v / r[i].num).toFixed(2) : 0,	// 换手率
 			c: d[s].c,	// 当前价
-			f: d[s].f,	// 涨幅
+			f: d[s].f.toFixed(2),	// 涨幅
 			tc: this.calcTrend(d[s].c, d[s].h, d[s].l),	// 当前趋势
 			t: "平",	// 总趋势
 			dat: []
@@ -1463,16 +1466,20 @@ LZR.Node.Srv.GuSrv.prototype.catcherStatistics = function (req/*as:Object*/, res
 		t.dat.push(o);
 	}
 
+	o = [];
 	for (i in d) {
 		for (j in d[i]) {
 			t = d[i][j];
-			t.vh = t.vc / t.vMax;
-			t.vl = t.vc / t.vMin;
-			t.vp = t.vp / t.dat.length;
+			t.vh = (t.vc / t.vMax).toFixed(2);
+			t.vl = (t.vc / t.vMin).toFixed(2);
+			t.vp = (t.vp / t.dat.length).toFixed(2);
 			t.t = this.calcTrend(t.c, t.pMax, t.pMin, 5);
+			o.push(t);
 		}
 	}
 
-	res.json(d);
+	// res.json(o);
+	req.qpobj.skCatcher = o;
+	next();
 };
 LZR.Node.Srv.GuSrv.prototype.catcherStatistics.lzrClass_ = LZR.Node.Srv.GuSrv;
