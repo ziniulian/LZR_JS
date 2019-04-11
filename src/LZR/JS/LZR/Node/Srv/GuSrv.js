@@ -627,7 +627,7 @@ LZR.Node.Srv.GuSrv.prototype.calcEps.lzrClass_ = LZR.Node.Srv.GuSrv;
 LZR.Node.Srv.GuSrv.prototype.getAllId = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	this.db.get(req, res, next,
 		{typ: "info"},
-		{"_id": 0, id: 1, nam: 1, ec: 1, p: 1, pe: 1, nt: 1, num: 1, rpTim: 1, daye: 1, wc:1, sim:1, dvd:1},
+		{"_id": 0, id: 1, nam: 1, ec: 1, abb: 1, p: 1, pe: 1, nt: 1, num: 1, rpTim: 1, daye: 1, wc:1, sim:1, dvd:1},
 	true);
 };
 LZR.Node.Srv.GuSrv.prototype.getAllId.lzrClass_ = LZR.Node.Srv.GuSrv;
@@ -1249,6 +1249,7 @@ LZR.Node.Srv.GuSrv.prototype.qrySelecterDat = function (req/*as:Object*/, res/*a
 	for (i = 0; i < d.length; i ++) {
 		o[d[i].id] = {
 			id: d[i].id,
+			abb: d[i].abb,
 			p: d[i].p,	// 当前价
 			pe: d[i].pe.nt.toFixed(2),	// 相对上年度年报扣非净利润的市盈率
 			pe5: d[i].pe.nt5.toFixed(2),	// 近5年平均扣非净利润的市盈率
@@ -1342,7 +1343,7 @@ LZR.Node.Srv.GuSrv.prototype.hdSelecterDat.lzrClass_ = LZR.Node.Srv.GuSrv;
 LZR.Node.Srv.GuSrv.prototype.getClosingIds = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	this.db.get(req, res, next,
 		{typ: {"$in": ["info", "infoP"]}},
-		{"_id": 0, id: 1, pid: 1, nam: 1, num: 1, ec: 1, nt: 1, wc: 1, daye: 1},
+		{"_id": 0, id: 1, pid: 1, nam: 1, num: 1, ec: 1, abb: 1, nt: 1, wc: 1, daye: 1},
 	true);
 };
 LZR.Node.Srv.GuSrv.prototype.getClosingIds.lzrClass_ = LZR.Node.Srv.GuSrv;
@@ -1366,7 +1367,7 @@ LZR.Node.Srv.GuSrv.prototype.addHdP = function (req/*as:Object*/, res/*as:Object
 	var o = LZR.fillPro(req, "qpobj.comDbSrvReturn");
 	if (o.result.ok) {
 		req.qpobj.skTyp = "addHdP";
-		this.ajax.qry("sinaH", req, res, next, [req.params.ec + req.params.pid, 10]);
+		this.ajax.qry("sinaH", req, res, next, [req.params.ec + req.params.pid, 4799]);
 	} else {
 		res.send(this.clsR.get(null, "添加失败！"));
 	}
@@ -1413,19 +1414,20 @@ LZR.Node.Srv.GuSrv.prototype.catcherQryHistary = function (req/*as:Object*/, res
 			ec: r[i].ec,
 			id: id,
 			nam: r[i].nam,
+			abb: r[i].abb,
 			num: r[i].num,
-			vMax: d[s].v,	// 最高量
-			vMin: d[s].v,	// 最低量
-			pMax: d[s].h,	// 最高价
-			pMin: d[s].l,	// 最低价
+			vMax: 0,	// 最高量
+			vMin: 0,	// 最低量
+			pMax: 0,	// 最高价
+			pMin: 0,	// 最低价
 			vp: 0,	// 平均量
 			vh: 0,	// 高倍率
 			vl: 0,	// 低倍率
 			vc: d[s].v,	// 当前量
-			vf: r[i].num ? (d[s].v / r[i].num).toFixed(2) : 0,	// 换手率
+			vf: r[i].num ? (d[s].v / r[i].num * 100).toFixed(2) : 0,	// 换手率
 			c: d[s].c,	// 当前价
 			f: d[s].f.toFixed(2),	// 涨幅
-			tc: this.calcTrend(d[s].c, d[s].h, d[s].l),	// 当前趋势
+			tc: "平",	// 当前趋势
 			t: "平",	// 总趋势
 			dat: []
 		};
@@ -1435,7 +1437,7 @@ LZR.Node.Srv.GuSrv.prototype.catcherQryHistary = function (req/*as:Object*/, res
 	LZR.fillPro(req, "qpobj.tmpo.qry");
 	req.qpobj.skCatcher = o;
 	req.qpobj.tmpo.qry.tn = "guk";
-	this.db.get(req, res, next, {tim: {"$gt": (d.tim - req.params.days)}}, {"_id":0}, true);
+	this.db.get(req, res, next, {tim: {"$gte": (d.tim - req.params.days)}}, {"_id":0}, true);
 };
 LZR.Node.Srv.GuSrv.prototype.catcherQryHistary.lzrClass_ = LZR.Node.Srv.GuSrv;
 
@@ -1443,7 +1445,7 @@ LZR.Node.Srv.GuSrv.prototype.catcherQryHistary.lzrClass_ = LZR.Node.Srv.GuSrv;
 LZR.Node.Srv.GuSrv.prototype.catcherStatistics = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	var r = LZR.fillPro(req, "qpobj.comDbSrvReturn");
 	var d = LZR.fillPro(req, "qpobj.skCatcher");
-	var i, j, o, t, id;
+	var i, j, k, o, t;
 
 	for (i = 0; i < r.length; i ++) {
 		o = r[i];
@@ -1452,28 +1454,47 @@ LZR.Node.Srv.GuSrv.prototype.catcherStatistics = function (req/*as:Object*/, res
 		} else if (o.pid) {
 			t = d.p[o.pid];
 		}
-		if (o.v > t.vMax) {
+		if (!t.vMax) {
 			t.vMax = o.v;
-		} else if (o.v < t.vMin) {
 			t.vMin = o.v;
-		}
-		if (o.c > t.pMax) {
-			t.pMax = o.c;
-		} else if (o.c < t.pMin) {
-			t.pMin = o.c;
+			t.pMax = o.h;
+			t.pMin = o.l;
+		} else {
+			if (o.v > t.vMax) {
+				t.vMax = o.v;
+			} else if (o.v < t.vMin) {
+				t.vMin = o.v;
+			}
+			if (o.h > t.pMax) {
+				t.pMax = o.h;
+			} else if (o.l < t.pMin) {
+				t.pMin = o.l;
+			}
 		}
 		t.vp += o.v;
 		t.dat.push(o);
 	}
 
 	o = [];
+	r = {
+		sh: d.p["000001"].f,
+		sz: d.p["399001"].f
+	};
 	for (i in d) {
 		for (j in d[i]) {
 			t = d[i][j];
-			t.vh = (t.vc / t.vMax).toFixed(2);
-			t.vl = (t.vc / t.vMin).toFixed(2);
-			t.vp = (t.vp / t.dat.length).toFixed(2);
+			t.vh = t.vMax ? (t.vc / t.vMax).toFixed(2) : 0;
+			t.vl = t.vMin ? (t.vc / t.vMin).toFixed(2) : 0;
+			t.vp = t.dat.length ? (t.vp / t.dat.length).toFixed(0) : 0;
 			t.t = this.calcTrend(t.c, t.pMax, t.pMin, 5);
+
+			// 判断当前趋势
+			k = t.f - r[t.ec];
+			if (k > 2.5) {
+				t.tc = "升";
+			} else if (k < -2.5) {
+				t.tc = "降";
+			}
 			o.push(t);
 		}
 	}
