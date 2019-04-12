@@ -105,6 +105,9 @@ LZR.Node.Srv.GuSrv.prototype.init = function () {
 		this.ro.get("/catcher/:days/", LZR.bind(this, this.closing, "skCatcher"));
 		this.ro.get("/catcher/:days/", LZR.bind(this, this.catcherQryHistary));
 		this.ro.get("/catcher/:days/", LZR.bind(this, this.catcherStatistics));
+		this.ro.all("/test/", this.exeGetAllId);
+		this.ro.all("/test/", LZR.bind(this, this.testHdIds));
+		this.ro.post("/test/", LZR.bind(this, this.testGetK));
 	}
 };
 LZR.Node.Srv.GuSrv.prototype.init.lzrClass_ = LZR.Node.Srv.GuSrv;
@@ -1504,3 +1507,36 @@ LZR.Node.Srv.GuSrv.prototype.catcherStatistics = function (req/*as:Object*/, res
 	next();
 };
 LZR.Node.Srv.GuSrv.prototype.catcherStatistics.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 整理代码列表
+LZR.Node.Srv.GuSrv.prototype.testHdIds = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	var o = LZR.fillPro(req, "qpobj");
+	o.ids = LZR.fillPro(req, "qpobj.comDbSrvReturn");
+	next();
+};
+LZR.Node.Srv.GuSrv.prototype.testHdIds.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 获取个股的历史K线数据
+LZR.Node.Srv.GuSrv.prototype.testGetK = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	if (!req.body.id) {
+		next();
+		return;
+	}
+
+	var d, t, o = LZR.fillPro(req, "qpobj.tmpo.qry");
+	o.tn = "guk";
+	d = {id: req.body.id};
+
+	t = this.utTim.getDayTimestamp(req.body.days + " 0:0");
+	if (t) {
+		d.tim = {"$gte": t}
+	}
+	t = this.utTim.getDayTimestamp(req.body.daye + " 0:0");
+	if (t) {
+		LZR.fillPro(d, "tim")["$lte"] = t;
+	}
+
+	req.qpobj.pop = req.body;
+	this.db.get(req, res, next, d, {"_id":0, id:0}, true);
+};
+LZR.Node.Srv.GuSrv.prototype.testGetK.lzrClass_ = LZR.Node.Srv.GuSrv;

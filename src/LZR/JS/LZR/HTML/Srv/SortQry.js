@@ -219,11 +219,11 @@ LZR.HTML.Srv.SortQry.prototype.flush = function () {
 
 	if (i < this.tmp.length) {
 		p = i;
-		this.crtPagNum(topDom, p, (n < this.tmp.length));	/* 生成页码 */
+		this.crtPagNum(this.pagNumTopDoe, p, (n < this.tmp.length));	/* 生成页码 */
 		for (; (i < n) && (i < this.tmp.length); i ++) {
 			this.crtRow(this.tmp[i]);
 		}
-		this.crtPagNum(botDom, p, (n < this.tmp.length));	/* 生成页码 */
+		this.crtPagNum(this.pagNumBotDoe, p, (n < this.tmp.length));	/* 生成页码 */
 	}
 };
 LZR.HTML.Srv.SortQry.prototype.flush.lzrClass_ = LZR.HTML.Srv.SortQry;
@@ -240,7 +240,7 @@ LZR.HTML.Srv.SortQry.prototype.sort = function (k/*as:string*/, f/*as:boolean*/,
 	k = this.cs[0][0];
 
 	this.tmp.length = 0;
-	indtDom.innerHTML = "";
+	this.listDoe.innerHTML = "";
 	for (i = this.sr.length - 1; i > 0; i --) {
 		for (j = i - 1; j >= 0; j --) {
 			if (this.f === ((this.sr[i][k] - this.sr[j][k]) ? (this.sr[i][k] - this.sr[j][k] > 0) : (this.sr[i][k] > this.sr[j][k]))) {
@@ -267,7 +267,7 @@ LZR.HTML.Srv.SortQry.prototype.add = function (i/*as:int*/) {
 		this.tmp.unshift(this.sr[i]);
 		d = document.createElement("option");
 		d.value = this.crtKey(i);
-		indtDom.appendChild(d);
+		this.listDoe.appendChild(d);
 	}
 };
 LZR.HTML.Srv.SortQry.prototype.add.lzrClass_ = LZR.HTML.Srv.SortQry;
