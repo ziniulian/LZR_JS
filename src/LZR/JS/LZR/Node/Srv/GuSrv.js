@@ -1529,7 +1529,7 @@ LZR.Node.Srv.GuSrv.prototype.testGetK = function (req/*as:Object*/, res/*as:Obje
 
 	t = this.utTim.getDayTimestamp(req.body.days + " 0:0");
 	if (t) {
-		d.tim = {"$gte": t}
+		d.tim = {"$gte": t};
 	}
 	t = this.utTim.getDayTimestamp(req.body.daye + " 0:0");
 	if (t) {
