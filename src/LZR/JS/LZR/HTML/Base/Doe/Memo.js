@@ -22,6 +22,9 @@ LZR.HTML.Base.Doe.Memo = function (obj) {
 	// 标题缓存
 	this.til = "";	/*as:string*/
 
+	// 显示样式
+	this.css = "";	/*as:string*/
+
 	if (obj && obj.lzrGeneralization_) {
 		obj.lzrGeneralization_.prototype.init_.call(this);
 	} else {
@@ -57,10 +60,13 @@ LZR.HTML.Base.Doe.Memo.prototype.show = function (msg/*as:string*/, t/*as:int*/)
 	}
 	if (this.doe && msg) {
 		this.doe.innerHTML = msg;
+		if (this.css) {
+			this.doe.className = this.css;
+		}
+		if (isNaN(t)) {
+			t = this.timout;
+		}
 		if (t !== 0) {
-			if (!t) {
-				t = this.timout;
-			}
 			this.tid = setTimeout(this.exeHid, t);
 		}
 	}
@@ -71,6 +77,9 @@ LZR.HTML.Base.Doe.Memo.prototype.show.lzrClass_ = LZR.HTML.Base.Doe.Memo;
 LZR.HTML.Base.Doe.Memo.prototype.hid = function () {
 	if (this.doe) {
 		this.doe.innerHTML = "";
+		if (this.css) {
+			this.doe.className = "Lc_nosee";
+		}
 	}
 	if (this.tid) {
 		clearTimeout(this.tid);
