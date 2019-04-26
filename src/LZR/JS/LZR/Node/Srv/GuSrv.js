@@ -22,6 +22,16 @@ LZR.Node.Srv.GuSrv = function (obj) {
 	// 报表模板
 	this.tmp = {};	/*as:Object*/
 
+	// 集合竞价缓存
+	this.bidc = {
+		state: 0,	// 状态
+		ids: {},	// 代码集
+		urls: [],	// 路径集
+		i: 0,	// 路径指针
+		r: [],	// 缓存
+		exeCallAjx: null,	// ajax调用函数
+	};	/*as:Object*/
+
 	// 路由器
 	this.ro/*m*/ = null;	/*as:LZR.Node.Router*/
 
@@ -33,6 +43,12 @@ LZR.Node.Srv.GuSrv = function (obj) {
 
 	// Ajax工具
 	this.ajax/*m*/ = new LZR.Node.Db.NodeAjax();	/*as:LZR.Node.Db.NodeAjax*/
+
+	// 集合竞价Ajax工具
+	this.bidAjx/*m*/ = new LZR.Node.Db.NodeAjax({
+		enc: "gb2312",
+		hd_sqls: {sinaK: "http://hq.sinajs.cn/list=<0>"}
+	});	/*as:LZR.Node.Db.NodeAjax*/
 
 	// 时间工具
 	this.utTim/*m*/ = LZR.getSingleton(LZR.Base.Time);	/*as:LZR.Base.Time*/
@@ -108,6 +124,8 @@ LZR.Node.Srv.GuSrv.prototype.init = function () {
 		this.ro.all("/test/", this.exeGetAllId);
 		this.ro.all("/test/", LZR.bind(this, this.testHdIds));
 		this.ro.post("/test/", LZR.bind(this, this.testGetK));
+		this.ro.get("/bidCollect/", LZR.bind(this, this.bidcGetIds));
+		this.ro.get("/bidCollect/", LZR.bind(this, this.bidcTuch));
 	}
 };
 LZR.Node.Srv.GuSrv.prototype.init.lzrClass_ = LZR.Node.Srv.GuSrv;
@@ -147,8 +165,43 @@ LZR.Node.Srv.GuSrv.prototype.initDb = function () {
 				funs: {
 					deleteMany: ["<0>"]
 				}
+			},
+			getGuk: {	// guk表单基础查询
+				tnam: "guk",
+				funs: {
+					find: ["<0>", "<1>"],
+					toArray: []
+				}
+			},
+			getBid: {	// bid表单基础查询
+				tnam: "bid",
+				funs: {
+					find: ["<0>", "<1>"],
+					toArray: []
+				}
+			},
+			addBid: {	// 添加 bid
+				tnam: "bid",
+				funs: {
+					insertMany: ["<0>"]
+				}
+			},
+			getBidCache: {	// 获取 bid 缓存
+				tnam: "bid",
+				funs: {
+					find: [{cache: {"$exists":true}}, {_id: 0}],
+					toArray: []
+				}
+			},
+			delBidCache: {	// 删除 bid 缓存
+				tnam: "bid",
+				funs: {
+					deleteMany: [{cache: {"$exists":true}}]
+				}
 			}
 		});
+		this.db.mdb.evt.getGuk.add(LZR.bind(this, this.db.comHdGet));
+		this.db.mdb.evt.getBid.add(LZR.bind(this, this.db.comHdGet));
 		this.db.mdb.evt.getTmp.add(LZR.bind(this, function (r) {
 			this.tmp = r[0];
 		}));
@@ -229,6 +282,13 @@ LZR.Node.Srv.GuSrv.prototype.initAjax = function () {
 	this.ajax.err.eastPf.add(exeHdErr);
 	this.ajax.err.eastCash.add(exeHdErr);
 	this.ajax.err.eastCop.add(exeHdErr);
+
+	// 抓取集合竞价
+	this.bidAjx.evt.sinaK.add (LZR.bind(this, this.bidAjxHdSinaK));
+	this.bidAjx.err.sinaK.add(LZR.bind(this, function (e, req, res, next) {
+		console.log(e);
+		this.bidc.exeCallAjx();
+	}));
 };
 LZR.Node.Srv.GuSrv.prototype.initAjax.lzrClass_ = LZR.Node.Srv.GuSrv;
 
@@ -1437,10 +1497,12 @@ LZR.Node.Srv.GuSrv.prototype.catcherQryHistary = function (req/*as:Object*/, res
 	}
 
 	// 历史查询
-	LZR.fillPro(req, "qpobj.tmpo.qry");
 	req.qpobj.skCatcher = o;
-	req.qpobj.tmpo.qry.tn = "guk";
-	this.db.get(req, res, next, {tim: {"$gte": (d.tim - req.params.days)}}, {"_id":0}, true);
+	this.db.setPro (req, "getGuk", true);
+	this.db.mdb.qry("getGuk", req, res, next, [
+		{tim: {"$gte": (d.tim - req.params.days)}},
+		{"_id":0}
+	]);
 };
 LZR.Node.Srv.GuSrv.prototype.catcherQryHistary.lzrClass_ = LZR.Node.Srv.GuSrv;
 
@@ -1523,10 +1585,8 @@ LZR.Node.Srv.GuSrv.prototype.testGetK = function (req/*as:Object*/, res/*as:Obje
 		return;
 	}
 
-	var d, t, o = LZR.fillPro(req, "qpobj.tmpo.qry");
-	o.tn = "guk";
+	var d, t;
 	d = {id: req.body.id};
-
 	t = this.utTim.getDayTimestamp(req.body.days + " 0:0");
 	if (t) {
 		d.tim = {"$gte": t};
@@ -1537,6 +1597,172 @@ LZR.Node.Srv.GuSrv.prototype.testGetK = function (req/*as:Object*/, res/*as:Obje
 	}
 
 	req.qpobj.pop = req.body;
-	this.db.get(req, res, next, d, {"_id":0, id:0}, true);
+	this.db.setPro (req, "getGuk", true);
+	this.db.mdb.qry("getGuk", req, res, next, [d, {"_id":0, id:0}]);
 };
 LZR.Node.Srv.GuSrv.prototype.testGetK.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 集合竞价抓取器_获取所有股票ID
+LZR.Node.Srv.GuSrv.prototype.bidcGetIds = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	if (this.bidc.state === 0) {
+		// 状态初始化
+		this.bidc.state = 1;
+		this.bidc.ids = {};
+		this.bidc.i = 0;
+		this.bidc.r = [];
+		this.bidc.exeCallAjx = LZR.bind(this, function () {
+			this.bidAjx.qry("sinaK", req, res, next, [this.bidc.urls[this.bidc.i]]);
+		}),
+
+		// 数据库查询所有ID
+		this.db.setPro (req, "getBid", true);
+		this.db.mdb.qry("getBid", req, res, next, [
+			{typ:{"$exists":true}},
+			{"_id":0, typ:1, ids:1}
+		]);
+	} else {
+		res.send(this.bidc.state + " : 正在抓取中，请稍候 ...");
+	}
+};
+LZR.Node.Srv.GuSrv.prototype.bidcGetIds.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 集合竞价抓取器_触发抓取
+LZR.Node.Srv.GuSrv.prototype.bidcTuch = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	var i, j, s, a = req.qpobj.comDbSrvReturn;
+	for (i = 0; i < a.length; i ++) {
+		for (j = 0; j < a[i].ids.length; j ++) {
+			this.bidc.ids[a[i].typ + a[i].ids[j]] = 1;
+		}
+	}
+	this.bidc.urls = this.bidcCrtUrls(this.bidc.ids);
+	this.bidc.exeCallAjx();
+};
+LZR.Node.Srv.GuSrv.prototype.bidcTuch.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 集合竞价抓取器_生成路径集
+LZR.Node.Srv.GuSrv.prototype.bidcCrtUrls = function (o/*as:Object*/)/*as:Array*/ {
+	var i, j = 1, s = "", r = [];
+	for (i in o) {
+		s += i;
+		s += ",";
+
+		// 新浪实时数据，每次最多获取900个
+		j ++;
+		if (j > 888) {
+			r.push(s);
+			s = "";
+			j = 1;
+		}
+	}
+	if (s) {
+		r.push(s);
+	}
+	return r;
+};
+LZR.Node.Srv.GuSrv.prototype.bidcCrtUrls.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 集合竞价抓取器_ajax回调处理
+LZR.Node.Srv.GuSrv.prototype.bidAjxHdSinaK = function (r/*as:string*/, req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	var i, j, a, d, o;
+	a = r.split(";");
+	a.pop();
+	for (i = 0; i < a.length; i ++) {
+		d = a[i].split(",");
+		j = d[0].indexOf("=\"");
+		d[0] = d[0].substring(j - 8, j);
+		switch (this.bidc.state) {
+			case 3:	// 满一轮，已剔除所有无效ID
+				o = this.bidcCrtCache(d);
+				this.bidc.r.push(o);
+				if (o.o) {
+					this.bidc.state = 4;
+					LZR.del(this.bidc.ids, d[0]);
+				}
+				break;
+			case 4:	// 出现了开盘价
+				o = this.bidcCrtCache(d);
+				this.bidc.r.push(o);
+				if (o.tim >= "09:25:00") {
+					// 剔除已开盘的数据
+					LZR.del(this.bidc.ids, d[0]);
+				}
+				break;
+			case 2:	// 已做出HTTP应答，但未满一轮
+				if (!d[32] || d[32] !== "00\"") {
+					// 剔除无效ID
+					LZR.del(this.bidc.ids, d[0]);
+				} else {
+					this.bidc.r.push(this.bidcCrtCache(d));
+				}
+				break;
+			case 1:	// 初始状态
+				if (!d[32] || d[32] !== "00\"") {
+					// 剔除无效ID
+					LZR.del(this.bidc.ids, d[0]);
+				// } else if (d[31] > "09:25:00" && (d[1] - 0) !== 0) {
+				} else if (d[31] < "09:25:00" && (d[1] - 0) === 0) {
+					this.bidc.state = 2;
+					res.send("OK！");
+					this.bidc.r.push(this.bidcCrtCache(d));
+				} else {
+					// 不在有效时间范围内
+					this.bidc.state = 0;
+					res.send("不在有效时间范围内，无法抓取数据！");
+					return;
+				}
+				break;
+		}
+	}
+
+console.log(this.bidc.i);
+	this.bidc.i ++;
+	if (this.bidc.i < this.bidc.urls.length) {
+		this.bidc.exeCallAjx();
+	} else {
+		this.db.mdb.qry("addBid", null, null, null, [[{cache: this.bidc.r}]]);	// 缓存至数据库
+		switch (this.bidc.state) {
+			case 2:
+				this.bidc.state = 3;	// 满一轮
+				this.bidc.urls = this.bidcCrtUrls(this.bidc.ids);
+				break;
+			case 4:
+				this.bidc.urls = this.bidcCrtUrls(this.bidc.ids);
+				break;
+			default:
+console.log("未知异常：" + this.bidc.state);
+				return;
+		}
+
+		// 更新路径
+		if (this.bidc.urls.length) {
+			this.bidc.i = 0;
+			this.bidc.r = [];
+			setTimeout(this.bidc.exeCallAjx, 500);
+		} else {
+			// 数据整理
+			this.bidc.state = 5;	// 数据整理状态
+			console.log("222");
+		}
+	}
+};
+LZR.Node.Srv.GuSrv.prototype.bidAjxHdSinaK.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 集合竞价抓取器_生成缓存信息
+LZR.Node.Srv.GuSrv.prototype.bidcCrtCache = function (a/*as:Array*/)/*as:Object*/ {
+	var o = {
+		id: a[0],
+		o: a[1] - 0,	// 开盘价 （集合竞价时，此值为 0）
+		v: a[8] - 0,	// 成交量 （集合竞价时，此值为 0）
+		p: a[11] - 0,	// 买一价
+		vb: a[10] - 0,	// 买一量
+		ps: a[21] - 0,	// 卖一价
+		vs: a[20] - 0,	// 卖一量
+		tim: a[31]	// 时间
+	};
+	if (!o.o) {
+		o.vb += (a[12] - 0);	// 买量 = 买一 + 买二
+		o.vs += (a[22] - 0);	// 卖量 = 卖一 + 卖二
+	}
+	return o;
+};
+LZR.Node.Srv.GuSrv.prototype.bidcCrtCache.lzrClass_ = LZR.Node.Srv.GuSrv;

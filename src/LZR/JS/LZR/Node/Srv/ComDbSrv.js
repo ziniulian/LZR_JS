@@ -480,3 +480,18 @@ LZR.Node.Srv.ComDbSrv.prototype.setPro = function (req/*as:Object*/, typ/*as:str
 	req.qpobj.comDbSrvNoRes = noRes;
 };
 LZR.Node.Srv.ComDbSrv.prototype.setPro.lzrClass_ = LZR.Node.Srv.ComDbSrv;
+
+// 通用get处理
+LZR.Node.Srv.ComDbSrv.prototype.comHdGet = function (r/*as:Array*/, req/*as:Object*/, res/*as:Object*/, next/*as:fun*/, noRes/*as:boolean*/) {
+	if (req.qpobj.comDbSrvNoRes) {
+		req.qpobj.comDbSrvReturn = r;
+		next();
+	} else {
+		if (r.length) {
+			res.json(this.clsR.get(r));
+		} else {
+			res.json(this.clsR.get(null, "暂无数据"));
+		}
+	}
+};
+LZR.Node.Srv.ComDbSrv.prototype.comHdGet.lzrClass_ = LZR.Node.Srv.ComDbSrv;

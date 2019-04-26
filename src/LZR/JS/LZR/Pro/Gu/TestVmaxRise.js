@@ -57,16 +57,14 @@ LZR.Pro.Gu.TestVmaxRise.prototype.getProInit.lzrClass_ = LZR.Pro.Gu.TestVmaxRise
 
 // ----获取参数
 LZR.Pro.Gu.TestVmaxRise.prototype.getPro = function () {
-	this.cp = {
-		h: zsy.value / 100 + 1,	// 止盈
-		l: zss.value / -100 + 1,	// 止损
-		f: sf.value - 0,	// 幅度
-		d: dayd.value - 0,	// 天数周期
-		p: 0,	// 价周期
-		v: dayv.value - 0,	// 量周期
-		days: this.utTim.getDayTimestamp(days.value + " 0:0"),	// 起始时间
-		daye: this.utTim.getDayTimestamp(daye.value + " 0:0")	// 结束时间
-	};
+	this.cp.h = zsy.value / 100 + 1;	// 止盈
+	this.cp.l = zss.value / -100 + 1;	// 止损
+	this.cp.f = sf.value - 0;	// 幅度
+	this.cp.d = dayd.value - 0;	// 天数周期
+	this.cp.p = 0;	// 价周期
+	this.cp.v = dayv.value - 0;	// 量周期
+	this.cp.days = this.utTim.getDayTimestamp(days.value + " 0 =0");	// 起始时间
+	this.cp.daye = this.utTim.getDayTimestamp(daye.value + " 0:0");	// 结束时间
 };
 LZR.Pro.Gu.TestVmaxRise.prototype.getPro.lzrClass_ = LZR.Pro.Gu.TestVmaxRise;
 
