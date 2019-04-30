@@ -202,6 +202,7 @@ LZR.Node.Srv.GuSrv.prototype.initDb = function () {
 		});
 		this.db.mdb.evt.getGuk.add(LZR.bind(this, this.db.comHdGet));
 		this.db.mdb.evt.getBid.add(LZR.bind(this, this.db.comHdGet));
+		this.db.mdb.evt.getBidCache.add(LZR.bind(this, this.bidcHdCache));
 		this.db.mdb.evt.getTmp.add(LZR.bind(this, function (r) {
 			this.tmp = r[0];
 		}));
@@ -1682,7 +1683,7 @@ LZR.Node.Srv.GuSrv.prototype.bidAjxHdSinaK = function (r/*as:string*/, req/*as:O
 			case 4:	// 出现了开盘价
 				o = this.bidcCrtCache(d);
 				this.bidc.r.push(o);
-				if (o.tim >= "09:25:00") {
+				if (o.o || (o.tim > "09:25:00")) {
 					// 剔除已开盘的数据
 					LZR.del(this.bidc.ids, d[0]);
 				}
@@ -1699,8 +1700,7 @@ LZR.Node.Srv.GuSrv.prototype.bidAjxHdSinaK = function (r/*as:string*/, req/*as:O
 				if (!d[32] || d[32] !== "00\"") {
 					// 剔除无效ID
 					LZR.del(this.bidc.ids, d[0]);
-				// } else if (d[31] > "09:25:00" && (d[1] - 0) !== 0) {
-				} else if (d[31] < "09:25:00" && (d[1] - 0) === 0) {
+				} else if (d[31] < "09:23:33" && (d[1] - 0) === 0) {
 					this.bidc.state = 2;
 					res.send("OK！");
 					this.bidc.r.push(this.bidcCrtCache(d));
@@ -1719,7 +1719,9 @@ console.log(this.bidc.i);
 	if (this.bidc.i < this.bidc.urls.length) {
 		this.bidc.exeCallAjx();
 	} else {
-		this.db.mdb.qry("addBid", null, null, null, [[{cache: this.bidc.r}]]);	// 缓存至数据库
+		if (this.bidc.r.length) {
+			this.db.mdb.qry("addBid", null, null, null, [[{cache: this.bidc.r}]]);	// 缓存至数据库
+		}
 		switch (this.bidc.state) {
 			case 2:
 				this.bidc.state = 3;	// 满一轮
@@ -1737,11 +1739,13 @@ console.log("未知异常：" + this.bidc.state);
 		if (this.bidc.urls.length) {
 			this.bidc.i = 0;
 			this.bidc.r = [];
-			setTimeout(this.bidc.exeCallAjx, 500);
+			setTimeout(this.bidc.exeCallAjx, 1000);
 		} else {
 			// 数据整理
 			this.bidc.state = 5;	// 数据整理状态
-			console.log("222");
+			setTimeout(LZR.bind(this, function () {
+				this.db.mdb.qry("getBidCache");
+			}), 500);
 		}
 	}
 };
@@ -1750,8 +1754,9 @@ LZR.Node.Srv.GuSrv.prototype.bidAjxHdSinaK.lzrClass_ = LZR.Node.Srv.GuSrv;
 // 集合竞价抓取器_生成缓存信息
 LZR.Node.Srv.GuSrv.prototype.bidcCrtCache = function (a/*as:Array*/)/*as:Object*/ {
 	var o = {
-		id: a[0],
+		id: a[0].substr(2),
 		o: a[1] - 0,	// 开盘价 （集合竞价时，此值为 0）
+		c: a[2] - 0,	// 昨日收盘价
 		v: a[8] - 0,	// 成交量 （集合竞价时，此值为 0）
 		p: a[11] - 0,	// 买一价
 		vb: a[10] - 0,	// 买一量
@@ -1766,3 +1771,101 @@ LZR.Node.Srv.GuSrv.prototype.bidcCrtCache = function (a/*as:Array*/)/*as:Object*
 	return o;
 };
 LZR.Node.Srv.GuSrv.prototype.bidcCrtCache.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 集合竞价抓取器_整理缓存
+LZR.Node.Srv.GuSrv.prototype.bidcHdCache = function (a/*as:Array*/) {
+	var i, j, k, o, t, d, r = {};
+	r.tim = this.utTim.getDayTimestamp();
+	r.length = 0;
+	for (i = 0; i < a.length; i ++) {
+		for (j = 0; j < a[i].cache.length; j ++) {
+			o = a[i].cache[j];
+			if (o.p) {
+				d = r[o.id];
+				if (!d) {
+					d = { dat:[], c:o.c, bp:0, sp:0};
+					r[o.id] = d;
+					r.length ++;
+				}
+				if (o.o || (o.tim > "09:25:00")) {
+					if (!d.p) {
+						d.p = o.o;
+						d.v = o.v;
+						if (!d.h) {
+							d.h = o.o;
+							d.l = o.o;
+						}
+						LZR.del (d, "t");
+						d.dat.push(o);
+					}
+				} else {
+					t = {
+						tim: o.tim,
+						p: o.p,
+						v: (o.vb > o.vs) ? o.vs : o.vb,
+						vb: o.vb,
+						vs: o.vs
+					};
+					if (d.t) {
+						if (t.v !== d.t.v || t.p !== d.t.p) {
+							if (t.p > d.h) {
+								d.h = t.p;
+							} else if (t.p < d.l) {
+								d.l = t.p;
+							}
+							if (!d.f20) {
+								// // 找折点，算量差
+								// if (d.tm) {
+								// 	if (t.v > d.t.v) {
+								// 		k = d.tm - d.t.v;
+								// 		d.x.push([k, (k / d.tm * 100)]);
+								// 		d.tm = 0;
+								// 	}
+								// } else if (t.v < d.t.v) {
+								// 	d.tm = d.t.v;
+								// }
+								// if (t.tim > "09:20:00") {
+								// 	d.f20 = t;
+								// 	if (d.tm) {
+								// 		k = d.tm - t.v;
+								// 		d.x.push([k, (k / d.tm * 100)]);
+								// 	}
+								// 	LZR.del (d, "tm");
+								// }
+
+								// 找最大买卖盘
+								if (t.vs > d.s) {
+									d.s = t.vs;
+								}
+								if (t.vb > d.b) {
+									d.b = t.vb;
+								}
+								if (t.tim > "09:20:00") {
+									d.f20 = t;
+									d.bp = d.b / t.vb * 100 - 100;	// 买盘撤单比例
+									d.sp = d.s / t.vs * 100 - 100;	// 卖盘撤单比例
+								}
+							}
+							d.t = t;
+							d.dat.push(t);
+						}
+					} else {
+						d.h = t.p;	// 最高价
+						d.l = t.p;	// 最低价
+						// d.tm = 0;	// 量折点缓存。0:量上升；非零:量下降前的最高点
+						// d.x = [];	// 缩量差
+						d.b = t.vb;	// 最大买盘
+						d.s = t.vs;	// 最大卖盘
+						d.t = t;	// 缓存
+						d.dat.push(t);
+					}
+				}
+			}
+		}
+	}
+
+	this.db.mdb.qry("addBid", null, null, null, [[r]]);	// 保存数据
+	this.db.mdb.qry("delBidCache");	// 删除缓存
+	this.bidc.state = 0;
+};
+LZR.Node.Srv.GuSrv.prototype.bidcHdCache.lzrClass_ = LZR.Node.Srv.GuSrv;
