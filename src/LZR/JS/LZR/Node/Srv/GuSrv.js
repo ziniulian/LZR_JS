@@ -1303,7 +1303,7 @@ LZR.Node.Srv.GuSrv.prototype.qrySelecterDat = function (req/*as:Object*/, res/*a
 			y --;
 			m = 4;
 		} else {
-			m = math.floor(m / 3);
+			m = Math.floor(m / 3);
 		}
 	}
 
