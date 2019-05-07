@@ -1727,6 +1727,7 @@ console.log(this.bidc.i);
 				this.bidc.state = 3;	// 满一轮
 				this.bidc.urls = this.bidcCrtUrls(this.bidc.ids);
 				break;
+			case 3:
 			case 4:
 				this.bidc.urls = this.bidcCrtUrls(this.bidc.ids);
 				break;
