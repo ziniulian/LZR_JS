@@ -202,3 +202,13 @@ LZR.Node.Router.prototype.hdPost = function (nam/*as:string*/) {
 	}
 };
 LZR.Node.Router.prototype.hdPost.lzrClass_ = LZR.Node.Router;
+
+// 获取Openshift的数据库连接字
+LZR.Node.Router.prototype.getO3dbUrl = function ()/*as:string*/ {
+	var r = "", e = process.env;
+	if (e.O3DB_NAM && e.O3DB_USE && e.O3DB_PWD && e.O3DB_URL) {
+		r = "mongodb://" + e.O3DB_USE + ":" + e.O3DB_PWD + "@" + e.O3DB_URL + "/" + e.O3DB_NAM;
+	}
+	return r;
+};
+LZR.Node.Router.prototype.getO3dbUrl.lzrClass_ = LZR.Node.Router;

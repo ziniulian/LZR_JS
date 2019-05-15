@@ -126,6 +126,8 @@ LZR.Node.Srv.GuSrv.prototype.init = function () {
 		this.ro.post("/test/", LZR.bind(this, this.testGetK));
 		this.ro.get("/bidCollect/", LZR.bind(this, this.bidcGetIds));
 		this.ro.get("/bidCollect/", LZR.bind(this, this.bidcTuch));
+		this.ro.get("/bidOv/", LZR.bind(this, this.bidOvQry));
+		this.ro.get("/bidOv/", LZR.bind(this, this.bidOvHdat));
 	}
 };
 LZR.Node.Srv.GuSrv.prototype.init.lzrClass_ = LZR.Node.Srv.GuSrv;
@@ -1670,6 +1672,7 @@ LZR.Node.Srv.GuSrv.prototype.bidAjxHdSinaK = function (r/*as:string*/, req/*as:O
 	for (i = 0; i < a.length; i ++) {
 		d = a[i].split(",");
 		j = d[0].indexOf("=\"");
+		d.push(d[0].substring(j + 2));	// 名称
 		d[0] = d[0].substring(j - 8, j);
 		switch (this.bidc.state) {
 			case 3:	// 满一轮，已剔除所有无效ID
@@ -1700,7 +1703,7 @@ LZR.Node.Srv.GuSrv.prototype.bidAjxHdSinaK = function (r/*as:string*/, req/*as:O
 				if (!d[32] || d[32] !== "00\"") {
 					// 剔除无效ID
 					LZR.del(this.bidc.ids, d[0]);
-				} else if (d[31] < "09:23:33" && (d[1] - 0) === 0) {
+				} else if (d[31] < "09:23:33" && d[31] > "09:14:59" && (d[1] - 0) === 0) {
 					this.bidc.state = 2;
 					res.send("OK！");
 					this.bidc.r.push(this.bidcCrtCache(d));
@@ -1743,6 +1746,7 @@ console.log("未知异常：" + this.bidc.state);
 			setTimeout(this.bidc.exeCallAjx, 1000);
 		} else {
 			// 数据整理
+console.log("OK!");
 			this.bidc.state = 5;	// 数据整理状态
 			setTimeout(LZR.bind(this, function () {
 				this.db.mdb.qry("getBidCache");
@@ -1756,6 +1760,7 @@ LZR.Node.Srv.GuSrv.prototype.bidAjxHdSinaK.lzrClass_ = LZR.Node.Srv.GuSrv;
 LZR.Node.Srv.GuSrv.prototype.bidcCrtCache = function (a/*as:Array*/)/*as:Object*/ {
 	var o = {
 		id: a[0].substr(2),
+		nam: a[33],		// 名称
 		o: a[1] - 0,	// 开盘价 （集合竞价时，此值为 0）
 		c: a[2] - 0,	// 昨日收盘价
 		v: a[8] - 0,	// 成交量 （集合竞价时，此值为 0）
@@ -1784,7 +1789,17 @@ LZR.Node.Srv.GuSrv.prototype.bidcHdCache = function (a/*as:Array*/) {
 			if (o.p) {
 				d = r[o.id];
 				if (!d) {
-					d = { dat:[], c:o.c, bp:0, sp:0};
+					d = {
+						id:o.id,
+						nam:o.nam,
+						c:o.c,	// 昨收
+						hf: 0,	// 最高幅度
+						lf: 0,	// 最低幅度
+						of: 0,	// 开盘幅度
+						bp:0,	// 买盘撤单比例
+						sp:0,	// 卖盘撤单比例
+						dat:[]
+					};
 					r[o.id] = d;
 					r.length ++;
 				}
@@ -1795,6 +1810,13 @@ LZR.Node.Srv.GuSrv.prototype.bidcHdCache = function (a/*as:Array*/) {
 						if (!d.h) {
 							d.h = o.o;
 							d.l = o.o;
+						}
+						if (d.p) {
+							d.hf = d.h / d.c * 100 -100;
+						}
+						if (d.h) {
+							d.lf = d.l / d.c * 100 -100;
+							d.of = d.p / d.c * 100 -100;
 						}
 						LZR.del (d, "t");
 						d.dat.push(o);
@@ -1843,8 +1865,8 @@ LZR.Node.Srv.GuSrv.prototype.bidcHdCache = function (a/*as:Array*/) {
 								}
 								if (t.tim > "09:20:00") {
 									d.f20 = t;
-									d.bp = d.b / t.vb * 100 - 100;	// 买盘撤单比例
-									d.sp = d.s / t.vs * 100 - 100;	// 卖盘撤单比例
+									d.bp = d.b / t.vb * 100 - 100;
+									d.sp = d.s / t.vs * 100 - 100;
 								}
 							}
 							d.t = t;
@@ -1870,3 +1892,48 @@ LZR.Node.Srv.GuSrv.prototype.bidcHdCache = function (a/*as:Array*/) {
 	this.bidc.state = 0;
 };
 LZR.Node.Srv.GuSrv.prototype.bidcHdCache.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 集合竞价概览_数据查询
+LZR.Node.Srv.GuSrv.prototype.bidOvQry = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	this.db.setPro (req, "getBid", true);
+	this.db.mdb.qry("getBid", req, res, next, [
+		{tim : this.utTim.getDayTimestamp()}, {"_id" : 0, tim: 0, length: 0}
+	]);
+};
+LZR.Node.Srv.GuSrv.prototype.bidOvQry.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 集合竞价概览_数据整理
+LZR.Node.Srv.GuSrv.prototype.bidOvHdat = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	var s, r = [], a = req.qpobj.comDbSrvReturn;
+	if (a.length) {
+		a = a[0];
+		for (s in a) {
+			if (a[s].t && !a[s].p) {
+				// 修正不完整的数据
+				a[s].p = a[s].t.p;
+				a[s].v = a[s].t.v;
+				LZR.del(a[s], "t");
+				// r.push(a[s]);
+			}
+			LZR.del(a[s], "dat");
+			LZR.del(a[s], "f20");
+			LZR.del(a[s], "b");
+			LZR.del(a[s], "s");
+			a[s].hf = a[s].hf.toFixed(2);
+			a[s].lf = a[s].lf.toFixed(2);
+			a[s].of = a[s].of.toFixed(2);
+			if (a[s].sp === undefined) {
+				a[s].sp = 0;
+				a[s].bp = 0;
+			} else {
+				a[s].sp = a[s].sp.toFixed(0);
+				a[s].bp = a[s].bp.toFixed(0);
+			}
+
+			r.push(a[s]);
+		}
+	}
+	req.qpobj.bids = r;
+	next();
+};
+LZR.Node.Srv.GuSrv.prototype.bidOvHdat.lzrClass_ = LZR.Node.Srv.GuSrv;

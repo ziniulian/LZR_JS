@@ -92,9 +92,12 @@ LZR.Node.Router.QryTmp.prototype.init = function (nam/*as:string*/) {
 
 		// 对数据库进行错误处理
 		var hdErr = LZR.bind(this, function (e, req, res, next) {
-// console.log (e);
-			req.qpobj.comDbSrvReturn = {ErrQryTmp: e};
-			next();
+			if (req) {
+				req.qpobj.comDbSrvReturn = {ErrQryTmp: e};
+				next();
+			} else {
+console.log (e);
+			}
 		});
 		for (var s in this.db.mdb.err) {
 			this.db.mdb.err[s].add(hdErr);
