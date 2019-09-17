@@ -172,6 +172,7 @@ LZR.Pro.Gu.ParseByEastmoney.prototype.parseClosingK = function (a/*as:string*/, 
 						tim: t,
 						c: this.getVal(d[3], 1),
 						o: this.getVal(d[1], 1),
+						y: this.getVal(d[2], 1),	// 昨日收盘价
 						h: this.getVal(d[4], 1),
 						l: this.getVal(d[5], 1),
 						f: (d[3] - d[2]) / d[2] * 100,
@@ -186,9 +187,10 @@ LZR.Pro.Gu.ParseByEastmoney.prototype.parseClosingK = function (a/*as:string*/, 
 					o.p = k.c;
 					if (sr[i].id) {
 						k.id = sr[i].id;
+						k.hr = k.v / sr[i].num * 100;	// 计算换手率
 						// 计算市盈率
 						j = sr[i].nt / sr[i].num;
-						k.p = (j && j > 0.003) ? (k.cc / j) : 0,
+						k.p = (j && j > 0.003) ? (k.cc / j) : 0;
 						j = sr[i].wc.nt5 / sr[i].num;
 						o.pe = {
 							nt: k.p,
@@ -304,7 +306,7 @@ LZR.Pro.Gu.ParseByEastmoney.prototype.parseHistoryK.lzrClass_ = LZR.Pro.Gu.Parse
 // 解析股本
 LZR.Pro.Gu.ParseByEastmoney.prototype.parseNum = function (d/*as:string*/, id/*as:string*/)/*as:Array*/ {
 	d = this.utJson.toObj(d);
-	if (!d || !d.ShareChangeList) {
+	if (!d || !d.ShareChangeList || (d.ShareChangeList.length === 0)) {		// 2019-6-20，小天鹅退市后，ShareChangeList 数组变为了空数组。
 		return null;
 	}
 	var i, j, k, n, o = [];
@@ -364,23 +366,25 @@ LZR.Pro.Gu.ParseByEastmoney.prototype.parseDvd = function (d/*as:string*/, id/*a
 				cn: this.getVal(a, 1)
 			};
 			a = a.match(/[送转派后][\d\.]+/g);
-			for (j = 0; j < a.length; j ++) {
-				switch (a[j][0]) {
-					case "送":
-						k.gift = this.getVal(a[j].substr(1), 1);
-						break;
-					case "转":
-						k.transfer = this.getVal(a[j].substr(1), 1);
-						break;
-					case "派":
-						k.dividend = this.getVal(a[j].substr(1), 1);
-						break;
-					case "后":
-						k.dt = this.getVal(a[j].substr(1), 1);
-						break;
+			if (a && a.length) {	// 解决 600705 出现 "暂缓分配" 的特殊词汇
+				for (j = 0; j < a.length; j ++) {
+					switch (a[j][0]) {
+						case "送":
+							k.gift = this.getVal(a[j].substr(1), 1);
+							break;
+						case "转":
+							k.transfer = this.getVal(a[j].substr(1), 1);
+							break;
+						case "派":
+							k.dividend = this.getVal(a[j].substr(1), 1);
+							break;
+						case "后":
+							k.dt = this.getVal(a[j].substr(1), 1);
+							break;
+					}
 				}
+				o.push(k);
 			}
-			o.push(k);
 		}
 	}
 

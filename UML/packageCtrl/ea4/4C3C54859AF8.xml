@@ -240,6 +240,7 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
@@ -480,6 +481,7 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=1;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
@@ -738,6 +740,7 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
@@ -1525,6 +1528,7 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="454"/>
 								<UML:TaggedValue tag="ea_targetID" value="520"/>
+								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+utTim"/>
@@ -1581,6 +1585,7 @@
 								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
 								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
 								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 						</UML:Generalization>
@@ -1592,7 +1597,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_AAD5E4E2_3BC0_4c9e_9D46_4C3C54859AF8"/>
 								<UML:TaggedValue tag="date_created" value="2019-04-04 15:28:40"/>
-								<UML:TaggedValue tag="date_modified" value="2019-04-11 10:08:16"/>
+								<UML:TaggedValue tag="date_modified" value="2019-09-17 13:12:45"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\Pro\Gu\ParseByEastmoney.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -1605,7 +1610,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="487"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=635d;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=10ca;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -1972,7 +1977,7 @@
 										<UML:TaggedValue tag="style" value="&#35299;&#26512;&#29992;&#20110;&#25910;&#30424;&#30340;&#26032;&#28010;&#23454;&#26102;&#26085;&#32447;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_F256668B_A152_4487_9D3C_DD5536B25AF2">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var i, j, r, d, t, o, k;&#xA;	a = a.split(&quot;;&quot;);&#xA;	a.pop();&#xA;	r = {&#xA;		ok: [],	// &#38656;&#35201;&#26356;&#26032;&#30340;ID&#xA;		stop: [],	// &#20572;&#29260;&#30340;&#xA;		err: [],	// &#38169;&#35823;&#30340;&#xA;		miss: [],	// &#24050;&#26356;&#26032;&#36807;&#26080;&#38656;&#20877;&#27425;&#25552;&#20132;&#30340;&#xA;		adds: []	// &#38656;&#35201;&#26356;&#26032;&#30340;&#20855;&#20307;&#25968;&#25454;&#xA;	};&#xA;&#xA;	for (i = 0; i &lt; a.length; i ++) {&#xA;		d = a[i].split(&quot;,&quot;);&#xA;		if (d.length &lt; 10) {&#xA;			r.err.push(sr[i]);&#xA;		} else {&#xA;			o = null;&#xA;			if (sr[i].id) {&#xA;				// &#21517;&#31216;&#26816;&#26597;&#xA;				j = d[0].indexOf(&quot;\&quot;&quot;) + 1;&#xA;				j = d[0].substring(j, d[0].length);&#xA;				if (sr[i].nam !== j) {&#xA;					o = {nam: j};&#xA;				}&#xA;			}&#xA;&#xA;			if (!t) {&#xA;				t = this.getVal(d[30], 4);&#xA;				r.tim = t;&#xA;			}&#xA;&#xA;			if (sr[i].daye &lt; t) {&#xA;				if (this.getVal(d[1], 1)) {&#xA;					k = {&#xA;						tim: t,&#xA;						c: this.getVal(d[3], 1),&#xA;						o: this.getVal(d[1], 1),&#xA;						h: this.getVal(d[4], 1),&#xA;						l: this.getVal(d[5], 1),&#xA;						f: (d[3] - d[2]) / d[2] * 100,&#xA;						v: this.getVal(d[8], 1),&#xA;						t: this.getVal(d[9], 1),&#xA;						cc: d[9] / d[8]&#xA;					};&#xA;					if (!o) {&#xA;						o = {};&#xA;					}&#xA;					o.daye = t;&#xA;					o.p = k.c;&#xA;					if (sr[i].id) {&#xA;						k.id = sr[i].id;&#xA;						// &#35745;&#31639;&#24066;&#30408;&#29575;&#xA;						j = sr[i].nt / sr[i].num;&#xA;						k.p = (j &amp;&amp; j &gt; 0.003) ? (k.cc / j) : 0,&#xA;						j = sr[i].wc.nt5 / sr[i].num;&#xA;						o.pe = {&#xA;							nt: k.p,&#xA;							nt5: (j &amp;&amp; j &gt; 0.003) ? (k.cc / j) : 0&#xA;						};&#xA;						r.ok.push([&#xA;							{typ: &quot;info&quot;, id: sr[i].id},&#xA;							{&quot;$set&quot;: o}&#xA;						]);&#xA;					} else {&#xA;						// &#25351;&#25968;&#25910;&#30424;&#xA;						k.pid = sr[i].pid;&#xA;						r.ok.push([&#xA;							{typ: &quot;infoP&quot;, pid: sr[i].pid},&#xA;							{&quot;$set&quot;: o}&#xA;						]);&#xA;					}&#xA;					r.adds.push(k);&#xA;				} else {&#xA;					r.stop.push(sr[i]);&#xA;				}&#xA;			} else {&#xA;				r.miss.push(sr[i].id);&#xA;			}&#xA;		}&#xA;	}&#xA;&#xA;	return r;"/>
+												<UML:Comment name="var i, j, r, d, t, o, k;&#xA;	a = a.split(&quot;;&quot;);&#xA;	a.pop();&#xA;	r = {&#xA;		ok: [],	// &#38656;&#35201;&#26356;&#26032;&#30340;ID&#xA;		stop: [],	// &#20572;&#29260;&#30340;&#xA;		err: [],	// &#38169;&#35823;&#30340;&#xA;		miss: [],	// &#24050;&#26356;&#26032;&#36807;&#26080;&#38656;&#20877;&#27425;&#25552;&#20132;&#30340;&#xA;		adds: []	// &#38656;&#35201;&#26356;&#26032;&#30340;&#20855;&#20307;&#25968;&#25454;&#xA;	};&#xA;&#xA;	for (i = 0; i &lt; a.length; i ++) {&#xA;		d = a[i].split(&quot;,&quot;);&#xA;		if (d.length &lt; 10) {&#xA;			r.err.push(sr[i]);&#xA;		} else {&#xA;			o = null;&#xA;			if (sr[i].id) {&#xA;				// &#21517;&#31216;&#26816;&#26597;&#xA;				j = d[0].indexOf(&quot;\&quot;&quot;) + 1;&#xA;				j = d[0].substring(j, d[0].length);&#xA;				if (sr[i].nam !== j) {&#xA;					o = {nam: j};&#xA;				}&#xA;			}&#xA;&#xA;			if (!t) {&#xA;				t = this.getVal(d[30], 4);&#xA;				r.tim = t;&#xA;			}&#xA;&#xA;			if (sr[i].daye &lt; t) {&#xA;				if (this.getVal(d[1], 1)) {&#xA;					k = {&#xA;						tim: t,&#xA;						c: this.getVal(d[3], 1),&#xA;						o: this.getVal(d[1], 1),&#xA;						y: this.getVal(d[2], 1),	// &#26152;&#26085;&#25910;&#30424;&#20215;&#xA;						h: this.getVal(d[4], 1),&#xA;						l: this.getVal(d[5], 1),&#xA;						f: (d[3] - d[2]) / d[2] * 100,&#xA;						v: this.getVal(d[8], 1),&#xA;						t: this.getVal(d[9], 1),&#xA;						cc: d[9] / d[8]&#xA;					};&#xA;					if (!o) {&#xA;						o = {};&#xA;					}&#xA;					o.daye = t;&#xA;					o.p = k.c;&#xA;					if (sr[i].id) {&#xA;						k.id = sr[i].id;&#xA;						k.hr = k.v / sr[i].num * 100;	// &#35745;&#31639;&#25442;&#25163;&#29575;&#xA;						// &#35745;&#31639;&#24066;&#30408;&#29575;&#xA;						j = sr[i].nt / sr[i].num;&#xA;						k.p = (j &amp;&amp; j &gt; 0.003) ? (k.cc / j) : 0;&#xA;						j = sr[i].wc.nt5 / sr[i].num;&#xA;						o.pe = {&#xA;							nt: k.p,&#xA;							nt5: (j &amp;&amp; j &gt; 0.003) ? (k.cc / j) : 0&#xA;						};&#xA;						r.ok.push([&#xA;							{typ: &quot;info&quot;, id: sr[i].id},&#xA;							{&quot;$set&quot;: o}&#xA;						]);&#xA;					} else {&#xA;						// &#25351;&#25968;&#25910;&#30424;&#xA;						k.pid = sr[i].pid;&#xA;						r.ok.push([&#xA;							{typ: &quot;infoP&quot;, pid: sr[i].pid},&#xA;							{&quot;$set&quot;: o}&#xA;						]);&#xA;					}&#xA;					r.adds.push(k);&#xA;				} else {&#xA;					r.stop.push(sr[i]);&#xA;				}&#xA;			} else {&#xA;				r.miss.push(sr[i].id);&#xA;			}&#xA;		}&#xA;	}&#xA;&#xA;	return r;"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -2167,7 +2172,7 @@
 										<UML:TaggedValue tag="style" value="&#35299;&#26512;&#32929;&#26412;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_2F4A1179_5122_4d6b_ABA0_2EB88E400643">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="d = this.utJson.toObj(d);&#xA;	if (!d || !d.ShareChangeList) {&#xA;		return null;&#xA;	}&#xA;	var i, j, k, n, o = [];&#xA;	d = d.ShareChangeList;&#xA;	n = d[0].changeList.length - 1;&#xA;	for (i = 0; i &lt;= n; i ++) {&#xA;		k = {&#xA;			typ: &quot;num&quot;,&#xA;			id: id,&#xA;			tim: this.getVal(d[0].changeList[i], 4),&#xA;			t: Math.floor(this.getVal(d[1].changeList[i], 1) * 10000),&#xA;			o: {}&#xA;		};&#xA;		for (j = 2; j &lt; d.length; j ++) {&#xA;			switch (d[j].des) {&#xA;				case &quot;&#24050;&#19978;&#24066;&#27969;&#36890;A&#32929;&quot;:&#xA;					k.a = Math.floor(this.getVal(d[j].changeList[i], 1) * 10000);&#xA;					break;&#xA;				case &quot;&#21464;&#21160;&#21407;&#22240;&quot;:&#xA;					k.msg = d[j].changeList[i];&#xA;					break;&#xA;				default:&#xA;					k.o[d[j].des] = Math.floor(this.getVal(d[j].changeList[i], 1) * 10000);&#xA;					break;&#xA;			}&#xA;		}&#xA;		if ((i === 0) || (i === n) || (k.msg !== &quot;&#23450;&#26399;&#25253;&#21578;&quot;)) {&#xA;			o.push (k);&#xA;		}&#xA;	}&#xA;	if (o.length &gt; 1 &amp;&amp; o[0].msg === &quot;&#23450;&#26399;&#25253;&#21578;&quot; &amp;&amp; o[0].a === o[1].a &amp;&amp; o[0].t === o[1].t) {&#xA;		o.shift();&#xA;	}&#xA;&#xA;	return o;"/>
+												<UML:Comment name="d = this.utJson.toObj(d);&#xA;	if (!d || !d.ShareChangeList || (d.ShareChangeList.length === 0)) {		// 2019-6-20&#65292;&#23567;&#22825;&#40517;&#36864;&#24066;&#21518;&#65292;ShareChangeList &#25968;&#32452;&#21464;&#20026;&#20102;&#31354;&#25968;&#32452;&#12290;&#xA;		return null;&#xA;	}&#xA;	var i, j, k, n, o = [];&#xA;	d = d.ShareChangeList;&#xA;	n = d[0].changeList.length - 1;&#xA;	for (i = 0; i &lt;= n; i ++) {&#xA;		k = {&#xA;			typ: &quot;num&quot;,&#xA;			id: id,&#xA;			tim: this.getVal(d[0].changeList[i], 4),&#xA;			t: Math.floor(this.getVal(d[1].changeList[i], 1) * 10000),&#xA;			o: {}&#xA;		};&#xA;		for (j = 2; j &lt; d.length; j ++) {&#xA;			switch (d[j].des) {&#xA;				case &quot;&#24050;&#19978;&#24066;&#27969;&#36890;A&#32929;&quot;:&#xA;					k.a = Math.floor(this.getVal(d[j].changeList[i], 1) * 10000);&#xA;					break;&#xA;				case &quot;&#21464;&#21160;&#21407;&#22240;&quot;:&#xA;					k.msg = d[j].changeList[i];&#xA;					break;&#xA;				default:&#xA;					k.o[d[j].des] = Math.floor(this.getVal(d[j].changeList[i], 1) * 10000);&#xA;					break;&#xA;			}&#xA;		}&#xA;		if ((i === 0) || (i === n) || (k.msg !== &quot;&#23450;&#26399;&#25253;&#21578;&quot;)) {&#xA;			o.push (k);&#xA;		}&#xA;	}&#xA;	if (o.length &gt; 1 &amp;&amp; o[0].msg === &quot;&#23450;&#26399;&#25253;&#21578;&quot; &amp;&amp; o[0].a === o[1].a &amp;&amp; o[0].t === o[1].t) {&#xA;		o.shift();&#xA;	}&#xA;&#xA;	return o;"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -2232,7 +2237,7 @@
 										<UML:TaggedValue tag="style" value="&#35299;&#26512;&#20998;&#32418;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_0F2C2775_B843_4642_8E23_435D39B7F9D1">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="d = this.utJson.toObj(d);&#xA;	if (!d || !d.fhyx || !d.pgmx || !d.zfmx) {&#xA;		return null;&#xA;	}&#xA;	var i, j, k, a, o = [];&#xA;&#xA;	// &#20998;&#32418;&#xA;	for (i = 0; i &lt; d.fhyx.length; i ++) {&#xA;		a = d.fhyx[i].fhfa;&#xA;		if (a[0] !== &quot;&#19981;&quot;) {&#xA;			k = {&#xA;				typ: &quot;dvd&quot;,&#xA;				id: id,&#xA;				tim: this.getVal(d.fhyx[i].ggrq, 4),&#xA;				regTim: this.getVal(d.fhyx[i].gqdjr, 4) || 0,&#xA;				exdTim: this.getVal(d.fhyx[i].cqcxr, 4) || 0,&#xA;				cn: this.getVal(a, 1)&#xA;			};&#xA;			a = a.match(/[&#36865;&#36716;&#27966;&#21518;][\d\.]+/g);&#xA;			for (j = 0; j &lt; a.length; j ++) {&#xA;				switch (a[j][0]) {&#xA;					case &quot;&#36865;&quot;:&#xA;						k.gift = this.getVal(a[j].substr(1), 1);&#xA;						break;&#xA;					case &quot;&#36716;&quot;:&#xA;						k.transfer = this.getVal(a[j].substr(1), 1);&#xA;						break;&#xA;					case &quot;&#27966;&quot;:&#xA;						k.dividend = this.getVal(a[j].substr(1), 1);&#xA;						break;&#xA;					case &quot;&#21518;&quot;:&#xA;						k.dt = this.getVal(a[j].substr(1), 1);&#xA;						break;&#xA;				}&#xA;			}&#xA;			o.push(k);&#xA;		}&#xA;	}&#xA;&#xA;	// &#37197;&#32929;&#xA;	for (i = 0; i &lt; d.pgmx.length; i ++) {&#xA;		o.push({&#xA;			typ: &quot;dvd&quot;,&#xA;			id: id,&#xA;			tim: this.getVal(d.pgmx[i].pgggr, 5),&#xA;			regTim: this.getVal(d.pgmx[i].gqdjr, 5),&#xA;			exdTim: this.getVal(d.pgmx[i].cqjzr, 5),&#xA;			allotment: {&#xA;				p: this.getVal(d.pgmx[i].pgjg, 1),&#xA;				n: this.getVal(d.pgmx[i].pgfa, 1),&#xA;				num: Math.floor( this.getVal(d.pgmx[i].sjpgsl, 1) * 10000 )&#xA;			}&#xA;		});&#xA;	}&#xA;&#xA;	// &#22686;&#21457;&#xA;	for (i = 0; i &lt; d.zfmx.length; i ++) {&#xA;		o.push({&#xA;			typ: &quot;dvd&quot;,&#xA;			id: id,&#xA;			tim: this.getVal(d.zfmx[i].zfsj, 5),&#xA;			regTim: this.getVal(d.zfmx[i].gqdjr, 5),&#xA;			exdTim: this.getVal(d.zfmx[i].zfssr, 5),&#xA;			addIss: {&#xA;				p: this.getVal(d.zfmx[i].zfjg, 1),&#xA;				num: Math.floor( this.getVal(d.zfmx[i].sjzfsl, 1) * 10000 ),&#xA;				net: Math.floor( this.getVal(d.zfmx[i].sjmjje, 1) * 10000 ),&#xA;				msg: d.zfmx[i].fxfs&#xA;			}&#xA;		});&#xA;	}&#xA;&#xA;	return o;"/>
+												<UML:Comment name="d = this.utJson.toObj(d);&#xA;	if (!d || !d.fhyx || !d.pgmx || !d.zfmx) {&#xA;		return null;&#xA;	}&#xA;	var i, j, k, a, o = [];&#xA;&#xA;	// &#20998;&#32418;&#xA;	for (i = 0; i &lt; d.fhyx.length; i ++) {&#xA;		a = d.fhyx[i].fhfa;&#xA;		if (a[0] !== &quot;&#19981;&quot;) {&#xA;			k = {&#xA;				typ: &quot;dvd&quot;,&#xA;				id: id,&#xA;				tim: this.getVal(d.fhyx[i].ggrq, 4),&#xA;				regTim: this.getVal(d.fhyx[i].gqdjr, 4) || 0,&#xA;				exdTim: this.getVal(d.fhyx[i].cqcxr, 4) || 0,&#xA;				cn: this.getVal(a, 1)&#xA;			};&#xA;			a = a.match(/[&#36865;&#36716;&#27966;&#21518;][\d\.]+/g);&#xA;			if (a &amp;&amp; a.length) {	// &#35299;&#20915; 600705 &#20986;&#29616; &quot;&#26242;&#32531;&#20998;&#37197;&quot; &#30340;&#29305;&#27530;&#35789;&#27719;&#xA;				for (j = 0; j &lt; a.length; j ++) {&#xA;					switch (a[j][0]) {&#xA;						case &quot;&#36865;&quot;:&#xA;							k.gift = this.getVal(a[j].substr(1), 1);&#xA;							break;&#xA;						case &quot;&#36716;&quot;:&#xA;							k.transfer = this.getVal(a[j].substr(1), 1);&#xA;							break;&#xA;						case &quot;&#27966;&quot;:&#xA;							k.dividend = this.getVal(a[j].substr(1), 1);&#xA;							break;&#xA;						case &quot;&#21518;&quot;:&#xA;							k.dt = this.getVal(a[j].substr(1), 1);&#xA;							break;&#xA;					}&#xA;				}&#xA;				o.push(k);&#xA;			}&#xA;		}&#xA;	}&#xA;&#xA;	// &#37197;&#32929;&#xA;	for (i = 0; i &lt; d.pgmx.length; i ++) {&#xA;		o.push({&#xA;			typ: &quot;dvd&quot;,&#xA;			id: id,&#xA;			tim: this.getVal(d.pgmx[i].pgggr, 5),&#xA;			regTim: this.getVal(d.pgmx[i].gqdjr, 5),&#xA;			exdTim: this.getVal(d.pgmx[i].cqjzr, 5),&#xA;			allotment: {&#xA;				p: this.getVal(d.pgmx[i].pgjg, 1),&#xA;				n: this.getVal(d.pgmx[i].pgfa, 1),&#xA;				num: Math.floor( this.getVal(d.pgmx[i].sjpgsl, 1) * 10000 )&#xA;			}&#xA;		});&#xA;	}&#xA;&#xA;	// &#22686;&#21457;&#xA;	for (i = 0; i &lt; d.zfmx.length; i ++) {&#xA;		o.push({&#xA;			typ: &quot;dvd&quot;,&#xA;			id: id,&#xA;			tim: this.getVal(d.zfmx[i].zfsj, 5),&#xA;			regTim: this.getVal(d.zfmx[i].gqdjr, 5),&#xA;			exdTim: this.getVal(d.zfmx[i].zfssr, 5),&#xA;			addIss: {&#xA;				p: this.getVal(d.zfmx[i].zfjg, 1),&#xA;				num: Math.floor( this.getVal(d.zfmx[i].sjzfsl, 1) * 10000 ),&#xA;				net: Math.floor( this.getVal(d.zfmx[i].sjmjje, 1) * 10000 ),&#xA;				msg: d.zfmx[i].fxfs&#xA;			}&#xA;		});&#xA;	}&#xA;&#xA;	return o;"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -2516,6 +2521,7 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="454"/>
 								<UML:TaggedValue tag="ea_targetID" value="487"/>
+								<UML:TaggedValue tag="privatedata5" value="EDGE=4;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+utTim"/>
@@ -2557,6 +2563,7 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="458"/>
 								<UML:TaggedValue tag="ea_targetID" value="487"/>
+								<UML:TaggedValue tag="privatedata5" value="EDGE=3;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lb" value="1"/>
 								<UML:TaggedValue tag="lt" value="+utJson"/>
@@ -2598,6 +2605,7 @@
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="487"/>
 								<UML:TaggedValue tag="ea_targetID" value="518"/>
+								<UML:TaggedValue tag="privatedata5" value="SX=0;SY=0;EX=0;EY=0;EDGE=2;"/>
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 								<UML:TaggedValue tag="lt" value="+parser"/>
 							</UML:ModelElement.taggedValue>
@@ -3984,7 +3992,7 @@
 				<UML:TaggedValue tag="hidden" value="255"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
-		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=CX=30:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_9F4DB5BD_1DCB_4329_9985_928F17ECDE61" style="Mode=3;EOID=C7B36156;SOID=549DCEA4;Color=-1;LWidth=0;">
+		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=2;$LLB=;LLT=CX=30:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_9F4DB5BD_1DCB_4329_9985_928F17ECDE61" style="Mode=3;EOID=C7B36156;SOID=549DCEA4;Color=-1;LWidth=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_61D559F7_9F69_445b_A757_D761106C2788"/>
 				<UML:TaggedValue tag="hidden" value="0"/>
@@ -4002,7 +4010,7 @@
 				<UML:TaggedValue tag="hidden" value="255"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
-		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=CX=30:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_9F4DB5BD_1DCB_4329_9985_928F17ECDE61" style="Mode=3;EOID=C7B36156;SOID=549DCEA4;Color=-1;LWidth=0;">
+		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=2;$LLB=;LLT=CX=30:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_9F4DB5BD_1DCB_4329_9985_928F17ECDE61" style="Mode=3;EOID=C7B36156;SOID=549DCEA4;Color=-1;LWidth=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_61D559F7_9F69_445b_A757_D761106C2788"/>
 				<UML:TaggedValue tag="hidden" value="0"/>
