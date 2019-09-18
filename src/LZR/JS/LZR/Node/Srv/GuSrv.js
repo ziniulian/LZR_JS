@@ -456,7 +456,7 @@ LZR.Node.Srv.GuSrv.prototype.ajaxHdSinaH = function (r/*as:string*/, req/*as:Obj
 			// 循环控制
 			this.stu.i ++;
 			if (this.stu.i < this.stu.count) {	// 继续
-				setTimeout(req.qpobj.cb, 1000);		// 若不延时，新浪安全中心会当作爬虫攻击而拒绝访问。
+				setTimeout(req.qpobj.cb, 500);		// 若不延时，新浪安全中心会当作爬虫攻击而拒绝访问。
 			} else {	// 结束
 				this.stu.status = 0;
 				this.stu.dl = 0;
@@ -2032,23 +2032,25 @@ LZR.Node.Srv.GuSrv.prototype.checkLack.lzrClass_ = LZR.Node.Srv.GuSrv;
 
 // 整理出缺失的K线时间
 LZR.Node.Srv.GuSrv.prototype.checkLackTim = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
-	var i = 0, j = 0, a = [], t;
-	for (; i < req.qpobj.comDbSrvReturn.length; i ++) {
-		t = req.qpobj.comDbSrvReturn[i].tim;
-		for (; j < req.qpobj.tims.length; j ++) {
-			if (req.qpobj.tims[j][0] < t) {
-				a.push(req.qpobj.tims[j]);
-			} else {
-				j ++;
+	var i, j, a = [], t;
+	for (i = 0; i < req.qpobj.tims.length; i ++) {
+		t = true;
+		for (j = 0; j < req.qpobj.comDbSrvReturn.length; j ++) {
+			if (req.qpobj.comDbSrvReturn[j].tim === req.qpobj.tims[i][0]) {
+				if (j) {
+					req.qpobj.comDbSrvReturn[j] = req.qpobj.comDbSrvReturn[0];
+				}
+				req.qpobj.comDbSrvReturn.shift();
+				t = false;
 				if (a.length === 0) {
 					this.stu.dl --;
 				}
 				break;
 			}
 		}
-	}
-	for (; j < req.qpobj.tims.length; j ++) {
-		a.push(req.qpobj.tims[j]);
+		if (t) {
+			a.push(req.qpobj.tims[i]);
+		}
 	}
 	req.qpobj.tims = a;
 	next();
@@ -2057,6 +2059,7 @@ LZR.Node.Srv.GuSrv.prototype.checkLackTim.lzrClass_ = LZR.Node.Srv.GuSrv;
 
 // 对缺失的K线进行补充
 LZR.Node.Srv.GuSrv.prototype.addLack = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+console.log(req.qpobj.tims);
 	if (req.qpobj.tims.length && req.qpobj.comDbSrvReturn.length) {
 		res.redirect(req.baseUrl + "/stu/");
 		req.qpobj.skTyp = "addLack";
@@ -2067,7 +2070,7 @@ LZR.Node.Srv.GuSrv.prototype.addLack = function (req/*as:Object*/, res/*as:Objec
 		this.stu.count = req.qpobj.ids.length;
 		req.qpobj.cb = LZR.bind(this, function () {
 			var d = req.qpobj.ids[this.stu.i];
-// console.log(this.stu.i + "/" + this.stu.count + " , " + req.qpobj.ks.length + " , " + d.id);
+console.log(this.stu.i + "/" + this.stu.count + " , " + req.qpobj.ks.length + " , " + d.id);
 			this.ajax.qry("sinaH", req, null, null, [d.ec + (d.id || d.pid), this.stu.dl]);
 		});
 		req.qpobj.cb();
