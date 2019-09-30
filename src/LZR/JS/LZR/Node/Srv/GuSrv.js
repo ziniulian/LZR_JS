@@ -141,7 +141,13 @@ LZR.Node.Srv.GuSrv.prototype.init = function () {
 		this.ro.get("/addLack/", LZR.bind(this, this.addLack));
 		this.ro.get("/addLack/:datlen/", LZR.bind(this, this.setCheckLackDl));
 		this.ro.get("/stu/", LZR.bind(this, this.qryStu));
+		this.ro.get("/addPek/:tim/", LZR.bind(this, this.checkPek));
+		this.ro.get("/addPek/:tim/", LZR.bind(this, this.getPek));
+		this.ro.get("/addPek/:tim/", LZR.bind(this, this.addPek));
+		this.ro.get("/op/", LZR.bind(this, this.op));
+		this.ro.post("/qrySinaK/:ids/:short?/", LZR.bind(this, this.qrySinaK));
 
+		// 操盘修改
 		// 自动收盘
 		// 循环更新所有基本面信息
 	}
@@ -188,6 +194,7 @@ LZR.Node.Srv.GuSrv.prototype.initDb = function () {
 				tnam: "guk",
 				funs: {
 					find: ["<0>", "<1>"],
+					sort: ["<2>"],	// 此参数缺失居然不会报错？
 					toArray: []
 				}
 			},
@@ -314,6 +321,9 @@ LZR.Node.Srv.GuSrv.prototype.initAjax.lzrClass_ = LZR.Node.Srv.GuSrv;
 // 新浪实时数据的ajax回调处理
 LZR.Node.Srv.GuSrv.prototype.ajaxHdSinaK = function (r/*as:string*/, req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	switch (req.qpobj.skTyp) {	// 新浪K线回调类型
+		case "qry":	// 返回查询结果
+			res.json(this.clsR.get(r));
+			break;
 		case "update":	// 更新数据初始化 —— 获取新加代码的名称
 			var i, j, a, o = LZR.fillPro(req, "qpobj.gu");
 			if (r.indexOf("var hq_str_")) {
@@ -415,7 +425,8 @@ LZR.Node.Srv.GuSrv.prototype.ajaxHdSinaH = function (r/*as:string*/, req/*as:Obj
 			this.db.setPro (req, "getGuk", true);
 			this.db.mdb.qry("getGuk", req, res, next, [
 				{pid: "000001", tim: {"$gte": (req.qpobj.tims[0][0])}},
-				{"_id":0, tim:1}
+				{"_id":0, tim:1},
+				{tim:1}
 			]);
 			break;
 		case "addLack" :	// 补充缺失的K线记录
@@ -456,7 +467,7 @@ LZR.Node.Srv.GuSrv.prototype.ajaxHdSinaH = function (r/*as:string*/, req/*as:Obj
 			// 循环控制
 			this.stu.i ++;
 			if (this.stu.i < this.stu.count) {	// 继续
-				setTimeout(req.qpobj.cb, 500);		// 若不延时，新浪安全中心会当作爬虫攻击而拒绝访问。
+				setTimeout(req.qpobj.cb, 1000);		// 若不延时，新浪安全中心会当作爬虫攻击而拒绝访问。延时设为 700 也会被新浪安全中心拒绝。
 			} else {	// 结束
 				this.stu.status = 0;
 				this.stu.dl = 0;
@@ -758,8 +769,6 @@ LZR.Node.Srv.GuSrv.prototype.calcEps = function (o/*as:Array*/, d/*as:Array*/) {
 					}
 					k ++;
 				}
-			} else {
-				t.r = 0;
 			}
 		}
 	}
@@ -1581,7 +1590,8 @@ LZR.Node.Srv.GuSrv.prototype.catcherQryHistary = function (req/*as:Object*/, res
 	this.db.setPro (req, "getGuk", true);
 	this.db.mdb.qry("getGuk", req, res, next, [
 		{tim: {"$gte": (d.tim - req.params.days)}},
-		{"_id":0}
+		{"_id":0},
+		{tim:1}
 	]);
 };
 LZR.Node.Srv.GuSrv.prototype.catcherQryHistary.lzrClass_ = LZR.Node.Srv.GuSrv;
@@ -1678,7 +1688,7 @@ LZR.Node.Srv.GuSrv.prototype.testGetK = function (req/*as:Object*/, res/*as:Obje
 
 	req.qpobj.pop = req.body;
 	this.db.setPro (req, "getGuk", true);
-	this.db.mdb.qry("getGuk", req, res, next, [d, {"_id":0, id:0}]);
+	this.db.mdb.qry("getGuk", req, res, next, [d, {"_id":0, id:0}, {tim:1}]);
 };
 LZR.Node.Srv.GuSrv.prototype.testGetK.lzrClass_ = LZR.Node.Srv.GuSrv;
 
@@ -2032,25 +2042,23 @@ LZR.Node.Srv.GuSrv.prototype.checkLack.lzrClass_ = LZR.Node.Srv.GuSrv;
 
 // 整理出缺失的K线时间
 LZR.Node.Srv.GuSrv.prototype.checkLackTim = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
-	var i, j, a = [], t;
-	for (i = 0; i < req.qpobj.tims.length; i ++) {
-		t = true;
-		for (j = 0; j < req.qpobj.comDbSrvReturn.length; j ++) {
-			if (req.qpobj.comDbSrvReturn[j].tim === req.qpobj.tims[i][0]) {
-				if (j) {
-					req.qpobj.comDbSrvReturn[j] = req.qpobj.comDbSrvReturn[0];
-				}
-				req.qpobj.comDbSrvReturn.shift();
-				t = false;
+	var i = 0, j = 0, a = [], t;
+	for (; i < req.qpobj.comDbSrvReturn.length; i ++) {
+		t = req.qpobj.comDbSrvReturn[i].tim;
+		for (; j < req.qpobj.tims.length; j ++) {
+			if (req.qpobj.tims[j][0] < t) {
+				a.push(req.qpobj.tims[j]);
+			} else {
+				j ++;
 				if (a.length === 0) {
 					this.stu.dl --;
 				}
 				break;
 			}
 		}
-		if (t) {
-			a.push(req.qpobj.tims[i]);
-		}
+	}
+	for (; j < req.qpobj.tims.length; j ++) {
+		a.push(req.qpobj.tims[j]);
 	}
 	req.qpobj.tims = a;
 	next();
@@ -2059,7 +2067,6 @@ LZR.Node.Srv.GuSrv.prototype.checkLackTim.lzrClass_ = LZR.Node.Srv.GuSrv;
 
 // 对缺失的K线进行补充
 LZR.Node.Srv.GuSrv.prototype.addLack = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
-console.log(req.qpobj.tims);
 	if (req.qpobj.tims.length && req.qpobj.comDbSrvReturn.length) {
 		res.redirect(req.baseUrl + "/stu/");
 		req.qpobj.skTyp = "addLack";
@@ -2070,7 +2077,7 @@ console.log(req.qpobj.tims);
 		this.stu.count = req.qpobj.ids.length;
 		req.qpobj.cb = LZR.bind(this, function () {
 			var d = req.qpobj.ids[this.stu.i];
-console.log(this.stu.i + "/" + this.stu.count + " , " + req.qpobj.ks.length + " , " + d.id);
+// console.log(this.stu.i + "/" + this.stu.count + " , " + req.qpobj.ks.length + " , " + d.id);
 			this.ajax.qry("sinaH", req, null, null, [d.ec + (d.id || d.pid), this.stu.dl]);
 		});
 		req.qpobj.cb();
@@ -2108,3 +2115,89 @@ LZR.Node.Srv.GuSrv.prototype.setCheckLackDl = function (req/*as:Object*/, res/*a
 	}
 };
 LZR.Node.Srv.GuSrv.prototype.setCheckLackDl.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 检查缺失的市盈率K线
+LZR.Node.Srv.GuSrv.prototype.checkPek = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	var t = req.params.tim - 0;
+	if (t > 0) {
+		LZR.fillPro(req, "qpobj").tim = t;
+		this.db.get(req, res, next,
+			{typ: "report", tim: {"$gt": t}, "pe.p": {"$exists":true}, "pe.m": {"$exists":false}},
+			{id: 1, tim:1, pe: 1, num:1},
+		true);
+	}
+};
+LZR.Node.Srv.GuSrv.prototype.checkPek.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 获取相关的日线数据
+LZR.Node.Srv.GuSrv.prototype.getPek = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	var i, o, r = req.qpobj.comDbSrvReturn;
+	req.qpobj.d = {};
+	for (i = 0; i < r.length; i ++) {
+		o = req.qpobj.d[r[i].id];
+		if (!o) {
+			o = {
+				r: [],
+				k: []
+			};
+			req.qpobj.d[r[i].id] = o;
+		}
+		o.r.push(r[i]);
+	}
+	this.db.setPro (req, "getGuk", true);
+	this.db.mdb.qry("getGuk", req, res, next, [
+		{tim: {"$gt": req.qpobj.tim}, id: {"$exists": true}},
+		{"_id":0},
+		{tim:1}
+	]);
+};
+LZR.Node.Srv.GuSrv.prototype.getPek.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 补充市盈率K线信息
+LZR.Node.Srv.GuSrv.prototype.addPek = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	var i, o, r = req.qpobj.comDbSrvReturn, count = 0;
+	for (i = 0; i < r.length; i ++) {
+		o = req.qpobj.d[r[i].id];
+		if (o) {
+			o.k.push(r[i]);
+		}
+	}
+	for (i in req.qpobj.d) {
+		o = req.qpobj.d[i];
+		this.calcEps (o.r, o.k);
+		for (i = 0; i < o.r.length; i ++) {
+			r = o.r[i];
+			if (r.pe.m) {
+				this.db.mdb.qry("setGu", null, null, null, [{_id: r._id}, {"$set": {pe: r.pe}}]);
+				count ++;
+			}
+		}
+	}
+	res.send("OK --- " + count);
+};
+LZR.Node.Srv.GuSrv.prototype.addPek.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 股票操作
+LZR.Node.Srv.GuSrv.prototype.op = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	this.db.get(req, res, next, {typ: "op"}, {"_id": 0, typ:0, ec:0}, true);
+};
+LZR.Node.Srv.GuSrv.prototype.op.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 查询新浪实时数据
+LZR.Node.Srv.GuSrv.prototype.qrySinaK = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	LZR.fillPro(req, "qpobj").skTyp = "qry";
+	var i, r = "", a = req.params.ids.split(",");
+	for (i = 0; i < a.length; i ++) {
+		if (a[i].length === 6) {
+			if (req.params.short) {
+				r += "s_";
+			}
+			r += this.parser.getEc(a[i]);
+			r += a[i];
+			r += ",";
+		}
+	}
+	r += "s_sz399001,s_sh000001";
+	this.ajax.qry("sinaK", req, res, next, [r]);
+};
+LZR.Node.Srv.GuSrv.prototype.qrySinaK.lzrClass_ = LZR.Node.Srv.GuSrv;
