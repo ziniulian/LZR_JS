@@ -82,6 +82,15 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 			}
 		},
 
+		get2: {
+			tnam: tabnam,
+			funs: {
+				find: ["<0>", "<1>"],
+				sort: ["<2>"],
+				toArray: []
+			}
+		},
+
 		add: {
 			tnam: tabnam,
 			funs: {
@@ -196,6 +205,18 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 					this.mdb.qry("add", req, res, next, [[c]]);
 				}
 				break;
+		}
+	}));
+	this.mdb.evt.get2.add(LZR.bind(this, function (r, req, res, next) {
+		if (req.qpobj.comDbSrvNoRes) {
+			req.qpobj.comDbSrvReturn = r;
+			next();
+		} else {
+			if (r.length) {
+				res.json(this.clsR.get(r));
+			} else {
+				res.json(this.clsR.get(null, "暂无数据"));
+			}
 		}
 	}));
 	this.mdb.evt.add.add(LZR.bind(this, function (r, req, res, next) {
@@ -336,10 +357,20 @@ LZR.Node.Srv.ComDbSrv.prototype.initDb = function (conf/*as:string*/, tabnam/*as
 };
 LZR.Node.Srv.ComDbSrv.prototype.initDb.lzrClass_ = LZR.Node.Srv.ComDbSrv;
 
+// 带排序的查询
+LZR.Node.Srv.ComDbSrv.prototype.get2 = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/, cond/*as:Object*/, mark/*as:Object*/, sort/*as:Object*/, noRes/*as:double*/) {
+	this.setPro (req, "get", noRes);
+	if (sort) {
+		this.mdb.qry("get2", req, res, next, [cond, mark, sort]);
+	} else {
+		this.mdb.qry("get", req, res, next, [cond, mark]);
+	}
+};
+LZR.Node.Srv.ComDbSrv.prototype.get2.lzrClass_ = LZR.Node.Srv.ComDbSrv;
+
 // 基础查询
 LZR.Node.Srv.ComDbSrv.prototype.get = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/, cond/*as:Object*/, mark/*as:Object*/, noRes/*as:double*/) {
-	this.setPro (req, "get", noRes);
-	this.mdb.qry("get", req, res, next, [cond, mark]);
+	this.get2 (req, res, next, cond, mark, null, noRes);
 };
 LZR.Node.Srv.ComDbSrv.prototype.get.lzrClass_ = LZR.Node.Srv.ComDbSrv;
 
@@ -457,7 +488,7 @@ LZR.Node.Srv.ComDbSrv.prototype.meg = function (req/*as:Object*/, res/*as:Object
 		method: "set",
 		cond: cond
 	};
-	this.mdb.qry("get", req, res, next, [cond, cont]);
+	this.mdb.qry("get", req, res, next, [cond]);
 };
 LZR.Node.Srv.ComDbSrv.prototype.meg.lzrClass_ = LZR.Node.Srv.ComDbSrv;
 

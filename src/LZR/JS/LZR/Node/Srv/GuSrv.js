@@ -145,9 +145,10 @@ LZR.Node.Srv.GuSrv.prototype.init = function () {
 		this.ro.get("/addPek/:tim/", LZR.bind(this, this.getPek));
 		this.ro.get("/addPek/:tim/", LZR.bind(this, this.addPek));
 		this.ro.get("/op/", LZR.bind(this, this.op));
+		this.ro.post("/opSet/:id/", LZR.bind(this, this.savOpSet));
+		this.ro.all("/opSet/:id/", LZR.bind(this, this.opSet));
 		this.ro.post("/qrySinaK/:ids/:short?/", LZR.bind(this, this.qrySinaK));
 
-		// 操盘修改
 		// 自动收盘
 		// 循环更新所有基本面信息
 	}
@@ -2177,11 +2178,37 @@ LZR.Node.Srv.GuSrv.prototype.addPek = function (req/*as:Object*/, res/*as:Object
 };
 LZR.Node.Srv.GuSrv.prototype.addPek.lzrClass_ = LZR.Node.Srv.GuSrv;
 
-// 股票操作
+// 自选股操作
 LZR.Node.Srv.GuSrv.prototype.op = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
-	this.db.get(req, res, next, {typ: "op"}, {"_id": 0, typ:0, ec:0}, true);
+	this.db.get2(req, res, next, {typ: "op"}, {"_id": 0, typ:0}, {ord:1}, true);
 };
 LZR.Node.Srv.GuSrv.prototype.op.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 保存自选股修改页
+LZR.Node.Srv.GuSrv.prototype.savOpSet = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	this.db.meg(req, res, next, {typ: "op", id: req.params.id}, this.utJson.toObj(req.body.dat), true);
+};
+LZR.Node.Srv.GuSrv.prototype.savOpSet.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 自选股修改页
+LZR.Node.Srv.GuSrv.prototype.opSet = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	var o = LZR.fillPro(req, "qpobj");
+	if (o.comDbSrvReturn) {
+		if (o.comDbSrvReturn.ok) {
+			if (o.comDbSrvReturn.nModified) {
+				o.msg = "修改成功";
+			} else {
+				o.msg = "无效修改";
+			}
+		} else if (o.comDbSrvReturn.result.ok) {
+			o.msg = "添加成功";
+		} else {
+			o.msg += "添加失败";
+		}
+	}
+	this.db.get(req, res, next, {typ: "op", id: req.params.id}, {"_id": 0}, true);
+};
+LZR.Node.Srv.GuSrv.prototype.opSet.lzrClass_ = LZR.Node.Srv.GuSrv;
 
 // 查询新浪实时数据
 LZR.Node.Srv.GuSrv.prototype.qrySinaK = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
