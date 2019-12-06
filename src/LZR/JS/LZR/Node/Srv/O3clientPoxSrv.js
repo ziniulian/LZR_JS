@@ -53,7 +53,7 @@ LZR.load(null, "LZR.Node.Srv.O3clientPoxSrv");
 
 // 构造器
 LZR.Node.Srv.O3clientPoxSrv.prototype.init_ = function (obj/*as:Object*/) {
-	this.firstHttpsRes = new this.clsBuf(
+	this.firstHttpsRes = new this.clsBuf.from(
 		"HTTP/1.1 200 Connection established\r\nConnection: close\r\n\r\n"
 	);
 
@@ -80,7 +80,7 @@ LZR.Node.Srv.O3clientPoxSrv.prototype.start.lzrClass_ = LZR.Node.Srv.O3clientPox
 // 主服务程序
 LZR.Node.Srv.O3clientPoxSrv.prototype.mainSrv = function (socket/*as:Object*/) {
 	var buf = {
-		dat: new this.clsBuf(0),
+		dat: new this.clsBuf.alloc(0),
 		e: -1,
 		b: false
 	};
@@ -164,7 +164,7 @@ LZR.Node.Srv.O3clientPoxSrv.prototype.parseHead = function (dat/*as:Object*/, e/
 
 			// 替换 buffer
 			o.buf = this.clsBuf.concat([
-				new this.clsBuf(s1 + "\r\nHost: " + s + s2 + "\r\nConnection: close"),
+				new this.clsBuf.from(s1 + "\r\nHost: " + s + s2 + "\r\nConnection: close"),
 				dat.slice(e)
 			]);
 		}
@@ -200,7 +200,7 @@ LZR.Node.Srv.O3clientPoxSrv.prototype.hdHttp = function (headDat/*as:Object*/, s
 	var srv = this.net.createConnection(this.srvPort, this.srvHost);
 	var o = "{\"h\":\"" + headDat.host + "\",\"p\":" + headDat.port;
 	var buf = {
-		dat: new this.clsBuf(0),
+		dat: new this.clsBuf.alloc(0),
 		e: -1,
 		b: false
 	};
@@ -237,7 +237,7 @@ LZR.Node.Srv.O3clientPoxSrv.prototype.hdHttp = function (headDat/*as:Object*/, s
 
 		o += String.fromCharCode(125);	// 添加 } 符号
 		srv.write(this.clsBuf.concat([
-			new this.clsBuf(this.srvHttp + this.headTxt + (o.length + headDat.buf.length) + "\r\n\r\n" + o),
+			new this.clsBuf.from(this.srvHttp + this.headTxt + (o.length + headDat.buf.length) + "\r\n\r\n" + o),
 			headDat.buf
 		]));
 	} else {
@@ -265,7 +265,7 @@ LZR.Node.Srv.O3clientPoxSrv.prototype.hdHttp = function (headDat/*as:Object*/, s
 		}));
 
 		o += ",\"k\":1}";
-		srv.write(new this.clsBuf(this.srvHttp + this.headTxt + o.length + "\r\n\r\n" + o));
+		srv.write(new this.clsBuf.from(this.srvHttp + this.headTxt + o.length + "\r\n\r\n" + o));
 	}
 };
 LZR.Node.Srv.O3clientPoxSrv.prototype.hdHttp.lzrClass_ = LZR.Node.Srv.O3clientPoxSrv;
@@ -274,7 +274,7 @@ LZR.Node.Srv.O3clientPoxSrv.prototype.hdHttp.lzrClass_ = LZR.Node.Srv.O3clientPo
 LZR.Node.Srv.O3clientPoxSrv.prototype.hdHttps = function (dat/*as:Object*/, key/*as:string*/, id/*as:int*/, socket/*as:Object*/) {
 	var srv = this.net.createConnection(this.srvPort, this.srvHost);
 	var buf = {
-		dat: new this.clsBuf(0),
+		dat: new this.clsBuf.alloc(0),
 		e: -1,
 		b: false
 	};
@@ -289,7 +289,7 @@ LZR.Node.Srv.O3clientPoxSrv.prototype.hdHttps = function (dat/*as:Object*/, key/
 	});
 
 	srv.write(this.clsBuf.concat([
-		new this.clsBuf(this.srvHttps + key + "/" + id + this.headTxt + dat.length + "\r\n\r\n"),
+		new this.clsBuf.from(this.srvHttps + key + "/" + id + this.headTxt + dat.length + "\r\n\r\n"),
 		dat
 	]));
 };

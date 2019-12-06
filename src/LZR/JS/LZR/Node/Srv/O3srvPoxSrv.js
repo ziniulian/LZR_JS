@@ -45,7 +45,7 @@ LZR.load(null, "LZR.Node.Srv.O3srvPoxSrv");
 
 // 构造器
 LZR.Node.Srv.O3srvPoxSrv.prototype.init_ = function (obj/*as:Object*/) {
-	this.headDat = new this.clsBuf("HTTP/1.1 200" + this.endTag);
+	this.headDat = new this.clsBuf.from("HTTP/1.1 200" + this.endTag);
 
 	if (obj) {
 		LZR.setObj (this, obj);
@@ -114,7 +114,7 @@ LZR.Node.Srv.O3srvPoxSrv.prototype.hdHttp = function (buf/*as:Object*/, req/*as:
 						}
 					}
 				}
-				c.write(new this.clsBuf("HTTP/1.1 200 OK\r\n\r\n" + sas));
+				c.write(new this.clsBuf.from("HTTP/1.1 200 OK\r\n\r\n" + sas));
 				c.end();
 			} else {
 				var b = false;
