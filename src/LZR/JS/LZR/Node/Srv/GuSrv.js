@@ -468,7 +468,7 @@ LZR.Node.Srv.GuSrv.prototype.ajaxHdSinaH = function (r/*as:string*/, req/*as:Obj
 			// 循环控制
 			this.stu.i ++;
 			if (this.stu.i < this.stu.count) {	// 继续
-				setTimeout(req.qpobj.cb, 1000);		// 若不延时，新浪安全中心会当作爬虫攻击而拒绝访问。延时设为 700 也会被新浪安全中心拒绝。
+				setTimeout(req.qpobj.cb, 1200);		// 若不延时，新浪安全中心会当作爬虫攻击而拒绝访问。延时设为 1000 也会被新浪安全中心拒绝。
 			} else {	// 结束
 				this.stu.status = 0;
 				this.stu.dl = 0;
