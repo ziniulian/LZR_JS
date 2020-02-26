@@ -147,7 +147,7 @@ LZR.Node.Srv.GuSrv.prototype.init = function () {
 		this.ro.get("/op/", LZR.bind(this, this.op));
 		this.ro.post("/opSet/:id/", LZR.bind(this, this.savOpSet));
 		this.ro.all("/opSet/:id/", LZR.bind(this, this.opSet));
-		this.ro.post("/qrySinaK/:ids/:short?/", LZR.bind(this, this.qrySinaK));
+		this.ro.post("/qrySinaK/:ids/:days?/", LZR.bind(this, this.qrySinaK));
 
 		// 自动收盘
 		// 循环更新所有基本面信息
@@ -368,6 +368,9 @@ LZR.Node.Srv.GuSrv.prototype.ajaxHdSinaK.lzrClass_ = LZR.Node.Srv.GuSrv;
 // 新浪历史数据的ajax回调处理
 LZR.Node.Srv.GuSrv.prototype.ajaxHdSinaH = function (r/*as:string*/, req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	switch (req.qpobj.skTyp) {
+		case "qry":	// 返回查询结果
+			res.json(this.clsR.get(eval(r)));
+			break;
 		case "guH" :	// 股票历史数据
 			var o = LZR.fillPro(req, "qpobj.gu.dat");
 			r = this.parser.parseHistoryK(r, o.id, o.sid[2]);
@@ -2213,18 +2216,10 @@ LZR.Node.Srv.GuSrv.prototype.opSet.lzrClass_ = LZR.Node.Srv.GuSrv;
 // 查询新浪实时数据
 LZR.Node.Srv.GuSrv.prototype.qrySinaK = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	LZR.fillPro(req, "qpobj").skTyp = "qry";
-	var i, r = "", a = req.params.ids.split(",");
-	for (i = 0; i < a.length; i ++) {
-		if (a[i].length === 6) {
-			if (req.params.short) {
-				r += "s_";
-			}
-			r += this.parser.getEc(a[i]);
-			r += a[i];
-			r += ",";
-		}
+	if (req.params.days) {
+		this.ajax.qry("sinaH", req, res, next, [req.params.ids, req.params.days]);
+	} else {
+		this.ajax.qry("sinaK", req, res, next, [req.params.ids]);
 	}
-	r += "s_sz399001,s_sh000001";
-	this.ajax.qry("sinaK", req, res, next, [r]);
 };
 LZR.Node.Srv.GuSrv.prototype.qrySinaK.lzrClass_ = LZR.Node.Srv.GuSrv;
