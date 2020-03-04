@@ -106,7 +106,7 @@ LZR.Node.Srv.GuSrv.prototype.init = function () {
 		this.initAjax();
 
 		var exeGetClosingIds = LZR.bind(this, this.getClosingIds);
-		this.ro.hdPost("*");
+		this.ro.hdPost("*", "300kb");	//savT0的请求体大小近200KB
 		this.ro.post("/add/", LZR.bind(this, this.addInit));
 		this.ro.post("/add/", LZR.bind(this, this.addSav));
 		this.ro.post("/add/", LZR.bind(this, this.addEnd));
@@ -148,9 +148,8 @@ LZR.Node.Srv.GuSrv.prototype.init = function () {
 		this.ro.post("/opSet/:id/", LZR.bind(this, this.savOpSet));
 		this.ro.all("/opSet/:id/", LZR.bind(this, this.opSet));
 		this.ro.post("/qrySinaK/:ids/:days?/", LZR.bind(this, this.qrySinaK));
-
-		// 自动收盘
-		// 循环更新所有基本面信息
+		this.ro.post("/savT0/:id/:tim/", LZR.bind(this, this.savT0));
+		this.ro.get("/t0r/:id/:tim?/", LZR.bind(this, this.t0r));
 	}
 };
 LZR.Node.Srv.GuSrv.prototype.init.lzrClass_ = LZR.Node.Srv.GuSrv;
@@ -2223,3 +2222,26 @@ LZR.Node.Srv.GuSrv.prototype.qrySinaK = function (req/*as:Object*/, res/*as:Obje
 	}
 };
 LZR.Node.Srv.GuSrv.prototype.qrySinaK.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 保存分时数据
+LZR.Node.Srv.GuSrv.prototype.savT0 = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	LZR.fillPro(req, "qpobj.tmpo.qry").tn = "bid";
+	req.body.d = this.utJson.toObj(req.body.d);
+	this.db.meg(req, res, next, req.params, req.body);
+};
+LZR.Node.Srv.GuSrv.prototype.savT0.lzrClass_ = LZR.Node.Srv.GuSrv;
+
+// 获取分时数据
+LZR.Node.Srv.GuSrv.prototype.t0r = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
+	LZR.fillPro(req, "qpobj").id = req.params.id;
+	if (req.params.tim) {
+		req.qpobj.tim = this.utTim.format(this.utTim.getDate(this.utTim.parseDayTimestamp(req.params.tim)), "date2");
+		LZR.fillPro(req, "qpobj.tmpo.qry").tn = "bid";
+		this.db.get(req, res, next, req.params, {_id:0}, true);
+	} else {
+		req.qpobj.tim = "";
+		LZR.fillPro(req, "qpobj").comDbSrvReturn = [];
+		next();
+	}
+};
+LZR.Node.Srv.GuSrv.prototype.t0r.lzrClass_ = LZR.Node.Srv.GuSrv;

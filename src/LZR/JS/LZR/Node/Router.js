@@ -195,9 +195,9 @@ LZR.Node.Router.prototype.getTmp = function (tmpNam/*as:string*/, obj/*as:Object
 LZR.Node.Router.prototype.getTmp.lzrClass_ = LZR.Node.Router;
 
 // 解析POST数据
-LZR.Node.Router.prototype.hdPost = function (nam/*as:string*/) {
+LZR.Node.Router.prototype.hdPost = function (nam/*as:string*/, max/*as:string*/) {
 	if (!this.postList[nam]) {
-		this.ro.post(nam, this.utPost.urlencoded({ extended: false }));
+		this.ro.post(nam, this.utPost.urlencoded({limit: (max || "100kb"), extended: false }));
 		this.postList[nam] = true;
 	}
 };
