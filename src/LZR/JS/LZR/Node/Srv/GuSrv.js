@@ -2226,8 +2226,8 @@ LZR.Node.Srv.GuSrv.prototype.qrySinaK.lzrClass_ = LZR.Node.Srv.GuSrv;
 // 保存分时数据
 LZR.Node.Srv.GuSrv.prototype.savT0 = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	LZR.fillPro(req, "qpobj.tmpo.qry").tn = "bid";
-	req.body.d = this.utJson.toObj(req.body.d);
-	this.db.meg(req, res, next, req.params, req.body);
+	req.params.tim -= 0;
+	this.db.meg(req, res, next, req.params, this.utJson.toObj(req.body.dat));
 };
 LZR.Node.Srv.GuSrv.prototype.savT0.lzrClass_ = LZR.Node.Srv.GuSrv;
 
@@ -2235,6 +2235,7 @@ LZR.Node.Srv.GuSrv.prototype.savT0.lzrClass_ = LZR.Node.Srv.GuSrv;
 LZR.Node.Srv.GuSrv.prototype.t0r = function (req/*as:Object*/, res/*as:Object*/, next/*as:fun*/) {
 	LZR.fillPro(req, "qpobj").id = req.params.id;
 	if (req.params.tim) {
+		req.params.tim -= 0;
 		req.qpobj.tim = this.utTim.format(this.utTim.getDate(this.utTim.parseDayTimestamp(req.params.tim)), "date2");
 		LZR.fillPro(req, "qpobj.tmpo.qry").tn = "bid";
 		this.db.get(req, res, next, req.params, {_id:0}, true);
