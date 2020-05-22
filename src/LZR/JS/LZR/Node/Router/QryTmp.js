@@ -96,7 +96,7 @@ LZR.Node.Router.QryTmp.prototype.init = function (nam/*as:string*/) {
 				req.qpobj.comDbSrvReturn = {ErrQryTmp: e};
 				next();
 			} else {
-console.log (e);
+// console.log (e);
 			}
 		});
 		for (var s in this.db.mdb.err) {

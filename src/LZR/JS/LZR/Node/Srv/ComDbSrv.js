@@ -7,6 +7,7 @@
 *************************************************/
 
 LZR.load([
+	"LZR.Base.Time",
 	"LZR.Node.Srv",
 	"LZR.Node.Srv.Result",
 	"LZR.Node.Db.Mongo",
