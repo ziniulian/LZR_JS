@@ -101,6 +101,14 @@ LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)
 			s += ":";
 			s += this.utStr.format(date.getMilliseconds() + "", 3, "0");
 			break;
+		case "datetim3":
+			s = date.getFullYear();
+			s += this.utStr.format((date.getMonth() + 1) + "", 2, "0");
+			s += this.utStr.format(date.getDate() + "", 2, "0");
+			s += this.utStr.format(date.getHours() + "", 2, "0");
+			s += this.utStr.format(date.getMinutes() + "", 2, "0");
+			s += this.utStr.format(date.getSeconds() + "", 2, "0");
+			break;
 		case "dateChn":
 			s = date.getFullYear();
 			s += "年";
@@ -212,6 +220,37 @@ LZR.Base.Time.prototype.format = function (date/*as:Date*/, format/*as:string*/)
 	return s;
 };
 LZR.Base.Time.prototype.format.lzrClass_ = LZR.Base.Time;
+
+// 时间字串格式变换
+LZR.Base.Time.prototype.formatStr = function (date/*as:string*/, format/*as:string*/)/*as:string*/ {
+	var s;
+	switch (format) {
+		case "S1":	// 将 yyyyMMddhhmmss 格式转换为 yyyy-MM-dd hh:mm:ss 格式
+			s = date.substr(0, 4);
+			s += "-";
+			s += date.substr(4, 2);
+			s += "-";
+			s += date.substr(6, 2);
+			s += " ";
+			s += date.substr(8, 2);
+			s += ":";
+			s += date.substr(10, 2);
+			s += ":";
+			s += date.substr(12, 2);
+			break;
+		case "S2":	// 将 yyyyMMdd 格式转换为 yyyy-MM-dd 格式
+			s = date.substr(0, 4);
+			s += "-";
+			s += date.substr(4, 2);
+			s += "-";
+			s += date.substr(6, 2);
+			break;
+		default:
+			break;
+	}
+	return s;
+};
+LZR.Base.Time.prototype.formatStr.lzrClass_ = LZR.Base.Time;
 
 // 时间圆整
 LZR.Base.Time.prototype.normalize = function (date/*as:Date*/, hour/*as:int*/, clone/*as:boolean*/)/*as:Date*/ {

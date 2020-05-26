@@ -44,7 +44,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_27AE5C89_8EB0_462f_82B5_BE56AC290A9B"/>
 								<UML:TaggedValue tag="date_created" value="2018-08-31 11:56:24"/>
-								<UML:TaggedValue tag="date_modified" value="2019-05-15 16:07:05"/>
+								<UML:TaggedValue tag="date_modified" value="2020-05-26 16:24:14"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\Node\Router\QryTmp.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -57,7 +57,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="412"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=dffd;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=1b8a;"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Classifier.feature>
@@ -283,7 +283,7 @@
 										<UML:TaggedValue tag="style" value="&#21021;&#22987;&#21270;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_AC67D7A2_78CC_4793_A336_BD8C4DCD38D7">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="if (!this.db &amp;&amp; this.conf) {&#xA;		this.db = new this.clsDbSrv({logAble: this.logAble});&#xA;		this.db.initDb (this.conf, this.defTnam, true);&#xA;&#xA;		// &#23545;&#25968;&#25454;&#24211;&#36827;&#34892;&#38169;&#35823;&#22788;&#29702;&#xA;		var hdErr = LZR.bind(this, function (e, req, res, next) {&#xA;			if (req) {&#xA;				req.qpobj.comDbSrvReturn = {ErrQryTmp: e};&#xA;				next();&#xA;			} else {&#xA;console.log (e);&#xA;			}&#xA;		});&#xA;		for (var s in this.db.mdb.err) {&#xA;			this.db.mdb.err[s].add(hdErr);&#xA;		}&#xA;	}&#xA;	this.ro.get(nam + &quot;qry_:x/:tn?/:k?/:size?/:sort?/&quot;, LZR.bind(this,this.hdGet));&#xA;	this.ro.hdPost(nam + &quot;qry*&quot;);	// &#35299;&#26512; post &#21442;&#25968;&#xA;	this.ro.post(nam + &quot;qry_:x/&quot;, LZR.bind(this,this.hdPost));&#xA;	this.ro.all(nam + &quot;qry_*&quot;, LZR.bind(this,this.pagQry));&#xA;	this.ro.post(nam + &quot;qry_:x/&quot;, LZR.bind(this,this.hdAddQry));&#xA;	this.ro.post(nam + &quot;qryAddOne/:bck/&quot;, LZR.bind(this,this.hdAdd));"/>
+												<UML:Comment name="if (!this.db &amp;&amp; this.conf) {&#xA;		this.db = new this.clsDbSrv({logAble: this.logAble});&#xA;		this.db.initDb (this.conf, this.defTnam, true);&#xA;&#xA;		// &#23545;&#25968;&#25454;&#24211;&#36827;&#34892;&#38169;&#35823;&#22788;&#29702;&#xA;		var hdErr = LZR.bind(this, function (e, req, res, next) {&#xA;			if (req) {&#xA;				req.qpobj.comDbSrvReturn = {ErrQryTmp: e};&#xA;				next();&#xA;			} else {&#xA;// console.log (e);&#xA;			}&#xA;		});&#xA;		for (var s in this.db.mdb.err) {&#xA;			this.db.mdb.err[s].add(hdErr);&#xA;		}&#xA;	}&#xA;	this.ro.get(nam + &quot;qry_:x/:tn?/:k?/:size?/:sort?/&quot;, LZR.bind(this,this.hdGet));&#xA;	this.ro.hdPost(nam + &quot;qry*&quot;);	// &#35299;&#26512; post &#21442;&#25968;&#xA;	this.ro.post(nam + &quot;qry_:x/&quot;, LZR.bind(this,this.hdPost));&#xA;	this.ro.all(nam + &quot;qry_*&quot;, LZR.bind(this,this.pagQry));&#xA;	this.ro.post(nam + &quot;qry_:x/&quot;, LZR.bind(this,this.hdAddQry));&#xA;	this.ro.post(nam + &quot;qryAddOne/:bck/&quot;, LZR.bind(this,this.hdAdd));"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
@@ -1794,7 +1794,7 @@
 				<UML:TaggedValue tag="hidden" value="255"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
-		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=2;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=70:CY=13:OX=1:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_ECF12650_263F_428b_9896_27A17636C011" style="Mode=3;EOID=C7B36156;SOID=9FACD5AE;Color=-1;LWidth=0;">
+		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=3;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=70:CY=13:OX=1:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_ECF12650_263F_428b_9896_27A17636C011" style="Mode=3;EOID=C7B36156;SOID=9FACD5AE;Color=-1;LWidth=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_61D559F7_9F69_445b_A757_D761106C2788"/>
 				<UML:TaggedValue tag="hidden" value="0"/>
@@ -1824,7 +1824,7 @@
 				<UML:TaggedValue tag="hidden" value="255"/>
 			</UML:ModelElement.taggedValue>
 		</UML:DiagramElement>
-		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=2;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=70:CY=13:OX=1:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_ECF12650_263F_428b_9896_27A17636C011" style="Mode=3;EOID=C7B36156;SOID=9FACD5AE;Color=-1;LWidth=0;">
+		<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=3;$LLB=CX=6:CY=13:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LLT=CX=70:CY=13:OX=1:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;" subject="EAID_ECF12650_263F_428b_9896_27A17636C011" style="Mode=3;EOID=C7B36156;SOID=9FACD5AE;Color=-1;LWidth=0;">
 			<UML:ModelElement.taggedValue>
 				<UML:TaggedValue tag="diagram_guid" value="EAID_61D559F7_9F69_445b_A757_D761106C2788"/>
 				<UML:TaggedValue tag="hidden" value="0"/>
