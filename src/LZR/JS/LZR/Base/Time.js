@@ -415,3 +415,25 @@ LZR.Base.Time.prototype.formatUTC = function (tmp/*as:int*/, typ/*as:int*/, form
 	return r;
 };
 LZR.Base.Time.prototype.formatUTC.lzrClass_ = LZR.Base.Time;
+
+// 计算周数（以周一为每周的第一天）
+LZR.Base.Time.prototype.getWeek = function (d/*as:Object*/)/*as:int*/ {
+	if (LZR.getClassName(d) !== "Date") {
+		d = this.getDate(d);
+	}
+	if (d) {
+		var firstDay = new Date(d.getFullYear(),0, 1);
+		var dayOfWeek = firstDay.getDay();
+		var spendDay = 1;
+		if (dayOfWeek != 0) {
+			spendDay = 7 - dayOfWeek + 1;
+		}
+		firstDay = new Date(d.getFullYear(), 0, 1 + spendDay);
+		var t = Math.ceil((d.valueOf()- firstDay.valueOf()) / 86400000);
+		var result = Math.ceil(t / 7);
+		return result + 1;
+	} else {
+		return 0;
+	}
+};
+LZR.Base.Time.prototype.getWeek.lzrClass_ = LZR.Base.Time;
